@@ -1,0 +1,143 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <style name="MyInfoLinearLayout">
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@color/main_white</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">44.0dip</item>
+    </style>
+    <style name="MyInfoImage">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">30.0dip</item>
+    </style>
+    <style name="MyInfoTextView">
+        <item name="android:textSize">@dimen/font_middle</item>
+        <item name="android:textColor">@color/main_gray</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10.0dip</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+    <style name="MyInfoArrow">
+        <item name="android:layout_gravity">center|right</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">15.0dip</item>
+        <item name="android:layout_marginRight">15.0dip</item>
+        <item name="android:src">@drawable/right_arrow_gray</item>
+    </style>
+    <style name="FrameTitle">
+        <item name="android:id">@id/erhuo_title</item>
+        <item name="android:paddingLeft">@dimen/padding_title_left</item>
+        <item name="android:paddingTop">@dimen/padding_title_top</item>
+        <item name="android:paddingRight">@dimen/padding_title_right</item>
+        <item name="android:paddingBottom">@dimen/padding_title_bottom</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/title_height</item>
+    </style>
+    <style name="FrameTitleRed" parent="@style/FrameTitle">
+        <item name="android:tag">red</item>
+        <item name="android:background">@color/main_red</item>
+    </style>
+    <style name="FrameTitleWhite" parent="@style/FrameTitle">
+        <item name="android:tag">white</item>
+        <item name="android:background">@color/main_white</item>
+    </style>
+    <style name="FrameTitleButton">
+        <item name="android:paddingLeft">15.0dip</item>
+        <item name="android:paddingTop">5.0dip</item>
+        <item name="android:paddingRight">15.0dip</item>
+        <item name="android:paddingBottom">5.0dip</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+    <style name="FrameTitleButtonLeft" parent="@style/FrameTitleButton">
+        <item name="android:layout_gravity">center|left</item>
+    </style>
+    <style name="FrameTitleRedText" parent="@style/FrameTitleText">
+        <item name="android:textColor">@color/main_white</item>
+    </style>
+    <style name="FrameTitleWhiteText" parent="@style/FrameTitleText">
+        <item name="android:textColor">@color/main_red</item>
+    </style>
+    <style name="FrameTitleText">
+        <item name="android:textSize">@dimen/font_title</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="FrameTitleButtonRight" parent="@style/FrameTitleButton">
+        <item name="android:layout_gravity">center|right</item>
+    </style>
+    <style name="FrameTitleRedButtonTextRight" parent="@style/FrameTitleButtonRight">
+        <item name="android:textSize">@dimen/font_big</item>
+        <item name="android:textColor">@color/font_white_brightgray</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="ShadowTitle">
+        <item name="android:background">@drawable/shadow_top_bottom</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">5.0dip</item>
+        <item name="android:layout_marginBottom">2.0dip</item>
+    </style>
+    <style name="ShadowTitle_vertical">
+        <item name="android:background">#20000000</item>
+        <item name="android:layout_width">5.0dip</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="InfodataRowItem">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@color/main_white</item>
+        <item name="android:paddingLeft">20.0dip</item>
+        <item name="android:paddingTop">10.0dip</item>
+        <item name="android:paddingRight">12.0dip</item>
+        <item name="android:paddingBottom">10.0dip</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">1.0dip</item>
+        <item name="android:minHeight">48.0dip</item>
+    </style>
+    <style name="LabelIconLeft">
+        <item name="android:layout_width">@dimen/icon_left_size</item>
+        <item name="android:layout_height">@dimen/icon_left_size</item>
+        <item name="android:layout_marginRight">8.0dip</item>
+    </style>
+    <style name="InfodataRowLabel">
+        <item name="android:textSize">@dimen/font_bigmiddle</item>
+        <item name="android:textColor">@color/main_blackgray</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="InfodataRowEdit">
+        <item name="android:textSize">@dimen/font_bigmiddle</item>
+        <item name="android:textColor">@color/main_gray</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@null</item>
+        <item name="android:layout_width">0.0dip</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_marginLeft">20.0dip</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_weight">1.0</item>
+    </style>
+
+</resources>

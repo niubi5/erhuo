@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/erhuo_message_title"
+        style="@style/FrameTitleRed" >
+
+        <TextView
+            style="@style/FrameTitleRedText"
+            android:text="@string/register" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/left_arrow_white"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp" />
+
+    </FrameLayout>
+
+    <View style="@style/ShadowTitle" />
+
+</LinearLayout>

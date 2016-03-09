@@ -1,0 +1,63 @@
+package com.geminno.erhuo.fragment;
+
+import com.geminno.erhuo.EditUserInfoActivity;
+import com.geminno.erhuo.LoginActivity;
+import com.geminno.erhuo.R;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
+public class UserInfoFragment extends BaseFragment implements OnClickListener{
+
+	private LinearLayout userInfo;
+	private Button btnHead;
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater,
+			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_userinfo_page, null);
+		return view;
+	}
+
+	@Override
+	protected void initData() {
+		
+	}
+
+	@Override
+	protected void initEvent() {
+		userInfo.setOnClickListener(this);
+		btnHead.setOnClickListener(this);
+	}
+
+	@Override
+	protected void initView() {
+		userInfo = (LinearLayout) getView().findViewById(R.id.userinfo_container);
+		btnHead = (Button) getView().findViewById(R.id.userinfo_btn_herder);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()){
+		case R.id.userinfo_container:
+			// 跳转到EditUserInfoActivity
+			Log.i("onClick", "userinfo_container");
+			startActivity(new Intent(getActivity(), EditUserInfoActivity.class));
+			break;
+		case R.id.userinfo_btn_herder:
+			Log.i("onClick", "userinfo_btn_herder");
+			startActivity(new Intent(getActivity(),LoginActivity.class));
+			break;
+		}
+	}
+
+}
