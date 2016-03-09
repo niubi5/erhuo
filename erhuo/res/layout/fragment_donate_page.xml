@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <FrameLayout
+        android:id="@+id/erhuo_donate_title"
+        style="@style/FrameTitleRed" >
+
+        <TextView
+            style="@style/FrameTitleRedText"
+            android:text="爱心捐赠" />
+
+        <ImageView
+            android:id="@+id/home_search"
+            style="@style/FrameTitleButtonRight"
+            android:src="@drawable/goods_help_plus" />
+    </FrameLayout>
+    
+    <View style="@style/ShadowTitle" />
+
+</LinearLayout>

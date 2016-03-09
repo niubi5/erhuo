@@ -1,0 +1,168 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F8F4"
+    android:orientation="vertical"
+    tools:context="com.gem.erhuo.EditUserInfoActivity" >
+
+    <FrameLayout
+        android:id="@+id/erhuo_title"
+        style="@style/FrameTitleRed" >
+
+        <ImageView
+            android:id="@+id/ib_infodata_return"
+            style="@style/FrameTitleButtonLeft"
+            android:src="@drawable/left_arrow_white" />
+
+        <TextView
+            style="@style/FrameTitleRedText"
+            android:text="个人信息" />
+
+        <TextView
+            android:id="@+id/tv_infodata_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/font_white_brightgray"
+            android:textSize="@dimen/font_big"
+            android:layout_gravity="center|right"
+            android:text="保存" />
+    </FrameLayout>
+
+    <View style="@style/ShadowTitle" />
+
+    <LinearLayout
+        android:id="@+id/fl_infodata_header"
+        style="@style/InfodataRowItem" >
+
+        <ImageView
+            style="@style/LabelIconLeft"
+            android:src="@drawable/infodata_header" />
+
+        <TextView
+            style="@style/InfodataRowLabel"
+            android:text="用户头像" />
+
+        <ImageView
+            android:id="@+id/edit_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/header_default" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/InfodataRowItem" >
+
+        <ImageView
+            style="@style/LabelIconLeft"
+            android:src="@drawable/infodata_username" />
+
+        <TextView
+            style="@style/InfodataRowLabel"
+            android:text="用户昵称" />
+
+        <EditText
+            android:id="@+id/et_infodata_nickname"
+            style="@style/InfodataRowEdit" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/InfodataRowItem" >
+
+        <ImageView
+            style="@style/LabelIconLeft"
+            android:src="@drawable/infodata_gender" />
+
+        <TextView
+            style="@style/InfodataRowLabel"
+            android:text="性　　别" />
+
+        <LinearLayout
+            android:id="@+id/tv_infodata_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="10.0dip"
+            android:paddingRight="10.0dip" >
+
+            <ImageView
+                android:id="@+id/chose_male"
+                android:layout_width="16.0dip"
+                android:layout_height="16.0dip"
+                android:src="@drawable/radio_bg" />
+
+            <ImageView
+                android:layout_width="28.0dip"
+                android:layout_height="28.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:src="@drawable/infodata_male_bg" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tv_infodata_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="10.0dip"
+            android:paddingRight="10.0dip" >
+
+            <ImageView
+                android:id="@+id/chose_female"
+                android:layout_width="16.0dip"
+                android:layout_height="16.0dip"
+                android:src="@drawable/radio_bg" />
+
+            <ImageView
+                android:layout_width="28.0dip"
+                android:layout_height="28.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:src="@drawable/infodata_female_bg" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout style="@style/InfodataRowItem" >
+
+        <ImageView
+            style="@style/LabelIconLeft"
+            android:src="@drawable/infodata_place" />
+
+        <TextView
+            style="@style/InfodataRowLabel"
+            android:text="联系地址" />
+
+        <EditText
+            android:id="@+id/et_infodata_address"
+            style="@style/InfodataRowEdit" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/infodata_phonebind"
+        style="@style/InfodataRowItem" >
+
+        <ImageView
+            style="@style/LabelIconLeft"
+            android:src="@drawable/infodata_phone" />
+
+        <TextView
+            style="@style/InfodataRowLabel"
+            android:text="手　　机" />
+
+        <TextView
+            android:id="@+id/tv_infodata_phone"
+            style="@style/InfodataRowEdit"
+            android:hint="点击绑定手机号"
+            android:textColorHint="@color/main_brightgray" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="17.0dip"
+            android:src="@drawable/right_arrow_red_small" />
+    </LinearLayout>
+
+</LinearLayout>

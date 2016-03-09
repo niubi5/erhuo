@@ -1,0 +1,155 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.gem.erhuo.MainActivity" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/bottom_container"
+            android:layout_width="match_parent"
+            android:layout_height="60.0dip"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@color/main_bgcolor"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5.0dip"
+                android:layout_gravity="top"
+                android:background="@drawable/shadow_bottom_tabs" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:id="@+id/container_shouye"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <Button
+                        android:id="@+id/btn_main_home"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:drawableTop="@drawable/main_board_1_bg"
+                        android:paddingBottom="2dip"
+                        android:paddingTop="7dip"
+                        android:scaleType="matrix"
+                        android:text="@string/home"
+                        android:textColor="@drawable/main_btn_textcolor"
+                        android:textSize="@dimen/font_tiny" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/container_juanzeng"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <Button
+                        android:id="@+id/btn_main_donate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:drawableTop="@drawable/main_board_2_bg"
+                        android:paddingBottom="2dip"
+                        android:paddingTop="7dip"
+                        android:scaleType="matrix"
+                        android:text="@string/donate"
+                        android:textColor="@drawable/main_btn_textcolor"
+                        android:textSize="@dimen/font_tiny" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="68.0dip"
+                    android:layout_height="fill_parent" />
+
+                <LinearLayout
+                    android:id="@+id/container_message"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <Button
+                        android:id="@+id/btn_main_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:drawableTop="@drawable/main_board_3_bg"
+                        android:paddingBottom="2dip"
+                        android:paddingTop="7dip"
+                        android:scaleType="matrix"
+                        android:text="@string/message"
+                        android:textColor="@drawable/main_btn_textcolor"
+                        android:textSize="@dimen/font_tiny" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/container_userInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <Button
+                        android:id="@+id/btn_main_userinfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:drawableTop="@drawable/main_board_4_bg"
+                        android:paddingBottom="2dip"
+                        android:paddingTop="7dip"
+                        android:scaleType="matrix"
+                        android:text="@string/mine"
+                        android:textColor="@drawable/main_btn_textcolor"
+                        android:textSize="@dimen/font_tiny" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_container" >
+        </FrameLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/linearlayout_main_board_5"
+        android:layout_width="68.0dip"
+        android:layout_height="68.0dip"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/main_board_center_bg" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:padding="5.0dip"
+            android:src="@drawable/main_board_center_plus" />
+    </FrameLayout>
+
+</FrameLayout>
