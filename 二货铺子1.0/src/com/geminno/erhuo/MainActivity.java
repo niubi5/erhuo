@@ -60,20 +60,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		initView();
 	}
 
-	private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
-
-		@Override
-		public void onImageClick(ADInfo info, int position, View imageView) {
-			Toast.makeText(MainActivity.this, "content->" + info.getContent(),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		@Override
-		public void displayImage(String imageURL, ImageView imageView) {
-			ImageLoader.getInstance().displayImage(imageURL, imageView);// 使用ImageLoader对图片进行加装！
-		}
-	};
-
 	private void initView() {
 		homeFragment = new HomeFragment();
 		donateFragment = new DonateFragment();
@@ -103,6 +89,20 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		// 默认选中首页按钮
 		btns.get(0).setSelected(true);
 	}
+	
+	private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
+
+		@Override
+		public void onImageClick(ADInfo info, int position, View imageView) {
+			Toast.makeText(MainActivity.this, "content->" + info.getContent(),
+					Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		public void displayImage(String imageURL, ImageView imageView) {
+			ImageLoader.getInstance().displayImage(imageURL, imageView);// 使用ImageLoader对图片进行加装！
+		}
+	};
 
 	@Override
 	public void onClick(View v) {
@@ -150,6 +150,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
+		// 初始化数据源
 		if (!flag) {
 			for (int i = 0; i < imageUrls.length; i++) {
 				ADInfo info = new ADInfo();
