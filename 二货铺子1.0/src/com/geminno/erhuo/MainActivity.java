@@ -39,6 +39,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private Button donateBtn;
 	private Button messageBtn;
 	private Button shopBtn;
+	private ImageView publishGoods;
 	private List<BaseFragment> fragments;
 	private List<Button> btns;
 	private int currentIndex; // 当前fragment索引
@@ -69,6 +70,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		donateBtn = (Button) findViewById(R.id.btn_main_donate);
 		messageBtn = (Button) findViewById(R.id.btn_main_message);
 		shopBtn = (Button) findViewById(R.id.btn_main_userinfo);
+		publishGoods = (ImageView) findViewById(R.id.iv_publish_goods);
 		fragments = new ArrayList<BaseFragment>();
 		btns = new ArrayList<Button>();
 		fragments.add(homeFragment);
@@ -83,6 +85,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		donateBtn.setOnClickListener(this);
 		messageBtn.setOnClickListener(this);
 		shopBtn.setOnClickListener(this);
+		publishGoods.setOnClickListener(this);
 		// 默认显示第一个fragment
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, fragments.get(0)).commit();
@@ -119,6 +122,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			break;
 		case R.id.btn_main_userinfo:
 			nextIndex = 3;
+			break;
+		case R.id.iv_publish_goods:
+			startActivity(new Intent(this, PublishGoodsActivity.class));
 			break;
 		}
 		// 取消当前按钮选中状态

@@ -9,11 +9,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
-/**
- * MyApplication
- * 
- * @author minking
- */
 public class MyApplication extends Application {
 
 	@Override

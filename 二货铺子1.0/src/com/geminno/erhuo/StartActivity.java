@@ -22,7 +22,6 @@ public class StartActivity extends Activity {
 			editor.commit();
 			// 跳转到引导页
 			Intent intent = new Intent(this, GuideActivity.class);
-			Log.i("Start", "跳");
 			startActivity(intent);
 			return;
 		}
@@ -43,7 +42,6 @@ public class StartActivity extends Activity {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				Log.i("Start", "子线程");
 				Intent intent = new Intent(StartActivity.this,
 						MainActivity.class);
 				startActivity(intent);
