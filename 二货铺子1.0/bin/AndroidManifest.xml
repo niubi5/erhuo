@@ -19,36 +19,44 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".GuideActivity"
-            android:label="@string/title_activity_guide" >
+            android:label="@string/title_activity_guide"
+            android:screenOrientation="portrait" >
             
         </activity>
         <activity
             android:name=".EditUserInfoActivity"
-            android:label="@string/title_activity_edit_user_info" >
+            android:label="@string/title_activity_edit_user_info"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".VerifyActivity"
-            android:label="@string/title_activity_register" >
+            android:label="@string/title_activity_register"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register" >
+            android:label="@string/title_activity_register"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".PublishGoodsActivity"
-            android:label="@string/title_activity_publish_goods" >
+            android:label="@string/title_activity_publish_goods"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".StartActivity"
-            android:label="@string/title_activity_start" >
+            android:label="@string/title_activity_start"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
