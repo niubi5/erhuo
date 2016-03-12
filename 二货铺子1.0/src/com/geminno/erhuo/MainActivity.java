@@ -46,6 +46,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private ImageCycleView mAdView;
 	private boolean flag = false;
 	private ArrayList<ADInfo> infos = new ArrayList<ADInfo>();
+	// 广告图片
 	private String[] imageUrls = {
 			"http://img.taodiantong.cn/v55183/infoimg/2013-07/130720115322ky.jpg",
 			"http://pic30.nipic.com/20130626/8174275_085522448172_2.jpg",
@@ -95,7 +96,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	
 	private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
 
-		@Override
+		@Override	// 广告栏点击事件
 		public void onImageClick(ADInfo info, int position, View imageView) {
 			Toast.makeText(MainActivity.this, "content->" + info.getContent(),
 					Toast.LENGTH_SHORT).show();
@@ -103,7 +104,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 		@Override
 		public void displayImage(String imageURL, ImageView imageView) {
-			ImageLoader.getInstance().displayImage(imageURL, imageView);// 使用ImageLoader对图片进行加装！
+			// 使用ImageLoader对图片进行加装
+			ImageLoader.getInstance().displayImage(imageURL, imageView);
 		}
 	};
 
@@ -111,19 +113,25 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	public void onClick(View v) {
 		int nextIndex = 0; // 即将显示的fragment
 		switch (v.getId()) {
+		// 主页按钮
 		case R.id.btn_main_home:
 			nextIndex = 0;
 			break;
+		// 捐赠按钮
 		case R.id.btn_main_donate:
 			nextIndex = 1;
 			break;
+		// 消息按钮
 		case R.id.btn_main_message:
 			nextIndex = 2;
 			break;
+		// 个人中心按钮
 		case R.id.btn_main_userinfo:
 			nextIndex = 3;
 			break;
+		// 发布按钮
 		case R.id.iv_publish_goods:
+			nextIndex = currentIndex;
 			startActivity(new Intent(this, PublishGoodsActivity.class));
 			break;
 		}
