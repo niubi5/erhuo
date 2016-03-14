@@ -28,6 +28,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
+	// gakusdfasdfhahfkl
+	
+	
 	private HomeFragment homeFragment;
 	private DonateFragment donateFragment;
 	private MessageFragment messageFragment;
