@@ -2,6 +2,7 @@ package com.geminno.erhuo.fragment;
 
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.view.ImageCycleView;
+import com.geminno.erhuo.view.RefreshListView;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ public class HomeFragment extends BaseFragment {
 	
 	private ImageCycleView mAdView;
 	View  convertView;
+	private RefreshListView refreshListView;
 	
 	public HomeFragment(){
 		
@@ -20,6 +22,10 @@ public class HomeFragment extends BaseFragment {
 	
 	public ImageCycleView getmAdView() {
 		return mAdView;
+	}
+	
+	public RefreshListView getRefreshListView(){
+		return refreshListView;
 	}
 
 	@Override
@@ -44,6 +50,7 @@ public class HomeFragment extends BaseFragment {
 	@Override
 	protected void initView() {
 		mAdView = (ImageCycleView) getView().findViewById(R.id.ad_view);
+		refreshListView = (RefreshListView) getView().findViewById(R.id.refreshListView);
 	}
 
 }
