@@ -3,15 +3,10 @@ package com.geminno.erhuo;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -27,10 +22,15 @@ import com.geminno.erhuo.fragment.UserInfoFragment;
 import com.geminno.erhuo.entity.ADInfo;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
+import com.geminno.erhuo.view.RefreshListView;
+import com.geminno.erhuo.view.RefreshListView.OnRefreshCallBack;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
+	// gakusdfasdfhahfkl
+	
+	
 	private HomeFragment homeFragment;
 	private DonateFragment donateFragment;
 	private MessageFragment messageFragment;
@@ -46,6 +46,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private ImageCycleView mAdView;
 	private boolean flag = false;
 	private ArrayList<ADInfo> infos = new ArrayList<ADInfo>();
+	private RefreshListView refreshListView;
 	// 广告图片
 	private String[] imageUrls = {
 			"http://img.taodiantong.cn/v55183/infoimg/2013-07/130720115322ky.jpg",
@@ -87,6 +88,18 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		messageBtn.setOnClickListener(this);
 		shopBtn.setOnClickListener(this);
 		publishGoods.setOnClickListener(this);
+//		refreshListView.setOnRefreshCallBack(new OnRefreshCallBack() {
+//			
+//			@Override
+//			public void onRefresh() {
+//				
+//			}
+//			
+//			@Override
+//			public void onPull() {
+//				
+//			}
+//		});
 		// 默认显示第一个fragment
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, fragments.get(0)).commit();
@@ -173,11 +186,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 				infos.add(info);
 			}
 			mAdView = homeFragment.getmAdView();
+			refreshListView = homeFragment.getRefreshListView();
 			mAdView.setImageResources(infos, mAdCycleViewListener);
 			// 已经设置过数据源
 			flag = true;
+			initRefreshListView();
 		}
 		super.onResume();
+	}
+
+	private void initRefreshListView() {
+		
 	}
 
 }
