@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 public class EditUserInfoActivity extends Activity implements OnClickListener {
 
+	
 	private TextView save;
 	private ImageView editHeader;
 	private EditText nickName;
