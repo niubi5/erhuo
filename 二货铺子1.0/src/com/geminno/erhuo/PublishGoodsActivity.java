@@ -3,18 +3,13 @@ package com.geminno.erhuo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.geminno.erhuo.utils.MyAdapter;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 
 public class PublishGoodsActivity extends Activity implements OnClickListener {

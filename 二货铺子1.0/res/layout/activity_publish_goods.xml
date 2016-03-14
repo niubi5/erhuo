@@ -21,177 +21,26 @@
             android:src="@drawable/left_arrow_white" />
     </FrameLayout>
 
-    <!--
-    <View style="@style/ShadowTitle" />
-
-    <EditText
-        android:id="@+id/et_goods_name"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:background="@null"
-        android:ems="10"
-        android:hint="@string/goods_name"
-        android:textColorHint="@color/text_hint_color" >
-
-        <requestFocus />
-    </EditText>
-
-    <View style="@style/ShadowTitle" />
-
-    <EditText
-        android:id="@+id/et_goods_brief"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:background="@null"
-        android:ems="10"
-        android:gravity="left"
-        android:hint="@string/goods_brief"
-        android:inputType="textMultiLine"
-        android:textColorHint="@color/text_hint_color" />
-
-    <ImageView
-        android:id="@+id/iv_img_select"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/selling_image_stub" />
-
-    <View
-        style="@style/ShadowTitle"
-        android:layout_marginTop="5dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp" >
-
-        <TextView
-            android:id="@+id/tv_types"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btn_publish_goods"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="@string/types" />
-
-        <Spinner
-            android:id="@+id/spn_types"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <View style="@style/ShadowTitle" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp" >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_weight="1" >
-
-            <TextView
-                android:id="@+id/tv_goods_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="@string/goods_price" />
-
-            <EditText
-                android:id="@+id/et_goods_price"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:background="@null"
-                android:ems="3"
-                android:hint="@string/goods_price_hint"
-                android:inputType="numberDecimal"
-                android:textColorHint="@color/text_hint_color"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <View style="@style/ShadowTitle_vertical" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_gravity="right"
-            android:layout_weight="1" >
-
-            <TextView
-                android:id="@+id/tv_goods_old_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="@string/goods_old_price" />
-
-            <EditText
-                android:id="@+id/et_goods_old_price"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:background="@null"
-                android:ems="3"
-                android:hint="@string/goods_price_old_hint"
-                android:inputType="numberDecimal"
-                android:textColor="@color/text_hint_color"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <View
-        style="@style/ShadowTitle"
-        android:layout_marginTop="5dp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="50dp" >
-
-        <TextView
-            android:id="@+id/tv_market"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="@string/market"
-            android:layout_gravity="center_vertical" />
-
-        <Spinner
-            android:id="@+id/spn_markets"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"/>
-    </LinearLayout>
-
-    <View
-        style="@style/ShadowTitle"
-        android:layout_marginTop="5dp" />
-    -->
-
-    <Button
-        android:id="@+id/btn_publish_goods"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@color/main_red"
-        android:text="@string/publish_goods_btn"
-        android:textColor="#ffffff" />
-
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@color/main_red"
+            android:text="@string/publish_goods_btn"
+            android:textColor="#ffffff" />
+  
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/btn_publish_goods"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/erhuo_message_title" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <View style="@style/ShadowTitle" />
@@ -341,7 +190,6 @@
             <View
                 style="@style/ShadowTitle"
                 android:layout_marginTop="5dp" />
-        -->
         </LinearLayout>
     </ScrollView>
 
