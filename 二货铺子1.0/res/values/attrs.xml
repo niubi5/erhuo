@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="mytitlebar">
+        <attr name="titleBarTitle" format="string"></attr>
+        <attr name="titleBarLeftImage" format="reference"></attr>
+        <attr name="titleBarRightImage" format="reference"></attr>
+        <attr name="titleBarBackground" format="color|reference"></attr>
+        <attr name="titleBarTextColor" format="color|reference"></attr>
+    </declare-styleable>
+</resources>
