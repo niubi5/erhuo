@@ -30,11 +30,13 @@ public class StartActivity extends Activity {
 			return;
 		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
 		setTranslucentStatus();
 		setContentView(R.layout.activity_start);
 		start();
 	}
 	
+	//沉浸式状态栏(图片)
 	/**
      * 设置状态栏背景状态
      */

@@ -9,13 +9,13 @@
     <EditText
         android:id="@+id/et_goods_name"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:background="@null"
         android:ems="10"
+        android:textSize="14sp"
         android:hint="@string/goods_name"
-        android:textColorHint="@color/text_hint_color" >
-
+        android:textColorHint="@color/text_hint_color">
         <requestFocus />
     </EditText>
 
@@ -24,19 +24,20 @@
     <EditText
         android:id="@+id/et_goods_brief"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:background="@null"
         android:ems="10"
+        style="@style/MyInfoTextView"
         android:gravity="left"
         android:hint="@string/goods_brief"
         android:inputType="textMultiLine"
-        android:textColorHint="@color/text_hint_color" />
+        android:textColorHint="@color/text_hint_color"/>
 
     <ImageView
         android:id="@+id/iv_img_select"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="10dp"
         android:src="@drawable/selling_image_stub" />
 
@@ -55,11 +56,12 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:text="@string/types" />
+            android:text="@string/types"
+            style="@style/MyInfoTextView" />
 
         <Spinner
             android:id="@+id/spn_types"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" />
     </LinearLayout>
@@ -93,7 +95,7 @@
                 android:hint="@string/goods_price_hint"
                 android:inputType="numberDecimal"
                 android:textColorHint="@color/text_hint_color"
-                android:textSize="14sp" />
+                style="@style/MyInfoTextView" />
         </LinearLayout>
 
         <View style="@style/ShadowTitle_vertical" />
@@ -109,7 +111,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="@string/goods_old_price" />
+                android:text="@string/goods_old_price"
+                 />
 
             <EditText
                 android:id="@+id/et_goods_old_price"

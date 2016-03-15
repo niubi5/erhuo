@@ -40,5 +40,6 @@
     <string name="publish_goods_btn">发布</string>
     <string name="market">主题集市</string>
     <string name="title_activity_start">StartActivity</string>
+    <string name="main_title">二货铺子</string>
 
 </resources>

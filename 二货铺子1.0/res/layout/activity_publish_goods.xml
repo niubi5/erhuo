@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:src="@drawable/left_arrow_white" />
     </FrameLayout>
 
@@ -99,9 +99,10 @@
 
                 <Spinner
                     android:id="@+id/spn_types"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:dropDownWidth="match_parent"  />
             </LinearLayout>
 
             <View style="@style/ShadowTitle" />
@@ -183,9 +184,10 @@
 
                 <Spinner
                     android:id="@+id/spn_markets"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center" />
+                    android:gravity="center_vertical"
+                    android:dropDownWidth="match_parent" />
             </LinearLayout>
 
             <View

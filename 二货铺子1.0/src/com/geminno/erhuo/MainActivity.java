@@ -68,16 +68,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
+		//调用setColor()方法
 		setColor(this, getResources().getColor(R.color.main_red));
-//		//透明状态栏
-//		getWindow()
-//				.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//		//透明导航栏
-//		getWindow().addFlags(
-//				WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 		initView();
 	}
 	
+	//沉浸式状态栏
 	/** * 设置状态栏颜色 * * @param activity 需要设置的activity * @param color 状态栏颜色值 */
 	public static void setColor(Activity activity, int color) {
 	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -108,6 +104,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	    statusView.setBackgroundColor(color);
 	    return statusView;
 	}
+	
 
 	private void initView() {
 		homeFragment = new HomeFragment();

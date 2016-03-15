@@ -23,7 +23,7 @@
 			
 			<TextView
 			style="@style/FrameTitleRedText"
-			android:text="二货铺子" />
+			android:text="@string/main_title" />
 			
 			<ImageView
 			android:id="@+id/home_search"
