@@ -43,5 +43,6 @@
     <string name="title_activity_she_zhi">SheZhiActivity</string>
     <string name="title_activity_wo_men">WoMenActivity</string>
     <string name="title_activity_postage">PostageActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
 
 </resources>

@@ -36,6 +36,7 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" >
+            
         </activity>
         <activity
             android:name=".VerifyActivity"
@@ -59,25 +60,23 @@
         </activity>
         <activity
             android:name=".SheZhiActivity"
-            android:label="@string/title_activity_she_zhi" 
-            
+            android:label="@string/title_activity_she_zhi"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+           
         </activity>
         <activity
             android:name=".WoMenActivity"
             android:label="@string/title_activity_wo_men"
-            
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".PostageActivity"
             android:label="@string/title_activity_postage"
-            
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search" 
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
