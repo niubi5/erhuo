@@ -3,15 +3,22 @@ package com.geminno.erhuo;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.geminno.erhuo.fragment.BaseFragment;
@@ -20,6 +27,7 @@ import com.geminno.erhuo.fragment.HomeFragment;
 import com.geminno.erhuo.fragment.MessageFragment;
 import com.geminno.erhuo.fragment.UserInfoFragment;
 import com.geminno.erhuo.entity.ADInfo;
+import com.geminno.erhuo.utils.SystemStatusManager;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
 import com.geminno.erhuo.view.RefreshListView;
@@ -28,9 +36,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
-	// gakusdfasdfhahfkl
-	
-	
 	private HomeFragment homeFragment;
 	private DonateFragment donateFragment;
 	private MessageFragment messageFragment;
@@ -55,13 +60,48 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			"http://pic15.nipic.com/20110722/2912365_092519919000_2.jpg",
 			"http://pic.58pic.com/58pic/12/64/27/55U58PICrdX.jpg" };
 
-	@Override
+	@SuppressLint("ResourceAsColor") @TargetApi(Build.VERSION_CODES.KITKAT) @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
+		//调用setColor()方法
+		setColor(this, getResources().getColor(R.color.main_red));
 		initView();
 	}
+	
+	//沉浸式状态栏
+	/** * 设置状态栏颜色 * * @param activity 需要设置的activity * @param color 状态栏颜色值 */
+	public static void setColor(Activity activity, int color) {
+	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+	        // 设置状态栏透明
+	        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+	        // 生成一个状态栏大小的矩形
+	        View statusView = createStatusView(activity, color);
+	        // 添加 statusView 到布局中
+	        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
+	        decorView.addView(statusView);
+	        // 设置根布局的参数
+	        ViewGroup rootView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
+	        rootView.setFitsSystemWindows(true);
+	        rootView.setClipToPadding(true);
+	    }
+	}
+	/** * 生成一个和状态栏大小相同的矩形条 * * @param activity 需要设置的activity * @param color 状态栏颜色值 * @return 状态栏矩形条 */
+	private static View createStatusView(Activity activity, int color) {
+	    // 获得状态栏高度
+	    int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+	    int statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
+	 
+	    // 绘制一个和状态栏一样高的矩形
+	    View statusView = new View(activity);
+	    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+	            statusBarHeight);
+	    statusView.setLayoutParams(params);
+	    statusView.setBackgroundColor(color);
+	    return statusView;
+	}
+	
 
 	private void initView() {
 		homeFragment = new HomeFragment();
@@ -186,11 +226,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 				infos.add(info);
 			}
 			mAdView = homeFragment.getmAdView();
-			refreshListView = homeFragment.getRefreshListView();
+//			refreshListView = homeFragment.getRefreshListView();
 			mAdView.setImageResources(infos, mAdCycleViewListener);
 			// 已经设置过数据源
 			flag = true;
-			initRefreshListView();
+//			initRefreshListView();
 		}
 		super.onResume();
 	}

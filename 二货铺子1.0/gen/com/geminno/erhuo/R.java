@@ -9,6 +9,34 @@ package com.geminno.erhuo;
 
 public final class R {
     public static final class attr {
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static final int titleBarBackground=0x7f010003;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int titleBarLeftImage=0x7f010001;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int titleBarRightImage=0x7f010002;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static final int titleBarTextColor=0x7f010004;
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int titleBarTitle=0x7f010000;
     }
     public static final class color {
         public static final int aliceblue=0x7f040000;
@@ -352,89 +380,97 @@ public final class R {
         public static final int btn_home_search_gray=0x7f020001;
         public static final int btn_home_search_normal=0x7f020002;
         public static final int btn_innew=0x7f020003;
-        public static final int circle_red_active=0x7f020004;
-        public static final int erhuo_login=0x7f020005;
-        public static final int female=0x7f020006;
-        public static final int goods_help_plus=0x7f020007;
-        public static final int goods_receive_address=0x7f020008;
-        public static final int header_default=0x7f020009;
-        public static final int home_search_bg=0x7f02000a;
-        public static final int ic_launcher=0x7f02000b;
-        public static final int icon_empty=0x7f02000c;
-        public static final int icon_error=0x7f02000d;
-        public static final int icon_point=0x7f02000e;
-        public static final int icon_point_pre=0x7f02000f;
-        public static final int icon_stub=0x7f020010;
-        public static final int img_more=0x7f020011;
-        public static final int img_my_bg=0x7f020012;
-        public static final int infodata_female_bg=0x7f020013;
-        public static final int infodata_gender=0x7f020014;
-        public static final int infodata_header=0x7f020015;
-        public static final int infodata_male_bg=0x7f020016;
-        public static final int infodata_phone=0x7f020017;
-        public static final int infodata_place=0x7f020018;
-        public static final int infodata_username=0x7f020019;
-        public static final int left_arrow_blackgray=0x7f02001a;
-        public static final int left_arrow_gray=0x7f02001b;
-        public static final int left_arrow_main_bg=0x7f02001c;
-        public static final int left_arrow_red=0x7f02001d;
-        public static final int left_arrow_white=0x7f02001e;
-        public static final int main_board_1=0x7f02001f;
-        public static final int main_board_1_active=0x7f020020;
-        public static final int main_board_1_bg=0x7f020021;
-        public static final int main_board_2=0x7f020022;
-        public static final int main_board_2_active=0x7f020023;
-        public static final int main_board_2_bg=0x7f020024;
-        public static final int main_board_3=0x7f020025;
-        public static final int main_board_3_active=0x7f020026;
-        public static final int main_board_3_bg=0x7f020027;
-        public static final int main_board_4=0x7f020028;
-        public static final int main_board_4_active=0x7f020029;
-        public static final int main_board_4_bg=0x7f02002a;
-        public static final int main_board_center_bg=0x7f02002b;
-        public static final int main_board_center_plus=0x7f02002c;
-        public static final int main_btn_textcolor=0x7f02002d;
-        public static final int male=0x7f02002e;
-        public static final int mima=0x7f02002f;
-        public static final int my_info=0x7f020030;
-        public static final int name=0x7f020031;
-        public static final int newguide1=0x7f020032;
-        public static final int newguide2=0x7f020033;
-        public static final int newguide3=0x7f020034;
-        public static final int phone=0x7f020035;
-        public static final int postage_assisant=0x7f020036;
-        public static final int radio_active=0x7f020037;
-        public static final int radio_bg=0x7f020038;
-        public static final int radio_normal=0x7f020039;
-        public static final int radish_shop=0x7f02003a;
-        public static final int right_arrow_gray=0x7f02003b;
-        public static final int right_arrow_red_small=0x7f02003c;
-        public static final int round_point=0x7f02003d;
-        public static final int round_point_normal=0x7f02003e;
-        public static final int round_red=0x7f02003f;
-        public static final int seabar_input=0x7f020040;
-        public static final int selling_image_stub=0x7f020041;
-        public static final int setting=0x7f020042;
-        public static final int shadow_bottom_tabs=0x7f020043;
-        public static final int shadow_top_bottom=0x7f020044;
-        public static final int shape=0x7f020045;
-        public static final int share=0x7f020046;
-        public static final int start=0x7f020047;
-        public static final int userinfo_bought=0x7f020048;
-        public static final int userinfo_bought_active=0x7f020049;
-        public static final int userinfo_buying=0x7f02004a;
-        public static final int userinfo_buying_active=0x7f02004b;
-        public static final int userinfo_favorite=0x7f02004c;
-        public static final int userinfo_favorite_active=0x7f02004d;
-        public static final int userinfo_selling=0x7f02004e;
-        public static final int userinfo_selling_active=0x7f02004f;
-        public static final int userinfo_sold=0x7f020050;
-        public static final int userinfo_sold_active=0x7f020051;
-        public static final int withdraw_default=0x7f020052;
+        public static final int buyingbook=0x7f020004;
+        public static final int buyingclothes=0x7f020005;
+        public static final int buyingdigit=0x7f020006;
+        public static final int buyinglife=0x7f020007;
+        public static final int buyingmakeup=0x7f020008;
+        public static final int buyingother=0x7f020009;
+        public static final int buyingphone=0x7f02000a;
+        public static final int buyingtrans=0x7f02000b;
+        public static final int circle_red_active=0x7f02000c;
+        public static final int erhuo_login=0x7f02000d;
+        public static final int female=0x7f02000e;
+        public static final int goods_help_plus=0x7f02000f;
+        public static final int goods_receive_address=0x7f020010;
+        public static final int header_default=0x7f020011;
+        public static final int home_search_bg=0x7f020012;
+        public static final int ic_launcher=0x7f020013;
+        public static final int icon_empty=0x7f020014;
+        public static final int icon_error=0x7f020015;
+        public static final int icon_point=0x7f020016;
+        public static final int icon_point_pre=0x7f020017;
+        public static final int icon_stub=0x7f020018;
+        public static final int img_more=0x7f020019;
+        public static final int img_my_bg=0x7f02001a;
+        public static final int infodata_female_bg=0x7f02001b;
+        public static final int infodata_gender=0x7f02001c;
+        public static final int infodata_header=0x7f02001d;
+        public static final int infodata_male_bg=0x7f02001e;
+        public static final int infodata_phone=0x7f02001f;
+        public static final int infodata_place=0x7f020020;
+        public static final int infodata_username=0x7f020021;
+        public static final int left_arrow_blackgray=0x7f020022;
+        public static final int left_arrow_gray=0x7f020023;
+        public static final int left_arrow_main_bg=0x7f020024;
+        public static final int left_arrow_red=0x7f020025;
+        public static final int left_arrow_white=0x7f020026;
+        public static final int main_board_1=0x7f020027;
+        public static final int main_board_1_active=0x7f020028;
+        public static final int main_board_1_bg=0x7f020029;
+        public static final int main_board_2=0x7f02002a;
+        public static final int main_board_2_active=0x7f02002b;
+        public static final int main_board_2_bg=0x7f02002c;
+        public static final int main_board_3=0x7f02002d;
+        public static final int main_board_3_active=0x7f02002e;
+        public static final int main_board_3_bg=0x7f02002f;
+        public static final int main_board_4=0x7f020030;
+        public static final int main_board_4_active=0x7f020031;
+        public static final int main_board_4_bg=0x7f020032;
+        public static final int main_board_center_bg=0x7f020033;
+        public static final int main_board_center_plus=0x7f020034;
+        public static final int main_btn_textcolor=0x7f020035;
+        public static final int male=0x7f020036;
+        public static final int mima=0x7f020037;
+        public static final int my_info=0x7f020038;
+        public static final int name=0x7f020039;
+        public static final int newguide1=0x7f02003a;
+        public static final int newguide2=0x7f02003b;
+        public static final int newguide3=0x7f02003c;
+        public static final int phone=0x7f02003d;
+        public static final int postage_assisant=0x7f02003e;
+        public static final int radio_active=0x7f02003f;
+        public static final int radio_bg=0x7f020040;
+        public static final int radio_normal=0x7f020041;
+        public static final int radish_shop=0x7f020042;
+        public static final int right_arrow_gray=0x7f020043;
+        public static final int right_arrow_red_small=0x7f020044;
+        public static final int round_point=0x7f020045;
+        public static final int round_point_normal=0x7f020046;
+        public static final int round_red=0x7f020047;
+        public static final int seabar_input=0x7f020048;
+        public static final int selling_image_stub=0x7f020049;
+        public static final int setting=0x7f02004a;
+        public static final int shadow_bottom_tabs=0x7f02004b;
+        public static final int shadow_top_bottom=0x7f02004c;
+        public static final int shape=0x7f02004d;
+        public static final int share=0x7f02004e;
+        public static final int start=0x7f02004f;
+        public static final int userinfo_bought=0x7f020050;
+        public static final int userinfo_bought_active=0x7f020051;
+        public static final int userinfo_buying=0x7f020052;
+        public static final int userinfo_buying_active=0x7f020053;
+        public static final int userinfo_favorite=0x7f020054;
+        public static final int userinfo_favorite_active=0x7f020055;
+        public static final int userinfo_selling=0x7f020056;
+        public static final int userinfo_selling_active=0x7f020057;
+        public static final int userinfo_sold=0x7f020058;
+        public static final int userinfo_sold_active=0x7f020059;
+        public static final int withdraw_default=0x7f02005a;
     }
     public static final class id {
-        public static final int action_settings=0x7f090075;
-        public static final int ad_rl=0x7f090072;
+        public static final int action_settings=0x7f09007b;
+        public static final int ad_rl=0x7f090078;
         public static final int ad_view=0x7f090057;
         public static final int address_container=0x7f090067;
         public static final int bottom_container=0x7f090019;
@@ -443,12 +479,12 @@ public final class R {
         public static final int btn_main_home=0x7f09001b;
         public static final int btn_main_message=0x7f09001f;
         public static final int btn_main_userinfo=0x7f090021;
-        public static final int btn_msg_verify=0x7f090049;
-        public static final int btn_publish_goods=0x7f090033;
-        public static final int btn_register=0x7f09003b;
-        public static final int btn_verify=0x7f09004a;
-        public static final int but_tuichu=0x7f090047;
-        public static final int chk_agree_rule=0x7f09003a;
+        public static final int btn_msg_verify=0x7f09004a;
+        public static final int btn_publish_goods=0x7f090028;
+        public static final int btn_register=0x7f09003c;
+        public static final int btn_verify=0x7f09004b;
+        public static final int but_tuichu=0x7f090048;
+        public static final int chk_agree_rule=0x7f09003b;
         public static final int chose_female=0x7f090009;
         public static final int chose_male=0x7f090007;
         public static final int container_juanzeng=0x7f09001c;
@@ -456,85 +492,91 @@ public final class R {
         public static final int container_shouye=0x7f09001a;
         public static final int container_userInfo=0x7f090020;
         public static final int edit_header=0x7f090004;
-        public static final int erhuo_donate_title=0x7f09004e;
-        public static final int erhuo_home_title=0x7f090055;
+        public static final int erhuo_donate_title=0x7f09004f;
+        public static final int erhuo_home_title=0x7f090056;
         public static final int erhuo_message_title=0x7f090026;
         public static final int erhuo_title=0x7f090000;
-        public static final int erhuo_title_women=0x7f09004b;
-        public static final int et_goods_brief=0x7f090029;
-        public static final int et_goods_name=0x7f090028;
-        public static final int et_goods_old_price=0x7f090030;
-        public static final int et_goods_price=0x7f09002e;
+        public static final int erhuo_title_women=0x7f09004c;
+        public static final int et_goods_brief=0x7f09002b;
+        public static final int et_goods_name=0x7f09002a;
+        public static final int et_goods_old_price=0x7f090032;
+        public static final int et_goods_price=0x7f090030;
         public static final int et_infodata_address=0x7f09000a;
         public static final int et_infodata_nickname=0x7f090005;
         public static final int et_name=0x7f090012;
-        public static final int et_phone_number=0x7f090036;
+        public static final int et_phone_number=0x7f090037;
         public static final int et_pwd=0x7f090014;
-        public static final int et_pwd_again=0x7f090039;
-        public static final int et_sousuo=0x7f09003c;
+        public static final int et_pwd_again=0x7f09003a;
+        public static final int et_sousuo=0x7f09003d;
         public static final int fl_infodata_header=0x7f090003;
         public static final int fragment_container=0x7f090022;
-        public static final int home_search=0x7f09004f;
+        public static final int home_search=0x7f090050;
         public static final int ib_infodata_return=0x7f090001;
         public static final int ib_shezhi=0x7f090025;
-        public static final int ib_women_return=0x7f09004c;
-        public static final int ib_xuanze=0x7f09004d;
-        public static final int imageView1=0x7f090035;
+        public static final int ib_women_return=0x7f09004d;
+        public static final int ib_xuanze=0x7f09004e;
+        public static final int imageView1=0x7f090036;
         public static final int imageView2=0x7f090010;
-        public static final int imageView3=0x7f090037;
-        public static final int imageView4=0x7f090038;
+        public static final int imageView3=0x7f090038;
+        public static final int imageView4=0x7f090039;
         public static final int infodata_phonebind=0x7f09000b;
-        public static final int iv_img_select=0x7f09002a;
+        public static final int iv_img_select=0x7f09002c;
+        public static final int iv_left=0x7f09006c;
         public static final int iv_login_return=0x7f09000f;
         public static final int iv_name=0x7f090011;
         public static final int iv_pub_return=0x7f090027;
         public static final int iv_publish_goods=0x7f090024;
         public static final int iv_pwd=0x7f090013;
-        public static final int iv_refresher=0x7f09006f;
-        public static final int iv_register_return=0x7f090034;
-        public static final int iv_verify_return=0x7f090048;
-        public static final int lin_guanyu_women=0x7f090041;
-        public static final int lin_jiancha_gengxin=0x7f090043;
-        public static final int lin_qingchu_huancun=0x7f090045;
-        public static final int lin_xiugai_mima=0x7f09003d;
-        public static final int lin_yijian_fankui=0x7f09003f;
+        public static final int iv_refresher=0x7f090073;
+        public static final int iv_register_return=0x7f090035;
+        public static final int iv_right=0x7f09006e;
+        public static final int iv_type_inco=0x7f090076;
+        public static final int iv_verify_return=0x7f090049;
+        public static final int lin_guanyu_women=0x7f090042;
+        public static final int lin_jiancha_gengxin=0x7f090044;
+        public static final int lin_qingchu_huancun=0x7f090046;
+        public static final int lin_xiugai_mima=0x7f09003e;
+        public static final int lin_yijian_fankui=0x7f090040;
         public static final int linearlayout_main_board_5=0x7f090023;
         public static final int main_title=0x7f090018;
-        public static final int newguide1=0x7f090050;
-        public static final int newguide2=0x7f090051;
-        public static final int newguide3=0x7f090052;
-        public static final int pager_banner=0x7f090073;
+        public static final int newguide1=0x7f090051;
+        public static final int newguide2=0x7f090052;
+        public static final int newguide3=0x7f090053;
+        public static final int pager_banner=0x7f090079;
         public static final int person_center_herder_container=0x7f090058;
         public static final int point_layout=0x7f09000e;
         public static final int postage_container=0x7f09006a;
-        public static final int product_info_left=0x7f09006b;
-        public static final int product_info_right=0x7f09006d;
-        public static final int product_price_left=0x7f09006c;
-        public static final int product_price_right=0x7f09006e;
-        public static final int refreshListView=0x7f090056;
-        public static final int refresher=0x7f090070;
+        public static final int product_info_left=0x7f09006f;
+        public static final int product_info_right=0x7f090071;
+        public static final int product_price_left=0x7f090070;
+        public static final int product_price_right=0x7f090072;
+        public static final int refresher=0x7f090074;
+        public static final int root=0x7f09006b;
+        public static final int scrollView1=0x7f090029;
         public static final int setting_container=0x7f090069;
         public static final int share_container=0x7f090068;
         public static final int shoppingmall_container=0x7f090065;
-        public static final int spn_markets=0x7f090032;
-        public static final int spn_types=0x7f09002c;
-        public static final int tvInNew=0x7f090053;
+        public static final int spn_markets=0x7f090034;
+        public static final int spn_types=0x7f09002e;
+        public static final int tvInNew=0x7f090054;
         public static final int tv_forget_mima=0x7f090016;
-        public static final int tv_goods_old_price=0x7f09002f;
-        public static final int tv_goods_price=0x7f09002d;
-        public static final int tv_guanyuwomen=0x7f090042;
+        public static final int tv_goods_old_price=0x7f090031;
+        public static final int tv_goods_price=0x7f09002f;
+        public static final int tv_guanyuwomen=0x7f090043;
         public static final int tv_infodata_female=0x7f090008;
         public static final int tv_infodata_male=0x7f090006;
         public static final int tv_infodata_ok=0x7f090002;
         public static final int tv_infodata_phone=0x7f09000c;
-        public static final int tv_jianchagengxin=0x7f090044;
-        public static final int tv_market=0x7f090031;
-        public static final int tv_qingchuhuancun=0x7f090046;
-        public static final int tv_refreshertext=0x7f090071;
+        public static final int tv_jianchagengxin=0x7f090045;
+        public static final int tv_market=0x7f090033;
+        public static final int tv_qingchuhuancun=0x7f090047;
+        public static final int tv_refreshertext=0x7f090075;
         public static final int tv_register=0x7f090017;
-        public static final int tv_types=0x7f09002b;
-        public static final int tv_xiugaimima=0x7f09003e;
-        public static final int tv_yijianfankui=0x7f090040;
+        public static final int tv_title=0x7f09006d;
+        public static final int tv_type_name=0x7f090077;
+        public static final int tv_types=0x7f09002d;
+        public static final int tv_xiugaimima=0x7f09003f;
+        public static final int tv_yijianfankui=0x7f090041;
         public static final int userinfo_bought=0x7f09005f;
         public static final int userinfo_btn_bought=0x7f090060;
         public static final int userinfo_btn_donate=0x7f090064;
@@ -548,8 +590,8 @@ public final class R {
         public static final int userinfo_selling=0x7f09005b;
         public static final int userinfo_sold=0x7f09005d;
         public static final int userinfo_tabs=0x7f09005a;
-        public static final int view=0x7f090054;
-        public static final int viewGroup=0x7f090074;
+        public static final int view=0x7f090055;
+        public static final int viewGroup=0x7f09007a;
         public static final int viewpager=0x7f09000d;
     }
     public static final class layout {
@@ -572,10 +614,13 @@ public final class R {
         public static final int fragment_main_page=0x7f030010;
         public static final int fragment_message_page=0x7f030011;
         public static final int fragment_userinfo_page=0x7f030012;
-        public static final int product_item=0x7f030013;
-        public static final int pull_to_refresh_foot=0x7f030014;
-        public static final int pull_to_refresh_head=0x7f030015;
-        public static final int view_banner_content=0x7f030016;
+        public static final int my_title_bar=0x7f030013;
+        public static final int product_item=0x7f030014;
+        public static final int publish_goods=0x7f030015;
+        public static final int pull_to_refresh_foot=0x7f030016;
+        public static final int pull_to_refresh_head=0x7f030017;
+        public static final int spinner_item=0x7f030018;
+        public static final int view_banner_content=0x7f030019;
     }
     public static final class menu {
         public static final int edit_user_info=0x7f080000;
@@ -609,6 +654,7 @@ public final class R {
         public static final int input_pwd_again=0x7f060017;
         public static final int input_verify_code=0x7f060015;
         public static final int login=0x7f06000f;
+        public static final int main_title=0x7f06002b;
         public static final int market=0x7f060025;
         public static final int message=0x7f060008;
         public static final int mine=0x7f06000a;
@@ -683,4 +729,86 @@ public final class R {
         public static final int ShadowTitle=0x7f070011;
         public static final int ShadowTitle_vertical=0x7f070012;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a mytitlebar.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #mytitlebar_titleBarBackground com.geminno.erhuo:titleBarBackground}</code></td><td></td></tr>
+           <tr><td><code>{@link #mytitlebar_titleBarLeftImage com.geminno.erhuo:titleBarLeftImage}</code></td><td></td></tr>
+           <tr><td><code>{@link #mytitlebar_titleBarRightImage com.geminno.erhuo:titleBarRightImage}</code></td><td></td></tr>
+           <tr><td><code>{@link #mytitlebar_titleBarTextColor com.geminno.erhuo:titleBarTextColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #mytitlebar_titleBarTitle com.geminno.erhuo:titleBarTitle}</code></td><td></td></tr>
+           </table>
+           @see #mytitlebar_titleBarBackground
+           @see #mytitlebar_titleBarLeftImage
+           @see #mytitlebar_titleBarRightImage
+           @see #mytitlebar_titleBarTextColor
+           @see #mytitlebar_titleBarTitle
+         */
+        public static final int[] mytitlebar = {
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
+            0x7f010004
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.geminno.erhuo.R.attr#titleBarBackground}
+          attribute's value can be found in the {@link #mytitlebar} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.geminno.erhuo:titleBarBackground
+        */
+        public static final int mytitlebar_titleBarBackground = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.geminno.erhuo.R.attr#titleBarLeftImage}
+          attribute's value can be found in the {@link #mytitlebar} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.geminno.erhuo:titleBarLeftImage
+        */
+        public static final int mytitlebar_titleBarLeftImage = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.geminno.erhuo.R.attr#titleBarRightImage}
+          attribute's value can be found in the {@link #mytitlebar} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.geminno.erhuo:titleBarRightImage
+        */
+        public static final int mytitlebar_titleBarRightImage = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.geminno.erhuo.R.attr#titleBarTextColor}
+          attribute's value can be found in the {@link #mytitlebar} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.geminno.erhuo:titleBarTextColor
+        */
+        public static final int mytitlebar_titleBarTextColor = 4;
+        /**
+          <p>This symbol is the offset where the {@link com.geminno.erhuo.R.attr#titleBarTitle}
+          attribute's value can be found in the {@link #mytitlebar} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.geminno.erhuo:titleBarTitle
+        */
+        public static final int mytitlebar_titleBarTitle = 0;
+    };
 }
