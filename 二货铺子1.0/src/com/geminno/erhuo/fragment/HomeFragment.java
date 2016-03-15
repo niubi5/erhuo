@@ -50,7 +50,7 @@ public class HomeFragment extends BaseFragment {
 	@Override
 	protected void initView() {
 		mAdView = (ImageCycleView) getView().findViewById(R.id.ad_view);
-		refreshListView = (RefreshListView) getView().findViewById(R.id.refreshListView);
+//		refreshListView = (RefreshListView) getView().findViewById(R.id.refreshListView);
 	}
 
 }
