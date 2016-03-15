@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -24,6 +25,7 @@ public class SheZhiActivity extends Activity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_she_zhi);
 		linxiugaimima=(LinearLayout) findViewById(R.id.lin_xiugai_mima);
 	    linyijianfankui=(LinearLayout) findViewById(R.id.lin_yijian_fankui);

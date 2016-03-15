@@ -59,7 +59,9 @@
         </activity>
         <activity
             android:name=".SheZhiActivity"
-            android:label="@string/title_activity_she_zhi" >
+            android:label="@string/title_activity_she_zhi" 
+            
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -68,11 +70,15 @@
         </activity>
         <activity
             android:name=".WoMenActivity"
-            android:label="@string/title_activity_wo_men" >
+            android:label="@string/title_activity_wo_men"
+            
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".PostageActivity"
-            android:label="@string/title_activity_postage" >
+            android:label="@string/title_activity_postage"
+            
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
