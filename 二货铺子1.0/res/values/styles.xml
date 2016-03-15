@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -43,6 +43,13 @@
         <item name="android:layout_marginRight">15.0dip</item>
         <item name="android:src">@drawable/right_arrow_gray</item>
     </style>
+    <style name="MySheZhi">
+        <item name="android:layout_gravity">center|right</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">15.0dip</item>
+        <item name="android:layout_marginRight">15.0dip</item>
+        <item name="android:src">@drawable/right_arrow_red_small</item>
+    </style>
     <style name="FrameTitle">
         <item name="android:id">@id/erhuo_title</item>
         <item name="android:paddingLeft">@dimen/padding_title_left</item>
@@ -77,7 +84,7 @@
     </style>
     <style name="FrameTitleWhiteText" parent="@style/FrameTitleText">
         <item name="android:textColor">@color/main_red</item>
-    </style>
+    </style> 
     <style name="FrameTitleText">
         <item name="android:textSize">@dimen/font_title</item>
         <item name="android:layout_gravity">center</item>

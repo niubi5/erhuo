@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.geminno.erhuo.WoMenActivity" >
+
+    <FrameLayout
+        android:id="@+id/erhuo_title_women"
+        style="@style/FrameTitleRed" >
+
+        <ImageView
+            android:id="@+id/ib_women_return"
+            style="@style/FrameTitleButtonLeft"
+            android:src="@drawable/left_arrow_white" 
+            android:onClick="onclick"/>
+
+        <TextView
+            style="@style/FrameTitleRedText"
+            android:text="二货铺子" />
+        
+         <ImageView
+            android:id="@+id/ib_xuanze"
+            style="@style/FrameTitleButtonRight"
+            android:src="@drawable/img_more" 
+            android:onClick="click"/>
+        
+    </FrameLayout>
+    
+</RelativeLayout>

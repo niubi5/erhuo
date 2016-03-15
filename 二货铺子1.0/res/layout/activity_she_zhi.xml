@@ -1,0 +1,175 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F8F4"
+    tools:context="com.geminno.erhuo.SheZhiActivity"
+    >
+
+      <FrameLayout
+        android:id="@+id/erhuo_title"
+        style="@style/FrameTitleRed" >
+
+        <ImageView
+            android:id="@+id/ib_shezhi"
+            style="@style/FrameTitleButtonLeft"
+            android:src="@drawable/left_arrow_white" />
+
+        <TextView
+            style="@style/FrameTitleRedText"
+            android:text="设置" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/erhuo_title"
+        android:background="@color/main_bgcolor"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="17dp" />
+
+        <LinearLayout
+            android:id="@+id/lin_xiugai_mima"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_xiugaimima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="修改密码"
+                android:textSize="20dp" />
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            <ImageView style="@style/MySheZhi" />
+            
+        </LinearLayout>
+        
+         <View
+            android:layout_width="match_parent"
+            android:layout_height="17dp" />
+
+        <LinearLayout
+            android:id="@+id/lin_yijian_fankui"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_yijianfankui"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="意见反馈"
+                android:textSize="20dp" />
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            <ImageView style="@style/MySheZhi" />
+            
+        </LinearLayout>
+        
+         <View
+            android:layout_width="match_parent"
+            android:layout_height="17dp" />
+
+        <LinearLayout
+            android:id="@+id/lin_guanyu_women"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_guanyuwomen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="关于我们"
+                android:textSize="20dp" />
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            <ImageView style="@style/MySheZhi" />
+            
+        </LinearLayout>
+        
+         <View
+            android:layout_width="match_parent"
+            android:layout_height="17dp" />
+
+        <LinearLayout
+            android:id="@+id/lin_jiancha_gengxin"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_jianchagengxin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="检查更新"
+                android:textSize="20dp" />
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.1"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center|left"
+                />
+            
+        </LinearLayout>
+        
+         <View
+            android:layout_width="match_parent"
+            android:layout_height="17dp" />
+
+        <LinearLayout
+            android:id="@+id/lin_qingchu_huancun"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_qingchuhuancun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="清除缓存"
+                android:textSize="20dp" />
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="暂无缓存"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center|left"
+                />
+            
+        </LinearLayout>
+        
+        
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/but_tuichu"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/main_red"
+        android:text="退出当前账号" 
+        android:textColor="@color/main_white"/>
+
+</RelativeLayout>

@@ -40,5 +40,7 @@
     <string name="publish_goods_btn">发布</string>
     <string name="market">主题集市</string>
     <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_she_zhi">SheZhiActivity</string>
+    <string name="title_activity_wo_men">WoMenActivity</string>
 
 </resources>
