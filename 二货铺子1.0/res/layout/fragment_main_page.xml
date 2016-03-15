@@ -32,14 +32,6 @@
 			
 			</FrameLayout>
 
-  
-
-    <com.geminno.erhuo.view.RefreshListView
-        android:id="@+id/refreshListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </com.geminno.erhuo.view.RefreshListView>
-
     <com.geminno.erhuo.view.ImageCycleView
         android:id="@+id/ad_view"
         android:layout_width="fill_parent"

@@ -36,9 +36,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
-	// gakusdfasdfhahfkl
-	
-	
 	private HomeFragment homeFragment;
 	private DonateFragment donateFragment;
 	private MessageFragment messageFragment;
@@ -232,11 +229,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 				infos.add(info);
 			}
 			mAdView = homeFragment.getmAdView();
-			refreshListView = homeFragment.getRefreshListView();
+//			refreshListView = homeFragment.getRefreshListView();
 			mAdView.setImageResources(infos, mAdCycleViewListener);
 			// 已经设置过数据源
 			flag = true;
-			initRefreshListView();
+//			initRefreshListView();
 		}
 		super.onResume();
 	}
