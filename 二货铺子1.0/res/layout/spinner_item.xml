@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:gravity="center_horizontal"
+    android:gravity="center_horizontal|center"
     android:background="@color/white" >
 
     <ImageView
@@ -18,9 +18,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/iv_type_inco"
         android:layout_marginBottom="14dp"
-        android:layout_marginLeft="17dp"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/iv_type_inco"
         android:text="TextView"
-        style="@style/MyInfoTextView" />
+        style="@style/MyInfoTextView"
+        android:textSize="@dimen/font_big" />
 
 </RelativeLayout>
