@@ -148,5 +148,15 @@
         <item name="android:singleLine">true</item>
         <item name="android:layout_weight">1.0</item>
     </style>
+    <style name="TypesButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:paddingBottom">2dip</item>
+        <item name="android:paddingTop">7dip</item>
+        <item name="android:scaleType">matrix</item>
+        <item name="android:textColor">@drawable/main_btn_textcolor</item>
+        <item name="android:textSize">@dimen/font_tiny</item>
+    </style>
 
 </resources>

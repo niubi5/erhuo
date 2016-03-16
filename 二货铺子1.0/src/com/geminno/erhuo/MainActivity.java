@@ -27,6 +27,7 @@ import com.geminno.erhuo.fragment.HomeFragment;
 import com.geminno.erhuo.fragment.MessageFragment;
 import com.geminno.erhuo.fragment.UserInfoFragment;
 import com.geminno.erhuo.entity.ADInfo;
+import com.geminno.erhuo.utils.HomePageAdapter;
 import com.geminno.erhuo.utils.SystemStatusManager;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
@@ -48,17 +49,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private List<BaseFragment> fragments;
 	private List<Button> btns;
 	private int currentIndex; // 当前fragment索引
-	private ImageCycleView mAdView;
 	private boolean flag = false;
-	private ArrayList<ADInfo> infos = new ArrayList<ADInfo>();
 	private RefreshListView refreshListView;
-	// 广告图片
-	private String[] imageUrls = {
-			"http://img.taodiantong.cn/v55183/infoimg/2013-07/130720115322ky.jpg",
-			"http://pic30.nipic.com/20130626/8174275_085522448172_2.jpg",
-			"http://pic18.nipic.com/20111215/577405_080531548148_2.jpg",
-			"http://pic15.nipic.com/20110722/2912365_092519919000_2.jpg",
-			"http://pic.58pic.com/58pic/12/64/27/55U58PICrdX.jpg" };
 
 	@SuppressLint("ResourceAsColor") @TargetApi(Build.VERSION_CODES.KITKAT) @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -128,18 +120,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		messageBtn.setOnClickListener(this);
 		shopBtn.setOnClickListener(this);
 		publishGoods.setOnClickListener(this);
-//		refreshListView.setOnRefreshCallBack(new OnRefreshCallBack() {
-//			
-//			@Override
-//			public void onRefresh() {
-//				
-//			}
-//			
-//			@Override
-//			public void onPull() {
-//				
-//			}
-//		});
 		// 默认显示第一个fragment
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, fragments.get(0)).commit();
@@ -147,21 +127,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		btns.get(0).setSelected(true);
 	}
 	
-	private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
-
-		@Override	// 广告栏点击事件
-		public void onImageClick(ADInfo info, int position, View imageView) {
-			Toast.makeText(MainActivity.this, "content->" + info.getContent(),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		@Override
-		public void displayImage(String imageURL, ImageView imageView) {
-			// 使用ImageLoader对图片进行加装
-			ImageLoader.getInstance().displayImage(imageURL, imageView);
-		}
-	};
-
 	@Override
 	public void onClick(View v) {
 		int nextIndex = 0; // 即将显示的fragment
@@ -217,26 +182,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
-		// 初始化数据源
+		 // 初始化数据源
 		if (!flag) {
-			for (int i = 0; i < imageUrls.length; i++) {
-				ADInfo info = new ADInfo();
-				info.setUrl(imageUrls[i]);
-				info.setContent("top-->" + i);
-				infos.add(info);
-			}
-			mAdView = homeFragment.getmAdView();
-//			refreshListView = homeFragment.getRefreshListView();
-			mAdView.setImageResources(infos, mAdCycleViewListener);
-			// 已经设置过数据源
-			flag = true;
-//			initRefreshListView();
+			refreshListView = homeFragment.getRefreshListView();
+			refreshListView.setAdapter(new HomePageAdapter(this));
 		}
 		super.onResume();
-	}
-
-	private void initRefreshListView() {
-		
 	}
 
 }
