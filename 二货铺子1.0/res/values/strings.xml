@@ -40,5 +40,10 @@
     <string name="publish_goods_btn">发布</string>
     <string name="market">主题集市</string>
     <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_donate_request">DonateRequestActivity</string>
+    <string name="title_donate_request">标题</string>
+    <string name="describe_donate_request">描述一下您的需求</string>
+    <string name="donate_request_address">江苏省 苏州市 吴中区</string>
+    <string name="donate_request_logistics">物流</string>
 
 </resources>
