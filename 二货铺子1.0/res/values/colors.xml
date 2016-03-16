@@ -222,9 +222,6 @@
     <color name="yellow">#ffffff00</color>
     <color name="red_btntext">#FF4040</color>
     <color name="text_hint_color">#DCDCDC</color>
-    <color name="donate_add">#D4D4D4</color>
-    <color name="donate_add_text">#999999</color>
-
 
     <!-- 多图片上传 -->
     <color name="grey">#808080</color> <!-- 灰色 -->
