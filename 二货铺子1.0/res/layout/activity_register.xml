@@ -71,7 +71,7 @@
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/mima"
+            android:src="@drawable/lock"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical" />
 
@@ -100,7 +100,7 @@
             android:id="@+id/imageView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/mima"
+            android:src="@drawable/lock"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical" />
 
