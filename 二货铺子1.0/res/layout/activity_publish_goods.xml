@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:background="#ffffff"
     android:orientation="vertical" >
 
@@ -21,30 +21,31 @@
             android:src="@drawable/left_arrow_white" />
     </FrameLayout>
 
-        <Button
-            android:id="@+id/btn_publish_goods"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:background="@color/main_red"
-            android:text="@string/publish_goods_btn"
-            android:textColor="#ffffff" />
-  
+    <Button
+        android:id="@+id/btn_publish_goods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/main_red"
+        android:text="@string/publish_goods_btn"
+        android:textColor="#ffffff" />
+
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/btn_publish_goods"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/erhuo_message_title" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="364dp"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content">
 
-            <View style="@style/ShadowTitle" />
+            <View
+                android:id="@+id/view1"
+                style="@style/ShadowTitle"/>
 
             <EditText
                 android:id="@+id/et_goods_name"
@@ -54,12 +55,18 @@
                 android:background="@null"
                 android:ems="10"
                 android:hint="@string/goods_name"
-                android:textColorHint="@color/text_hint_color" >
+                android:singleLine="true"
+                android:layout_below="@+id/view1"
+                android:textColorHint="@color/text_hint_color"
+                android:textSize="@dimen/font_big" >
 
                 <requestFocus />
             </EditText>
 
-            <View style="@style/ShadowTitle" />
+            <View 
+                android:id="@+id/view2"
+                style="@style/ShadowTitle"
+                android:layout_below="@+id/et_goods_name" />
 
             <EditText
                 android:id="@+id/et_goods_brief"
@@ -69,24 +76,35 @@
                 android:background="@null"
                 android:ems="10"
                 android:gravity="left"
+                android:layout_below="@+id/view2"
                 android:hint="@string/goods_brief"
                 android:inputType="textMultiLine"
-                android:textColorHint="@color/text_hint_color" />
+                android:textColorHint="@color/text_hint_color"
+                android:textSize="@dimen/font_big" />
 
-            <ImageView
-                android:id="@+id/iv_img_select"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/selling_image_stub" />
+            <GridView
+                android:id="@+id/noScrollgridview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"              
+                android:layout_marginLeft="5dp"
+                android:horizontalSpacing="3dp"
+                android:layout_below="@+id/et_goods_brief"
+                android:numColumns="4"
+                android:scrollbars="none"
+                android:verticalSpacing="5dp" >
+            </GridView>
 
             <View
+                android:id="@+id/view3"
                 style="@style/ShadowTitle"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/noScrollgridview" />
 
             <LinearLayout
+                android:id="@+id/line_type"
                 android:layout_width="match_parent"
-                android:layout_height="50dp" >
+                android:layout_height="50dp"
+                android:layout_below="@+id/view3" >
 
                 <TextView
                     android:id="@+id/tv_types"
@@ -95,21 +113,27 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
-                    android:text="@string/types" />
+                    android:text="@string/types"
+                    android:textSize="@dimen/font_big" />
 
                 <Spinner
                     android:id="@+id/spn_types"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
-                    android:dropDownWidth="match_parent"  />
+                    android:dropDownWidth="match_parent"
+                    android:gravity="center_horizontal" />
             </LinearLayout>
 
-            <View style="@style/ShadowTitle" />
+            <View 
+                android:id="@+id/view4"
+                style="@style/ShadowTitle"
+                android:layout_below="@+id/line_type" />
 
             <LinearLayout
+                android:id="@+id/line_price"
                 android:layout_width="match_parent"
-                android:layout_height="50dp" >
+                android:layout_height="50dp"
+                android:layout_below="@+id/view4" >
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -122,7 +146,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
-                        android:text="@string/goods_price" />
+                        android:text="@string/goods_price"
+                        android:textSize="@dimen/font_big" />
 
                     <EditText
                         android:id="@+id/et_goods_price"
@@ -134,7 +159,7 @@
                         android:hint="@string/goods_price_hint"
                         android:inputType="numberDecimal"
                         android:textColorHint="@color/text_hint_color"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/font_big" />
                 </LinearLayout>
 
                 <View style="@style/ShadowTitle_vertical" />
@@ -150,7 +175,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="@string/goods_old_price" />
+                        android:text="@string/goods_old_price"
+                        android:textSize="@dimen/font_big" />
 
                     <EditText
                         android:id="@+id/et_goods_old_price"
@@ -162,17 +188,21 @@
                         android:hint="@string/goods_price_old_hint"
                         android:inputType="numberDecimal"
                         android:textColor="@color/text_hint_color"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/font_big" />
                 </LinearLayout>
             </LinearLayout>
 
             <View
+                android:id="@+id/view5"
                 style="@style/ShadowTitle"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/line_price" />
 
             <LinearLayout
+                android:id="@+id/line_market"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp" >
+                android:layout_height="50dp"
+                android:layout_below="@+id/view5" >
 
                 <TextView
                     android:id="@+id/tv_market"
@@ -186,14 +216,16 @@
                     android:id="@+id/spn_markets"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:dropDownWidth="match_parent" />
+                    android:dropDownWidth="match_parent"
+                    android:gravity="center_vertical" />
             </LinearLayout>
 
             <View
+                android:id="@+id/view6"
                 style="@style/ShadowTitle"
-                android:layout_marginTop="5dp" />
-        </LinearLayout>
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/line_market" />
+        </RelativeLayout>
     </ScrollView>
 
 </RelativeLayout>

@@ -158,5 +158,14 @@
         <item name="android:textColor">@drawable/main_btn_textcolor</item>
         <item name="android:textSize">@dimen/font_tiny</item>
     </style>
-
+    <!-- 多图片上传 -->
+        <style name="PopupAnimation" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/activity_translate_in</item>
+        <item name="android:windowExitAnimation">@anim/activity_translate_out</item>
+    </style>
+	
+	<style name="PopupAnimation1" parent="android:Animation" mce_bogus="1">          
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>     
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>     
+    </style> 
 </resources>

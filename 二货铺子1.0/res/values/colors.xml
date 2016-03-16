@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="aliceblue">#fff0f8ff</color>
     <color name="antiquewhite">#fffaebd7</color>
     <color name="aqua">#ff00ffff</color>
@@ -221,4 +222,17 @@
     <color name="yellow">#ffffff00</color>
     <color name="red_btntext">#FF4040</color>
     <color name="text_hint_color">#DCDCDC</color>
+
+    <!-- 多图片上传 -->
+    <color name="grey">#808080</color> <!-- 灰色 -->
+
+    <color name="transparent">#0000</color> <!-- 透明 -->
+    <color name="transparent2">#8000</color> <!-- 透明 -->
+    <!-- 上传图片添加的颜色 -->
+    <color name="none_color">#00000000</color>
+    <color name="plugin_camera_black">#000000</color>
+    <color name="albumback">#E1E0DE</color>
+    <color name="style_red">#ff4c41</color>
+    <color name="style_divider_color">#C9C7CD</color>
+
 </resources>
