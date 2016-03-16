@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.geminno.erhuo.R;
@@ -137,14 +138,18 @@ public class HomePageAdapter extends BaseAdapter {
 //		}
 		if(position == 0){
 			return getADViewPager(convertView);
-		} else 
-		return LayoutInflater.from(context).inflate(R.layout.type_item, null);
+		} else if(position == 1){
+			return LayoutInflater.from(context).inflate(R.layout.type_item, null);
+		} else if(position == 2){
+			View view = LayoutInflater.from(context).inflate(R.layout.market_list, null);
+			LinearLayout ll = (LinearLayout) view.findViewById(R.id.market_container);
+			// 动态添加ImageView
+//			for(){
+//				
+//			}
+		}
+		return null;
 	}
-
-	// 获得类别View
-//	private View getTypesView(View convertView) {
-//
-//	}
 
 	// 获得商品view
 	private View getGoodsView(View convertView) {
