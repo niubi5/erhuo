@@ -3,9 +3,10 @@
     xmlns:titlebar="http://schemas.android.com/apk/res/com.geminno.erhuo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true" >
-<!--  
+    android:fitsSystemWindows="true"
+    android:orientation="vertical" >
+
+    <!--
     <com.geminno.erhuo.view.MyTitleBar
         android:id="@+id/myTitleBar1"
         android:layout_width="wrap_content"
@@ -16,25 +17,32 @@
         titlebar:titleBarTitle="首页" >
     </com.geminno.erhuo.view.MyTitleBar>
     -->
-    
-			<FrameLayout
-			android:id="@+id/erhuo_home_title"
-			style="@style/FrameTitleRed" >
-			
-			<TextView
-			style="@style/FrameTitleRedText"
-			android:text="@string/main_title" />
-			
-			<ImageView
-			android:id="@+id/home_search"
-			style="@style/FrameTitleButtonRight"
-			android:src="@drawable/home_search_bg" />
-			
-			</FrameLayout>
 
-    <com.geminno.erhuo.view.ImageCycleView
-        android:id="@+id/ad_view"
-        android:layout_width="fill_parent"
-        android:layout_height="150dip" />
+    <FrameLayout
+        android:id="@+id/erhuo_home_title"
+        style="@style/FrameTitleRed" >
+
+        <TextView
+            style="@style/FrameTitleRedText"
+            android:text="@string/main_title" />
+
+        <ImageView
+            android:id="@+id/home_search"
+            style="@style/FrameTitleButtonRight"
+            android:src="@drawable/home_search_bg" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <com.geminno.erhuo.view.RefreshListView
+            android:id="@+id/refreshListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </com.geminno.erhuo.view.RefreshListView>
+        
+        <View style="@style/ShadowTitle"/>
+    </FrameLayout>
 
 </LinearLayout>

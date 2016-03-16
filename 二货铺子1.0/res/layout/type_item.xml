@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            style="@style/TypesButton"
+            android:id="@+id/type_iphone"
+            android:drawableTop="@drawable/types_phone"
+            android:layout_weight="1"
+            android:text="苹果手机" />
+        <Button
+            style="@style/TypesButton"
+            android:id="@+id/type_pad"
+            android:drawableTop="@drawable/types_pad"
+            android:layout_weight="1"
+            android:text="平板电脑" />
+        <Button
+            style="@style/TypesButton"
+            android:id="@+id/type_pc"
+            android:drawableTop="@drawable/types_pc"
+            android:layout_weight="1"
+            android:text="笔记本" />
+        <Button
+            style="@style/TypesButton"
+            android:id="@+id/type_ixiaomi"
+            android:drawableTop="@drawable/types_xiaomi"
+            android:layout_weight="1"
+            android:text="小米" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            style="@style/TypesButton"
+            android:id="@+id/type_3c"
+            android:drawableTop="@drawable/types_3c"
+            android:layout_weight="1"
+            android:text="数码3c" />
+        <Button
+            style="@style/TypesButton"
+            android:id="@+id/type_card"
+            android:drawableTop="@drawable/types_card"
+            android:layout_weight="1"
+            android:text="卡券" />
+        <Button
+            style="@style/TypesButton"
+            android:id="@+id/type_luggage"
+            android:drawableTop="@drawable/types_luggage"
+            android:layout_weight="1"
+            android:text="箱包" />
+        <Button
+            style="@style/TypesButton"
+            android:id="@+id/type_perfume"
+            android:drawableTop="@drawable/types_perfume"
+            android:layout_weight="1"
+            android:text="小米" />
+    </LinearLayout>
+
+</LinearLayout>
