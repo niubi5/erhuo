@@ -4,7 +4,7 @@
     android:layout_height="match_parent" 
     tools:context="com.geminno.erhuo.SearchActivity" >
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/erhuo_title"
         style="@style/FrameTitleRed" >
 
@@ -15,12 +15,13 @@
 
         <EditText
             android:id="@+id/et_sousuo"
-            android:layout_width="220dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="1dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="1dp"
+            android:layout_toLeftOf="@+id/tv"
             android:background="@drawable/seabar_input"
             android:drawableLeft="@drawable/btn_home_search_gray"
             android:ems="10"
@@ -31,13 +32,16 @@
             android:textSize="16sp" />
 
         <TextView
-            android:layout_width="53dp"
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="14dp"
             android:text="搜索"
             android:textColor="@color/main_white"
             android:textSize="20sp" />
 
-    </FrameLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

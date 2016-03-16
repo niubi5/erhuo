@@ -2,6 +2,8 @@ package com.geminno.erhuo;
 
 import java.util.ArrayList;
 
+import com.geminno.erhuo.fragment.UserInfoFragment;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -21,6 +24,7 @@ public class SheZhiActivity extends Activity implements OnClickListener{
 	LinearLayout linguanyuwomen;
 	LinearLayout linjianchagenxin;
 	LinearLayout linqingchuhuancun;
+	ImageView imageshezh;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +36,15 @@ public class SheZhiActivity extends Activity implements OnClickListener{
 	    linguanyuwomen=(LinearLayout) findViewById(R.id.lin_guanyu_women);
 	    linjianchagenxin=(LinearLayout) findViewById(R.id.lin_jiancha_gengxin);
 	    linqingchuhuancun=(LinearLayout) findViewById(R.id.lin_qingchu_huancun);	
+	    imageshezh=(ImageView) findViewById(R.id.ib_shezhi);
 	    linxiugaimima.setOnClickListener(this);
 	    linyijianfankui.setOnClickListener(this);
 	    linjianchagenxin.setOnClickListener(this);
 	    linguanyuwomen.setOnClickListener(this);
 	    linqingchuhuancun.setOnClickListener(this);
+	    imageshezh.setOnClickListener(this);
+	  //调用setColor()方法,实现沉浸式状态栏
+	  	MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 	}
 
 	@Override
@@ -61,6 +69,10 @@ public class SheZhiActivity extends Activity implements OnClickListener{
 			break;
 		case R.id.lin_qingchu_huancun:
 			
+			break;	
+		
+        case R.id.ib_shezhi:
+			Intent intent=new Intent();
 			break;	
 
 		default:

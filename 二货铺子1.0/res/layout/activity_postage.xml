@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F9F8F4"
     tools:context="com.geminno.erhuo.PostageActivity" >
     
      <FrameLayout
@@ -17,5 +18,359 @@
             style="@style/FrameTitleRedText"
             android:text="邮费助手" />
     </FrameLayout>
+    
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/erhuo_title"
+        android:background="@color/main_bgcolor"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="match_parent"
+             android:background="#F9F8F4"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+            
+            <ImageView
+                android:layout_gravity="center|left" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:src="@drawable/star_2"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="运费信息来自圆通公司官方网站，仅供参考"
+                android:textSize="@dimen/font_middle" />
+            
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            
+            
+           
+            
+        </LinearLayout>
+        
+         <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp" />
+
+        <LinearLayout
+           
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+            
+            <ImageView
+                android:layout_gravity="center|left" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:src="@drawable/postage_setout"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="寄出地"
+                android:textSize="@dimen/font_middle" />
+            
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            
+            
+        </LinearLayout>
+        
+         <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp" />
+
+        <LinearLayout
+            android:id="@+id/lin_jichudi"
+            
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+             
+            <ImageView
+                android:layout_gravity="center|left" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:src="@drawable/postage_setout"
+                android:visibility="invisible"/>
+            
+            
+            <TextView
+                android:id="@+id/tv_jichu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="北京"
+                android:layout_gravity="center|left"
+                android:textSize="@dimen/font_middle" />
+            
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            <ImageView style="@style/MySheZhi" 
+                android:id="@+id/iv_jichudi"/>
+            
+        </LinearLayout>
+        
+         <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp" />
+
+        <LinearLayout
+           
+            
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+            
+             <ImageView
+                android:layout_gravity="center|left" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:src="@drawable/infodata_place"
+                />
+
+            <TextView
+                android:id="@+id/tv_jianchagengxin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_gravity="center|left"
+                android:text="目的地"
+                android:textSize="@dimen/font_middle" />
+            
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            
+            
+        </LinearLayout>
+        
+         <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp" />
+
+        <LinearLayout
+            android:id="@+id/lin_mudidi"
+           
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+            
+            <ImageView
+                android:layout_gravity="center|left" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:src="@drawable/postage_setout"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:id="@+id/tv_mudidi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="北京"
+                android:textSize="@dimen/font_middle" />
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            
+            <ImageView style="@style/MySheZhi" 
+                android:id="@+id/iv_mudidi"/>
+            
+        </LinearLayout>
+        
+         <View
+            android:layout_width="match_parent"
+            android:background="#F9F8F4"
+            android:layout_height="15dp" />
+       
+         
+         
+        <!-- 物品重量 -->
+          <LinearLayout
+            android:id="@+id/lin_wuzhong"
+            
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+            
+            <ImageView
+                android:layout_gravity="center|left" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:src="@drawable/postage_weight"
+                />
+
+            <TextView
+                android:id="@+id/tv_wuzhong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="物品重量"
+                android:textSize="@dimen/font_middle" />
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+           
+        </LinearLayout>
+        
+          <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp" />
+
+        <LinearLayout
+            android:id="@+id/lin_zhongliang"
+            
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+            
+            <EditText 
+                android:id="@+id/et_wuzhong"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="13dp"
+                android:textSize="17dp"
+                android:background="#DFDFDF"/>
+
+            <TextView
+                android:id="@+id/tv_zhongliang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="kg"
+                android:textSize="@dimen/font_middle" />
+            
+            
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            
+            <ImageView style="@style/MySheZhi" 
+                android:id="@+id/iv_wuzhong"/>
+            
+        </LinearLayout>
+        
+        <!-- 费用估算 -->
+        
+        <View
+            android:layout_width="match_parent"
+            android:background="#F9F8F4"
+            android:layout_height="10dp" />
+        
+        <LinearLayout
+            android:id="@+id/lin_feiyong"
+            
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+            
+            
+
+            <TextView
+                android:id="@+id/tv_feiyong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="费用估算："
+                android:textSize="@dimen/font_middle" />
+            
+            
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            
+           <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|right"
+                android:text="¥9.00"
+                android:textSize="@dimen/font_middle" />
+            
+        </LinearLayout>
+        
+        <View
+            android:layout_width="match_parent"
+            android:background="#F9F8F4"
+            android:layout_height="3dp" />
+        
+        <LinearLayout
+            android:id="@+id/lin_time"
+           
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+            
+            
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|left"
+                android:text="预计送达时长："
+                android:textSize="@dimen/font_middle" />
+            
+            
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            
+           <TextView
+                android:id="@+id/tv_time_ss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center|right"
+                android:text="3-4天"
+                android:textSize="@dimen/font_middle" />
+            
+        </LinearLayout>
+        
+        
+        
+        </LinearLayout>
+
+     <RelativeLayout
+        android:id="@+id/lianxikuaidi"
+        style="@style/FrameTitleRed" 
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:layout_toLeftOf="@+id/kuaidi"
+            style="@style/FrameTitleButtonLeft"
+            android:src="@drawable/postage_phone" 
+            />
+
+        <TextView
+            android:id="@+id/kuaidi"
+            android:layout_centerInParent="true"
+            style="@style/FrameTitleRedText"
+            android:text="联系快递" />
+    </RelativeLayout>
 
 </RelativeLayout>

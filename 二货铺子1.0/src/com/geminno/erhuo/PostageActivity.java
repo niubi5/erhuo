@@ -13,6 +13,8 @@ public class PostageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_postage);
+		//调用setColor()方法,实现沉浸式状态栏
+	  	MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 	}
 
 	@Override

@@ -43,7 +43,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_gravity="center|left"
                 android:text="修改密码"
-                android:textSize="20dp" />
+                android:textSize="@dimen/font_middle" />
             <View android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
@@ -67,7 +67,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_gravity="center|left"
                 android:text="意见反馈"
-                android:textSize="20dp" />
+                android:textSize="@dimen/font_middle" />
             <View android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
@@ -91,7 +91,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_gravity="center|left"
                 android:text="关于我们"
-                android:textSize="20dp" />
+                android:textSize="@dimen/font_middle" />
             <View android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
@@ -115,7 +115,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_gravity="center|left"
                 android:text="检查更新"
-                android:textSize="20dp" />
+                android:textSize="@dimen/font_middle" />
             <View android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1.1"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="@dimen/font_middle"
                 android:layout_gravity="center|left"
                 />
             
@@ -145,7 +145,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_gravity="center|left"
                 android:text="清除缓存"
-                android:textSize="20dp" />
+                android:textSize="@dimen/font_middle" />
             <View android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
@@ -153,7 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="暂无缓存"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="@dimen/font_middle"
                 android:layout_gravity="center|left"
                 />
             

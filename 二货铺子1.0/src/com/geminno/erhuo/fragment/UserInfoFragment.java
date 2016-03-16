@@ -2,7 +2,9 @@ package com.geminno.erhuo.fragment;
 
 import com.geminno.erhuo.EditUserInfoActivity;
 import com.geminno.erhuo.LoginActivity;
+import com.geminno.erhuo.PostageActivity;
 import com.geminno.erhuo.R;
+import com.geminno.erhuo.SheZhiActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +22,8 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener{
 
 	private LinearLayout userInfo;
 	private Button btnHead;
+	private LinearLayout linearshezhi;
+	private LinearLayout linearyoufei;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -37,12 +41,16 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener{
 	protected void initEvent() {
 		userInfo.setOnClickListener(this);
 		btnHead.setOnClickListener(this);
+		linearshezhi.setOnClickListener(this);
+		linearyoufei.setOnClickListener(this);
 	}
 
 	@Override
 	protected void initView() {
 		userInfo = (LinearLayout) getView().findViewById(R.id.userinfo_container);
 		btnHead = (Button) getView().findViewById(R.id.userinfo_btn_herder);
+	    linearshezhi=(LinearLayout) getView().findViewById(R.id.setting_container);
+	    linearyoufei=(LinearLayout) getView().findViewById(R.id.postage_container);
 	}
 
 	@Override
@@ -57,6 +65,14 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener{
 			Log.i("onClick", "userinfo_btn_herder");
 			startActivity(new Intent(getActivity(),LoginActivity.class));
 			break;
+		case R.id.setting_container:
+			Log.i("onClick", "setting_container");
+			startActivity(new Intent(getActivity(),SheZhiActivity.class));
+			break;
+		case R.id.postage_container:
+			Log.i("onClick", "postage_container");
+			startActivity(new Intent(getActivity(),PostageActivity.class));
+			break;	
 		}
 	}
 

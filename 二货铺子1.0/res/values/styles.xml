@@ -50,6 +50,8 @@
         <item name="android:layout_marginRight">15.0dip</item>
         <item name="android:src">@drawable/right_arrow_red_small</item>
     </style>
+    
+   
     <style name="FrameTitle">
         <item name="android:id">@id/erhuo_title</item>
         <item name="android:paddingLeft">@dimen/padding_title_left</item>

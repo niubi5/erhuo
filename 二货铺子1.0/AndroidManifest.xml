@@ -21,6 +21,11 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".GuideActivity"
@@ -36,7 +41,6 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" >
-            
         </activity>
         <activity
             android:name=".VerifyActivity"
@@ -62,7 +66,6 @@
             android:name=".SheZhiActivity"
             android:label="@string/title_activity_she_zhi"
             android:screenOrientation="portrait" >
-           
         </activity>
         <activity
             android:name=".WoMenActivity"
@@ -76,15 +79,15 @@
         </activity>
         <activity
             android:name=".SearchActivity"
-            android:label="@string/title_activity_search" 
+            android:label="@string/title_activity_search"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
+        <activity
+            android:name=".ResetActivity"
+            android:label="@string/title_activity_reset"
+            android:screenOrientation="portrait" >
+            
+        </activity>
     </application>
 
 </manifest>
