@@ -86,7 +86,10 @@
             android:name=".ResetActivity"
             android:label="@string/title_activity_reset"
             android:screenOrientation="portrait" >
-            
+        </activity>
+        <activity
+            android:name=".ZhaoHuiActivity"
+            android:label="@string/title_activity_zhao_hui" >
         </activity>
     </application>
 

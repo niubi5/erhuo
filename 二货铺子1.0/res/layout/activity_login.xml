@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/name" />
+            android:src="@drawable/phone" />
 
         <EditText
             android:id="@+id/et_name"
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/mima" />
+            android:src="@drawable/lock" />
 
         <EditText
             android:id="@+id/et_pwd"

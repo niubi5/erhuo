@@ -23,6 +23,8 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		ivBack = (ImageView) findViewById(R.id.iv_verify_return);
 		btnVerify.setOnClickListener(this);
 		ivBack.setOnClickListener(this);
+		//调用setColor()方法,实现沉浸式状态栏
+	  	MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 	}
 
 	@Override

@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener{
 	TextView tvRegister;
+	TextView tvforget;
 	ImageView ivBack;
 	@ViewInject(R.id.et_name)
 	EditText etName;
@@ -39,11 +40,15 @@ public class LoginActivity extends Activity implements OnClickListener{
 		tvRegister = (TextView) findViewById(R.id.tv_register);
 		ivBack = (ImageView) findViewById(R.id.iv_login_return);
 		Button button;
+		tvforget=(TextView) findViewById(R.id.tv_forget_mima);
 		button=(Button) findViewById(R.id.btn_login);
 		tvRegister.setOnClickListener(this);
+		tvforget.setOnClickListener(this);
 		ivBack.setOnClickListener(this);
 		button.setOnClickListener(this);
 		ViewUtils.inject(this);
+		//调用setColor()方法,实现沉浸式状态栏
+	  	MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 	}
 	@Override
 	public void onClick(View v) {
@@ -88,6 +93,10 @@ public class LoginActivity extends Activity implements OnClickListener{
 				}
 			});
 			
+			break;
+		case R.id.tv_forget_mima:
+			Intent intent1 = new Intent(this,ZhaoHuiActivity.class);
+			startActivity(intent1);
 			break;
 		
 		default:

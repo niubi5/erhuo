@@ -33,6 +33,11 @@
         android:src="@drawable/erhuo_login"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp" />
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#F9F8F4"/>
 
     <LinearLayout
         android:layout_width="match_parent"
