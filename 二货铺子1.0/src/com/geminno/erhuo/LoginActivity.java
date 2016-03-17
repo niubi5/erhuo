@@ -32,6 +32,8 @@ public class LoginActivity extends Activity implements OnClickListener{
 	EditText etName;
 	@ViewInject(R.id.et_pwd)
 	EditText etPwd;
+	
+	private String result;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,6 +76,8 @@ public class LoginActivity extends Activity implements OnClickListener{
 			String url="http://10.40.5.34:8080/secondHandShop/LoginServlet";
 			http.send(HttpMethod.POST, url, params,new RequestCallBack<String>() {
 
+				
+
 				@Override
 				public void onFailure(HttpException arg0, String arg1) {
 					// TODO Auto-generated method stub
@@ -82,8 +86,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 
 				@Override
 				public void onSuccess(ResponseInfo<String> arg0) {
-					// TODO Auto-generated method stub
-					String result=arg0.result;
+					result = arg0.result;
 					Log.i("cheshi", result);
 					if(result!=null&&!result.equals("null")){
 						Toast.makeText(LoginActivity.this, "登陆成功", 0).show();
@@ -92,7 +95,9 @@ public class LoginActivity extends Activity implements OnClickListener{
 					}
 				}
 			});
-			
+			Intent intent2 = new Intent();
+			intent2.putExtra("jsonstr", result);
+			startActivity(intent2);
 			break;
 		case R.id.tv_forget_mima:
 			Intent intent1 = new Intent(this,ZhaoHuiActivity.class);
