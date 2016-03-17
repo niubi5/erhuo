@@ -51,6 +51,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private int currentIndex; // 当前fragment索引
 	private boolean flag = false;
 	private RefreshListView refreshListView;
+	// ------------------------
+//	private List
 
 	@SuppressLint("ResourceAsColor") @TargetApi(Build.VERSION_CODES.KITKAT) @Override
 	protected void onCreate(Bundle savedInstanceState) {

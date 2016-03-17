@@ -5,7 +5,7 @@ import java.io.File;
 public class Markets {
 	private int id;
 	private String name;
-	private byte[] logo;
+	private int logo;
 	private String brief;
 	
 	public int getId() {
@@ -20,10 +20,10 @@ public class Markets {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public byte[] getLogo() {
+	public int getLogo() {
 		return logo;
 	}
-	public void setLogo(byte[] logo) {
+	public void setLogo(int logo) {
 		this.logo = logo;
 	}
 	public String getBrief() {

@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable.Orientation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import android.widget.ListView;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.entity.ADInfo;
 import com.geminno.erhuo.entity.Goods;
+import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Types;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
@@ -45,8 +49,14 @@ public class HomePageAdapter extends BaseAdapter {
 	private List<Goods> listGoods;// 商品集合
 	private List<ADInfo> listAD;// 广告集合
 	private List<Types> listTypes;// 类别集合
+	private List<Markets> listMarket;// 集市集合
 	private ListView typeListView;
 	int position;
+	private int[] marketImages = {R.drawable.market_iphone,
+			R.drawable.market_book,
+			R.drawable.market_bao,
+			R.drawable.market_nb,
+			R.drawable.market_other};
 	// 广告图片
 	private String[] imageUrls = {
 			"http://img.taodiantong.cn/v55183/infoimg/2013-07/130720115322ky.jpg",
@@ -74,7 +84,7 @@ public class HomePageAdapter extends BaseAdapter {
 //			}
 //		}
 //		return OTHERTYPE + listGoods.size();
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -108,7 +118,7 @@ public class HomePageAdapter extends BaseAdapter {
 	@Override
 	public int getViewTypeCount() {
 //		return list.size();
-		 return 2;
+		 return 3;
 	}
 
 	@Override
@@ -143,10 +153,35 @@ public class HomePageAdapter extends BaseAdapter {
 		} else if(position == 2){
 			View view = LayoutInflater.from(context).inflate(R.layout.market_list, null);
 			LinearLayout ll = (LinearLayout) view.findViewById(R.id.market_container);
-			// 动态添加ImageView
-//			for(){
-//				
+//			Set<Entry<String, Object>> entry = map.entrySet();
+//			for (Entry<String, Object> en : entry) {
+//				if ("Goods".equals(en.getKey())) {
+//					listGoods = (List<Goods>) en.getValue();
+//				}
 //			}
+//			// 动态添加ImageView
+//			for(Markets market : listMarket){
+//				ImageView imageView = new ImageView(context);
+//				imageView.setImageResource(market.getLogo());
+//				imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//				ll.addView(imageView);
+//			}
+			for(int i = 0;i < marketImages.length;i++){
+				LinearLayout ll1 = new LinearLayout(context);
+				ll1.setBackgroundColor(Color.TRANSPARENT);
+				ll1.setOrientation(0);
+				LayoutParams lp = new LayoutParams(280, 180);
+				ll1.setLayoutParams(lp);
+				ll1.setPadding(20, 0, 0, 0);
+				ImageView imageView = new ImageView(context);
+//				imageView.setPadding(10, 10, 10, 10);
+				imageView.setImageResource(marketImages[i]);
+				imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+				ll1.addView(imageView);// 添加图片控件
+				ll.addView(ll1);
+//				ll.addView(imageView);
+			}
+			return view;
 		}
 		return null;
 	}
