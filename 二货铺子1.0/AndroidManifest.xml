@@ -8,7 +8,7 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="21" />
     <!-- 短信验证码的权限 -->
-     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,7 +18,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-       <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -104,7 +104,8 @@
         </activity>
         <activity
             android:name=".ZhaoHuiActivity"
-            android:label="@string/title_activity_zhao_hui" >
+            android:label="@string/title_activity_zhao_hui"
+            android:screenOrientation="portrait" >
         </activity>
 
         <!-- 多图片上传 -->
@@ -129,6 +130,12 @@
         </activity>
         <activity android:name=".GalleryActivity" >
         </activity>
+        <!-- 短信验证 -->
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 
 </manifest>

@@ -50,7 +50,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 		button.setOnClickListener(this);
 		ViewUtils.inject(this);
 		//调用setColor()方法,实现沉浸式状态栏
-	  	MainActivity.setColor(this, getResources().getColor(R.color.main_red));
+	  	MainActivity.setColor(this, getResources().getColor(R.color.login_background));
 	}
 	@Override
 	public void onClick(View v) {
@@ -89,15 +89,15 @@ public class LoginActivity extends Activity implements OnClickListener{
 					result = arg0.result;
 					Log.i("cheshi", result);
 					if(result!=null&&!result.equals("null")){
-						Toast.makeText(LoginActivity.this, "登陆成功", 0).show();
+						Intent intent2 = new Intent(LoginActivity.this,MainActivity.class);
+						startActivity(intent2);
+						//Toast.makeText(LoginActivity.this, "登陆成功", 0).show();
 					}else {
-						Toast.makeText(LoginActivity.this, "登陆失败", 0).show();
+						Toast.makeText(LoginActivity.this, "登陆失败,您还未注册", 0).show();
 					}
 				}
 			});
-			Intent intent2 = new Intent();
-			intent2.putExtra("jsonstr", result);
-			startActivity(intent2);
+			
 			break;
 		case R.id.tv_forget_mima:
 			Intent intent1 = new Intent(this,ZhaoHuiActivity.class);

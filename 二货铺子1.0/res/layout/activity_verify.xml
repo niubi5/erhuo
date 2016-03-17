@@ -8,23 +8,23 @@
 
     <FrameLayout
         android:id="@+id/erhuo_message_title"
-        style="@style/FrameTitleRed" >
+        style="@style/FrameTitlebackground" >
 
         <TextView
-            style="@style/FrameTitleRedText"
+            style="@style/FrameTitleWhiteText"
             android:text="@string/verify" />
 
         <ImageView
             android:id="@+id/iv_verify_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/left_arrow_white"
+            android:src="@drawable/left_arrow_red"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp" />
 
     </FrameLayout>
 
-    <View style="@style/ShadowTitle" />
+    
 
     <ImageView
         android:id="@+id/imageView2"
@@ -64,6 +64,7 @@
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
             android:hint="@string/input_phone_num"
+            android:textSize="@dimen/font_middle"
             android:textColorHint="@color/text_hint_color" >
         </EditText>  
     </LinearLayout>
@@ -83,7 +84,7 @@
             android:layout_gravity="center_vertical" />
 
         <EditText
-            android:id="@+id/et_pwd"
+            android:id="@+id/et_pwd_ver"
             android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_weight="1"
@@ -92,14 +93,17 @@
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
             android:hint="@string/input_verify_code"
+            android:textSize="@dimen/font_middle"
             android:textColorHint="@color/text_hint_color" >
         </EditText>
+        
         <Button
             android:id="@+id/btn_msg_verify"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="@string/msg_verify_code"
             android:textColor="#ffffff"
+            android:textSize="@dimen/font_middle"
             android:background="@drawable/shape"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp" />  

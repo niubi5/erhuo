@@ -8,17 +8,17 @@
     
       <FrameLayout
         android:id="@+id/erhuo_message_title"
-        style="@style/FrameTitleRed" >
+        style="@style/FrameTitlebackground" >
 
         <TextView
-            style="@style/FrameTitleRedText"
+            style="@style/FrameTitleWhiteText"
             android:text="@string/reset" />
 
         <ImageView
             android:id="@+id/iv_verify_return_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/left_arrow_white"
+            android:src="@drawable/left_arrow_red"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp" />
 
@@ -59,6 +59,7 @@
             android:background="@null"
             android:layout_marginLeft="10dp"
             android:ems="10"
+             android:textSize="@dimen/font_middle"
             android:hint="@string/input_pwd_xin"
             android:textColorHint="@color/text_hint_color" >
 
@@ -88,6 +89,7 @@
             android:background="@null"
             android:ems="10"
             android:layout_marginLeft="10dp"
+             android:textSize="@dimen/font_middle"
             android:hint="@string/input_pwd_again"
             android:inputType="textPassword"
             android:textColorHint="@color/text_hint_color" >

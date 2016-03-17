@@ -20,7 +20,7 @@ public class ZhaoHuiActivity extends Activity implements OnClickListener{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_zhao_hui);
 		//调用setColor()方法,实现沉浸式状态栏
-	  	MainActivity.setColor(this, getResources().getColor(R.color.main_red));
+	  	MainActivity.setColor(this, getResources().getColor(R.color.login_background));
 	    button=(Button) findViewById(R.id.btn_verify_zhaohui);
 	    button.setOnClickListener(this);
 	}

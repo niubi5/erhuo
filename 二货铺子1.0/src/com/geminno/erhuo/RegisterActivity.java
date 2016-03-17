@@ -53,6 +53,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		Button button;
 		button=(Button) findViewById(R.id.btn_register);
 		button.setOnClickListener(this);
+		//调用setColor()方法,实现沉浸式状态栏
+	  	MainActivity.setColor(this, getResources().getColor(R.color.login_background));
 		chkAgree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			
 			@Override
@@ -102,8 +104,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
 					String result=arg0.result;
 					Log.i("result", result);
 					if(result!=null&&!result.equals("null")){
-						Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
-					    startActivity(intent);
+//						Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
+//					    startActivity(intent);
 					    Toast.makeText(RegisterActivity.this, "注册成功", 1).show();
 					}else{
 						Toast.makeText(RegisterActivity.this, "注册失败", 1).show();

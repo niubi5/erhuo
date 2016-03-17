@@ -7,23 +7,23 @@
     android:background="#F9F8F4" >
     <FrameLayout
         android:id="@+id/erhuo_message_title"
-        style="@style/FrameTitleRed" >
+        style="@style/FrameTitlebackground" >
 
         <TextView
-            style="@style/FrameTitleRedText"
+            style="@style/FrameTitleWhiteText"
             android:text="@string/register" />
 
         <ImageView
             android:id="@+id/iv_register_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/left_arrow_white"
+            android:src="@drawable/left_arrow_red"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp" />
 
     </FrameLayout>
 
-    <View style="@style/ShadowTitle" />
+
 
     <ImageView
         android:id="@+id/imageView2"
@@ -57,6 +57,7 @@
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
             android:hint="@string/input_phone_num"
+            android:textSize="@dimen/font_middle"
             android:textColorHint="@color/text_hint_color" >
         </EditText>  
     </LinearLayout>
@@ -86,6 +87,7 @@
             android:inputType="textPassword"
             android:layout_gravity="center_vertical"
             android:hint="@string/input_pwd"
+            android:textSize="@dimen/font_middle"
             android:textColorHint="@color/text_hint_color" >
         </EditText>  
     </LinearLayout>
@@ -115,6 +117,7 @@
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
             android:hint="@string/input_pwd_again"
+            android:textSize="@dimen/font_middle"
             android:textColorHint="@color/text_hint_color" >
         </EditText>  
     </LinearLayout>
@@ -126,7 +129,7 @@
         android:textColor="@color/text_hint_color" 
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:textSize="16sp"/>
+        android:textSize="@dimen/font_middle"/>
     <Button
         android:id="@+id/btn_register"
         android:layout_width="match_parent"

@@ -66,6 +66,10 @@
         <item name="android:tag">red</item>
         <item name="android:background">@color/main_red</item>
     </style>
+    <style name="FrameTitlebackground" parent="@style/FrameTitle">
+        <item name="android:tag">red</item>
+        <item name="android:background">#F9F8F4</item>
+    </style>
     <style name="FrameTitleWhite" parent="@style/FrameTitle">
         <item name="android:tag">white</item>
         <item name="android:background">@color/main_white</item>
