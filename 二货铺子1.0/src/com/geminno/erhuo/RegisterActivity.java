@@ -30,7 +30,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 	CheckBox chkAgree;
 	//账号对象
 	
-	EditText etphoto;
+	EditText etphone;
 	//输入的密码
 
 	EditText etpwd;
@@ -46,9 +46,15 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_register);
 		ivRegBack = (ImageView) findViewById(R.id.iv_register_return);
 		chkAgree = (CheckBox) findViewById(R.id.chk_agree_rule);
-		etphoto=(EditText) findViewById(R.id.et_phone_number);
+		etphone=(EditText) findViewById(R.id.et_phone_number);
 		etpwd=(EditText) findViewById(R.id.et_pwd);
 		etpwdagain=(EditText) findViewById(R.id.et_pwd_again);
+		//将传过来的账号显示在账号栏
+		Intent intent=getIntent();
+		String phone=intent.getStringExtra("phone");
+		etphone.setText(phone);
+		
+		
 		ivRegBack.setOnClickListener(this);
 		Button button;
 		button=(Button) findViewById(R.id.btn_register);
@@ -78,7 +84,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		case R.id.btn_register:
 			Log.i("cheshi", "注册");
 			RequestParams params=new RequestParams();
-			String name=etphoto.getText().toString();
+			String name=etphone.getText().toString();
 			String pwd=etpwd.getText().toString();
 			String pwdagain=etpwdagain.getText().toString();
 			if(!pwd.equals(pwdagain)){

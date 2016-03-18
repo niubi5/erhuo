@@ -16,7 +16,7 @@
             android:text="@string/reset" />
 
         <ImageView
-            android:id="@+id/iv_verify_return"
+            android:id="@+id/iv_zhaohui_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/left_arrow_red"
