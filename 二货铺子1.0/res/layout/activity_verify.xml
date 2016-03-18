@@ -55,7 +55,7 @@
             android:layout_gravity="center_vertical" />
 
         <EditText
-            android:id="@+id/et_phone_number"
+            android:id="@+id/et_phone_verify"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_weight="1"

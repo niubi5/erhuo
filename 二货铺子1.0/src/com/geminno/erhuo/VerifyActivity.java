@@ -112,7 +112,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		ivBack = (ImageView) findViewById(R.id.iv_verify_return);
 		butmsgverify = (Button) findViewById(R.id.btn_msg_verify);
 
-		etphone = (EditText) findViewById(R.id.et_phone_number);
+		etphone = (EditText) findViewById(R.id.et_phone_verify);
 		etpwd = (EditText) findViewById(R.id.et_pwd_ver);
 
 		btnVerify.setOnClickListener(this);
@@ -152,6 +152,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 			//客户端输入的验证码
 			 	//验证对应手机，返回的短信验证码，会回调前面的afterEvent方法
 		        SMSSDK.submitVerificationCode("86", phone, SMS);
+		        
 			break;
 		//
 		default:
@@ -167,6 +168,12 @@ public class VerifyActivity extends Activity implements OnClickListener {
 	 System.out.println(m.matches() + "---");
 	 return m.matches();
 	 }
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
 
 	// ///////////////
 
