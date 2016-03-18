@@ -1,0 +1,17 @@
+package com.geminno.erhuo.view;
+
+import com.geminno.erhuo.R;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.widget.FrameLayout;
+
+public class AddImageView extends FrameLayout {
+
+	public AddImageView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+//		LayoutInflater.from(context).inflate(R.layout.add_image, this);
+	}
+
+}
