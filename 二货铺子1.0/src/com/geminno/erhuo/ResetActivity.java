@@ -14,7 +14,7 @@ public class ResetActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_reset);
-		 //调用setColor()方法,实现沉浸式状态栏
+		 //调用setColor()方法,实现沉浸式状态栏//3.18
 	  	MainActivity.setColor(this, getResources().getColor(R.color.login_background));
 	}
 	
