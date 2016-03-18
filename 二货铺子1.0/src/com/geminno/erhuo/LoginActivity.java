@@ -1,5 +1,7 @@
 package com.geminno.erhuo;
 
+import com.geminno.erhuo.entity.Users;
+import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -91,6 +93,8 @@ public class LoginActivity extends Activity implements OnClickListener{
 					if(result!=null&&!result.equals("null")){
 						Intent intent2 = new Intent(LoginActivity.this,MainActivity.class);
 						startActivity(intent2);
+						Gson gson = new Gson();
+						MyApplication.setUsers((Users)gson.fromJson(result, Users.class));
 						//Toast.makeText(LoginActivity.this, "登陆成功", 0).show();
 					}else {
 						Toast.makeText(LoginActivity.this, "登陆失败,您还未注册", 0).show();

@@ -3,25 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:gravity="center_horizontal|center"
+    android:gravity="center_horizontal|center_vertical"
     android:background="@color/white" >
 
     <ImageView
         android:id="@+id/iv_type_inco"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_launcher"/>
+        android:layout_centerInParent="true"
+        android:src="@null"/>
 
     <TextView
         android:id="@+id/tv_type_name"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/iv_type_inco"
-        android:layout_marginBottom="14dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/iv_type_inco"
         android:text="TextView"
         style="@style/MyInfoTextView"
-        android:textSize="@dimen/font_big" />
+        android:textSize="@dimen/font_big"
+        android:gravity="center" />
 
 </RelativeLayout>

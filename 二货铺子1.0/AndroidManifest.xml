@@ -65,7 +65,8 @@
             android:name=".PublishGoodsActivity"
             android:label="@string/title_activity_publish_goods"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing" >
+            android:windowSoftInputMode="adjustNothing"
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name=".StartActivity"

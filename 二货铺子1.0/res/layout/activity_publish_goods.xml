@@ -29,7 +29,8 @@
         android:layout_alignParentLeft="true"
         android:background="@color/main_red"
         android:text="@string/publish_goods_btn"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:onClick="onClick" />
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -180,14 +181,14 @@
 
                     <EditText
                         android:id="@+id/et_goods_old_price"
-                        android:layout_width="match_parent"
+                       android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="5dp"
                         android:background="@null"
                         android:ems="3"
                         android:hint="@string/goods_price_old_hint"
                         android:inputType="numberDecimal"
-                        android:textColor="@color/text_hint_color"
+                        android:textColorHint="@color/text_hint_color"
                         android:textSize="@dimen/font_big" />
                 </LinearLayout>
             </LinearLayout>
@@ -200,7 +201,7 @@
 
             <LinearLayout
                 android:id="@+id/line_market"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@+id/view5" >
 
@@ -215,9 +216,9 @@
                 <Spinner
                     android:id="@+id/spn_markets"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:dropDownWidth="match_parent"
-                    android:gravity="center_vertical" />
+                    android:gravity="center_horizontal" />
             </LinearLayout>
 
             <View
