@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -234,6 +235,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 							@Override
 							public void onFailure(HttpException arg0,
 									String arg1) {
+								Log.i("erhuo", "失败");
 								Toast.makeText(MainActivity.this, "网络异常",
 										Toast.LENGTH_SHORT).show();
 								
