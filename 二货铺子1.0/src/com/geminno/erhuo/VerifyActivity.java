@@ -42,7 +42,8 @@ public class VerifyActivity extends Activity implements OnClickListener {
 	                        if (result == SMSSDK.RESULT_COMPLETE) {
 
 	                            Intent intent=new Intent(VerifyActivity.this,RegisterActivity.class);
-                                startActivity(intent);
+                                intent.putExtra("phone", phone);
+	                            startActivity(intent);
                                 
 	                        } else {
 
@@ -97,7 +98,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 	EditText etphone;
 	// 输入验证嘛
 	EditText etpwd;
-
+	String phone=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -131,7 +132,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		// 获取客户端输入的验证码
 
 		String SMS = etpwd.getText().toString().trim();
-		String phone=etphone.getText().toString().trim();
+		phone=etphone.getText().toString().trim();
 		switch (v.getId()) {
 
 		case R.id.iv_verify_return:

@@ -1,7 +1,9 @@
 package com.geminno.erhuo;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -12,28 +14,30 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.fragment.BaseFragment;
 import com.geminno.erhuo.fragment.DonateFragment;
 import com.geminno.erhuo.fragment.HomeFragment;
 import com.geminno.erhuo.fragment.MessageFragment;
 import com.geminno.erhuo.fragment.UserInfoFragment;
-import com.geminno.erhuo.entity.ADInfo;
 import com.geminno.erhuo.utils.HomePageAdapter;
-import com.geminno.erhuo.utils.SystemStatusManager;
-import com.geminno.erhuo.view.ImageCycleView;
-import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
 import com.geminno.erhuo.view.RefreshListView;
-import com.geminno.erhuo.view.RefreshListView.OnRefreshCallBack;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
@@ -52,7 +56,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private boolean flag = false;
 	private RefreshListView refreshListView;
 	// ------------------------
-//	private List
+	private List<Markets> listMarkets = new ArrayList<Markets>();
+	private boolean isGetData = false;
 
 	@SuppressLint("ResourceAsColor") @TargetApi(Build.VERSION_CODES.KITKAT) @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -186,10 +191,78 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	protected void onResume() {
 		 // 初始化数据源
 		if (!flag) {
-			refreshListView = homeFragment.getRefreshListView();
-			refreshListView.setAdapter(new HomePageAdapter(this));
+			initData();
 		}
 		super.onResume();
+	}
+	
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//		 // 如果数据未加载成功，再次点击屏幕重新发出请求
+//		if(!isGetData){
+//			switch (event.getAction()) {
+//			case MotionEvent.ACTION_DOWN:
+//				initData();
+//			}
+//		}
+//		return true;
+//	}
+	
+	private void initData() {
+
+		new Thread() {
+
+			@Override
+			public void run() {
+
+				HttpUtils http = new HttpUtils();
+				Properties prop = new Properties();
+				String head = null;// http: 头部
+				try {
+					// 从属性文件读取url
+					prop.load(MainActivity.class
+							.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+					head = prop.getProperty("url");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				// 拼接url
+				String url = head + "/ListMarketsServlet";
+				http.send(HttpRequest.HttpMethod.POST, url,
+						new RequestCallBack<String>() {
+
+							@Override
+							public void onFailure(HttpException arg0,
+									String arg1) {
+								Toast.makeText(MainActivity.this, "网络异常",
+										Toast.LENGTH_SHORT).show();
+								
+							}
+
+							@SuppressWarnings("unchecked")
+							@Override
+							public void onSuccess(ResponseInfo<String> arg0) {
+								String result = arg0.result;// 获得响应结果
+								Gson gson = new Gson();
+								Type type = new TypeToken<List<Markets>>() {
+								}.getType();
+								listMarkets = (List<Markets>) gson.fromJson(
+										result, type);
+								// 获得listview
+								refreshListView = homeFragment
+										.getRefreshListView();
+								// 设置数据源
+								refreshListView.setAdapter(new HomePageAdapter(
+										MainActivity.this, listMarkets));
+								isGetData = true;// 成功获得数据
+							}
+
+						});
+				super.run();
+			}
+
+		}.start();
+
 	}
 
 }
