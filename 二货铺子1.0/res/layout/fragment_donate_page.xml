@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:background="@android:color/transparent"
+    android:background="@color/main_bgcolor"
     android:orientation="vertical" >
 
     <FrameLayout
