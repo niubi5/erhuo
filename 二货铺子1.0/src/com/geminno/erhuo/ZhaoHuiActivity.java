@@ -39,7 +39,7 @@ public class ZhaoHuiActivity extends Activity implements OnClickListener{
 	                        if (result == SMSSDK.RESULT_COMPLETE) {
 
 	                            Intent intent=new Intent(ZhaoHuiActivity.this,ResetActivity.class);
-                             startActivity(intent);
+                                startActivity(intent);
                           
 	                        } else {
 

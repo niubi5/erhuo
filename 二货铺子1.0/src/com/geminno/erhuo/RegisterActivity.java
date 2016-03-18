@@ -110,9 +110,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
 					String result=arg0.result;
 					Log.i("result", result);
 					if(result!=null&&!result.equals("null")){
-//						Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
-//					    startActivity(intent);
-					    Toast.makeText(RegisterActivity.this, "注册成功", 1).show();
+						Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
+					    startActivity(intent);
+					    //Toast.makeText(RegisterActivity.this, "注册成功", 1).show();
 					}else{
 						Toast.makeText(RegisterActivity.this, "注册失败", 1).show();
 					}
