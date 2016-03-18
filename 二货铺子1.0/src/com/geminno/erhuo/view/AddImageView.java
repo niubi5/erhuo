@@ -12,7 +12,7 @@ public class AddImageView extends FrameLayout {
 	public AddImageView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		//huagnjie 10:46
-//		LayoutInflater.from(context).inflate(R.layout.add_image, this);
+		LayoutInflater.from(context).inflate(1, this);
 	}
 
 }
