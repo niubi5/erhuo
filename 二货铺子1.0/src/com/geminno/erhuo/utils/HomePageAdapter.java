@@ -170,7 +170,7 @@ public class HomePageAdapter extends BaseAdapter {
 				// 集市图片
 				ImageView imageView = new ImageView(context);
 				imageView.setLayoutParams(param2);
-				imageView.setScaleType(ImageView.ScaleType.MATRIX);
+				imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 				String imageURL = market.getUrl();
 				ImageLoader.getInstance().displayImage(imageURL, imageView);
 				// 集市名称
