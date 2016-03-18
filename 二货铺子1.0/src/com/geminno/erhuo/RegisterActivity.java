@@ -46,8 +46,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_register);
 		ivRegBack = (ImageView) findViewById(R.id.iv_register_return);
 		chkAgree = (CheckBox) findViewById(R.id.chk_agree_rule);
-		etphone=(EditText) findViewById(R.id.et_phone_number);
-		etpwd=(EditText) findViewById(R.id.et_pwd);
+		etphone=(EditText) findViewById(R.id.et_phone_register);
+		etpwd=(EditText) findViewById(R.id.et_pwd_register);
 		etpwdagain=(EditText) findViewById(R.id.et_pwd_again);
 		//将传过来的账号显示在账号栏
 		Intent intent=getIntent();

@@ -60,7 +60,7 @@ public class SheZhiActivity extends Activity implements OnClickListener{
 		switch (v.getId()) {
 		
 		case R.id.lin_xiugai_mima:
-			Intent intent1=new Intent(this,LoginActivity.class);
+			Intent intent1=new Intent(this,ZhaoHuiActivity.class);
 			startActivity(intent1);
 			break;
 		case R.id.lin_yijian_fankui:
@@ -79,7 +79,7 @@ public class SheZhiActivity extends Activity implements OnClickListener{
 			break;	
 		
         case R.id.ib_shezhi:
-			Intent intent=new Intent();
+			this.finish();
 			break;	
 			
         case R.id.but_tuichu:

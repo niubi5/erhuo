@@ -38,9 +38,10 @@ public class VerifyActivity extends Activity implements OnClickListener {
 	                switch (event) {
 	                	//验证的时候使用
 	                    case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:
+	                    	Log.i("result", "验证码结果");
 
 	                        if (result == SMSSDK.RESULT_COMPLETE) {
-
+                                
 	                            Intent intent=new Intent(VerifyActivity.this,RegisterActivity.class);
                                 intent.putExtra("phone", phone);
 	                            startActivity(intent);
@@ -54,6 +55,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 	                        break;
 	                       //得到验证码时候使用
 	                    case SMSSDK.EVENT_GET_VERIFICATION_CODE:
+	                    	Log.i("result", "验证码显示");
 
 	                        if (result == SMSSDK.RESULT_COMPLETE) {
 
@@ -113,7 +115,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		butmsgverify = (Button) findViewById(R.id.btn_msg_verify);
 
 		etphone = (EditText) findViewById(R.id.et_phone_verify);
-		etpwd = (EditText) findViewById(R.id.et_pwd_ver);
+		etpwd = (EditText) findViewById(R.id.et_pwd_verify);
 
 		btnVerify.setOnClickListener(this);
 		butmsgverify.setOnClickListener(this);
@@ -151,7 +153,12 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		case R.id.btn_verify:
 			//客户端输入的验证码
 			 	//验证对应手机，返回的短信验证码，会回调前面的afterEvent方法
-		        SMSSDK.submitVerificationCode("86", phone, SMS);
+			if (phone!=null&&isMobileNO(phone)==true) {
+				 SMSSDK.submitVerificationCode("86", phone, SMS);
+			}else  {
+				toast("请输入正确的电话号码");
+			}
+		       
 		        
 			break;
 		//
@@ -172,6 +179,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
+		Log.i("result", "崩了");
 		super.onDestroy();
 	}
 
