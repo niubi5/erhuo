@@ -25,7 +25,6 @@ public class RefreshListView extends ListView implements OnScrollListener{
 	private View footView;
 	private ImageView imageView;
 	private ProgressBar progressBar;
-	private TextView tvRefreshTime;
 	private TextView tvRefreshState;
 	private OnRefreshCallBack refreshCallBack;
 	private int headHeight;// 头部高度

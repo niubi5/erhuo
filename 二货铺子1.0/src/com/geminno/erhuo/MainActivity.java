@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.fragment.BaseFragment;
 import com.geminno.erhuo.fragment.DonateFragment;
@@ -33,6 +34,7 @@ import com.geminno.erhuo.fragment.UserInfoFragment;
 import com.geminno.erhuo.utils.HomePageAdapter;
 import com.geminno.erhuo.view.RefreshListView;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -40,6 +42,7 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
+@SuppressLint("InlinedApi")
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	private HomeFragment homeFragment;
@@ -54,54 +57,63 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private List<BaseFragment> fragments;
 	private List<Button> btns;
 	private int currentIndex; // 当前fragment索引
-	private boolean flag = false;
 	private RefreshListView refreshListView;
 	// ------------------------
-	private List<Markets> listMarkets = new ArrayList<Markets>();
-	private boolean isGetData = false;
+	private List<Markets> listMarkets = null;
+	private List<Goods> listGoods = null;
 
-	@SuppressLint("ResourceAsColor") @TargetApi(Build.VERSION_CODES.KITKAT) @Override
+	@SuppressLint("ResourceAsColor")
+	@TargetApi(Build.VERSION_CODES.KITKAT)
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		//调用setColor()方法
+		// 调用setColor()方法
 		setColor(this, getResources().getColor(R.color.main_red));
 		initView();
 	}
-	
-	//沉浸式状态栏
+
+	// 沉浸式状态栏
 	/** * 设置状态栏颜色 * * @param activity 需要设置的activity * @param color 状态栏颜色值 */
 	public static void setColor(Activity activity, int color) {
-	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-	        // 设置状态栏透明
-	        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-	        // 生成一个状态栏大小的矩形
-	        View statusView = createStatusView(activity, color);
-	        // 添加 statusView 到布局中
-	        ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
-	        decorView.addView(statusView);
-	        // 设置根布局的参数
-	        ViewGroup rootView = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
-	        rootView.setFitsSystemWindows(true);
-	        rootView.setClipToPadding(true);
-	    }
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			// 设置状态栏透明
+			activity.getWindow().addFlags(
+					WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			// 生成一个状态栏大小的矩形
+			View statusView = createStatusView(activity, color);
+			// 添加 statusView 到布局中
+			ViewGroup decorView = (ViewGroup) activity.getWindow()
+					.getDecorView();
+			decorView.addView(statusView);
+			// 设置根布局的参数
+			ViewGroup rootView = (ViewGroup) ((ViewGroup) activity
+					.findViewById(android.R.id.content)).getChildAt(0);
+			rootView.setFitsSystemWindows(true);
+			rootView.setClipToPadding(true);
+		}
 	}
-	/** * 生成一个和状态栏大小相同的矩形条 * * @param activity 需要设置的activity * @param color 状态栏颜色值 * @return 状态栏矩形条 */
+
+	/**
+	 * * 生成一个和状态栏大小相同的矩形条 * * @param activity 需要设置的activity * @param color
+	 * 状态栏颜色值 * @return 状态栏矩形条
+	 */
 	private static View createStatusView(Activity activity, int color) {
-	    // 获得状态栏高度
-	    int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
-	    int statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
-	 
-	    // 绘制一个和状态栏一样高的矩形
-	    View statusView = new View(activity);
-	    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-	            statusBarHeight);
-	    statusView.setLayoutParams(params);
-	    statusView.setBackgroundColor(color);
-	    return statusView;
+		// 获得状态栏高度
+		int resourceId = activity.getResources().getIdentifier(
+				"status_bar_height", "dimen", "android");
+		int statusBarHeight = activity.getResources().getDimensionPixelSize(
+				resourceId);
+
+		// 绘制一个和状态栏一样高的矩形
+		View statusView = new View(activity);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, statusBarHeight);
+		statusView.setLayoutParams(params);
+		statusView.setBackgroundColor(color);
+		return statusView;
 	}
-	
 
 	private void initView() {
 		homeFragment = new HomeFragment();
@@ -134,7 +146,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		// 默认选中首页按钮
 		btns.get(0).setSelected(true);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		int nextIndex = 0; // 即将显示的fragment
@@ -190,25 +202,25 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
-		 // 初始化数据源
-		if (!flag) {
-			initData();
-		}
+		// 初始化数据源
+		// if (!flag) {
+		initData();
+		// }m
 		super.onResume();
 	}
-	
-//	@Override
-//	public boolean onTouchEvent(MotionEvent event) {
-//		 // 如果数据未加载成功，再次点击屏幕重新发出请求
-//		if(!isGetData){
-//			switch (event.getAction()) {
-//			case MotionEvent.ACTION_DOWN:
-//				initData();
-//			}
-//		}
-//		return true;
-//	}
-	
+
+	// @Override
+	// public boolean onTouchEvent(MotionEvent event) {
+	// // 如果数据未加载成功，再次点击屏幕重新发出请求
+	// if(!isGetData){
+	// switch (event.getAction()) {
+	// case MotionEvent.ACTION_DOWN:
+	// initData();
+	// }
+	// }
+	// return true;
+	// }
+
 	private void initData() {
 
 		new Thread() {
@@ -238,7 +250,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 								Log.i("erhuo", "失败");
 								Toast.makeText(MainActivity.this, "网络异常",
 										Toast.LENGTH_SHORT).show();
-								
+
 							}
 
 							@SuppressWarnings("unchecked")
@@ -250,13 +262,35 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 								}.getType();
 								listMarkets = (List<Markets>) gson.fromJson(
 										result, type);
+							}
+
+						});
+				// 获得商品集合
+				url = head + "/ListGoodsServlet";
+				http.send(HttpRequest.HttpMethod.GET, url,
+						new RequestCallBack<String>() {
+
+							@Override
+							public void onFailure(HttpException arg0,
+									String arg1) {
+
+							}
+
+							@Override
+							public void onSuccess(ResponseInfo<String> arg0) {
+								String result = arg0.result;
+								Gson gson = new GsonBuilder().setDateFormat(
+										"yyyy-MM-dd HH:mm:ss").create();
+								Type type = new TypeToken<List<Goods>>() {
+								}.getType();
+								listGoods = gson.fromJson(result, type);
 								// 获得listview
 								refreshListView = homeFragment
 										.getRefreshListView();
 								// 设置数据源
 								refreshListView.setAdapter(new HomePageAdapter(
-										MainActivity.this, listMarkets));
-								isGetData = true;// 成功获得数据
+										MainActivity.this, listMarkets,
+										listGoods));
 							}
 
 						});
