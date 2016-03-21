@@ -162,6 +162,7 @@ public class ImageCycleView extends LinearLayout {
 
 		@Override
 		public void onPageScrollStateChanged(int state) {
+			// 滚动停止时
 			if (state == ViewPager.SCROLL_STATE_IDLE)
 				startImageTimerTask(); // 开始下次计时
 		}
@@ -176,10 +177,11 @@ public class ImageCycleView extends LinearLayout {
 			if (index == 0 || index == mImageViews.length + 1) {
 				return;
 			}
-			// 设置图片滚动指示器背景
 			mImageIndex = index;
 			index -= 1;
+			// 设置底部小点为选中状态的图片
 			mImageViews[index].setBackgroundResource(R.drawable.icon_point_pre);
+			// 将其他小点设置为非选中状态的图片
 			for (int i = 0; i < mImageViews.length; i++) {
 				if (index != i) {
 					mImageViews[i].setBackgroundResource(R.drawable.icon_point);

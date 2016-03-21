@@ -48,6 +48,7 @@ public class CycleViewPager extends ViewPager {
             if(null != listener) {
                 listener.onPageScrollStateChanged( arg0);
             }
+            // 停止滚动时
             if(arg0 == ViewPager.SCROLL_STATE_IDLE) {
                 if(position == mAdapter.getCount() - 1) {
                     setCurrentItem( 1, false);
@@ -80,14 +81,15 @@ public class CycleViewPager extends ViewPager {
 
         public InnerPagerAdapter(PagerAdapter adapter) {
             this.adapter = adapter;
+            // 注册观察者
             adapter.registerDataSetObserver( new DataSetObserver() {
 
-                @Override
+                @Override	// 数据改变时
                 public void onChanged() {
                     notifyDataSetChanged();
                 }
 
-                @Override
+                @Override	// 数据变成无效时
                 public void onInvalidated() {
                     notifyDataSetChanged();
                 }
