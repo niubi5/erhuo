@@ -25,6 +25,8 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
+import android.R.bool;
+import android.R.layout;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -56,6 +58,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -245,7 +248,8 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		}
 
 		public void update() {
-			loading();
+			//loading();
+			adapter.notifyDataSetChanged();
 		}
 
 		public int getCount() {
@@ -394,18 +398,18 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	public static List<Map<String, Object>> getSpinnerTypeData() {
 		List<Map<String, Object>> spinnerTypeData = new ArrayList<Map<String, Object>>();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("inco", R.drawable.buyingbook);
-		map.put("name", "书籍文体");
+		map.put("inco", R.drawable.types_others);
+		map.put("name", R.string.types_others);
 		spinnerTypeData.add(map);
 
 		Map<String, Object> map2 = new HashMap<String, Object>();
-		map2.put("inco", R.drawable.buyingclothes);
-		map2.put("name", "服装鞋靴");
+		map2.put("inco", R.drawable.types_phone);
+		map2.put("name", R.string.types_phone);
 		spinnerTypeData.add(map2);
 
 		Map<String, Object> map3 = new HashMap<String, Object>();
-		map3.put("inco", R.drawable.buyingphone);
-		map3.put("name", "手机电脑");
+		map3.put("inco", R.drawable.types_pad);
+		map3.put("name", R.string.types_pad);
 		spinnerTypeData.add(map3);
 
 		Map<String, Object> map4 = new HashMap<String, Object>();
@@ -474,6 +478,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh-mm-ss").create();
 				String goodsJson = gson.toJson(goods);
 				//服务器地址(测试，后期从配置文件获取)
+				//String url = null;
 				final String url = "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
 				RequestParams rp = new RequestParams();
 				rp.addBodyParameter("goodJson", goodsJson);
@@ -487,12 +492,18 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 					Log.i("uploadimage", USERID+count+getNowTime());
 					count++;
 				}
-				//
+				//显示进度动画
+				final ViewGroup la = (ViewGroup) findViewById(R.id.fl_base);
+				disableSubControls(la,false);
+				final LinearLayout ll = (LinearLayout) findViewById(R.id.ll_progress);
+				ll.setVisibility(View.VISIBLE);
 				HttpUtils hu = new HttpUtils();
 				hu.send(HttpMethod.POST, url, rp,new RequestCallBack<String>() {
 
 					@Override
 					public void onFailure(HttpException error, String msg) {
+						//disableSubControls(la,false);
+						ll.setVisibility(View.INVISIBLE);
 						Toast.makeText(PublishGoodsActivity.this, "连接服务器失败!", Toast.LENGTH_SHORT).show();
 					}
 
@@ -501,18 +512,11 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 						String result = responseInfo.result;
 						String info = null;
 						Log.i("onSuccess", result);
+						//disableSubControls(la,true);
+						ll.setVisibility(View.INVISIBLE);
 						if(result != null && !"null".equals(result.trim())){
 							info = "发布成功！"+result;
-//							RequestParams rp = new RequestParams();
-//							int count = 0;
-//							for(ImageItem image : Bimp.tempSelectBitmap){
-//								File file = new File(image.getImagePath());
-//								rp.addBodyParameter(result+count+getNowTime(),file);
-//								Log.i("uploadimage", result+count+getNowTime());
-//								count++;
-//							}
-//							//上传图片
-//							uploadFile(url,rp);
+							finish();
 						}else{
 							info = "发布失败！";
 						}
@@ -526,26 +530,37 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 
 	}
 
-	//上传文件
-	public void uploadFile(String url,RequestParams params){
-		HttpUtils httpUtils=new HttpUtils();
-		httpUtils.send(HttpMethod.POST, url,params,new RequestCallBack<String>() {
+	public static void disableSubControls(ViewGroup viewGroup,boolean flag) {
+		for (int i = 0; i < viewGroup.getChildCount(); i++) {
+			View v = viewGroup.getChildAt(i);
+			if (v instanceof ViewGroup) {
+				if (v instanceof Spinner) {
+					Spinner spinner = (Spinner) v;
+					spinner.setClickable(flag);
+					spinner.setEnabled(flag);
+				} else if (v instanceof ListView) {
+					((ListView) v).setClickable(flag);
+					((ListView) v).setEnabled(flag);
+				} else if(v instanceof GridView){
+					((GridView) v).setClickable(flag);
+					((GridView) v).setEnabled(flag);
+				}else{
+					disableSubControls((ViewGroup) v,flag);
+				}
+			} else if (v instanceof EditText) {
+				((EditText) v).setEnabled(flag);
+				((EditText) v).setClickable(flag);
 
-			@Override
-			public void onSuccess(ResponseInfo<String> responseInfo) {
-				// TODO Auto-generated method stub
-				Toast.makeText(PublishGoodsActivity.this, "图片上传成功!", Toast.LENGTH_SHORT).show();
-			}
+			} else if (v instanceof Button) {
+				((Button) v).setEnabled(flag);
 
-			@Override
-			public void onFailure(HttpException error, String msg) {
-				// TODO Auto-generated method stub
-				Toast.makeText(PublishGoodsActivity.this, "图片上传失败!", Toast.LENGTH_SHORT).show();
+			}else if(v instanceof ImageView){
+				((ImageView) v).setEnabled(flag);
+				((ImageView) v).setClickable(flag);
 			}
-			
-			
-		});
+		}
 	}
+	
 
 
 	// 获取当前时间
@@ -555,4 +570,14 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		//return dateFormat.format(date);
 		return System.currentTimeMillis()+"";
 	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		if(!Bimp.tempSelectBitmap.isEmpty()){
+			Bimp.tempSelectBitmap.clear();			
+		}
+	}
+	
 }

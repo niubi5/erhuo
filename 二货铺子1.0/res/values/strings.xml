@@ -61,5 +61,17 @@
     <string name="unfinished">完成</string>
     <string name="camera_cancel">取消</string>
     <string name="no_photo">相册没有图片</string>
+    <string name="upload_hint">发布中&#8230;</string>
+    
+    <!-- 分类 -->
+    <string name="types_phone">苹果手机</string>
+    <string name="types_pad">平板电脑</string>
+    <string name="types_pc">笔记本</string>
+    <string name="types_xiaomi">小米</string>
+    <string name="types_3c">数码3C</string>
+    <string name="types_card">书籍文体</string>
+    <string name="types_luggage">服装鞋包</string>
+    <string name="types_perfume">美容美体</string>
+    <string name="types_others">其他</string>
 
 </resources>
