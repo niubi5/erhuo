@@ -1,5 +1,6 @@
 package com.geminno.erhuo;
 
+import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
 import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
@@ -71,19 +72,19 @@ public class LoginActivity extends Activity implements OnClickListener{
 			String name=etName.getText().toString();
 			String pwd=etPwd.getText().toString();
 			//
-			params.addQueryStringParameter("identity", name);
-			params.addQueryStringParameter("pwd", pwd);
+			params.addBodyParameter("identity", name);
+			params.addBodyParameter("pwd", pwd);
 			HttpUtils http=new HttpUtils();
 			//服务器路劲
-			String url="http://10.40.5.34:8080/secondHandShop/LoginServlet";
-			http.send(HttpMethod.POST, url, params,new RequestCallBack<String>() {
+			//String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
+			http.send(HttpMethod.POST, Url.urlreget, params,new RequestCallBack<String>() {
 
 				
 
 				@Override
 				public void onFailure(HttpException arg0, String arg1) {
 					// TODO Auto-generated method stub
-					
+					Log.i("cheshi", "失败");
 				}
 
 				@Override
