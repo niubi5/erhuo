@@ -1,12 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    tools:context="com.geminno.erhuo.SearchActivity" >
+    tools:context="com.geminno.erhuo.SearchActivity"
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/erhuo_title"
-        style="@style/FrameTitleRed" >
+        style="@style/FrameTitleRed"
+        android:layout_width="match_parent" >
 
         <ImageView
             android:id="@+id/ib_shezhi"
@@ -29,7 +31,7 @@
             android:focusableInTouchMode="true"
             android:hint="搜索"
             android:singleLine="true"
-            android:textSize="16sp" />
+            android:textSize="@dimen/font_middle" />
 
         <TextView
             android:id="@+id/tv"
@@ -43,5 +45,45 @@
             android:textSize="20sp" />
 
     </RelativeLayout>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Spinner 
+            android:id="@+id/spinner1"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:dropDownWidth="600dp"
+            android:background="@drawable/umeng_socialize_oauth_check_off"
+            />
+        
+        <View 
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+        <Spinner 
+            android:id="@+id/spinner2"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:dropDownWidth="600dp"
+             android:background="@drawable/umeng_socialize_oauth_check_off"
+             
+            />
+        
+         <View 
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            />
+        <Spinner 
+            android:id="@+id/spinner3"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:dropDownWidth="600dp"
+            android:background="@drawable/umeng_socialize_oauth_check_off"
+            />
+        
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
