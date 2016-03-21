@@ -5,19 +5,27 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.geminno.erhuo.ClassificationActivity;
+import com.geminno.erhuo.LoginActivity;
 import com.geminno.erhuo.R;
+import com.geminno.erhuo.SheZhiActivity;
+import com.geminno.erhuo.StartActivity;
 import com.geminno.erhuo.entity.ADInfo;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
@@ -29,7 +37,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * @author LuoShiHeng
  * @version 创建时间:2016-3-15下午1:48:37
  */
-@SuppressLint("InflateParams") public class HomePageAdapter extends BaseAdapter {
+@SuppressLint("InflateParams") public class HomePageAdapter extends BaseAdapter implements OnClickListener{
 
 	// private List<Goods> list = new ArrayList<Goods>();
 	private Context context;
@@ -120,8 +128,33 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 	private View getTypeItem(View convertView){
 		View view = LayoutInflater.from(context).inflate(R.layout.type_item,
 				null);
+		Button ip = (Button) view.findViewById(R.id.type_iphone);
+		Button pad=(Button) view.findViewById(R.id.type_pad);
+		Button pc=(Button) view.findViewById(R.id.type_pc);
+		Button ixiaomi=(Button) view.findViewById(R.id.type_ixiaomi);
+		Button c=(Button) view.findViewById(R.id.type_3c);
+		Button card=(Button) view.findViewById(R.id.type_card);
+		Button luggage=(Button) view.findViewById(R.id.type_luggage);
+		Button perfume=(Button) view.findViewById(R.id.type_perfume);
+		
+		ip.setOnClickListener(this);
+		pad.setOnClickListener(this);
+		
+		pc.setOnClickListener(this);
+		ixiaomi.setOnClickListener(this);
+		c.setOnClickListener(this);
+		card.setOnClickListener(this);
+		luggage.setOnClickListener(this);
+		perfume.setOnClickListener(this);
+		
 		
 		return view;
+	}
+	
+
+	private void startActivity(Intent intent) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	// 获得商品view
@@ -291,5 +324,47 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 			ImageLoader.getInstance().displayImage(imageURL, imageView);
 		}
 	};
+
+	@Override
+	public void onClick(View v) {
+		
+		switch (v.getId()) {
+		case R.id.type_iphone:
+			Toast.makeText(context, "罗叼", 1).show();
+			
+			break;
+		case R.id.type_pad:
+			
+			break;
+		case R.id.type_pc:
+			break;
+		case R.id.type_ixiaomi:
+			
+			
+			break;
+		case R.id.type_3c:
+			
+			
+			break;
+		case R.id.type_card:
+			
+			
+			break;
+		case R.id.type_luggage:
+		
+			
+			break;	
+		case R.id.type_perfume:
+          
+			
+			break;
+
+		default:
+			break;
+			
+		}
+		Intent intent=new Intent(context,ClassificationActivity.class);
+		startActivity(intent);
+	}
 
 }
