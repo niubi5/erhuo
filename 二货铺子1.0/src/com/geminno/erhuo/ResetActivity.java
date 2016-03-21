@@ -1,8 +1,19 @@
 package com.geminno.erhuo;
 
+import com.geminno.erhuo.entity.Url;
+import com.geminno.erhuo.entity.Users;
+import com.google.gson.Gson;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,7 +53,7 @@ public class ResetActivity extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btn_reset:
-			String pwd=etpwd.getText().toString();
+			String pwd=etpwd.getText().toString().trim();
 			String pwdagain=etPwdagain.getText().toString();
 			if(pwd==null){
 				toast("请输入密码");
@@ -54,8 +65,43 @@ public class ResetActivity extends Activity implements OnClickListener{
 				toast("两次输入密码不一样,请输入正确密码");
 				return;
 			}else {
-				Intent intent=new Intent(this,LoginActivity.class);
-				startActivity(intent);
+				RequestParams params=new RequestParams();
+			    Intent intent=getIntent();
+				String phone=intent.getStringExtra("phone");
+				params.addBodyParameter("identity", phone);
+				params.addBodyParameter("pwd", pwd);
+				HttpUtils httpUtils=new HttpUtils();
+				httpUtils.send(HttpMethod.POST, Url.urlreget, params,new RequestCallBack<String>() {
+
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						// TODO Auto-generated method stub
+						String result = arg0.result;
+						Log.i("cheshi", result);
+						if(result!=null&&!result.equals("null")){
+							Intent intent2 = new Intent(ResetActivity.this,LoginActivity.class);
+							startActivity(intent2);
+							Gson gson = new Gson();
+							MyApplication.setUsers((Users)gson.fromJson(result, Users.class));
+							//Toast.makeText(LoginActivity.this, "登陆成功", 0).show();
+						}else {
+							Toast.makeText(ResetActivity.this, "登陆失败,您还未注册", 0).show();
+						}
+						
+					}
+
+					
+
+					
+				});
+				
+				
 			}
 			break;
 		case R.id.iv_return_reset:
@@ -80,7 +126,6 @@ public class ResetActivity extends Activity implements OnClickListener{
                 Toast.makeText(ResetActivity.this, str, Toast.LENGTH_SHORT).show();
 
             }
-
         });
 
     }

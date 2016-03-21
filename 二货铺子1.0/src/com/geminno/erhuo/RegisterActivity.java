@@ -1,5 +1,6 @@
 package com.geminno.erhuo;
 
+import com.geminno.erhuo.entity.Url;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -52,6 +53,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		//将传过来的账号显示在账号栏
 		Intent intent=getIntent();
 		String phone=intent.getStringExtra("phone");
+		Log.i("result", "register中phone为"+phone);
 		etphone.setText(phone);
 		
 		
@@ -93,9 +95,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
 			}
 			params.addQueryStringParameter("identity", name);
 			params.addQueryStringParameter("pwd", pwd);
-			String url="http://10.40.5.34:8080/secondHandShop/AddUserServlet";
+			//String url="http://10.40.5.34:8080/secondHandShop/AddUserServlet";
 			HttpUtils http=new HttpUtils();
-			http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
+			http.send(HttpMethod.POST, Url.urlregister, params, new RequestCallBack<String>() {
 
 				@Override
 				public void onFailure(HttpException arg0, String arg1) {

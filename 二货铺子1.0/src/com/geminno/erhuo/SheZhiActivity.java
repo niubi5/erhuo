@@ -94,8 +94,6 @@ public class SheZhiActivity extends Activity implements OnClickListener{
         	}
             
             break;
-            
-			
 
 		default:
 			break;

@@ -44,6 +44,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
                                 
 	                            Intent intent=new Intent(VerifyActivity.this,RegisterActivity.class);
                                 intent.putExtra("phone", phone);
+                                Log.i("result","phone:"+ phone);
 	                            startActivity(intent);
                                 
 	                        } else {
@@ -55,7 +56,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 	                        break;
 	                       //得到验证码时候使用
 	                    case SMSSDK.EVENT_GET_VERIFICATION_CODE:
-	                    	Log.i("result", "验证码显示");
+	                    	Log.i("result", result+"");
 
 	                        if (result == SMSSDK.RESULT_COMPLETE) {
 
