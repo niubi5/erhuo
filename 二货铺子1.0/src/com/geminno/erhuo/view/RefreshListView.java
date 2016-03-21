@@ -107,7 +107,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
 		upAnimation = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF,
 				0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		upAnimation.setFillAfter(true);
-		upAnimation.setDuration(100);
+		upAnimation.setDuration(1000);
 		downAnimation = new RotateAnimation(-180, 0,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
 				0.5f);

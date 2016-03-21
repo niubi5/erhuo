@@ -9,9 +9,7 @@ public abstract class BaseFragment extends Fragment {
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		initView();
 		initData();
-		initEvent();
 	}
 
 	protected abstract void initData();
