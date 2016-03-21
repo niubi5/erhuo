@@ -1,0 +1,65 @@
+package com.geminno.erhuo;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+public class ClassificationActivity extends Activity {
+
+	 private Spinner classificationSpinner = null;  //分类
+	 private Spinner sortSpinner = null;     //排序
+	 private Spinner screenSpinner = null;    //筛选
+	 ArrayAdapter<String> classificationAdapter = null;  //分类适配器
+	 ArrayAdapter<String> sortAdapter = null;    //排序适配器
+	 ArrayAdapter<String> screenAdapter = null;    //筛选适配器
+
+	 
+	 private String[] classif=new String[]{"分类","全部分类","手机","数码","交通工具","生活文体","二手书苑","美妆美饰","鞋服箱包","其他",};
+	 private String[] sort=new String[]{"排序","默认排序","最新发布","离我最近","价格最低","价格最高"};
+	 private String[] screen=new String[]{"选择价格","0~100元","100~200元","200~300元","300~400元","400~500元","500以上"};
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_classification);
+		setSpinner();
+
+	}
+	
+	   private void setSpinner(){
+		   classificationSpinner=(Spinner) findViewById(R.id.spinner1);
+		   sortSpinner=(Spinner) findViewById(R.id.spinner2);
+		   screenSpinner=(Spinner) findViewById(R.id.spinner3);
+		   
+		   //绑定适配器
+		   classificationAdapter=new ArrayAdapter<String>(this,
+				   R.layout.spinner_search, classif);
+		   classificationSpinner.setAdapter(classificationAdapter);
+		   classificationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		   //默认第一个
+		   classificationSpinner.setSelection(0,true);
+		   
+		 //绑定适配器
+		   sortAdapter=new ArrayAdapter<String>(this,
+				   R.layout.spinner_search, sort);
+		   sortSpinner.setAdapter(sortAdapter);
+		   sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		   
+		   //默认第一个
+		   sortSpinner.setSelection(0,true);
+		   
+		 //绑定适配器
+		   screenAdapter=new ArrayAdapter<String>(this,
+				   R.layout.spinner_search, screen);
+		   screenSpinner.setAdapter(screenAdapter);
+		   screenAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		   //默认第一个
+		   screenSpinner.setSelection(0,true);
+		   
+	   }
+}

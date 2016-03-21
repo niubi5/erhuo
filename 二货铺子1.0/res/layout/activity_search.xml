@@ -45,45 +45,24 @@
             android:textSize="20sp" />
 
     </RelativeLayout>
-    
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Spinner 
-            android:id="@+id/spinner1"
-            android:layout_weight="1"
+
+    <LinearLayout
+        android:id="@+id/lin_xiugai_mima"
+        style="@style/MyInfoLinearLayout"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/tv_xiugaimima"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:dropDownWidth="600dp"
-            android:background="@drawable/umeng_socialize_oauth_check_off"
-            />
-        
-        <View 
-            android:layout_width="1dp"
-            android:layout_height="match_parent"/>
-        <Spinner 
-            android:id="@+id/spinner2"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:dropDownWidth="600dp"
-             android:background="@drawable/umeng_socialize_oauth_check_off"
-             
-            />
-        
-         <View 
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            />
-        <Spinner 
-            android:id="@+id/spinner3"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:dropDownWidth="600dp"
-            android:background="@drawable/umeng_socialize_oauth_check_off"
-            />
-        
+            android:text="清空历史记录"
+            android:textSize="@dimen/font_middle" />
+
     </LinearLayout>
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    
+   
 
 </LinearLayout>
