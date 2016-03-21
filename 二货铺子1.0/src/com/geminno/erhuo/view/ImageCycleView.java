@@ -22,58 +22,32 @@ import android.widget.LinearLayout;
 public class ImageCycleView extends LinearLayout {
 
 	private Context mContext;
-
-	/**
-	 * 图片轮播视图
-	 */
+	// 图片轮播视图
 	private CycleViewPager mBannerPager = null;
-
-	/**
-	 * 滚动图片视图适配器
-	 */
+	// 滚动图片视图适配器
 	private ImageCycleAdapter mAdvAdapter;
-
-	/**
-	 * 图片轮播指示器控件
-	 */
+	// 图片轮播指示器控件
 	private ViewGroup mGroup;
-
-	/**
-	 * 图片轮播指示器-个图
-	 */
+	// 图片轮播指示器
 	private ImageView mImageView = null;
-
-	/**
-	 * 滚动图片指示器-视图列表
-	 */
+	// 滚动图片指示器-视图列表
 	private ImageView[] mImageViews = null;
-
-	/**
-	 * 图片滚动当前图片下标
-	 */
+	// 图片滚动当前图片下标
 	private int mImageIndex = 1;
-
-	/**
-	 * 手机密度
-	 */
+	// 手机密度
 	private float mScale;
 
-	/**
-	 * @param context
-	 */
 	public ImageCycleView(Context context) {
 		super(context);
 	}
 
-	/**
-	 * @param context
-	 * @param attrs
-	 */
 	public ImageCycleView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
+		// 获取屏幕密度
 		mScale = context.getResources().getDisplayMetrics().density;
 		LayoutInflater.from(context).inflate(R.layout.view_banner_content, this);
+		// 获得viewPager
 		mBannerPager = (CycleViewPager) findViewById(R.id.pager_banner);
 		mBannerPager.setOnPageChangeListener(new GuidePageChangeListener());
 		mBannerPager.setOnTouchListener(new OnTouchListener() {
@@ -93,7 +67,7 @@ public class ImageCycleView extends LinearLayout {
 				return false;
 			}
 		});
-		// 滚动图片右下指示器视图
+		// 滚动图片下方小点
 		mGroup = (ViewGroup) findViewById(R.id.viewGroup);
 	}
 
@@ -107,22 +81,23 @@ public class ImageCycleView extends LinearLayout {
 		// 清除所有子视图
 		mGroup.removeAllViews();
 		// 图片广告数量
-		final int imageCount = infoList.size();
-		mImageViews = new ImageView[imageCount];
-		for (int i = 0; i < imageCount; i++) {
+		mImageViews = new ImageView[infoList.size()];
+		for (int i = 0; i < infoList.size(); i++) {
+			// 创建底部小点的ImageView
 			mImageView = new ImageView(mContext);
-			int imageParams = (int) (mScale * 20 + 0.5f);// XP与DP转换，适应不同分辨率
+			int imageParams = (int) (mScale * 20 + 0.5f);// PX与DP转换，适应不同分辨率
 			int imagePadding = (int) (mScale * 5 + 0.5f);
 			LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 			layout.setMargins(3, 0, 3, 0);
 			mImageView.setLayoutParams(layout);
-			//mImageView.setPadding(imagePadding, imagePadding, imagePadding, imagePadding);
 			mImageViews[i] = mImageView;
+			// 设置底部小点的图片
 			if (i == 0) {
 				mImageViews[i].setBackgroundResource(R.drawable.icon_point_pre);
 			} else {
 				mImageViews[i].setBackgroundResource(R.drawable.icon_point);
 			}
+			// 将小点加入线性布局中
 			mGroup.addView(mImageViews[i]);
 		}
 		mAdvAdapter = new ImageCycleAdapter(mContext, infoList, imageCycleViewListener);
@@ -149,7 +124,7 @@ public class ImageCycleView extends LinearLayout {
 	 */
 	private void startImageTimerTask() {
 		stopImageTimerTask();
-		// 图片每3秒滚动一次
+		// 图片每3秒滚动一次,定时操作
 		mHandler.postDelayed(mImageTimerTask, 3000);
 	}
 
@@ -157,6 +132,7 @@ public class ImageCycleView extends LinearLayout {
 	 * 停止图片滚动任务
 	 */
 	private void stopImageTimerTask() {
+		// 将消息队列的Runnable对象移除
 		mHandler.removeCallbacks(mImageTimerTask);
 	}
 
@@ -181,7 +157,6 @@ public class ImageCycleView extends LinearLayout {
 
 	/**
 	 * 轮播图片状态监听器
-	 * 
 	 */
 	private final class GuidePageChangeListener implements OnPageChangeListener {
 
@@ -215,23 +190,15 @@ public class ImageCycleView extends LinearLayout {
 
 	}
 
+	// 广告ViewPager的适配器
 	private class ImageCycleAdapter extends PagerAdapter {
 
-		/**
-		 * 图片视图缓存列表
-		 */
+		// 图片视图缓存列表
 		private ArrayList<ImageView> mImageViewCacheList;
-
-		/**
-		 * 图片资源列表
-		 */
+		// 广告集合
 		private ArrayList<ADInfo> mAdList = new ArrayList<ADInfo>();
-
-		/**
-		 * 广告图片点击监听器
-		 */
+		// 监听器
 		private ImageCycleViewListener mImageCycleViewListener;
-
 		private Context mContext;
 
 		public ImageCycleAdapter(Context context, ArrayList<ADInfo> adList, ImageCycleViewListener imageCycleViewListener) {
@@ -253,13 +220,13 @@ public class ImageCycleView extends LinearLayout {
 
 		@Override
 		public Object instantiateItem(ViewGroup container, final int position) {
+			// 获得广告的Url
 			String imageUrl = mAdList.get(position).getUrl();
 			ImageView imageView = null;
 			if (mImageViewCacheList.isEmpty()) {
 				imageView = new ImageView(mContext);
 				imageView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 				imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-				
 			} else {
 				imageView = mImageViewCacheList.remove(0);
 			}
@@ -268,11 +235,13 @@ public class ImageCycleView extends LinearLayout {
 
 				@Override
 				public void onClick(View v) {
+					// 触发图片点击事件
 					mImageCycleViewListener.onImageClick(mAdList.get(position),position, v);
 				}
 			});
 			imageView.setTag(imageUrl);
 			container.addView(imageView);
+			// 加载图片
 			mImageCycleViewListener.displayImage(imageUrl, imageView);
 			return imageView;
 		}
@@ -281,26 +250,24 @@ public class ImageCycleView extends LinearLayout {
 		public void destroyItem(ViewGroup container, int position, Object object) {
 			ImageView view = (ImageView) object;
 			container.removeView(view);
+			// 将图片加入缓存集合中
 			mImageViewCacheList.add(view);
 		}
 
 	}
 
 	/**
-	 * 轮播控件的监听事件
-	 * 
+	 * 接口，轮播控件的监听事件
 	 */
 	public static interface ImageCycleViewListener {
 
 		/**
 		 * 加载图片资源
-		 * 
 		 */
 		public void displayImage(String imageURL, ImageView imageView);
 
 		/**
 		 * 单击图片事件
-		 * 
 		 */
 		public void onImageClick(ADInfo info, int postion, View imageView);
 	}

@@ -61,7 +61,7 @@
             android:id="@+id/type_perfume"
             android:drawableTop="@drawable/types_perfume"
             android:layout_weight="1"
-            android:text="小米" />
+            android:text="美容美体" />
     </LinearLayout>
 
 </LinearLayout>

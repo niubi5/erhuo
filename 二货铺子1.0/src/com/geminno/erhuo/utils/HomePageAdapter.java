@@ -1,27 +1,26 @@
 package com.geminno.erhuo.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import android.app.ActionBar.LayoutParams;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.entity.ADInfo;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
-import com.geminno.erhuo.entity.Types;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -30,7 +29,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * @author LuoShiHeng
  * @version 创建时间:2016-3-15下午1:48:37
  */
-public class HomePageAdapter extends BaseAdapter {
+@SuppressLint("InflateParams") public class HomePageAdapter extends BaseAdapter {
 
 	// private List<Goods> list = new ArrayList<Goods>();
 	private Context context;
@@ -43,52 +42,32 @@ public class HomePageAdapter extends BaseAdapter {
 	private ArrayList<ADInfo> infos = new ArrayList<ADInfo>();
 	final int OTHERTYPE = 3;// 广告、类别、集市
 	// --------------------
-	private List<HashMap<String, Object>> list;// 数据源(广告、分类图标、商品)
-	private HashMap<String, Object> map;
-	private List<Goods> listGoods;// 商品集合
-	private List<ADInfo> listAD;// 广告集合
-	private List<Types> listTypes;// 类别集合
+	private List<Goods> listGoods = new ArrayList<Goods>();// 商品集合
 	private List<Markets> listMarkets = new ArrayList<Markets>();// 集市集合
-	private ListView typeListView;
-	int position;
-	private int[] marketImages = { R.drawable.market_iphone,
-			R.drawable.market_book, R.drawable.market_bao,
-			R.drawable.market_nb, R.drawable.market_other };
+	private int currentIndex;
 	// 广告图片
 	private String[] imageUrls = {
 			"http://img.taodiantong.cn/v55183/infoimg/2013-07/130720115322ky.jpg",
 			"http://pic30.nipic.com/20130626/8174275_085522448172_2.jpg",
-			"http://pic18.nipic.com/20111215/577405_080531548148_2.jpg",
+			"http://10.201.1.6:8080/ads/ad2.jpg",
 			"http://pic15.nipic.com/20110722/2912365_092519919000_2.jpg",
-			"http://pic.58pic.com/58pic/12/64/27/55U58PICrdX.jpg" };
+			"http://10.201.1.6:8080/ads/ad1.jpg" };
 
 	public HomePageAdapter(Context context) {
 		this.context = context;
 	}
 
-	public HomePageAdapter(Context context, List<Markets> listMarkets) {
+	public HomePageAdapter(Context context, List<Markets> listMarkets,
+			List<Goods> listGoods) {
 		this.context = context;
 		this.listMarkets = listMarkets;
+		this.listGoods = listGoods;
 	}
-
-	// public HomePageAdapter(Context context, List<HashMap<String, Object>>
-	// list) {
-	// this.list = list;
-	// this.context = context;
-	// }
 
 	@Override
 	public int getCount() {
-		//
-		// Set<Entry<String, Object>> entry = map.entrySet();
-		// for (Entry<String, Object> en : entry) {
-		// if ("Goods".equals(en.getKey())) {
-		// listGoods = (List<Goods>) en.getValue();
-		// }
-		// }
-		// return OTHERTYPE + listGoods.size();
-		// return 3;
-		return 20;
+		return 3 + (listGoods.size() % 2 == 0 ? listGoods.size() / 2
+				: listGoods.size() / 2 + 1);
 	}
 
 	@Override
@@ -125,7 +104,7 @@ public class HomePageAdapter extends BaseAdapter {
 		return 4;
 	}
 
-	@Override
+	@SuppressLint("InflateParams") @Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		if (position == 0) {
 			return getADViewPager(convertView);
@@ -135,19 +114,48 @@ public class HomePageAdapter extends BaseAdapter {
 		} else if (position == 2) {
 			return getMarketView(convertView);
 		} else
-			return getGoodsView(convertView);
+			return getGoodsView(position, convertView);
 	}
 
 	// 获得商品view
-	private View getGoodsView(View convertView) {
+	private View getGoodsView(int position, View convertView) {
 		View view = LayoutInflater.from(context).inflate(R.layout.product_item,
 				null);
-
+		ImageView imageLeft = (ImageView) view
+				.findViewById(R.id.product_image_left);
+		ImageView imageRight = (ImageView) view
+				.findViewById(R.id.product_image_right);
+		TextView infoLeft = (TextView) view
+				.findViewById(R.id.product_info_left);
+		TextView infoRight = (TextView) view
+				.findViewById(R.id.product_info_right);
+		TextView priceLeft = (TextView) view
+				.findViewById(R.id.product_price_left);
+		TextView priceRight = (TextView) view
+				.findViewById(R.id.product_price_right);
+		if (currentIndex < listGoods.size()) {
+			imageLeft.setImageResource(R.drawable.withdraw_default);
+			infoLeft.setText(listGoods.get(currentIndex).getName());
+			priceLeft.setText(listGoods.get(currentIndex).getSoldPrice() + "");
+			if (currentIndex + 1 < listGoods.size()) {
+				imageRight.setImageResource(R.drawable.withdraw_default);
+				infoRight.setText(listGoods.get(currentIndex + 1).getName());
+				priceRight.setText(listGoods.get(currentIndex + 1)
+						.getSoldPrice() + "");
+			}
+			if (currentIndex == (listGoods.size() - 1)) {
+				imageRight.setVisibility(View.GONE);
+				infoRight.setVisibility(View.GONE);
+				priceRight.setVisibility(View.GONE);
+			}
+			currentIndex = currentIndex + 2;
+		}
 		return view;
 	}
 
 	// 获得集市view
 	private View getMarketView(View convertView) {
+		Log.i("erhuo", "getMarketView()");
 		View view = LayoutInflater.from(context).inflate(R.layout.market_list,
 				null);
 		LinearLayout grandpa = (LinearLayout) view
@@ -169,8 +177,8 @@ public class HomePageAdapter extends BaseAdapter {
 				father.setBackgroundColor(Color.WHITE);
 				// 集市图片
 				ImageView imageView = new ImageView(context);
-				imageView.setLayoutParams(param2);
-				imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+				imageView.setLayoutParams(param1);
+				imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 				String imageURL = market.getUrl();
 				ImageLoader.getInstance().displayImage(imageURL, imageView);
 				// 集市名称
@@ -183,11 +191,12 @@ public class HomePageAdapter extends BaseAdapter {
 				LinearLayout son = new LinearLayout(context);
 				son.setLayoutParams(param2);
 				son.setOrientation(LinearLayout.HORIZONTAL);
+				son.setGravity(Gravity.CENTER_HORIZONTAL);
 				// 用户数图片
 				ImageView ivUserCount = new ImageView(context);// 用户图标
 				ivUserCount.setLayoutParams(param1);
 				ivUserCount.setImageResource(R.drawable.ic_member);
-				ivUserCount.setPadding(30, 0, 0, 0);
+
 				// 关注集市的人数
 				TextView tvMarketUserCount = new TextView(context);
 				tvMarketUserCount.setLayoutParams(param3);
@@ -195,6 +204,7 @@ public class HomePageAdapter extends BaseAdapter {
 				tvMarketUserCount.setText(market.getUserCount() + "");
 				tvMarketUserCount.setTextSize(11);
 				tvMarketUserCount.setGravity(Gravity.CENTER_VERTICAL);
+
 				// 商品数图片
 				ImageView ivGoodsCount = new ImageView(context);// 商品图标
 				ivGoodsCount.setLayoutParams(param1);
@@ -229,6 +239,7 @@ public class HomePageAdapter extends BaseAdapter {
 
 	// 获得广告轮播
 	private View getADViewPager(View convertView) {
+		Log.i("erhuo", "getADViewPager()");
 		if (view == null) {
 			view = LayoutInflater.from(context).inflate(R.layout.adviewpager,
 					null);
