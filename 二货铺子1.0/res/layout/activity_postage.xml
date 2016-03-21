@@ -311,7 +311,7 @@
                 android:id="@+id/tv_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginRight="20dp"
                 android:layout_gravity="center|right"
                 android:text="¥9.00"
                 android:textSize="@dimen/font_middle" />
@@ -349,7 +349,7 @@
                 android:id="@+id/tv_time_ss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginRight="20dp"
                 android:layout_gravity="center|right"
                 android:text="3-4天"
                 android:textSize="@dimen/font_middle" />
