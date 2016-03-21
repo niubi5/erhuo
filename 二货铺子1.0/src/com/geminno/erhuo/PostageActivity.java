@@ -30,6 +30,8 @@ public class PostageActivity extends Activity implements View.OnClickListener{
 	TextView tvjichu;
 	TextView tvmudi;
 	TextView tvkg;
+	TextView  tvmoney;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +43,11 @@ public class PostageActivity extends Activity implements View.OnClickListener{
 	  	findViewById(R.id.lin_mudidi).setOnClickListener(this);
         findViewById(R.id.lin_zhongliang).setOnClickListener(this);
         findViewById(R.id.lin_jichudi).setOnClickListener(this);
+        findViewById(R.id.ib_shezhi).setOnClickListener(this);
 	    tvjichu=(TextView) findViewById(R.id.tv_jichu);
 	    tvmudi=(TextView) findViewById(R.id.tv_mudidi);
 	    tvkg=(TextView) findViewById(R.id.et_wuzhong);
+	    tvmoney=(TextView) findViewById(R.id.tv_money);
 	}
 	@Override
 	public void onClick(View v) {
@@ -99,7 +103,21 @@ public class PostageActivity extends Activity implements View.OnClickListener{
 				@Override
 				public void onSelected(int selectedIndex, String item) {
 					 tvkg.setText(item);
+//					 
+//					if(selectedIndex==5&&selectedIndex==11&&selectedIndex==12){
+//						String mo=parseInt(item)*8+10+"";
+//						tvmoney.setText(mo);
+//					}else if (selectedIndex==30&&selectedIndex==32) {
+//						
+//					}
+					 
+					 Log.i("cheshi","[Dialog]selectedIndex: " + selectedIndex + ", item: " + item );
 					 Log.d(TAG, "[Dialog]selectedIndex: " + selectedIndex + ", item: " + item);
+				}
+
+				private int parseInt(String item) {
+					// TODO Auto-generated method stub
+					return 0;
 				};
 				
 			});
@@ -108,6 +126,10 @@ public class PostageActivity extends Activity implements View.OnClickListener{
 			     .setView(otherView2)
 			     .setPositiveButton("确定", null)
 			     .show();
+			break;
+			
+		case R.id.ib_shezhi:
+			this.finish();
 			break;
 
 		default:

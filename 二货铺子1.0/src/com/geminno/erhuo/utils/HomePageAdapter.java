@@ -269,6 +269,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 	}
 
+	// 实现接口
 	private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
 
 		@Override

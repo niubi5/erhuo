@@ -8,6 +8,7 @@ import java.util.Properties;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
 @SuppressLint("InlinedApi")
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
+	private Context context;
 	private HomeFragment homeFragment;
 	private DonateFragment donateFragment;
 	private MessageFragment messageFragment;
@@ -116,7 +118,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	}
 
 	private void initView() {
-		homeFragment = new HomeFragment();
+		context = this;
+		homeFragment = new HomeFragment(context);
 		donateFragment = new DonateFragment();
 		messageFragment = new MessageFragment();
 		shopFragment = new UserInfoFragment();
@@ -204,22 +207,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	protected void onResume() {
 		// 初始化数据源
 		// if (!flag) {
-		initData();
+//		initData();
 		// }m
 		super.onResume();
 	}
-
-	// @Override
-	// public boolean onTouchEvent(MotionEvent event) {
-	// // 如果数据未加载成功，再次点击屏幕重新发出请求
-	// if(!isGetData){
-	// switch (event.getAction()) {
-	// case MotionEvent.ACTION_DOWN:
-	// initData();
-	// }
-	// }
-	// return true;
-	// }
 
 	private void initData() {
 
