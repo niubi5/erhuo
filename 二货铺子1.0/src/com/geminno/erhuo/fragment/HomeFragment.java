@@ -249,12 +249,12 @@ public class HomeFragment extends BaseFragment {
 						// 判断有没有加载到数据
 						if (newGoods == null || newGoods.isEmpty()) {
 							// 没有加载到数据，则弹出提示
-							Toast.makeText(context, "没有更多了", Toast.LENGTH_LONG)
+							Toast.makeText(context, "没有更多了", Toast.LENGTH_SHORT)
 									.show();
 							// 页数不变，之前++过，故这里要--
 							curPage--;
 						} else {
-							// 有数据，判断是否加载满,即小于pageSize
+							// 有数据，判断是否加载满,即pageSize
 							if (newGoods != null && newGoods.size() < pageSize) {
 								// 页数不变
 								curPage--;
@@ -266,7 +266,7 @@ public class HomeFragment extends BaseFragment {
 						// 改变数据源
 						if (adapter == null) {
 							adapter = new HomePageAdapter(context, listMarkets,
-									newGoods);
+									listGoods);
 							refreshListView.setAdapter(adapter);
 						} else {
 							adapter.notifyDataSetChanged();

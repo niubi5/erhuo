@@ -109,12 +109,19 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 		if (position == 0) {
 			return getADViewPager(convertView);
 		} else if (position == 1) {
-			return LayoutInflater.from(context).inflate(R.layout.type_item,
-					null);
+			return getTypeItem(convertView);
 		} else if (position == 2) {
 			return getMarketView(convertView);
 		} else
 			return getGoodsView(position, convertView);
+	}
+	
+	// 获得类别Item
+	private View getTypeItem(View convertView){
+		View view = LayoutInflater.from(context).inflate(R.layout.type_item,
+				null);
+		
+		return view;
 	}
 
 	// 获得商品view
