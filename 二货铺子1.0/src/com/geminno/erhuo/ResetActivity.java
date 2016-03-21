@@ -66,7 +66,6 @@ public class ResetActivity extends Activity implements OnClickListener{
 			break;
 		}
 		
-		
 	}
 	
 	private void toast(final String str) {
