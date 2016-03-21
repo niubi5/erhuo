@@ -1,5 +1,6 @@
 package com.geminno.erhuo;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,6 +76,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	private PopupWindow pop = null;
 	private LinearLayout ll_popup;
 	public static Bitmap bimap;
+	private List<String> imagePathList;
 	// 用户输入的商品信息
 	private EditText etName;
 	private EditText etBrief;
@@ -263,6 +265,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 
 		public void setSelectedPosition(int position) {
 			selectedPosition = position;
+			//imagePathList = Bimp.tempSelectBitmap.get(position).getImagePath();
 		}
 
 		public int getSelectedPosition() {
@@ -292,7 +295,11 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position)
 						.getBitmap());
 			}
-
+			//获取选取的图片的路径
+//			imagePathList = new ArrayList<String>();
+//			imagePathList.add(Bimp.tempSelectBitmap.get(position).getImagePath());
+			Log.i("PublishGoodsActivity", Bimp.tempSelectBitmap.size()+"");
+			Log.i("selectImage", position+"");
 			return convertView;
 		}
 
@@ -366,6 +373,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				ImageItem takePhoto = new ImageItem();
 				takePhoto.setBitmap(bm);
 				Bimp.tempSelectBitmap.add(takePhoto);
+				//String path = Bimp.tempSelectBitmap.get
 			}
 			break;
 		}
@@ -437,8 +445,12 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				Toast.makeText(this, "说说你的宝贝想卖多少钱吧！", Toast.LENGTH_SHORT)
 						.show();
 			} else {
-				Toast.makeText(this, typeSpinner.getSelectedItem().toString(),
-						Toast.LENGTH_LONG).show();
+				//Toast.makeText(this, typeSpinner.getSelectedItem().toString(),
+				//		Toast.LENGTH_LONG).show();
+				for(ImageItem index : Bimp.tempSelectBitmap){
+					Log.i("selectImagePath", index.getImagePath());
+				}
+				
 				Goods goods = new Goods();
 				goods.setUserId(1);
 				goods.setName(etName.getText().toString());
@@ -457,29 +469,50 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				goods.setLatitude(112.4709425635);// 33.8640844584,112.4709425635
 				goods.setPubTime(new Date(System.currentTimeMillis()));
 				goods.setState(1);
+				//	
 				//商品转化为Josn数据
 				Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh-mm-ss").create();
 				String goodsJson = gson.toJson(goods);
-				//服务器地址
-				String url = "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
+				//服务器地址(测试，后期从配置文件获取)
+				final String url = "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
 				RequestParams rp = new RequestParams();
 				rp.addBodyParameter("goodJson", goodsJson);
+				//处理商品图片
+				//Log.i("PublishGoodsActivity",imagePathList.get(0));
+				final int USERID = 10;//仅做测试用，正式版应从MyApplication.getCurrentUser().getId()获取
+				int count = 0;
+				for(ImageItem image : Bimp.tempSelectBitmap){
+					File file = new File(image.getImagePath());
+					rp.addBodyParameter(USERID+count+getNowTime(),file);
+					Log.i("uploadimage", USERID+count+getNowTime());
+					count++;
+				}
 				//
 				HttpUtils hu = new HttpUtils();
 				hu.send(HttpMethod.POST, url, rp,new RequestCallBack<String>() {
 
 					@Override
 					public void onFailure(HttpException error, String msg) {
-						// TODO Auto-generated method stub
-						
+						Toast.makeText(PublishGoodsActivity.this, "连接服务器失败!", Toast.LENGTH_SHORT).show();
 					}
 
 					@Override
 					public void onSuccess(ResponseInfo<String> responseInfo) {
 						String result = responseInfo.result;
 						String info = null;
-						if(result != null && "null".equals(result.trim())){
-							info = "发布成功！";
+						Log.i("onSuccess", result);
+						if(result != null && !"null".equals(result.trim())){
+							info = "发布成功！"+result;
+//							RequestParams rp = new RequestParams();
+//							int count = 0;
+//							for(ImageItem image : Bimp.tempSelectBitmap){
+//								File file = new File(image.getImagePath());
+//								rp.addBodyParameter(result+count+getNowTime(),file);
+//								Log.i("uploadimage", result+count+getNowTime());
+//								count++;
+//							}
+//							//上传图片
+//							uploadFile(url,rp);
 						}else{
 							info = "发布失败！";
 						}
@@ -493,10 +526,33 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 
 	}
 
+	//上传文件
+	public void uploadFile(String url,RequestParams params){
+		HttpUtils httpUtils=new HttpUtils();
+		httpUtils.send(HttpMethod.POST, url,params,new RequestCallBack<String>() {
+
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+				// TODO Auto-generated method stub
+				Toast.makeText(PublishGoodsActivity.this, "图片上传成功!", Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void onFailure(HttpException error, String msg) {
+				// TODO Auto-generated method stub
+				Toast.makeText(PublishGoodsActivity.this, "图片上传失败!", Toast.LENGTH_SHORT).show();
+			}
+			
+			
+		});
+	}
+
+
 	// 获取当前时间
 	private String getNowTime() {
-		Date date = new Date(System.currentTimeMillis());
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return dateFormat.format(date);
+		//Date date = new Date(System.currentTimeMillis());
+		//SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//return dateFormat.format(date);
+		return System.currentTimeMillis()+"";
 	}
 }
