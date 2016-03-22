@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.geminno.erhuo.ClassificationActivity;
 import com.geminno.erhuo.LoginActivity;
+import com.geminno.erhuo.MainActivity;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.SheZhiActivity;
 import com.geminno.erhuo.StartActivity;
@@ -41,6 +42,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 	// private List<Goods> list = new ArrayList<Goods>();
 	private Context context;
+	private MainActivity maincontext;
 	private final int TYPE_AD = 0;// Item的类型
 	private final int TYPE_TYPES = 1;
 	private final int TYPE_MARKET = 2;
@@ -50,6 +52,16 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 	private ArrayList<ADInfo> infos = new ArrayList<ADInfo>();
 	final int OTHERTYPE = 3;// 广告、类别、集市
 	// --------------------
+	
+	private Button ip;
+	private Button pad;
+	private Button pc;
+	private Button ixiaomi;
+	private Button c;
+	private Button card;
+	private Button luggage;
+	private Button perfume;
+	
 	private List<Goods> listGoods = new ArrayList<Goods>();// 商品集合
 	private List<Markets> listMarkets = new ArrayList<Markets>();// 集市集合
 	private int currentIndex;
@@ -64,7 +76,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 	public HomePageAdapter(Context context) {
 		this.context = context;
 	}
-
+	
 	public HomePageAdapter(Context context, List<Markets> listMarkets,
 			List<Goods> listGoods) {
 		this.context = context;
@@ -128,14 +140,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 	private View getTypeItem(View convertView){
 		View view = LayoutInflater.from(context).inflate(R.layout.type_item,
 				null);
-		Button ip = (Button) view.findViewById(R.id.type_iphone);
-		Button pad=(Button) view.findViewById(R.id.type_pad);
-		Button pc=(Button) view.findViewById(R.id.type_pc);
-		Button ixiaomi=(Button) view.findViewById(R.id.type_ixiaomi);
-		Button c=(Button) view.findViewById(R.id.type_3c);
-		Button card=(Button) view.findViewById(R.id.type_card);
-		Button luggage=(Button) view.findViewById(R.id.type_luggage);
-		Button perfume=(Button) view.findViewById(R.id.type_perfume);
+		ip = (Button) view.findViewById(R.id.type_iphone);
+		pad = (Button) view.findViewById(R.id.type_pad);
+		pc = (Button) view.findViewById(R.id.type_pc);
+		ixiaomi = (Button) view.findViewById(R.id.type_ixiaomi);
+		c = (Button) view.findViewById(R.id.type_3c);
+		card = (Button) view.findViewById(R.id.type_card);
+		luggage = (Button) view.findViewById(R.id.type_luggage);
+		perfume = (Button) view.findViewById(R.id.type_perfume);
 		
 		ip.setOnClickListener(this);
 		pad.setOnClickListener(this);
@@ -324,38 +336,67 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 			ImageLoader.getInstance().displayImage(imageURL, imageView);
 		}
 	};
+	
+	
 
 	@Override
 	public void onClick(View v) {
+		Intent intent=new Intent();
 		
 		switch (v.getId()) {
 		case R.id.type_iphone:
-			Toast.makeText(context, "罗叼", 1).show();
-			
+			String iphone=ip.getText().toString();
+			Log.i("cheshi", iphone);
+			intent.putExtra("iphone", iphone);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
 			break;
 		case R.id.type_pad:
-			
+			String padString=pad.getText().toString();
+			intent.putExtra("iphone", padString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
 			break;
 		case R.id.type_pc:
+			String pcString=pc.getText().toString();
+			intent.putExtra("iphone", pcString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
 			break;
 		case R.id.type_ixiaomi:
-			
+			String ixiaomiString=ixiaomi.getText().toString();
+			intent.putExtra("iphone", ixiaomiString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
 			
 			break;
 		case R.id.type_3c:
-			
+			String cString=c.getText().toString();
+			intent.putExtra("iphone", cString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
 			
 			break;
 		case R.id.type_card:
-			
+			String cardString=card.getText().toString();
+			intent.putExtra("iphone", cardString);
+			Log.i("result", "card:"+cardString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
 			
 			break;
 		case R.id.type_luggage:
-		
+			String luggageString=luggage.getText().toString();
+			intent.putExtra("iphone", luggageString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
 			
 			break;	
 		case R.id.type_perfume:
-          
+			String perfumeString=perfume.getText().toString();
+			intent.putExtra("iphone", perfumeString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
 			
 			break;
 
@@ -363,8 +404,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 			break;
 			
 		}
-		Intent intent=new Intent(context,ClassificationActivity.class);
-		startActivity(intent);
+		
+	
 	}
 
 }

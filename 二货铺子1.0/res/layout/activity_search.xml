@@ -11,7 +11,7 @@
         android:layout_width="match_parent" >
 
         <ImageView
-            android:id="@+id/ib_shezhi"
+            android:id="@+id/ib_sousuo"
             style="@style/FrameTitleButtonLeft"
             android:src="@drawable/left_arrow_white" />
 
