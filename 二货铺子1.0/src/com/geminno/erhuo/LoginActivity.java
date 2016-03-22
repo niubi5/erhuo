@@ -16,8 +16,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -104,9 +102,10 @@ public class LoginActivity extends Activity implements OnClickListener{
 			});
 			
 			break;
+			//页面跳转到找回密码
 		case R.id.tv_forget_mima:
-			Intent intent1 = new Intent(this,ZhaoHuiActivity.class);
-			startActivity(intent1);
+			Intent intent2=new Intent(this,ZhaoHuiActivity.class);
+			startActivity(intent2);
 			break;
 		
 		default:
