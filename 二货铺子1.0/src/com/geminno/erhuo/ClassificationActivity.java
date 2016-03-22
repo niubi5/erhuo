@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class ClassificationActivity extends Activity {
 
@@ -33,7 +34,8 @@ public class ClassificationActivity extends Activity {
         iphone=intent.getStringExtra("iphone");
         Log.i("result", "iphone:"+iphone);
         setSpinner();
-        
+        TextView tView=(TextView) findViewById(R.id.tv_fenlei);
+        tView.setText(iphone);
         
 	}
 	
