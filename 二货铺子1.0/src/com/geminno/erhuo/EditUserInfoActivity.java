@@ -2,6 +2,7 @@ package com.geminno.erhuo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -19,13 +20,14 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 	private ImageView female;
 //	private EditText address;
 //	private TextView phone;
+	private int sex;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_edit_user_info);
-//		initView();
+		initView();
 	}
 
 	private void initView() {
@@ -57,12 +59,16 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 //		case R.id.et_infodata_nickname:
 //
 //			break;
-//		case R.id.chose_male:
-//
-//			break;
-//		case R.id.chose_female:
-//
-//			break;
+		case R.id.chose_male:
+			male.setSelected(true);
+			female.setSelected(false);
+			sex = 0;
+			break;
+		case R.id.chose_female:
+			male.setSelected(false);
+			female.setSelected(true);
+			sex = 1;
+			break;
 //		case R.id.tv_infodata_ok:
 //
 //			break;

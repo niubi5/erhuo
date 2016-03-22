@@ -2,8 +2,6 @@ package com.geminno.erhuo;
 
 import java.util.ArrayList;
 
-import com.geminno.erhuo.fragment.UserInfoFragment;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

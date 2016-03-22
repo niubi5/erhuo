@@ -22,9 +22,9 @@ import android.widget.Toast;
 import com.geminno.erhuo.MainActivity;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.SearchActivity;
+import com.geminno.erhuo.adapter.HomePageAdapter;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
-import com.geminno.erhuo.utils.HomePageAdapter;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.RefreshListView;
 import com.geminno.erhuo.view.RefreshListView.OnRefreshCallBack;
@@ -50,10 +50,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 	private Context context;
 	private Handler handler = new Handler();
 	private int curPage = 1; // 页数
-	private int pageSize = 2;// 一次加载几条
+	private int pageSize = 6;// 一次加载几条
 	private String url;
 	private HomePageAdapter adapter;
 	private List<Goods> preGoods = new ArrayList<Goods>();// 记录上一次不满的记录集合
+	private String head = null;// http: 头部
+	private List<Goods> carryGoods = new ArrayList<Goods>(); // 中转站
 
 	public HomeFragment(Context context) {
 		this.context = context;
@@ -133,7 +135,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 
 				HttpUtils http = new HttpUtils();
 				Properties prop = new Properties();
-				String head = null;// http: 头部
+				// String head = null;// http: 头部
 				try {
 					// 从属性文件读取url
 					prop.load(MainActivity.class
@@ -168,53 +170,65 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 								}.getType();
 								listMarkets = (List<Markets>) gson.fromJson(
 										result, type);
+
+								// -----------------------
+								// 获得商品集合
+								url = head + "/ListGoodsServlet";
+								HttpUtils http2 = new HttpUtils();
+								// 设置不缓存，及时获取数据
+								http2.configCurrentHttpCacheExpiry(0);
+								RequestParams params = new RequestParams();
+								// 设置参数
+								params.addQueryStringParameter("curPage",
+										curPage + "");// 第一次加载
+								params.addQueryStringParameter("pageSize",
+										pageSize + "");
+								http2.send(HttpRequest.HttpMethod.GET, url,
+										params, new RequestCallBack<String>() {
+
+											@Override
+											public void onFailure(
+													HttpException arg0,
+													String arg1) {
+
+											}
+
+											@Override
+											public void onSuccess(
+													ResponseInfo<String> arg0) {
+												String result = arg0.result;
+												Gson gson = new GsonBuilder()
+														.setDateFormat(
+																"yyyy-MM-dd HH:mm:ss")
+														.create();
+												Type type = new TypeToken<List<Goods>>() {
+												}.getType();
+												// 获得刷新后的新数据
+												List<Goods> newGoods = gson
+														.fromJson(result, type);
+												// 添加到集合中
+												listGoods.addAll(newGoods);
+												// 设置数据源
+												if (adapter == null) {
+													adapter = new HomePageAdapter(
+															context,
+															listMarkets,
+															newGoods);
+													refreshListView
+															.setAdapter(adapter);
+												} else {
+													// 通知改变数据源
+													adapter.notifyDataSetChanged();
+												}
+
+											}
+
+										});
+
 							}
 
 						});
 
-				// 获得商品集合
-				url = head + "/ListGoodsServlet";
-				HttpUtils http2 = new HttpUtils();
-				// 设置不缓存，及时获取数据
-				http2.configCurrentHttpCacheExpiry(0);
-				RequestParams params = new RequestParams();
-				// 设置参数
-				params.addQueryStringParameter("curPage", curPage + "");// 第一次加载
-				params.addQueryStringParameter("pageSize", pageSize + "");
-				http2.send(HttpRequest.HttpMethod.GET, url, params,
-						new RequestCallBack<String>() {
-
-							@Override
-							public void onFailure(HttpException arg0,
-									String arg1) {
-
-							}
-
-							@Override
-							public void onSuccess(ResponseInfo<String> arg0) {
-								String result = arg0.result;
-								Gson gson = new GsonBuilder().setDateFormat(
-										"yyyy-MM-dd HH:mm:ss").create();
-								Type type = new TypeToken<List<Goods>>() {
-								}.getType();
-								// 获得刷新后的新数据
-								List<Goods> newGoods = gson.fromJson(result,
-										type);
-								// 添加到集合中
-								listGoods.addAll(newGoods);
-								// 设置数据源
-								if (adapter == null) {
-									adapter = new HomePageAdapter(context,
-											listMarkets, newGoods);
-									refreshListView.setAdapter(adapter);
-								} else {
-									// 通知改变数据源
-									adapter.notifyDataSetChanged();
-								}
-
-							}
-
-						});
 				super.run();
 			}
 
@@ -248,6 +262,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 						List<Goods> newGoods = gson.fromJson(result, type);
 						// 判断preGoods是否有记录，如果有，则将其从总集合中删掉
 						if (!preGoods.isEmpty()) {
+							Log.i("erhuo", "清空preGoods");
 							listGoods.removeAll(preGoods);
 							// 清空preGoods
 							preGoods.clear();
@@ -262,6 +277,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 						} else {
 							// 有数据，判断是否加载满,即pageSize
 							if (newGoods != null && newGoods.size() < pageSize) {
+								Log.i("erhuo", "有数据，但没加满 ");
 								// 页数不变
 								curPage--;
 								// 记录在未加载满的集合中
@@ -275,7 +291,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 									listGoods);
 							refreshListView.setAdapter(adapter);
 						} else {
-							adapter.notifyDataSetChanged();
+							// adapter.notifyDataSetChanged();
+							adapter = new HomePageAdapter(context, listMarkets,
+									listGoods);
+							refreshListView.setAdapter(adapter);
 						}
 					}
 				});

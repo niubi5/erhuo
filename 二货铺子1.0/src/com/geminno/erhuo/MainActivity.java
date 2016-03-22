@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.geminno.erhuo.adapter.HomePageAdapter;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.fragment.BaseFragment;
@@ -32,7 +33,6 @@ import com.geminno.erhuo.fragment.DonateFragment;
 import com.geminno.erhuo.fragment.HomeFragment;
 import com.geminno.erhuo.fragment.MessageFragment;
 import com.geminno.erhuo.fragment.UserInfoFragment;
-import com.geminno.erhuo.utils.HomePageAdapter;
 import com.geminno.erhuo.view.RefreshListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,7 +43,6 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-@SuppressLint("InlinedApi")
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	private Context context;

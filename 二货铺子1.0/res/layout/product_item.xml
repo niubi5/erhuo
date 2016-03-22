@@ -38,15 +38,17 @@
                     android:id="@+id/product_info_left"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
+                    android:gravity="center_horizontal"
                     android:text="商品信息"
                     android:textSize="13sp"/>
                 
                 <TextView 
                     android:id="@+id/product_price_left"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:text="￥230"
                     android:textSize="15sp"
+                    android:gravity="center_horizontal"
                     android:textStyle="bold"
                     android:textColor="@color/main_red" />
                 
@@ -81,6 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:text="商品信息"
+                    android:gravity="center_horizontal"
                     android:textSize="13sp"/>
                 
                 <TextView 
@@ -89,6 +92,7 @@
                     android:layout_height="30dp"
                     android:text="￥230"
                     android:textSize="15sp"
+                    android:gravity="center_horizontal"
                     android:textStyle="bold"
                     android:textColor="@color/main_red" />
                 
