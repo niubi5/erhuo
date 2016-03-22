@@ -61,5 +61,6 @@
     <string name="unfinished">完成</string>
     <string name="camera_cancel">取消</string>
     <string name="no_photo">相册没有图片</string>
+    <string name="title_activity_classification">ClassificationActivity</string>
 
 </resources>

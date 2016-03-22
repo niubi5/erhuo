@@ -7,18 +7,21 @@ import java.util.Properties;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.geminno.erhuo.MainActivity;
 import com.geminno.erhuo.R;
+import com.geminno.erhuo.SearchActivity;
 import com.geminno.erhuo.adapter.HomePageAdapter;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
@@ -36,7 +39,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
 @SuppressLint("InflateParams")
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements OnClickListener{
 
 	private ImageCycleView mAdView;
 	private View convertView;
@@ -66,11 +69,14 @@ public class HomeFragment extends BaseFragment {
 		return refreshListView;
 	}
 
+	ImageView ivhome;
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		convertView = inflater.inflate(R.layout.fragment_main_page, null);
-
+		ivhome=(ImageView) convertView.findViewById(R.id.home_search);
+		ivhome.setOnClickListener(this);
+		
 		return convertView;
 	}
 
@@ -297,6 +303,19 @@ public class HomeFragment extends BaseFragment {
 	@Override
 	protected void initEvent() {
 
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.home_search:
+			startActivity(new Intent(context,SearchActivity.class));
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }
