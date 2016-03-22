@@ -43,7 +43,6 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-@SuppressLint("InlinedApi")
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	private Context context;
