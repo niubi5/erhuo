@@ -34,7 +34,7 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener{
 
 	@Override
 	protected void initData() {
-		
+		initEvent();
 	}
 
 	@Override
@@ -51,6 +51,7 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener{
 		btnHead = (Button) getView().findViewById(R.id.userinfo_btn_herder);
 	    linearshezhi=(LinearLayout) getView().findViewById(R.id.setting_container);
 	    linearyoufei=(LinearLayout) getView().findViewById(R.id.postage_container);
+	    initData();
 	}
 
 	@Override

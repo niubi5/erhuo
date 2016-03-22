@@ -1,4 +1,4 @@
-package com.geminno.erhuo.utils;
+package com.geminno.erhuo.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * @author LuoShiHeng
  * @version 创建时间:2016-3-15下午1:48:37
  */
-@SuppressLint("InflateParams") public class HomePageAdapter extends BaseAdapter {
+@SuppressLint("InflateParams")
+public class HomePageAdapter extends BaseAdapter {
 
 	// private List<Goods> list = new ArrayList<Goods>();
 	private Context context;
@@ -40,7 +41,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 	private View view;
 	private ImageCycleView mAdView;
 	private ArrayList<ADInfo> infos = new ArrayList<ADInfo>();
-	final int OTHERTYPE = 3;// 广告、类别、集市
+	final int TYPECOUNT = 4;// 广告、类别、集市、商品
 	// --------------------
 	private List<Goods> listGoods = new ArrayList<Goods>();// 商品集合
 	private List<Markets> listMarkets = new ArrayList<Markets>();// 集市集合
@@ -52,6 +53,21 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 			"http://10.201.1.6:8080/ads/ad2.jpg",
 			"http://pic15.nipic.com/20110722/2912365_092519919000_2.jpg",
 			"http://10.201.1.6:8080/ads/ad1.jpg" };
+	// 实现接口
+	private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
+
+		@Override
+		// 广告栏点击事件
+		public void onImageClick(ADInfo info, int position, View imageView) {
+
+		}
+
+		@Override
+		public void displayImage(String imageURL, ImageView imageView) {
+			// 使用ImageLoader对图片进行加装
+			ImageLoader.getInstance().displayImage(imageURL, imageView);
+		}
+	};
 
 	public HomePageAdapter(Context context) {
 		this.context = context;
@@ -100,11 +116,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 	@Override
 	public int getViewTypeCount() {
-		// return list.size();
-		return 4;
+		return TYPECOUNT;
 	}
 
-	@SuppressLint("InflateParams") @Override
+	@SuppressLint("InflateParams")
+	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		if (position == 0) {
 			return getADViewPager(convertView);
@@ -115,12 +131,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 		} else
 			return getGoodsView(position, convertView);
 	}
-	
+
 	// 获得类别Item
-	private View getTypeItem(View convertView){
+	private View getTypeItem(View convertView) {
 		View view = LayoutInflater.from(context).inflate(R.layout.type_item,
 				null);
-		
+		view.setFocusable(false);
 		return view;
 	}
 
@@ -143,11 +159,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 		if (currentIndex < listGoods.size()) {
 			imageLeft.setImageResource(R.drawable.withdraw_default);
 			infoLeft.setText(listGoods.get(currentIndex).getName());
-			priceLeft.setText(listGoods.get(currentIndex).getSoldPrice() + "");
+			priceLeft.setText("￥" + listGoods.get(currentIndex).getSoldPrice() + "");
 			if (currentIndex + 1 < listGoods.size()) {
 				imageRight.setImageResource(R.drawable.withdraw_default);
 				infoRight.setText(listGoods.get(currentIndex + 1).getName());
-				priceRight.setText(listGoods.get(currentIndex + 1)
+				priceRight.setText("￥" + listGoods.get(currentIndex + 1)
 						.getSoldPrice() + "");
 			}
 			if (currentIndex == (listGoods.size() - 1)) {
@@ -162,7 +178,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 	// 获得集市view
 	private View getMarketView(View convertView) {
-		Log.i("erhuo", "getMarketView()");
 		View view = LayoutInflater.from(context).inflate(R.layout.market_list,
 				null);
 		LinearLayout grandpa = (LinearLayout) view
@@ -246,7 +261,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 	// 获得广告轮播
 	private View getADViewPager(View convertView) {
-		Log.i("erhuo", "getADViewPager()");
 		if (view == null) {
 			view = LayoutInflater.from(context).inflate(R.layout.adviewpager,
 					null);
@@ -258,7 +272,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 				info.setContent("top-->" + i);
 				infos.add(info);
 			}
-			// 设置数据源
+			// 设置图片数据源
 			mAdView.setImageResources(infos, mAdCycleViewListener);
 		}
 		return view;
@@ -275,21 +289,5 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 	public class ViewHolder3 {
 
 	}
-
-	// 实现接口
-	private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
-
-		@Override
-		// 广告栏点击事件
-		public void onImageClick(ADInfo info, int position, View imageView) {
-
-		}
-
-		@Override
-		public void displayImage(String imageURL, ImageView imageView) {
-			// 使用ImageLoader对图片进行加装
-			ImageLoader.getInstance().displayImage(imageURL, imageView);
-		}
-	};
 
 }
