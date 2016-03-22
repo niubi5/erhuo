@@ -29,6 +29,7 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener{
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_userinfo_page, null);
+		
 		return view;
 	}
 
