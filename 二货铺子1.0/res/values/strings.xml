@@ -62,7 +62,7 @@
     <string name="camera_cancel">取消</string>
     <string name="no_photo">相册没有图片</string>
     <string name="upload_hint">发布中&#8230;</string>
-    
+
     <!-- 分类 -->
     <string name="types_phone">苹果手机</string>
     <string name="types_pad">平板电脑</string>
@@ -73,5 +73,15 @@
     <string name="types_luggage">服装鞋包</string>
     <string name="types_perfume">美容美体</string>
     <string name="types_others">其他</string>
+    <string name="title_activity_goods_detial">GoodsDetialActivity</string>
 
+    <!-- 商品详情 -->
+    <string name="goodsDetial">二货详情</string>
+    <string name="share">分享</string>
+    <string name="report">举报</string>
+    <string name="chat">聊一聊</string>
+    <string name="buy">买买买</string>
+    <string name="title_activity_buy_goods">BuyGoodsActivity</string>
+    <string name="real_pay">实付金额</string>
+	<string name="pay_way">请选择付款方式</string>
 </resources>

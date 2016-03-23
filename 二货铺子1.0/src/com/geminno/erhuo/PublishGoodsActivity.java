@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.geminno.erhuo.entity.Goods;
+import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.utils.Bimp;
 import com.geminno.erhuo.utils.FileUtils;
 import com.geminno.erhuo.utils.ImageItem;
@@ -52,6 +53,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AnimationUtils;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -85,6 +87,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	private EditText etBrief;
 	private EditText etPrice;
 	private EditText etOldPrice;
+	private String typeName;
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -127,7 +130,20 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		// 设置分类的适配器
 		typeSpinner.setAdapter(typeAdapter);
 		// 分类下拉列表事件监听
-		// typeSpinner.setOnitem
+		typeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				typeName = (String) typeList.get(position).get("name");				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		// 初始化集市的适配器
 		MyAdapter<String> marketAdapter = new MyAdapter<String>(this,
 				marketList, R.layout.spinner_item) {
@@ -143,6 +159,11 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		};
 		// 设置集市的适配器
 		marketSpinner.setAdapter(marketAdapter);
+		/**
+		 * 
+		 */
+		Log.i("dingwei", MyApplication.getLocation().getLongitude()+"|"+MyApplication.getLocation().getLatitude());
+		 
 	}
 
 	// 03.16修改，多图片上传
@@ -397,26 +418,37 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	// 分类下拉列表数据
 	public static List<Map<String, Object>> getSpinnerTypeData() {
 		List<Map<String, Object>> spinnerTypeData = new ArrayList<Map<String, Object>>();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("inco", R.drawable.types_others);
-		map.put("name", R.string.types_others);
-		spinnerTypeData.add(map);
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("inco", R.drawable.types_others);
+		map1.put("name", "其他闲置");
+		spinnerTypeData.add(map1);
 
 		Map<String, Object> map2 = new HashMap<String, Object>();
-		map2.put("inco", R.drawable.types_phone);
-		map2.put("name", R.string.types_phone);
+		map2.put("inco", R.drawable.types_pad);
+		map2.put("name", "手机电脑");
 		spinnerTypeData.add(map2);
 
+		
 		Map<String, Object> map3 = new HashMap<String, Object>();
-		map3.put("inco", R.drawable.types_pad);
-		map3.put("name", R.string.types_pad);
+		map3.put("inco", R.drawable.types_3c);
+		map3.put("name", "相机数码");
 		spinnerTypeData.add(map3);
-
+		
 		Map<String, Object> map4 = new HashMap<String, Object>();
-		map4.put("inco", R.drawable.buyingother);
-		map4.put("name", "其他二手");
+		map4.put("inco", R.drawable.types_card);
+		map4.put("name", "书籍文体");
 		spinnerTypeData.add(map4);
-
+		
+		Map<String, Object> map5 = new HashMap<String, Object>();
+		map5.put("inco", R.drawable.types_luggage);
+		map5.put("name", "服装鞋包");
+		spinnerTypeData.add(map5);
+		
+		Map<String, Object> map6 = new HashMap<String, Object>();
+		map6.put("inco", R.drawable.types_perfume);
+		map6.put("name", "美容美体");
+		spinnerTypeData.add(map6);
+		
 		return spinnerTypeData;
 
 	}
@@ -424,11 +456,15 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	// 集市下拉列表数据
 	public static List<String> getSpinnerMarketData() {
 		List<String> spinnerMarketData = new ArrayList<String>();
-		spinnerMarketData.add("爱书人的圈子");
-		spinnerMarketData.add("八一八你败过的数码");
-		spinnerMarketData.add("苹果专区肾宝岛");
-		spinnerMarketData.add("宝宝的惊喜");
-		spinnerMarketData.add("闲置好车等您来骑");
+		spinnerMarketData.add("选择集市更容易售出哦!");
+		for(Markets markets : MyApplication.getMarketsList()){
+			spinnerMarketData.add(markets.getName());
+		}
+//		spinnerMarketData.add("爱书人的圈子");
+//		spinnerMarketData.add("八一八你败过的数码");
+//		spinnerMarketData.add("苹果专区肾宝岛");
+//		spinnerMarketData.add("宝宝的惊喜");
+//		spinnerMarketData.add("闲置好车等您来骑");
 		return spinnerMarketData;
 	}
 
@@ -456,10 +492,11 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				}
 				
 				Goods goods = new Goods();
-				goods.setUserId(1);
+				final int USERID = 2;//仅做测试用，正式版应从MyApplication.getCurrentUser().getId()获取
+				goods.setUserId(USERID);
 				goods.setName(etName.getText().toString());
 				goods.setImformation(etBrief.getText().toString());
-				goods.setTypeId(1);
+				goods.setTypeId(getTypeId(typeName));
 				goods.setSoldPrice(Double.parseDouble(etPrice.getText()
 						.toString()));
 				if(TextUtils.isEmpty(etOldPrice.getText())){
@@ -468,9 +505,14 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 					goods.setBuyPrice(Double.parseDouble(etOldPrice.getText()
 							.toString()));					
 				}
-				goods.setMarketId(2);
-				goods.setLongitude(33.8640844584);
-				goods.setLatitude(112.4709425635);// 33.8640844584,112.4709425635
+				goods.setMarketId(getmarketsId());
+				if(MyApplication.getLocation() == null){
+					goods.setLongitude(0);
+					goods.setLatitude(0);
+				}else{
+					goods.setLongitude(MyApplication.getLocation().getLongitude());					
+					goods.setLatitude(MyApplication.getLocation().getLatitude());// 33.8640844584,112.4709425635
+				}
 				goods.setPubTime(new Date(System.currentTimeMillis()));
 				goods.setState(1);
 				//	
@@ -484,7 +526,6 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				rp.addBodyParameter("goodJson", goodsJson);
 				//处理商品图片
 				//Log.i("PublishGoodsActivity",imagePathList.get(0));
-				final int USERID = 10;//仅做测试用，正式版应从MyApplication.getCurrentUser().getId()获取
 				int count = 0;
 				for(ImageItem image : Bimp.tempSelectBitmap){
 					File file = new File(image.getImagePath());
@@ -502,7 +543,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 
 					@Override
 					public void onFailure(HttpException error, String msg) {
-						//disableSubControls(la,false);
+						disableSubControls(la,true);
 						ll.setVisibility(View.INVISIBLE);
 						Toast.makeText(PublishGoodsActivity.this, "连接服务器失败!", Toast.LENGTH_SHORT).show();
 					}
@@ -512,7 +553,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 						String result = responseInfo.result;
 						String info = null;
 						Log.i("onSuccess", result);
-						//disableSubControls(la,true);
+						disableSubControls(la,true);
 						ll.setVisibility(View.INVISIBLE);
 						if(result != null && !"null".equals(result.trim())){
 							info = "发布成功！"+result;
@@ -560,8 +601,42 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 			}
 		}
 	}
-	
-
+	//获得分类id
+	public  int getTypeId(String typeName){
+		int typeId = 1;
+		switch(typeName){
+		case "其他闲置":
+			typeId = 1;
+			break;
+		case "手机电脑":
+			typeId = 2;
+			break;
+		case "相机数码":
+			typeId = 3;
+			break;
+		case "书籍文体":
+			typeId = 4;
+			break;
+		case "服装鞋包":
+			typeId = 5;
+			break;
+		case "美容美体":
+			typeId = 6;
+			break;
+		}
+		Log.i("typeId", typeName+","+typeId);
+		return typeId;
+	}
+	//获得集市id
+	public int getmarketsId(){
+		String marketsName = marketSpinner.getSelectedItem().toString();
+		for(Markets markets : MyApplication.getMarketsList()){
+			if(markets.getName().equals(marketsName)){
+				return markets.getId();
+			}
+		}
+		return 0;
+	}
 
 	// 获取当前时间
 	private String getNowTime() {
