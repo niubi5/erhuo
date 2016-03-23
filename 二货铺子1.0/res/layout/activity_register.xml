@@ -7,17 +7,17 @@
     android:background="#F9F8F4" >
     <FrameLayout
         android:id="@+id/erhuo_message_title"
-        style="@style/FrameTitlebackground" >
+        style="@style/FrameTitleRed" >
 
         <TextView
-            style="@style/FrameTitleWhiteText"
+            style="@style/FrameTitleRedText"
             android:text="@string/register" />
 
         <ImageView
             android:id="@+id/iv_register_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/left_arrow_red"
+            android:src="@drawable/left_arrow_white"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp" />
 
