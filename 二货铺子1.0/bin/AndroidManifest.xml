@@ -64,9 +64,9 @@
         <activity
             android:name=".PublishGoodsActivity"
             android:label="@string/title_activity_publish_goods"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            android:launchMode="singleTask" >
+            android:windowSoftInputMode="adjustNothing" >
         </activity>
         <activity
             android:name=".StartActivity"
@@ -131,12 +131,19 @@
         </activity>
         <activity android:name=".GalleryActivity" >
         </activity>
+        <activity android:name=".DonateRequestActivity" >
+            
+        </activity>
         <!-- 短信验证 -->
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".DonationActivity"
+            android:label="@string/title_activity_donation" >
+        </activity>
     </application>
 
 </manifest>

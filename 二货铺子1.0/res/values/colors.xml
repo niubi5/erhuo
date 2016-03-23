@@ -33,7 +33,9 @@
     <color name="darkblue">#ff00008b</color>
     <color name="darkcyan">#ff008b8b</color>
     <color name="darkgoldenrod">#ffb8860b</color>
+    <color name="mytoast_blue">#7A9DFB</color>
     <color name="darkgray">#ffa9a9a9</color>
+    <color name="mytoast_background">#EC5959</color>
     <color name="darkgreen">#ff006400</color>
     <color name="darkgrey">#ffa9a9a9</color>
     <color name="darkkhaki">#ffbdb76b</color>
@@ -133,12 +135,12 @@
     <color name="main_orange_yellow">#fff7ad3d</color>
     <color name="main_radish_record">#fff6b37f</color>
     <color name="main_red">#ffff3f40</color>
-    <color name="login_background">#F9F8F4</color>
     <color name="main_red_price">#ffff0000</color>
     <color name="main_shallowalpha_red">#40ff3f40</color>
     <color name="main_shallowalphablack">#30000000</color>
     <color name="main_shallowalphawhite">#2fffffff</color>
     <color name="main_title_white">#ffffffff</color>
+    <color name="login_background">#F9F8F4</color>
     <color name="main_transparent_white">#88888888</color>
     <color name="main_verydeepalphabgcolor">#c0f0f0f0</color>
     <color name="main_verydeepalphawhite">#d0ffffff</color>
@@ -223,6 +225,8 @@
     <color name="yellow">#ffffff00</color>
     <color name="red_btntext">#FF4040</color>
     <color name="text_hint_color">#DCDCDC</color>
+    <color name="separate_line">#C8C8C8</color>
+    <color name="add_image_background">#D0D0D0</color>
 
     <!-- 多图片上传 -->
     <color name="grey">#808080</color> <!-- 灰色 -->

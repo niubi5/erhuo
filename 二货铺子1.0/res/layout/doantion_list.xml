@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/iv_head"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/head_one" />
+
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+        <TextView
+            android:id="@+id/tv_donation_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="6dp"
+            android:textSize="10sp"
+            android:text="@string/donation_user_name" />
+        
+        <TextView 
+            android:id="@+id/tv_donation_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="4dp"
+            android:textSize="10sp"
+            android:text="@string/donation_time"
+            />
+        </LinearLayout>
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+    <ImageView
+        android:id="@+id/iv_poverty_image"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/poverty_two" />
+    
+   <TextView 
+       android:id="@+id/tv_detail"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+       android:text="@string/donation_describe"
+       />
+    
+    </LinearLayout>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/iv_donation_address"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/icon_city" />
+
+        <TextView
+            android:id="@+id/tv_donatoin_addresss"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginLeft="3dp"
+            android:textSize="10sp"
+            android:text="@string/donation_address" />
+
+        <ImageView
+            android:id="@+id/iv_popwindow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/publish_donation" />
+        
+    </LinearLayout>
+
+</LinearLayout>

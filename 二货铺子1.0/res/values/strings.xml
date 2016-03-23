@@ -61,5 +61,29 @@
     <string name="unfinished">完成</string>
     <string name="camera_cancel">取消</string>
     <string name="no_photo">相册没有图片</string>
+    <string name="title_activity_donate_request">DonateRequestActivity</string>
+    <string name="caring_donation">爱心捐赠</string>
+    <string name="request_donation">请求捐赠</string>
+    <string name="request_donation_title">标题</string>
+    <string name="request_donation_content">请描述一下您的需求</string>
+    <string name="request_donation_add_image">添加图片</string>
+    <string name="logistics">物流</string>
+    <string name="request_donation_address">请填写您的收货地址</string>
+    <string name="request_donation_phone">请填写您的联系方式</string>
+    <string name="request_donation_button_donate">请求捐赠</string>
+    <string name="mytoast_text">标题不能为空！</string>
+    <string name="donation_user_name">来自星星的我</string>
+    <string name="donation_time">2小时前</string>
+    <string name="donation_address">四川汶川</string>
+    <string name="donation_describe">这些地方房子年久失修，摇摇欲坠，孩子们穿的衣服破破烂烂，教室残破不堪，希望捐赠多一些生活用品，教科书等</string>
+    <string name="donation_dialog_title">发布技巧</string>
+    <string name="donation_dialog_content_one">1. 标题尽量在15字内</string>
+    <string name="donation_dialog_content_two">2. 尽可能描述详尽，例如孩子们的读书环境，居民</string>
+    <string name="donation_dialog_content_two_">的生活条件等</string>
+    <string name="donation_dialog_content_three">3. 请上传真实照片，描述真实情况</string>
+    <string name="donation_dialog_skill_one">1. 图片尽量清晰</string>
+    <string name="donation_dialog_skill_two">2. 图片能反映真实情况,包含细节</string>
+    <string name="donation_dialog_warning">发布真实信息，给接收人们带来一份温暖，给捐赠人们增添一份爱心，让爱在这个世界传递！</string>
+    <string name="title_activity_donation">DonationActivity</string>
 
 </resources>
