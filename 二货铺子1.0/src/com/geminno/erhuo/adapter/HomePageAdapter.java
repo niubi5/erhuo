@@ -265,7 +265,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 					userGoodsUrls.add(user);
 					userGoodsUrls.add(goods);
 					userGoodsUrls.add(urls);
-					Log.i("erhuo", "集合的长度" + userGoodsUrls.size());
 					if (convertView == null) {
 						viewHolder = new ViewHolderGoods();
 						convertView = LayoutInflater.from(context).inflate(
@@ -296,6 +295,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 								+ goods.getSoldPrice() + "");
 						viewHolder.pubTime.setText(sdf.format(goods
 								.getPubTime()));
+						viewHolder.imagesContainer.setOnClickListener(this);
 						convertView.setTag(viewHolder);
 						// 遍历Url集合，装载图片，放入ScrollView中
 						for (String url : urls) {
