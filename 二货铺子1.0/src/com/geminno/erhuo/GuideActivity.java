@@ -1,4 +1,5 @@
 package com.geminno.erhuo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class GuideActivity extends FragmentActivity implements
-		OnClickListener, OnPageChangeListener {
+public class GuideActivity extends FragmentActivity implements OnClickListener,
+		OnPageChangeListener {
 
 	private ImageView[] points; // 底部小点
 	private int currentIndex;
@@ -30,9 +31,9 @@ public class GuideActivity extends FragmentActivity implements
 	private GuideFragment1 fragment1;
 	private GuideFragment2 fragment2;
 	private GuideFragment3 fragment3;
-	//private ActionBar mActionBar;
-	
-	
+
+	// private ActionBar mActionBar;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,11 +54,11 @@ public class GuideActivity extends FragmentActivity implements
 		fragmentList.add(fragment2);
 		fragmentList.add(fragment3);
 		viewPager = (ViewPager) findViewById(R.id.viewpager);
-		vpAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragmentList);
+		vpAdapter = new ViewPagerAdapter(getSupportFragmentManager(),
+				fragmentList);
 		viewPager.setAdapter(vpAdapter);
 		viewPager.setOnPageChangeListener(this);
 	}
-	
 
 	private void initPoint() {
 		LinearLayout linearlayout = (LinearLayout) findViewById(R.id.point_layout);
@@ -90,10 +91,10 @@ public class GuideActivity extends FragmentActivity implements
 
 	@Override
 	public void onClick(View v) {
-			// 点击时跳转到另一个页面
-			int position = (Integer) v.getTag(); // 取出之前为小圆点设置的Tag标志
-			setCurView(position);
-			setCurDot(position);
+		// 点击时跳转到另一个页面
+		int position = (Integer) v.getTag(); // 取出之前为小圆点设置的Tag标志
+		setCurView(position);
+		setCurDot(position);
 	}
 
 	// 设置页面当前位置
@@ -114,6 +115,5 @@ public class GuideActivity extends FragmentActivity implements
 		points[currentIndex].setImageResource(R.drawable.round_point_normal);
 		currentIndex = position;
 	}
-
 
 }

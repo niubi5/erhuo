@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 /**
  * @author LuoShiHeng
  * @version 创建时间:2016-3-9下午6:52:35

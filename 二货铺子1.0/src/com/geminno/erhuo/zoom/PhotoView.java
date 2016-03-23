@@ -1,6 +1,5 @@
 package com.geminno.erhuo.zoom;
 
-
 import android.content.Context;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
@@ -25,7 +24,7 @@ public class PhotoView extends ImageView implements IPhotoView {
 	public PhotoView(Context context, AttributeSet attr) {
 		this(context, attr, 0);
 	}
-	
+
 	public PhotoView(Context context, AttributeSet attr, int defStyle) {
 		super(context, attr, defStyle);
 		super.setScaleType(ScaleType.MATRIX);
@@ -72,12 +71,12 @@ public class PhotoView extends ImageView implements IPhotoView {
 		return mAttacher.getScaleType();
 	}
 
-    @Override
-    public void setAllowParentInterceptOnEdge(boolean allow) {
-        mAttacher.setAllowParentInterceptOnEdge(allow);
-    }
+	@Override
+	public void setAllowParentInterceptOnEdge(boolean allow) {
+		mAttacher.setAllowParentInterceptOnEdge(allow);
+	}
 
-    @Override
+	@Override
 	public void setMinScale(float minScale) {
 		mAttacher.setMinScale(minScale);
 	}

@@ -46,7 +46,8 @@ public class ImageCycleView extends LinearLayout {
 		mContext = context;
 		// 获取屏幕密度
 		mScale = context.getResources().getDisplayMetrics().density;
-		LayoutInflater.from(context).inflate(R.layout.view_banner_content, this);
+		LayoutInflater.from(context)
+				.inflate(R.layout.view_banner_content, this);
 		// 获得viewPager
 		mBannerPager = (CycleViewPager) findViewById(R.id.pager_banner);
 		mBannerPager.setOnPageChangeListener(new GuidePageChangeListener());
@@ -55,14 +56,14 @@ public class ImageCycleView extends LinearLayout {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				switch (event.getAction()) {
-					case MotionEvent.ACTION_UP:
-						// 开始图片滚动
-						startImageTimerTask();
-						break;
-					default:
-						// 停止图片滚动
-						stopImageTimerTask();
-						break;
+				case MotionEvent.ACTION_UP:
+					// 开始图片滚动
+					startImageTimerTask();
+					break;
+				default:
+					// 停止图片滚动
+					stopImageTimerTask();
+					break;
 				}
 				return false;
 			}
@@ -77,7 +78,8 @@ public class ImageCycleView extends LinearLayout {
 	 * @param imageUrlList
 	 * @param imageCycleViewListener
 	 */
-	public void setImageResources(ArrayList<ADInfo> infoList, ImageCycleViewListener imageCycleViewListener) {
+	public void setImageResources(ArrayList<ADInfo> infoList,
+			ImageCycleViewListener imageCycleViewListener) {
 		// 清除所有子视图
 		mGroup.removeAllViews();
 		// 图片广告数量
@@ -87,7 +89,8 @@ public class ImageCycleView extends LinearLayout {
 			mImageView = new ImageView(mContext);
 			int imageParams = (int) (mScale * 20 + 0.5f);// PX与DP转换，适应不同分辨率
 			int imagePadding = (int) (mScale * 5 + 0.5f);
-			LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+			LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(
+					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			layout.setMargins(3, 0, 3, 0);
 			mImageView.setLayoutParams(layout);
 			mImageViews[i] = mImageView;
@@ -100,7 +103,8 @@ public class ImageCycleView extends LinearLayout {
 			// 将小点加入线性布局中
 			mGroup.addView(mImageViews[i]);
 		}
-		mAdvAdapter = new ImageCycleAdapter(mContext, infoList, imageCycleViewListener);
+		mAdvAdapter = new ImageCycleAdapter(mContext, infoList,
+				imageCycleViewListener);
 		mBannerPager.setAdapter(mAdvAdapter);
 		startImageTimerTask();
 	}
@@ -173,7 +177,7 @@ public class ImageCycleView extends LinearLayout {
 
 		@Override
 		public void onPageSelected(int index) {
-			
+
 			if (index == 0 || index == mImageViews.length + 1) {
 				return;
 			}
@@ -203,7 +207,8 @@ public class ImageCycleView extends LinearLayout {
 		private ImageCycleViewListener mImageCycleViewListener;
 		private Context mContext;
 
-		public ImageCycleAdapter(Context context, ArrayList<ADInfo> adList, ImageCycleViewListener imageCycleViewListener) {
+		public ImageCycleAdapter(Context context, ArrayList<ADInfo> adList,
+				ImageCycleViewListener imageCycleViewListener) {
 			mContext = context;
 			mAdList = adList;
 			mImageCycleViewListener = imageCycleViewListener;
@@ -227,7 +232,8 @@ public class ImageCycleView extends LinearLayout {
 			ImageView imageView = null;
 			if (mImageViewCacheList.isEmpty()) {
 				imageView = new ImageView(mContext);
-				imageView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				imageView.setLayoutParams(new LayoutParams(
+						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 				imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 			} else {
 				imageView = mImageViewCacheList.remove(0);
@@ -238,7 +244,8 @@ public class ImageCycleView extends LinearLayout {
 				@Override
 				public void onClick(View v) {
 					// 触发图片点击事件
-					mImageCycleViewListener.onImageClick(mAdList.get(position),position, v);
+					mImageCycleViewListener.onImageClick(mAdList.get(position),
+							position, v);
 				}
 			});
 			imageView.setTag(imageUrl);

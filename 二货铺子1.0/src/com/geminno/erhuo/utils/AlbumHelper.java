@@ -19,7 +19,7 @@ public class AlbumHelper {
 	final String TAG = getClass().getSimpleName();
 	Context context;
 	ContentResolver cr;
-	
+
 	HashMap<String, String> thumbnailList = new HashMap<String, String>();
 
 	List<HashMap<String, String>> albumList = new ArrayList<HashMap<String, String>>();
@@ -205,7 +205,6 @@ public class AlbumHelper {
 		long endTime = System.currentTimeMillis();
 		Log.d(TAG, "use time: " + (endTime - startTime) + " ms");
 	}
-
 
 	public List<ImageBucket> getImagesBucketList(boolean refresh) {
 		if (refresh || (!refresh && !hasBuildImagesBucketList)) {

@@ -12,11 +12,12 @@ import android.view.ViewGroup;
 
 public class GuideFragment2 extends Fragment {
 
-	@SuppressLint("InflateParams") @Override
+	@SuppressLint("InflateParams")
+	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_guide2, null);
 		return view;
 	}
-	
+
 }

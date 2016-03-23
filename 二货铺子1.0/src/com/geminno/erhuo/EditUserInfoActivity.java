@@ -12,14 +12,13 @@ import android.widget.TextView;
 
 public class EditUserInfoActivity extends Activity implements OnClickListener {
 
-	
 	private TextView save;
 	private ImageView editHeader;
 	private EditText nickName;
 	private ImageView male;
 	private ImageView female;
-//	private EditText address;
-//	private TextView phone;
+	// private EditText address;
+	// private TextView phone;
 	private int sex;
 
 	@Override
@@ -36,29 +35,29 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		nickName = (EditText) findViewById(R.id.et_infodata_nickname);
 		male = (ImageView) findViewById(R.id.chose_male);
 		female = (ImageView) findViewById(R.id.chose_female);
-//		address = (EditText) findViewById(R.id.et_infodata_address);
-//		phone = (TextView) findViewById(R.id.tv_infodata_phone);
+		// address = (EditText) findViewById(R.id.et_infodata_address);
+		// phone = (TextView) findViewById(R.id.tv_infodata_phone);
 		save.setOnClickListener(this);
 		editHeader.setOnClickListener(this);
 		nickName.setOnClickListener(this);
 		male.setOnClickListener(this);
 		female.setOnClickListener(this);
-//		address.setOnClickListener(this);
-//		phone.setOnClickListener(this);
+		// address.setOnClickListener(this);
+		// phone.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-//		case R.id.tv_infodata_ok:
-//			
-//			break;
-//		 case R.id.edit_header:
-//		
-//		 break;
-//		case R.id.et_infodata_nickname:
-//
-//			break;
+		// case R.id.tv_infodata_ok:
+		//
+		// break;
+		// case R.id.edit_header:
+		//
+		// break;
+		// case R.id.et_infodata_nickname:
+		//
+		// break;
 		case R.id.chose_male:
 			male.setSelected(true);
 			female.setSelected(false);
@@ -69,12 +68,12 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 			female.setSelected(true);
 			sex = 1;
 			break;
-//		case R.id.tv_infodata_ok:
-//
-//			break;
-//		case R.id.tv_infodata_ok:
-//
-//			break;
+		// case R.id.tv_infodata_ok:
+		//
+		// break;
+		// case R.id.tv_infodata_ok:
+		//
+		// break;
 		}
 	}
 

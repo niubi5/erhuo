@@ -17,6 +17,7 @@ import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+
 public class SearchActivity extends Activity implements OnClickListener{
 	
 	@Override
@@ -41,6 +42,5 @@ public class SearchActivity extends Activity implements OnClickListener{
 			break;
 		}
 	}
-
 
 }

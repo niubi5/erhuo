@@ -1,6 +1,5 @@
 package com.geminno.erhuo.utils;
 
-
 import com.geminno.erhuo.utils.PhotoViewAttacher.OnMatrixChangedListener;
 import com.geminno.erhuo.utils.PhotoViewAttacher.OnPhotoTapListener;
 import com.geminno.erhuo.utils.PhotoViewAttacher.OnViewTapListener;
@@ -11,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.widget.ImageView;
-
 
 public class PhotoView extends ImageView implements IPhotoView {
 
@@ -26,7 +24,7 @@ public class PhotoView extends ImageView implements IPhotoView {
 	public PhotoView(Context context, AttributeSet attr) {
 		this(context, attr, 0);
 	}
-	
+
 	public PhotoView(Context context, AttributeSet attr, int defStyle) {
 		super(context, attr, defStyle);
 		super.setScaleType(ScaleType.MATRIX);
@@ -73,12 +71,12 @@ public class PhotoView extends ImageView implements IPhotoView {
 		return mAttacher.getScaleType();
 	}
 
-    @Override
-    public void setAllowParentInterceptOnEdge(boolean allow) {
-        mAttacher.setAllowParentInterceptOnEdge(allow);
-    }
+	@Override
+	public void setAllowParentInterceptOnEdge(boolean allow) {
+		mAttacher.setAllowParentInterceptOnEdge(allow);
+	}
 
-    @Override
+	@Override
 	public void setMinScale(float minScale) {
 		mAttacher.setMinScale(minScale);
 	}

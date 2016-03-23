@@ -22,140 +22,143 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class ZhaoHuiActivity extends Activity implements OnClickListener{
-	
-	 EventHandler eh = new EventHandler() {
+public class ZhaoHuiActivity extends Activity implements OnClickListener {
 
-	        @Override
-	      //主体方法，供回调试用
-	        public void afterEvent(int event, int result, Object data) {
+	EventHandler eh = new EventHandler() {
 
-	            Log.i("Msm","event:"+event+"    result:"+result+"    data:"+data.toString());
+		@Override
+		// 主体方法，供回调试用
+		public void afterEvent(int event, int result, Object data) {
 
-	                switch (event) {
-	                	//验证的时候使用
-	                    case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:
+			Log.i("Msm", "event:" + event + "    result:" + result
+					+ "    data:" + data.toString());
 
-	                        if (result == SMSSDK.RESULT_COMPLETE) {
+			switch (event) {
+			// 验证的时候使用
+			case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:
 
-	                            Intent intent=new Intent(ZhaoHuiActivity.this,ResetActivity.class);
-                                intent.putExtra("phone", phone);
-	                            startActivity(intent);
-                          
-	                        } else {
+				if (result == SMSSDK.RESULT_COMPLETE) {
 
-	                           toast("请输入正确的验证码");
+					Intent intent = new Intent(ZhaoHuiActivity.this,
+							ResetActivity.class);
+					intent.putExtra("phone", phone);
+					startActivity(intent);
 
-	                        }
+				} else {
 
-	                        break;
-	                       //得到验证码时候使用
-	                    case SMSSDK.EVENT_GET_VERIFICATION_CODE:
+					toast("请输入正确的验证码");
 
-	                        if (result == SMSSDK.RESULT_COMPLETE) {
+				}
 
-	                            toast("获取验证码成功");
+				break;
+			// 得到验证码时候使用
+			case SMSSDK.EVENT_GET_VERIFICATION_CODE:
 
-	                            //默认的智能验证是开启的,我已经在后台关闭
+				if (result == SMSSDK.RESULT_COMPLETE) {
 
-	                        } else {
+					toast("获取验证码成功");
 
-	                            toast("获取验证码失败");
+					// 默认的智能验证是开启的,我已经在后台关闭
 
-	                        }
+				} else {
 
-	                        break;
+					toast("获取验证码失败");
 
-	                }
+				}
 
-	        }
+				break;
 
-	    };
-	    
-	    private void toast(final String str) {
+			}
 
-	        runOnUiThread(new Runnable() {
+		}
 
-	            @Override
+	};
 
-	            public void run() {
+	private void toast(final String str) {
 
-	                Toast.makeText( ZhaoHuiActivity.this, str, Toast.LENGTH_SHORT).show();
+		runOnUiThread(new Runnable() {
 
-	            }
+			@Override
+			public void run() {
 
-	        });
+				Toast.makeText(ZhaoHuiActivity.this, str, Toast.LENGTH_SHORT)
+						.show();
 
-	    }
-	
-	    
+			}
+
+		});
+
+	}
+
 	EditText etphone;
 	EditText etcode;
 	Button button;
 	ImageView ivzhaohui;
-    Button butverify;
-    String phone=null;
+	Button butverify;
+	String phone = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_zhao_hui);
-		//调用setColor()方法,实现沉浸式状态栏
-	  	MainActivity.setColor(this, getResources().getColor(R.color.login_background));
-	    button=(Button) findViewById(R.id.btn_verify_zhaohui);
-	    butverify=(Button) findViewById(R.id.btn_zhaohui_verify);
-	    etphone=(EditText) findViewById(R.id.et_phone_number_zhaohui);
-	    etcode=(EditText) findViewById(R.id.et_pwd_zhaohui);
-	    ivzhaohui=(ImageView) findViewById(R.id.iv_zhaohui_return);
-	    button.setOnClickListener(this);
-	    butverify.setOnClickListener(this);
-	    etphone.setOnClickListener(this);
-	    etcode.setOnClickListener(this);
-	    ivzhaohui.setOnClickListener(this);
-	 // Mob创建发送验证码应用的key，secret
+		// 调用setColor()方法,实现沉浸式状态栏
+		MainActivity.setColor(this,
+				getResources().getColor(R.color.login_background));
+		button = (Button) findViewById(R.id.btn_verify_zhaohui);
+		butverify = (Button) findViewById(R.id.btn_zhaohui_verify);
+		etphone = (EditText) findViewById(R.id.et_phone_number_zhaohui);
+		etcode = (EditText) findViewById(R.id.et_pwd_zhaohui);
+		ivzhaohui = (ImageView) findViewById(R.id.iv_zhaohui_return);
+		button.setOnClickListener(this);
+		butverify.setOnClickListener(this);
+		etphone.setOnClickListener(this);
+		etcode.setOnClickListener(this);
+		ivzhaohui.setOnClickListener(this);
+		// Mob创建发送验证码应用的key，secret
 
-	 		SMSSDK.initSDK(this, Contant.APPKEY, Contant.SECRET);
+		SMSSDK.initSDK(this, Contant.APPKEY, Contant.SECRET);
 
-	 		// //发送短信，也会回调前面的方法
-	 		SMSSDK.registerEventHandler(eh);
+		// //发送短信，也会回调前面的方法
+		SMSSDK.registerEventHandler(eh);
 	}
 
 	@Override
 	public void onClick(View v) {
 
 		String SMS = etcode.getText().toString().trim();
-		 phone=etphone.getText().toString().trim();
+		phone = etphone.getText().toString().trim();
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		//验证提交按钮
+		// 验证提交按钮
 		case R.id.btn_verify_zhaohui:
-			//客户端输入的验证码
-		 	//验证对应手机，返回的短信验证码，会回调前面的afterEvent方法
-	        SMSSDK.submitVerificationCode("86", phone, SMS);
+			// 客户端输入的验证码
+			// 验证对应手机，返回的短信验证码，会回调前面的afterEvent方法
+			SMSSDK.submitVerificationCode("86", phone, SMS);
 			break;
-		//获取验证码	
+		// 获取验证码
 		case R.id.btn_zhaohui_verify:
-			if(phone!=null&&isMobileNO(phone)==true){
-			    SMSSDK.getVerificationCode("86",phone);
-			}else {
+			if (phone != null && isMobileNO(phone) == true) {
+				SMSSDK.getVerificationCode("86", phone);
+			} else {
 				toast("请输入正确的电话号码");
 			}
 			break;
 		case R.id.iv_zhaohui_return:
-		     this.finish();
-		     break;
+			this.finish();
+			break;
 
 		default:
 			break;
 		}
 	}
-	 public static boolean isMobileNO(String mobiles) {
-		 Pattern p = Pattern
-		 .compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
-		 Matcher m = p.matcher(mobiles);
-		 System.out.println(m.matches() + "---");
-		 return m.matches();
-		 }
 
-	
+	public static boolean isMobileNO(String mobiles) {
+		Pattern p = Pattern
+				.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+		Matcher m = p.matcher(mobiles);
+		System.out.println(m.matches() + "---");
+		return m.matches();
+	}
+
 }
