@@ -22,7 +22,6 @@ import com.geminno.erhuo.R;
 import com.geminno.erhuo.StartActivity;
 import com.geminno.erhuo.adapter.CommonAdapter;
 import com.geminno.erhuo.entity.Donation;
-import com.geminno.erhuo.utils.DonateDialog;
 import com.geminno.erhuo.utils.DonationViewHolder;
 
 public class DonateFragment extends BaseFragment {

@@ -7,7 +7,7 @@
     >
     <RelativeLayout 
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         >
 
         <TextView
@@ -121,12 +121,14 @@
             android:layout_height="60dp"
             >
             <ImageView 
+                android:id="@+id/donation_skill_image_one"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/donation_skill_one"
                 />
 
             <ImageView
+               
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginLeft="50dp"
@@ -140,6 +142,7 @@
             android:layout_height="60dp"
             >
             <ImageView 
+                android:id="@+id/donation_skill_image_one_no"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
@@ -185,6 +188,7 @@
             android:layout_height="60dp"
             >
             <ImageView 
+                android:id="@+id/donation_skill_image_two"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/donation_skill_two"
@@ -204,6 +208,7 @@
             android:layout_height="60dp"
             >
             <ImageView 
+                android:id="@+id/donation_skill_image_two_no"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
@@ -212,6 +217,7 @@
                 />
 
             <ImageView
+                
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_marginLeft="55dp"

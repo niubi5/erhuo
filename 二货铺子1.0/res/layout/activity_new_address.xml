@@ -109,8 +109,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
-                android:background="@null"
+                android:layout_marginLeft="27dp"
+                android:background="@drawable/shape_address"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textSize="@dimen/font_middle" />
@@ -136,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
-                android:background="@null"
+                android:background="@drawable/shape_address"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textSize="@dimen/font_middle" />
@@ -162,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
-                android:background="@null"
+                android:background="@drawable/shape_address"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textSize="@dimen/font_middle" />
@@ -188,7 +188,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
-                android:background="@null"
+                android:background="@drawable/shape_address"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textSize="@dimen/font_middle" />
