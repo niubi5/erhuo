@@ -56,5 +56,5 @@ public abstract class MyAdapter<T> extends BaseAdapter {
 	}
 
 	public abstract void convert(ViewHolder holder, T t);
-
+		
 }
