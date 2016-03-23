@@ -18,7 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 public class SearchActivity extends Activity {
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,6 +26,5 @@ public class SearchActivity extends Activity {
 		setContentView(R.layout.activity_search);
 
 	}
-
 
 }

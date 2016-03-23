@@ -18,34 +18,33 @@ public class WoMenActivity extends Activity {
 
 	ImageView returnImageView;
 	ImageView xuanze;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_wo_men);
-		returnImageView=(ImageView) findViewById(R.id.ib_women_return);
-	    xuanze=(ImageView) findViewById(R.id.ib_xuanze);
+		returnImageView = (ImageView) findViewById(R.id.ib_women_return);
+		xuanze = (ImageView) findViewById(R.id.ib_xuanze);
 	}
-	
-	public void onclick(View v){
-		Intent intent=new Intent(this,SheZhiActivity.class);
+
+	public void onclick(View v) {
+		Intent intent = new Intent(this, SheZhiActivity.class);
 		startActivity(intent);
 	}
-	
-	public void click(View v){
-		AlertDialog.Builder builder=new Builder(this);
-		final String[] items=new String[]{
-			"分享",
-			"在浏览器中打开",
-				
+
+	public void click(View v) {
+		AlertDialog.Builder builder = new Builder(this);
+		final String[] items = new String[] { "分享", "在浏览器中打开",
+
 		};
 		builder.setSingleChoiceItems(items, -1, new OnClickListener() {
-			
+
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				// TODO Auto-generated method stub
-				Toast.makeText(WoMenActivity.this, "你选择的是："+items[arg1], 0).show();
+				Toast.makeText(WoMenActivity.this, "你选择的是：" + items[arg1], 0)
+						.show();
 				arg0.dismiss();
 			}
 		});

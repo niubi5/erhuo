@@ -22,8 +22,7 @@ public class BitmapCache extends Activity {
 	public Handler h = new Handler();
 	public final String TAG = getClass().getSimpleName();
 	private HashMap<String, SoftReference<Bitmap>> imageCache = new HashMap<String, SoftReference<Bitmap>>();
-	
-	
+
 	public void put(String path, Bitmap bmp) {
 		if (!TextUtils.isEmpty(path) && bmp != null) {
 			imageCache.put(path, new SoftReference<Bitmap>(bmp));
@@ -73,18 +72,18 @@ public class BitmapCache extends Activity {
 					if (isThumbPath) {
 						thumb = BitmapFactory.decodeFile(thumbPath);
 						if (thumb == null) {
-							thumb = revitionImageSize(sourcePath);						
-						}						
+							thumb = revitionImageSize(sourcePath);
+						}
 					} else {
-						thumb = revitionImageSize(sourcePath);											
+						thumb = revitionImageSize(sourcePath);
 					}
-				} catch (Exception e) {	
-					
+				} catch (Exception e) {
+
 				}
 				if (thumb == null) {
 					thumb = PublishGoodsActivity.bimap;
 				}
-				Log.e(TAG, "-------thumb------"+thumb);
+				Log.e(TAG, "-------thumb------" + thumb);
 				put(path, thumb);
 
 				if (callback != null) {

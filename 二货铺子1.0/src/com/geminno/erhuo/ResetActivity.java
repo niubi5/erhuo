@@ -24,84 +24,86 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class ResetActivity extends Activity implements OnClickListener{
-
-	
+public class ResetActivity extends Activity implements OnClickListener {
 
 	EditText etpwd;
 	EditText etPwdagain;
 	Button butreset;
 	ImageView ivreset;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_reset);
-		 //调用setColor()方法,实现沉浸式状态栏
-	  	MainActivity.setColor(this, getResources().getColor(R.color.login_background));
-	    etpwd=(EditText) findViewById(R.id.et_pwd_reset);
-	    etPwdagain=(EditText) findViewById(R.id.et_pwd_resetagain);
-	    butreset=(Button) findViewById(R.id.btn_reset);
-	    ivreset=(ImageView) findViewById(R.id.iv_return_reset);
-	    ivreset.setOnClickListener(this);
-	    butreset.setOnClickListener(this);
+		// 调用setColor()方法,实现沉浸式状态栏
+		MainActivity.setColor(this,
+				getResources().getColor(R.color.login_background));
+		etpwd = (EditText) findViewById(R.id.et_pwd_reset);
+		etPwdagain = (EditText) findViewById(R.id.et_pwd_resetagain);
+		butreset = (Button) findViewById(R.id.btn_reset);
+		ivreset = (ImageView) findViewById(R.id.iv_return_reset);
+		ivreset.setOnClickListener(this);
+		butreset.setOnClickListener(this);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btn_reset:
-			String pwd=etpwd.getText().toString().trim();
-			String pwdagain=etPwdagain.getText().toString();
-			if(pwd==null){
+			String pwd = etpwd.getText().toString().trim();
+			String pwdagain = etPwdagain.getText().toString();
+			if (pwd == null) {
 				toast("请输入密码");
 				return;
-			}else if (pwdagain==null) {
+			} else if (pwdagain == null) {
 				toast("请再次输入密码");
 				return;
-			}else if (pwd!=pwdagain&&!pwd.equals(pwdagain)) {
+			} else if (pwd != pwdagain && !pwd.equals(pwdagain)) {
 				toast("两次输入密码不一样,请输入正确密码");
 				return;
-			}else {
-				RequestParams params=new RequestParams();
-			    Intent intent=getIntent();
-				String phone=intent.getStringExtra("phone");
+			} else {
+				RequestParams params = new RequestParams();
+				Intent intent = getIntent();
+				String phone = intent.getStringExtra("phone");
 				params.addBodyParameter("identity", phone);
 				params.addBodyParameter("pwd", pwd);
-				HttpUtils httpUtils=new HttpUtils();
-				httpUtils.send(HttpMethod.POST, Url.urlreget, params,new RequestCallBack<String>() {
+				HttpUtils httpUtils = new HttpUtils();
+				httpUtils.send(HttpMethod.POST, Url.urlreget, params,
+						new RequestCallBack<String>() {
 
-					@Override
-					public void onFailure(HttpException arg0, String arg1) {
-						// TODO Auto-generated method stub
-						
-					}
+							@Override
+							public void onFailure(HttpException arg0,
+									String arg1) {
+								// TODO Auto-generated method stub
 
-					@Override
-					public void onSuccess(ResponseInfo<String> arg0) {
-						// TODO Auto-generated method stub
-						String result = arg0.result;
-						Log.i("cheshi", result);
-						if(result!=null&&!result.equals("null")){
-							Intent intent2 = new Intent(ResetActivity.this,LoginActivity.class);
-							startActivity(intent2);
-							Gson gson = new Gson();
-							MyApplication.setUsers((Users)gson.fromJson(result, Users.class));
-							//Toast.makeText(LoginActivity.this, "登陆成功", 0).show();
-						}else {
-							Toast.makeText(ResetActivity.this, "登陆失败,您还未注册", 0).show();
-						}
-						
-					}
+							}
 
-					
+							@Override
+							public void onSuccess(ResponseInfo<String> arg0) {
+								// TODO Auto-generated method stub
+								String result = arg0.result;
+								Log.i("cheshi", result);
+								if (result != null && !result.equals("null")) {
+									Intent intent2 = new Intent(
+											ResetActivity.this,
+											LoginActivity.class);
+									startActivity(intent2);
+									Gson gson = new Gson();
+									MyApplication.setUsers((Users) gson
+											.fromJson(result, Users.class));
+									// Toast.makeText(LoginActivity.this,
+									// "登陆成功", 0).show();
+								} else {
+									Toast.makeText(ResetActivity.this,
+											"登陆失败,您还未注册", 0).show();
+								}
 
-					
-				});
-				
-				
+							}
+
+						});
+
 			}
 			break;
 		case R.id.iv_return_reset:
@@ -111,25 +113,22 @@ public class ResetActivity extends Activity implements OnClickListener{
 		default:
 			break;
 		}
-		
+
 	}
-	
+
 	private void toast(final String str) {
 
-        runOnUiThread(new Runnable() {
+		runOnUiThread(new Runnable() {
 
-            @Override
+			@Override
+			public void run() {
 
-            public void run() {
+				Toast.makeText(ResetActivity.this, str, Toast.LENGTH_SHORT)
+						.show();
 
-                Toast.makeText(ResetActivity.this, str, Toast.LENGTH_SHORT).show();
+			}
+		});
 
-            }
-        });
+	}
 
-    }
-
-	
-
-	
 }

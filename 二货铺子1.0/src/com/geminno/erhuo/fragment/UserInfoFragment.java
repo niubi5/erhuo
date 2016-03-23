@@ -18,13 +18,13 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-public class UserInfoFragment extends BaseFragment implements OnClickListener{
+public class UserInfoFragment extends BaseFragment implements OnClickListener {
 
 	private LinearLayout userInfo;
 	private Button btnHead;
 	private LinearLayout linearshezhi;
 	private LinearLayout linearyoufei;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,16 +47,19 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener{
 
 	@Override
 	protected void initView() {
-		userInfo = (LinearLayout) getView().findViewById(R.id.userinfo_container);
+		userInfo = (LinearLayout) getView().findViewById(
+				R.id.userinfo_container);
 		btnHead = (Button) getView().findViewById(R.id.userinfo_btn_herder);
-	    linearshezhi=(LinearLayout) getView().findViewById(R.id.setting_container);
-	    linearyoufei=(LinearLayout) getView().findViewById(R.id.postage_container);
-	    initData();
+		linearshezhi = (LinearLayout) getView().findViewById(
+				R.id.setting_container);
+		linearyoufei = (LinearLayout) getView().findViewById(
+				R.id.postage_container);
+		initData();
 	}
 
 	@Override
 	public void onClick(View v) {
-		switch(v.getId()){
+		switch (v.getId()) {
 		case R.id.userinfo_container:
 			// 跳转到EditUserInfoActivity
 			Log.i("onClick", "userinfo_container");
@@ -64,16 +67,16 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener{
 			break;
 		case R.id.userinfo_btn_herder:
 			Log.i("onClick", "userinfo_btn_herder");
-			startActivity(new Intent(getActivity(),LoginActivity.class));
+			startActivity(new Intent(getActivity(), LoginActivity.class));
 			break;
 		case R.id.setting_container:
 			Log.i("onClick", "setting_container");
-			startActivity(new Intent(getActivity(),SheZhiActivity.class));
+			startActivity(new Intent(getActivity(), SheZhiActivity.class));
 			break;
 		case R.id.postage_container:
 			Log.i("onClick", "postage_container");
-			startActivity(new Intent(getActivity(),PostageActivity.class));
-			break;	
+			startActivity(new Intent(getActivity(), PostageActivity.class));
+			break;
 		}
 	}
 

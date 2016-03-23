@@ -2,8 +2,12 @@ package com.geminno.erhuo.fragment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -39,13 +43,13 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
 @SuppressLint("InflateParams")
-public class HomeFragment extends BaseFragment implements OnClickListener{
+public class HomeFragment extends BaseFragment implements OnClickListener {
 
 	private ImageCycleView mAdView;
 	private View convertView;
 	private RefreshListView refreshListView;
-	// ------------------------
 	private List<Markets> listMarkets = null;
+	private Map<Goods, List<String>> map = new HashMap<Goods, List<String>>();
 	private List<Goods> listGoods = new ArrayList<Goods>();
 	private Context context;
 	private Handler handler = new Handler();
@@ -53,9 +57,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 	private int pageSize = 6;// 一次加载几条
 	private String url;
 	private HomePageAdapter adapter;
-	private List<Goods> preGoods = new ArrayList<Goods>();// 记录上一次不满的记录集合
+	private List<Map<Goods, List<String>>> preGoods = new ArrayList<Map<Goods, List<String>>>();// 记录上一次不满的记录集合
 	private String head = null;// http: 头部
-	private List<Goods> carryGoods = new ArrayList<Goods>(); // 中转站
+	private List<Map<Goods, List<String>>> listAll = new ArrayList<Map<Goods, List<String>>>();
 
 	public HomeFragment(Context context) {
 		this.context = context;
@@ -70,13 +74,14 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 	}
 
 	ImageView ivhome;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		convertView = inflater.inflate(R.layout.fragment_main_page, null);
-		ivhome=(ImageView) convertView.findViewById(R.id.home_search);
+		ivhome = (ImageView) convertView.findViewById(R.id.home_search);
 		ivhome.setOnClickListener(this);
-		
+
 		return convertView;
 	}
 
@@ -97,7 +102,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 					@Override
 					public void run() {
 						// 清空原来的+新的数据
-						listGoods.clear();
+						map.clear();
 						initData();
 						// 调用刷新完成的方法
 						refreshListView.completeRefresh();
@@ -198,17 +203,15 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 													ResponseInfo<String> arg0) {
 												String result = arg0.result;
 												Gson gson = new GsonBuilder()
+														.enableComplexMapKeySerialization()
 														.setDateFormat(
 																"yyyy-MM-dd HH:mm:ss")
 														.create();
-												Type type = new TypeToken<List<Goods>>() {
+												Type type = new TypeToken<List<Map<Goods, List<String>>>>() {
 												}.getType();
-												// 获得刷新后的新数据
-												List<Goods> newGoods = gson
+												List<Map<Goods, List<String>>> newGoods = gson
 														.fromJson(result, type);
-												// 添加到集合中
-												listGoods.addAll(newGoods);
-												// 设置数据源
+												listAll.addAll(newGoods);
 												if (adapter == null) {
 													adapter = new HomePageAdapter(
 															context,
@@ -217,9 +220,29 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 													refreshListView
 															.setAdapter(adapter);
 												} else {
-													// 通知改变数据源
 													adapter.notifyDataSetChanged();
 												}
+												// Type type = new
+												// TypeToken<List<Goods>>() {
+												// }.getType();
+												// // 获得刷新后的新数据
+												// List<Goods> newGoods = gson
+												// .fromJson(result, type);
+												// // 添加到集合中
+												// listGoods.addAll(newGoods);
+												// // 设置数据源
+												// if (adapter == null) {
+												// adapter = new
+												// HomePageAdapter(
+												// context,
+												// listMarkets,
+												// newGoods);
+												// refreshListView
+												// .setAdapter(adapter);
+												// } else {
+												// // 通知改变数据源
+												// adapter.notifyDataSetChanged();
+												// }
 
 											}
 
@@ -257,13 +280,14 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 						String result = arg0.result;
 						Gson gson = new GsonBuilder().setDateFormat(
 								"yyyy-MM-dd HH:mm:ss").create();
-						Type type = new TypeToken<List<Goods>>() {
+						Type type = new TypeToken<List<Map<Goods, List<String>>>>() {
 						}.getType();
-						List<Goods> newGoods = gson.fromJson(result, type);
+						List<Map<Goods, List<String>>> newGoods = gson
+								.fromJson(result, type);
 						// 判断preGoods是否有记录，如果有，则将其从总集合中删掉
 						if (!preGoods.isEmpty()) {
 							Log.i("erhuo", "清空preGoods");
-							listGoods.removeAll(preGoods);
+							listAll.removeAll(preGoods);
 							// 清空preGoods
 							preGoods.clear();
 						}
@@ -284,16 +308,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 								preGoods.addAll(newGoods);
 							}
 						}
-						listGoods.addAll(newGoods);
+						listAll.addAll(newGoods);
 						// 改变数据源
 						if (adapter == null) {
 							adapter = new HomePageAdapter(context, listMarkets,
-									listGoods);
+									listAll);
 							refreshListView.setAdapter(adapter);
 						} else {
 							// adapter.notifyDataSetChanged();
 							adapter = new HomePageAdapter(context, listMarkets,
-									listGoods);
+									listAll);
 							refreshListView.setAdapter(adapter);
 						}
 					}
@@ -310,7 +334,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener{
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.home_search:
-			startActivity(new Intent(context,SearchActivity.class));
+			startActivity(new Intent(context, SearchActivity.class));
 			break;
 
 		default:

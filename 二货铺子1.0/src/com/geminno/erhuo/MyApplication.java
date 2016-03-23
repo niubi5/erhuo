@@ -42,7 +42,7 @@ public class MyApplication extends Application {
 
 	public static Users getCurrentUser() {
 		return user;
-		
+
 	}
 
 	public static void setUsers(Users users) {

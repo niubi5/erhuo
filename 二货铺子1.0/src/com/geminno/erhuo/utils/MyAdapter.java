@@ -18,7 +18,7 @@ public abstract class MyAdapter<T> extends BaseAdapter {
 	protected List<T> mDatas;
 	protected LayoutInflater mInflater;
 	private int layoutId;
-	
+
 	public MyAdapter(Context context, List<T> datas) {
 		this.mContext = context;
 		mInflater = LayoutInflater.from(context);
