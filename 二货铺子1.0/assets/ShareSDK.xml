@@ -64,8 +64,8 @@
     -->
 
     <SinaWeibo
-        AppKey="568898243"
-        AppSecret="38a4f8204cc784f81f9f0daaf31e02e3"
+        AppKey="4110107587"
+        AppSecret="cbdbc0d7793e08ace6ad78d04d385bd0"
         Enable="true"
         Id="1"
         RedirectUrl="http://www.sharesdk.cn"
@@ -73,8 +73,8 @@
         SortId="1" />
 
     <TencentWeibo
-        AppKey="801307650"
-        AppSecret="ae36f4ee3946e1cbb98d6965b0b2ff5c"
+        AppKey="1105278024"
+        AppSecret="v6dsxZbrfKJpYue1"
         Enable="true"
         Id="2"
         RedirectUri="http://sharesdk.cn"
@@ -83,8 +83,8 @@
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
 
     <QZone
-        AppId="100371282"
-        AppKey="aed9b0303e3ed1e27bae87c33761161d"
+        AppId="1105278024"
+        AppKey="v6dsxZbrfKJpYue1"
         Enable="true"
         Id="3"
         ShareByAppClient="false"
@@ -129,8 +129,8 @@
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
 
     <QQ
-        AppId="100371282"
-        AppKey="aed9b0303e3ed1e27bae87c33761161d"
+        AppId="1105278024"
+        AppKey="v6dsxZbrfKJpYue1"
         Enable="true"
         Id="7"
         ShareByAppClient="true"
