@@ -30,10 +30,10 @@ public class AddImageView extends RelativeLayout {
 		View v = LayoutInflater.from(context).inflate(R.layout.add_image, this,true);
 		ivAddImage = (ImageView) v.findViewById(R.id.iv_add_image);
 		tvAddText = (TextView) v.findViewById(R.id.tv_add_image_text);
-		LayoutInflater.from(context).inflate(1, this);
-
-		System.out.println();
-		LayoutInflater.from(context).inflate(2, this);
+//		LayoutInflater.from(context).inflate(1, this);
+//
+//		System.out.println();
+//		LayoutInflater.from(context).inflate(2, this);
 
 	}
 }
