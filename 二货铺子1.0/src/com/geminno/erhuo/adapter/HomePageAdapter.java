@@ -1,21 +1,17 @@
 package com.geminno.erhuo.adapter;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.Set;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,16 +27,9 @@ import com.geminno.erhuo.R;
 import com.geminno.erhuo.entity.ADInfo;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
+import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
@@ -61,8 +50,8 @@ public class HomePageAdapter extends BaseAdapter {
 	private List<Markets> listMarkets = new ArrayList<Markets>();// 集市集合
 	private List<Goods> listgoods = new ArrayList<Goods>();
 	private List<List<String>> listUrls = new ArrayList<List<String>>();
-	private List<Map<Goods, List<String>>> listAll;// 所有商品的所有信息
-	private Map<Goods, List<String>> map = new HashMap<Goods, List<String>>();// 一个商品的Map集合
+	private List<Map<Map<Goods, Users>, List<String>>> listAll;// 所有商品的所有信息
+	private Map<Map<Goods, Users>, List<String>> map = new HashMap<Map<Goods, Users>, List<String>>();// 一个商品的Map集合
 	private SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
 	private float scale;// 屏幕密度
 	private int px1;// 商品图片px
@@ -97,15 +86,28 @@ public class HomePageAdapter extends BaseAdapter {
 		this.context = context;
 	}
 
+	// public HomePageAdapter(Context context, List<Markets> listMarkets,
+	// List<Map<Goods, List<String>>> listAll) {
+	// this.context = context;
+	// this.listMarkets = listMarkets;
+	// this.listAll = listAll;
+	// scale = context.getResources().getDisplayMetrics().density;
+	// px1 = (int)(200 * scale + 0.5f);
+	// px2 = (int)(180 * scale + 0.5f);
+	// px3 = (int)(112.5 * scale + 0.5f);
+	// params3 = new LayoutParams(px1, px1);
+	// imageMarket = new LayoutParams(px2, px3);
+	// }
+
 	public HomePageAdapter(Context context, List<Markets> listMarkets,
-			List<Map<Goods, List<String>>> listAll) {
+			List<Map<Map<Goods, Users>, List<String>>> listAll) {
 		this.context = context;
 		this.listMarkets = listMarkets;
 		this.listAll = listAll;
 		scale = context.getResources().getDisplayMetrics().density;
-		px1 = (int)(200 * scale + 0.5f);
-		px2 = (int)(180 * scale + 0.5f);
-		px3 = (int)(112.5 * scale + 0.5f);
+		px1 = (int) (200 * scale + 0.5f);
+		px2 = (int) (180 * scale + 0.5f);
+		px3 = (int) (112.5 * scale + 0.5f);
 		params3 = new LayoutParams(px1, px1);
 		imageMarket = new LayoutParams(px2, px3);
 	}
@@ -178,39 +180,78 @@ public class HomePageAdapter extends BaseAdapter {
 		ViewHolderGoods viewHolder = null;
 		// 边界判断
 		if (position - 3 >= 0 && position - 3 < listAll.size()) {
+
 			// 取得当前商品Map
 			map = listAll.get(position - 3);
 			// 获得EntrySet，并遍历
-			Set<Entry<Goods, List<String>>> entry = map.entrySet();
-			for (Map.Entry<Goods, List<String>> en : entry) {
-				Goods goods = (Goods) en.getKey();// Map中key（商品对象）
-				List<String> urls = (List<String>) en.getValue();// Map的value(商品图片url集合)
-				if (convertView == null) {
-					viewHolder = new ViewHolderGoods();
-					convertView = LayoutInflater.from(context).inflate(
-							R.layout.goods_item, null);
-					viewHolder.userHead = (ImageView) convertView
-							.findViewById(R.id.user_head);
-					viewHolder.userName = (TextView) convertView
-							.findViewById(R.id.user_name);
-					viewHolder.goodsInfo = (TextView) convertView
-							.findViewById(R.id.goods_info);
-					viewHolder.goodsPrice = (TextView) convertView
-							.findViewById(R.id.goods_price);
-					viewHolder.pubTime = (TextView) convertView
-							.findViewById(R.id.goods_pubtime);
-					viewHolder.userFavorite = (ImageView) convertView
-							.findViewById(R.id.user_favorite);
-					viewHolder.imagesContainer = (LinearLayout) convertView
-							.findViewById(R.id.goods_images_container);
-					// 设置值
+			Set<Map.Entry<Map<Goods, Users>, List<String>>> entry = map
+					.entrySet();
+			for (Map.Entry<Map<Goods, Users>, List<String>> en : entry) {
+				Map<Goods, Users> goodsUsers = en.getKey();// Map中key（商品用户对象）
+				List<String> urls = en.getValue();// Map的value(商品图片url集合)
+				Set<Entry<Goods, Users>> entry1 = goodsUsers.entrySet();
+				for (Map.Entry<Goods, Users> en1 : entry1) {
+					// 取得最里面的map中的goods和users对象
+					Goods goods = en1.getKey();
+					Users user = en1.getValue();
+
+					if (convertView == null) {
+						viewHolder = new ViewHolderGoods();
+						convertView = LayoutInflater.from(context).inflate(
+								R.layout.goods_item, null);
+						viewHolder.userHead = (ImageView) convertView
+								.findViewById(R.id.user_head);
+						viewHolder.userName = (TextView) convertView
+								.findViewById(R.id.user_name);
+						viewHolder.goodsName = (TextView) convertView
+								.findViewById(R.id.goods_name);
+						viewHolder.goodsInfo = (TextView) convertView
+								.findViewById(R.id.goods_info);
+						viewHolder.goodsPrice = (TextView) convertView
+								.findViewById(R.id.goods_price);
+						viewHolder.pubTime = (TextView) convertView
+								.findViewById(R.id.goods_pubtime);
+						viewHolder.userFavorite = (ImageView) convertView
+								.findViewById(R.id.user_favorite);
+						viewHolder.imagesContainer = (LinearLayout) convertView
+								.findViewById(R.id.goods_images_container);
+						// 设置值
+						viewHolder.userHead
+								.setImageResource(R.drawable.header_default);
+						viewHolder.userName.setText(user.getName());
+						viewHolder.goodsName.setText(goods.getName());
+						viewHolder.goodsInfo.setText(goods.getImformation());
+						viewHolder.goodsPrice.setText("￥"
+								+ goods.getSoldPrice() + "");
+						viewHolder.pubTime.setText(sdf.format(goods
+								.getPubTime()));
+						// 遍历Url集合，装载图片，放入ScrollView中
+						for (String url : urls) {
+							ImageView imageView = new ImageView(context);
+							ImageLoader.getInstance().displayImage(url,
+									imageView);
+							imageView.setScaleType(ScaleType.CENTER_CROP);
+							imageView.setLayoutParams(params3);
+							if (position - 3 != 0) {
+								imageView.setPadding(5, 0, 0, 0);
+							}
+							viewHolder.imagesContainer.addView(imageView);
+						}
+						convertView.setTag(viewHolder);
+					} else {
+						viewHolder = (ViewHolderGoods) convertView.getTag();
+					}
+					// 重新赋值，解决控件复用带来的数据重复
 					viewHolder.userHead
 							.setImageResource(R.drawable.header_default);
+					viewHolder.userName.setText(user.getName());
+					viewHolder.goodsName.setText(goods.getName());
 					viewHolder.goodsInfo.setText(goods.getImformation());
 					viewHolder.goodsPrice.setText("￥" + goods.getSoldPrice()
 							+ "");
 					viewHolder.pubTime.setText(sdf.format(goods.getPubTime()));
-					// 遍历Url集合，装载图片，放入ScrollView中
+					// 移除之前的所有商品图片
+					viewHolder.imagesContainer.removeAllViews();
 					for (String url : urls) {
 						ImageView imageView = new ImageView(context);
 						ImageLoader.getInstance().displayImage(url, imageView);
@@ -221,29 +262,8 @@ public class HomePageAdapter extends BaseAdapter {
 						}
 						viewHolder.imagesContainer.addView(imageView);
 					}
-					convertView.setTag(viewHolder);
-				} else {
-					viewHolder = (ViewHolderGoods) convertView.getTag();
 				}
-				// 重新赋值，解决控件复用带来的数据重复
-				viewHolder.userHead
-						.setImageResource(R.drawable.header_default);
-				viewHolder.goodsInfo.setText(goods.getImformation());
-				viewHolder.goodsPrice.setText("￥" + goods.getSoldPrice()
-						+ "");
-				viewHolder.pubTime.setText(sdf.format(goods.getPubTime()));
-				// 移除之前的所有商品图片
-				viewHolder.imagesContainer.removeAllViews();
-				for (String url : urls) {
-					ImageView imageView = new ImageView(context);
-					ImageLoader.getInstance().displayImage(url, imageView);
-					imageView.setScaleType(ScaleType.CENTER_CROP);
-					imageView.setLayoutParams(params3);
-					if (position - 3 != 0) {
-						imageView.setPadding(5, 0, 0, 0);
-					}
-					viewHolder.imagesContainer.addView(imageView);
-				}
+
 			}
 		}
 		return convertView;
@@ -286,7 +306,6 @@ public class HomePageAdapter extends BaseAdapter {
 					tvMarketName.setLayoutParams(param2);
 					tvMarketName.setEllipsize(TextUtils.TruncateAt.END);
 					tvMarketName.setText(market.getName());
-					tvMarketName.setTextSize(11);
 					// 装填集市人数，商品数
 					LinearLayout son = new LinearLayout(context);
 					son.setLayoutParams(param2);
@@ -301,7 +320,6 @@ public class HomePageAdapter extends BaseAdapter {
 					tvMarketUserCount.setLayoutParams(param3);
 					tvMarketUserCount.setPadding(5, 0, 0, 0);
 					tvMarketUserCount.setText(market.getUserCount() + "");
-					tvMarketUserCount.setTextSize(11);
 					tvMarketUserCount.setGravity(Gravity.CENTER_VERTICAL);
 					// 商品数图片
 					ImageView ivGoodsCount = new ImageView(context);// 商品图标
@@ -313,7 +331,6 @@ public class HomePageAdapter extends BaseAdapter {
 					tvMarketGoodsCount.setLayoutParams(param3);
 					tvMarketGoodsCount.setPadding(5, 0, 0, 0);
 					tvMarketGoodsCount.setText(market.getGoodsCount() + "");
-					tvMarketGoodsCount.setTextSize(11);
 					tvMarketGoodsCount.setGravity(Gravity.CENTER_VERTICAL);
 					// 布局间距
 					View viewPadding = new View(context);
@@ -379,13 +396,7 @@ public class HomePageAdapter extends BaseAdapter {
 	}
 
 	public class ViewHolderGoods {
-		// ImageView imageLeft;
-		// ImageView imageRight;
-		// TextView infoLeft;
-		// TextView infoRight;
-		// TextView priceLeft;
-		// TextView priceRight;
-
+		TextView goodsName;
 		ImageView userHead;
 		TextView userName;
 		TextView goodsPrice;

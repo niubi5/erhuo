@@ -2,12 +2,9 @@ package com.geminno.erhuo.fragment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,6 +26,7 @@ import com.geminno.erhuo.SearchActivity;
 import com.geminno.erhuo.adapter.HomePageAdapter;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
+import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.RefreshListView;
 import com.geminno.erhuo.view.RefreshListView.OnRefreshCallBack;
@@ -49,17 +47,19 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private View convertView;
 	private RefreshListView refreshListView;
 	private List<Markets> listMarkets = null;
-	private Map<Goods, List<String>> map = new HashMap<Goods, List<String>>();
-	private List<Goods> listGoods = new ArrayList<Goods>();
+	// private Map<Goods, List<String>> map = new HashMap<Goods,
+	// List<String>>();
 	private Context context;
 	private Handler handler = new Handler();
 	private int curPage = 1; // 页数
 	private int pageSize = 6;// 一次加载几条
 	private String url;
 	private HomePageAdapter adapter;
-	private List<Map<Goods, List<String>>> preGoods = new ArrayList<Map<Goods, List<String>>>();// 记录上一次不满的记录集合
+	private List<Map<Map<Goods, Users>, List<String>>> preGoods = new ArrayList<Map<Map<Goods, Users>, List<String>>>();// 记录上一次不满的记录集合
 	private String head = null;// http: 头部
-	private List<Map<Goods, List<String>>> listAll = new ArrayList<Map<Goods, List<String>>>();
+	// private List<Map<Goods, List<String>>> listAll = new ArrayList<Map<Goods,
+	// List<String>>>();
+	List<Map<Map<Goods, Users>, List<String>>> listAll = new ArrayList<Map<Map<Goods, Users>, List<String>>>();
 
 	public HomeFragment(Context context) {
 		this.context = context;
@@ -102,7 +102,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					@Override
 					public void run() {
 						// 清空原来的+新的数据
-						map.clear();
+						// map.clear();
 						initData();
 						// 调用刷新完成的方法
 						refreshListView.completeRefresh();
@@ -170,12 +170,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 							@Override
 							public void onSuccess(ResponseInfo<String> arg0) {
 								String result = arg0.result;// 获得响应结果
+								Log.i("erhuo", result);
 								Gson gson = new Gson();
 								Type type = new TypeToken<List<Markets>>() {
 								}.getType();
 								listMarkets = (List<Markets>) gson.fromJson(
 										result, type);
-
 								// -----------------------
 								// 获得商品集合
 								url = head + "/ListGoodsServlet";
@@ -207,9 +207,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 														.setDateFormat(
 																"yyyy-MM-dd HH:mm:ss")
 														.create();
-												Type type = new TypeToken<List<Map<Goods, List<String>>>>() {
+												Type type = new TypeToken<List<Map<Map<Goods, Users>, List<String>>>>() {
 												}.getType();
-												List<Map<Goods, List<String>>> newGoods = gson
+												List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
 														.fromJson(result, type);
 												listAll.addAll(newGoods);
 												if (adapter == null) {
@@ -222,28 +222,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 												} else {
 													adapter.notifyDataSetChanged();
 												}
-												// Type type = new
-												// TypeToken<List<Goods>>() {
-												// }.getType();
-												// // 获得刷新后的新数据
-												// List<Goods> newGoods = gson
-												// .fromJson(result, type);
-												// // 添加到集合中
-												// listGoods.addAll(newGoods);
-												// // 设置数据源
-												// if (adapter == null) {
-												// adapter = new
-												// HomePageAdapter(
-												// context,
-												// listMarkets,
-												// newGoods);
-												// refreshListView
-												// .setAdapter(adapter);
-												// } else {
-												// // 通知改变数据源
-												// adapter.notifyDataSetChanged();
-												// }
-
 											}
 
 										});
@@ -278,11 +256,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
-						Gson gson = new GsonBuilder().setDateFormat(
-								"yyyy-MM-dd HH:mm:ss").create();
-						Type type = new TypeToken<List<Map<Goods, List<String>>>>() {
+						Gson gson = new GsonBuilder()
+								.enableComplexMapKeySerialization()
+								.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+						Type type = new TypeToken<List<Map<Map<Goods, Users>, List<String>>>>() {
 						}.getType();
-						List<Map<Goods, List<String>>> newGoods = gson
+						List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
 								.fromJson(result, type);
 						// 判断preGoods是否有记录，如果有，则将其从总集合中删掉
 						if (!preGoods.isEmpty()) {
