@@ -48,8 +48,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private View convertView;
 	private RefreshListView refreshListView;
 	private List<Markets> listMarkets = null;
-	// private Map<Goods, List<String>> map = new HashMap<Goods,
-	// List<String>>();
 	private Context context;
 	private Handler handler = new Handler();
 	private int curPage = 1; // 页数
@@ -58,9 +56,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private HomePageAdapter adapter;
 	private List<Map<Map<Goods, Users>, List<String>>> preGoods = new ArrayList<Map<Map<Goods, Users>, List<String>>>();// 记录上一次不满的记录集合
 	private String head = null;// http: 头部
-	// private List<Map<Goods, List<String>>> listAll = new ArrayList<Map<Goods,
-	// List<String>>>();
-	List<Map<Map<Goods, Users>, List<String>>> listAll = new ArrayList<Map<Map<Goods, Users>, List<String>>>();
+	private List<Map<Map<Goods, Users>, List<String>>> listAll = new ArrayList<Map<Map<Goods, Users>, List<String>>>();
 
 	public HomeFragment(Context context) {
 		this.context = context;
@@ -104,7 +100,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					@Override
 					public void run() {
 						// 清空原来的+新的数据
-						// map.clear();
+						listAll.clear();
 						initData();
 						// 调用刷新完成的方法
 						refreshListView.completeRefresh();
@@ -172,7 +168,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 							@Override
 							public void onSuccess(ResponseInfo<String> arg0) {
 								String result = arg0.result;// 获得响应结果
-								Log.i("erhuo", result);
 								Gson gson = new Gson();
 								Type type = new TypeToken<List<Markets>>() {
 								}.getType();
@@ -220,7 +215,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 													adapter = new HomePageAdapter(
 															context,
 															listMarkets,
-															newGoods);
+															newGoods, refreshListView);
 													refreshListView
 															.setAdapter(adapter);
 												} else {
@@ -295,13 +290,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 						// 改变数据源
 						if (adapter == null) {
 							adapter = new HomePageAdapter(context, listMarkets,
-									listAll);
+									listAll, refreshListView);
 							refreshListView.setAdapter(adapter);
 						} else {
-							// adapter.notifyDataSetChanged();
-							adapter = new HomePageAdapter(context, listMarkets,
-									listAll);
-							refreshListView.setAdapter(adapter);
+							adapter.notifyDataSetChanged();
 						}
 					}
 				});
@@ -324,5 +316,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			break;
 		}
 	}
+
+
 
 }
