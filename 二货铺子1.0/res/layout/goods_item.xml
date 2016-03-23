@@ -13,7 +13,8 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:descendantFocusability="blocksDescendants" >
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,12 +1,14 @@
 package com.geminno.erhuo;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
@@ -526,7 +528,15 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				String goodsJson = gson.toJson(goods);
 				//服务器地址(测试，后期从配置文件获取)
 				//String url = null;
-				final String url = "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
+				//final String url = "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
+				Properties prop = new Properties();
+				try {
+					prop.load(PublishGoodsActivity.class.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String url = prop.getProperty("url")+"/AddGoodServlet";
 				RequestParams rp = new RequestParams();
 				rp.addBodyParameter("goodJson", goodsJson);
 

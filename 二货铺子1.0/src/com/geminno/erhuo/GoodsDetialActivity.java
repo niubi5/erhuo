@@ -18,6 +18,9 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
+import com.geminno.erhuo.entity.Goods;
+import com.geminno.erhuo.entity.Users;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -95,8 +98,14 @@ public class GoodsDetialActivity extends Activity {
 		viewPager.setOnPageChangeListener(new MyListener());
 
 		initIndicator();
-		// 获得当前商品的id
-
+		// 获得当前商品的信息
+//		Users user = (Users) getIntent().getSerializableExtra("user");
+//		Goods good = (Goods) getIntent().getSerializableExtra("goods");
+//		List<String> url1 = (List<String>) getIntent().getStringArrayListExtra("urls");
+//		Log.i("GoodsDetialActivity", user.getName());
+//		Log.i("GoodsDetialActivity", good.getName());
+//		Log.i("GoodsDetialActivity", url1.get(0));
+		
 	}
 
 	private void showShare() {

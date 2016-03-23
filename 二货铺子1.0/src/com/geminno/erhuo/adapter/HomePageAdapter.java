@@ -136,20 +136,20 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 				if(position >= 3 && !userGoodsUrls.isEmpty()){
 					Intent intent = new Intent(context, GoodsDetialActivity.class);
 					Log.i("erhuo", "当前position：" + position);
-					for(int i = (position - 4) * 3; i < (position - 4)*3+3; i++){
-						Log.i("erhuo", "i的值：" + i);
-						if(i == count){
-							Users user = (Users) userGoodsUrls.get(i);
-							intent.putExtra("user", user);
-						} else if(i == count + 1){
-							Goods goods = (Goods) userGoodsUrls.get(i);
-							intent.putExtra("goods", goods);
-						} else if(i == count + 2){
-							ArrayList<String> urls = (ArrayList<String>) userGoodsUrls.get(i);
-							intent.putStringArrayListExtra("urls", urls);
-							count += 3;
-						}
-					}
+//					for(int i = (position - 4) * 3; i < (position - 4)*3+3; i++){
+//						Log.i("erhuo", "i的值：" + i);
+//						if(i == count){
+//							Users user = (Users) userGoodsUrls.get(i);
+//							intent.putExtra("user", user);
+//						} else if(i == count + 1){
+//							Goods goods = (Goods) userGoodsUrls.get(i);
+//							intent.putExtra("goods", goods);
+//						} else if(i == count + 2){
+//							ArrayList<String> urls = (ArrayList<String>) userGoodsUrls.get(i);
+//							intent.putStringArrayListExtra("urls", urls);
+//							count += 3;
+//						}
+//					}
 					context.startActivity(intent);
 				}
 			}
@@ -549,15 +549,15 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 			context.startActivity(intent);
 
 			break;
-		// 商品点击事件
-		case R.id.goods_images_container:
-			if (user != null & goods != null) {
-				intent.putExtra("user", user);
-				intent.putExtra("goods", goods);
-				intent.setClass(context, GoodsDetialActivity.class);
-				context.startActivity(intent);
-			}
-			break;
+//		// 商品点击事件
+//		case R.id.goods_images_container:
+//			if (user != null & goods != null) {
+//				intent.putExtra("user", user);
+//				intent.putExtra("goods", goods);
+//				intent.setClass(context, GoodsDetialActivity.class);
+//				context.startActivity(intent);
+//			}
+//			break;
 		default:
 			break;
 		}

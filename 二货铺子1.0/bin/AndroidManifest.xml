@@ -109,6 +109,11 @@
             android:name=".StartActivity"
             android:label="@string/title_activity_start"
             android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".SheZhiActivity"
@@ -173,11 +178,6 @@
         <activity
             android:name=".GoodsDetialActivity"
             android:label="@string/title_activity_goods_detial" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".BuyGoodsActivity"
@@ -234,7 +234,10 @@
 
 
         <!-- 支付宝分享回调 -->
-
+        <activity
+            android:name=".ReportGoodActivity"
+            android:label="@string/title_activity_report_good" >
+        </activity>
     </application>
 
 </manifest>

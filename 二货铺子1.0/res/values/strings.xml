@@ -85,7 +85,6 @@
     <string name="donation_dialog_skill_two">2. 图片能反映真实情况,包含细节</string>
     <string name="donation_dialog_warning">请发布真实信息，上传真实图片，如果有人给您帮助，请不要忘记在心里说声谢谢，给接收人们带来一份温暖，给捐赠人们增添一份爱心，让爱在这个世界传递！</string>
     <string name="title_activity_donation">DonationActivity</string>
-
     <string name="upload_hint">发布中&#8230;</string>
     <string name="title_activity_classification">ClassificationActivity</string>
     <string name="title_activity_ship_address">ShipAddressActivity</string>
@@ -111,5 +110,8 @@
     <string name="buy">买买买</string>
     <string name="title_activity_buy_goods">BuyGoodsActivity</string>
     <string name="real_pay">实付金额</string>
-	<string name="pay_way">请选择付款方式</string>
+    <string name="pay_way">请选择付款方式</string>
+    <string name="title_activity_report_good">ReportGoodActivity</string>
+    <string name="report_good">举报商品</string>
+
 </resources>
