@@ -181,8 +181,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener{
 
 	// 获得类别Item
 	private View getTypeItem(View convertView) {
-
-
 		if (convertView == null) {
 			viewHolderType = new ViewHolderType();
 			convertView = LayoutInflater.from(context).inflate(
@@ -208,10 +206,14 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener{
 		} else {
 			viewHolderType = (ViewHolderType) convertView.getTag();
 		}
-
-		convertView = LayoutInflater.from(context).inflate(R.layout.type_item,
-				null);
-
+//		viewHolderType.ip.setOnClickListener(this);
+//		viewHolderType.pad.setOnClickListener(this);
+//		viewHolderType.pc.setOnClickListener(this);
+//		viewHolderType.ixiaomi.setOnClickListener(this);
+//		viewHolderType.c.setOnClickListener(this);
+//		viewHolderType.card.setOnClickListener(this);
+//		viewHolderType.luggage.setOnClickListener(this);
+//		viewHolderType.perfume.setOnClickListener(this);
 		return convertView;
 	}
 
