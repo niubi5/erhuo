@@ -13,6 +13,7 @@ import java.util.Set;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,13 +21,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.geminno.erhuo.ClassificationActivity;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.entity.ADInfo;
 import com.geminno.erhuo.entity.Goods;
@@ -48,7 +52,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * @version 创建时间:2016-3-15下午1:48:37
  */
 @SuppressLint("InflateParams")
-public class HomePageAdapter extends BaseAdapter {
+public class HomePageAdapter extends BaseAdapter implements OnClickListener{
 
 	private Context context;
 	private final int TYPE_AD = 0;// Item的类型
@@ -77,6 +81,7 @@ public class HomePageAdapter extends BaseAdapter {
 			"http://10.201.1.6:8080/ads/ad2.jpg",
 			"http://pic15.nipic.com/20110722/2912365_092519919000_2.jpg",
 			"http://10.201.1.6:8080/ads/ad1.jpg" };
+	ViewHolderType viewHolderType = null;
 	// 实现接口
 	private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
 
@@ -166,6 +171,34 @@ public class HomePageAdapter extends BaseAdapter {
 
 	// 获得类别Item
 	private View getTypeItem(View convertView) {
+
+
+		if (convertView == null) {
+			viewHolderType = new ViewHolderType();
+			convertView = LayoutInflater.from(context).inflate(
+					R.layout.type_item, null);
+			viewHolderType.ip = (Button) convertView
+					.findViewById(R.id.type_iphone);
+			viewHolderType.pad = (Button) convertView.findViewById(R.id.type_pad);
+			viewHolderType.pc = (Button) convertView.findViewById(R.id.type_pc);
+			viewHolderType.ixiaomi = (Button) convertView.findViewById(R.id.type_ixiaomi);
+			viewHolderType.c = (Button) convertView.findViewById(R.id.type_3c);
+			viewHolderType.card = (Button) convertView.findViewById(R.id.type_card);
+			viewHolderType.luggage = (Button) convertView.findViewById(R.id.type_luggage);
+			viewHolderType.perfume = (Button) convertView.findViewById(R.id.type_perfume);
+			viewHolderType.ip.setOnClickListener(this);
+			viewHolderType.pad.setOnClickListener(this);
+			viewHolderType.pc.setOnClickListener(this);
+			viewHolderType.ixiaomi.setOnClickListener(this);
+			viewHolderType.c.setOnClickListener(this);
+			viewHolderType.card.setOnClickListener(this);
+			viewHolderType.luggage.setOnClickListener(this);
+			viewHolderType.perfume.setOnClickListener(this);
+			convertView.setTag(viewHolderType);
+		} else {
+			viewHolderType = (ViewHolderType) convertView.getTag();
+		}
+
 		convertView = LayoutInflater.from(context).inflate(R.layout.type_item,
 				null);
 
@@ -370,6 +403,18 @@ public class HomePageAdapter extends BaseAdapter {
 		return null;
 	}
 
+
+	public class ViewHolderType {
+		Button ip;
+		Button pad;
+		Button pc;
+		Button ixiaomi;
+		Button c;
+		Button card;
+		Button luggage;
+		Button perfume;
+	}
+
 	public class ViewHolderAD {
 		ImageCycleView mAdView;
 	}
@@ -394,5 +439,72 @@ public class HomePageAdapter extends BaseAdapter {
 		ImageView userFavorite;
 		LinearLayout imagesContainer;
 	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intent = new Intent();
+		Log.i("cheshi", "老子在这里");
+		switch (v.getId()) {
+		case R.id.type_iphone:
+			String iphone = viewHolderType.ip.getText().toString();
+			Log.i("cheshi", iphone);
+			intent.putExtra("iphone", iphone);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
+			break;
+		case R.id.type_pad:
+			String padString = viewHolderType.pad.getText().toString();
+			intent.putExtra("iphone", padString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
+			break;
+		case R.id.type_pc:
+			String pcString = viewHolderType.pc.getText().toString();
+			intent.putExtra("iphone", pcString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
+			break;
+		case R.id.type_ixiaomi:
+			String ixiaomiString = viewHolderType.ixiaomi.getText().toString();
+			intent.putExtra("iphone", ixiaomiString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
+
+			break;
+		case R.id.type_3c:
+			String cString = viewHolderType.c.getText().toString();
+			intent.putExtra("iphone", cString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
+
+			break;
+		case R.id.type_card:
+			String cardString = viewHolderType.card.getText().toString();
+			intent.putExtra("iphone", cardString);
+			Log.i("result", "card:" + cardString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
+
+			break;
+		case R.id.type_luggage:
+			String luggageString = viewHolderType.luggage.getText().toString();
+			intent.putExtra("iphone", luggageString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
+
+			break;
+		case R.id.type_perfume:
+			String perfumeString = viewHolderType.perfume.getText().toString();
+			intent.putExtra("iphone", perfumeString);
+			intent.setClass(context, ClassificationActivity.class);
+			context.startActivity(intent);
+
+			break;
+
+		default:
+			break;
+		}
+	}
+	
 
 }

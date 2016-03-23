@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-public class ClassificationActivity extends Activity {
+public class ClassificationActivity extends Activity implements OnClickListener{
 
 	private Spinner classificationSpinner = null; // 分类
 	private Spinner sortSpinner = null; // 排序
@@ -40,8 +43,10 @@ public class ClassificationActivity extends Activity {
         iphone=intent.getStringExtra("iphone");
         Log.i("result", "iphone:"+iphone);
         setSpinner();
-        
-        
+//        TextView tView=(TextView) findViewById(R.id.tv_fenlei);
+//        tView.setText(iphone);
+        findViewById(R.id.ib_fenlei).setOnClickListener(this);
+       
 	}
 
 
@@ -98,4 +103,17 @@ public class ClassificationActivity extends Activity {
 		   screenSpinner.setSelection(0,true);
 		   
 	   }
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.ib_fenlei:
+			this.finish();
+			break;
+
+		default:
+			break;
+		}
+	}
 }

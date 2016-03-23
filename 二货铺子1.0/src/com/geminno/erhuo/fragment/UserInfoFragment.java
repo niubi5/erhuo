@@ -2,9 +2,13 @@ package com.geminno.erhuo.fragment;
 
 import com.geminno.erhuo.EditUserInfoActivity;
 import com.geminno.erhuo.LoginActivity;
+import com.geminno.erhuo.MainActivity;
+import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.PostageActivity;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.SheZhiActivity;
+import com.geminno.erhuo.ShipAddressActivity;
+import com.geminno.erhuo.entity.Users;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +28,8 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 	private Button btnHead;
 	private LinearLayout linearshezhi;
 	private LinearLayout linearyoufei;
+	private LinearLayout address;
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -44,6 +50,7 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		btnHead.setOnClickListener(this);
 		linearshezhi.setOnClickListener(this);
 		linearyoufei.setOnClickListener(this);
+		address.setOnClickListener(this);
 	}
 
 	@Override
@@ -51,13 +58,18 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		userInfo = (LinearLayout) getView().findViewById(
 				R.id.userinfo_container);
 		btnHead = (Button) getView().findViewById(R.id.userinfo_btn_herder);
+	    linearshezhi=(LinearLayout) getView().findViewById(R.id.setting_container);
+	    linearyoufei=(LinearLayout) getView().findViewById(R.id.postage_container);
+	    address=(LinearLayout) getView().findViewById(R.id.address_container);
+	    initData();
 		linearshezhi = (LinearLayout) getView().findViewById(
 				R.id.setting_container);
 		linearyoufei = (LinearLayout) getView().findViewById(
 				R.id.postage_container);
-		initData();
-	}
+		initData();	}
 
+	
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -76,8 +88,16 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 			break;
 		case R.id.postage_container:
 			Log.i("onClick", "postage_container");
-			startActivity(new Intent(getActivity(), PostageActivity.class));
+
+			startActivity(new Intent(getActivity(),PostageActivity.class));
+			break;	
+		case R.id.address_container:
+			startActivity(new Intent(getActivity(),ShipAddressActivity.class));
 			break;
+			
+
+//			startActivity(new Intent(getActivity(), PostageActivity.class));
+//			break;
 		}
 	}
 

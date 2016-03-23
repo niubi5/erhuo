@@ -21,7 +21,7 @@
          <ImageView
             android:id="@+id/ib_xuanze"
             style="@style/FrameTitleButtonRight"
-            android:src="@drawable/img_more" 
+            android:src="@drawable/img_more_white" 
             android:onClick="click"/>
         
     </FrameLayout>
@@ -32,6 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/erhuo_title_women"
-        android:text="TextView" />
+        android:text="@string/women_jieshao" />
     
 </RelativeLayout>

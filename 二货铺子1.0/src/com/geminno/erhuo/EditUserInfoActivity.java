@@ -1,5 +1,7 @@
 package com.geminno.erhuo;
 
+import com.geminno.erhuo.entity.Users;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 	// private EditText address;
 	// private TextView phone;
 	private int sex;
+    private Users users;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,9 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_edit_user_info);
 		initView();
+		users = MyApplication.getCurrentUser();
+		nickName.setText(users.getName());
+		
 	}
 
 	private void initView() {
@@ -49,6 +55,17 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		case R.id.tv_infodata_ok:
+			
+			break;
+		 case R.id.edit_header:
+		
+		 break;
+		case R.id.et_infodata_nickname:
+			
+
+			break;
+
 		// case R.id.tv_infodata_ok:
 		//
 		// break;

@@ -1,0 +1,217 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F8F4"
+    tools:context="com.geminno.erhuo.NewAddressActivity" >
+
+    <FrameLayout
+        android:id="@+id/erhuo_title_newaddress"
+        style="@style/FrameTitleRed"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <ImageView
+            android:id="@+id/ib_newaddress_return"
+            style="@style/FrameTitleButtonLeft"
+            android:src="@drawable/left_arrow_white" />
+
+        <TextView
+            style="@style/FrameTitleRedText"
+            android:text="新建地址" />
+    </FrameLayout>
+
+    <View
+        android:id="@+id/view_new1"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/erhuo_title_newaddress"
+        android:background="#F9F8F4" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_new1"
+        android:background="@drawable/btn_white_box"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/lin_dingwei"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:text="当前定位到"
+                android:textSize="@dimen/font_middle" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView style="@style/NewAddress" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_new_address"
+            style="@style/MyInfoLinearLayout"
+            android:layout_height="55dp"
+            android:gravity="left" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:hint="显示位置"
+                android:textSize="@dimen/font_middle" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:background="@color/main_red"
+                android:text="使用"
+                android:textSize="@dimen/font_middle" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#F9F8F4" />
+
+        <LinearLayout
+            android:id="@+id/lin_newshouhuo"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_newaddress_shouhuo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="15dp"
+                android:text="收货人"
+                android:textSize="@dimen/font_middle" />
+
+            <EditText
+                android:id="@+id/et_newaddress_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:background="@null"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="@dimen/font_middle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_newphone"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_newphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="15dp"
+                android:text="手机号码"
+                android:textSize="@dimen/font_middle" />
+
+            <EditText
+                android:id="@+id/et_newphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:background="@null"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="@dimen/font_middle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_newaddress_diqu"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_newaddress_diqu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="15dp"
+                android:text="所在地区"
+                android:textSize="@dimen/font_middle" />
+
+            <EditText
+                android:id="@+id/et_newaddress_diqu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:background="@null"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="@dimen/font_middle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_xiangxi_dizhi"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_newaddress_dizhi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="15dp"
+                android:text="详细地址"
+                android:textSize="@dimen/font_middle" />
+
+            <EditText
+                android:id="@+id/et_dizhi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:background="@null"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="@dimen/font_middle" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/check_moren"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="18dp"
+        android:text="设为默认地址" />
+    
+    <Button
+        android:id="@+id/but_tuichu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/main_red"
+        android:text="保存并使用" 
+        android:textColor="@color/main_white"/>
+
+</RelativeLayout>

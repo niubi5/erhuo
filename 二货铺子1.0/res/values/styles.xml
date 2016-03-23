@@ -16,6 +16,7 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
     <style name="MyInfoLinearLayout">
         <item name="android:gravity">center</item>
         <item name="android:orientation">horizontal</item>
@@ -23,6 +24,9 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">44.0dip</item>
     </style>
+    
+    
+    
     <style name="MyInfoImage">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -51,6 +55,13 @@
         <item name="android:src">@drawable/right_arrow_red_small</item>
     </style>
     
+    <style name="NewAddress">
+        <item name="android:layout_gravity">center|right</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">15.0dip</item>
+        <item name="android:layout_marginRight">15.0dip</item>
+        <item name="android:src">@drawable/edit_delete</item>
+    </style>
    
     <style name="FrameTitle">
         <item name="android:id">@id/erhuo_title</item>

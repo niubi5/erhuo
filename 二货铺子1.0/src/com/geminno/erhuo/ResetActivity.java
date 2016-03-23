@@ -50,6 +50,7 @@ public class ResetActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		Log.i("cheshi", "罗叼");
 		switch (v.getId()) {
 		case R.id.btn_reset:
 			String pwd = etpwd.getText().toString().trim();
@@ -70,17 +71,15 @@ public class ResetActivity extends Activity implements OnClickListener {
 				params.addBodyParameter("identity", phone);
 				params.addBodyParameter("pwd", pwd);
 				HttpUtils httpUtils = new HttpUtils();
-				httpUtils.send(HttpMethod.POST, Url.urlreget, params,
-						new RequestCallBack<String>() {
+				httpUtils.send(HttpMethod.POST, Url.urlreget, params,new RequestCallBack<String>() {
 
-							@Override
-							public void onFailure(HttpException arg0,
-									String arg1) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
+					
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
+						// TODO Auto-generated method stub
+						Log.i("cheshi", "fuck");
+					}
+				           @Override
 							public void onSuccess(ResponseInfo<String> arg0) {
 								// TODO Auto-generated method stub
 								String result = arg0.result;

@@ -128,7 +128,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		SMSSDK.initSDK(this, Contant.APPKEY, Contant.SECRET);
 
 		// //发送短信，也会回调前面的方法
-		SMSSDK.registerEventHandler(eh);
+		//SMSSDK.registerEventHandler(eh);
 
 	}
 
