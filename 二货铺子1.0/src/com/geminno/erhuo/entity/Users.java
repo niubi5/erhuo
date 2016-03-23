@@ -1,12 +1,12 @@
 package com.geminno.erhuo.entity;
 
-import java.io.File;
+import java.io.Serializable;
 
-public class Users {
+public class Users implements Serializable{
 	private int id;
 	private String identity;
 	private String pwd;
-	private byte[] photo;
+	private String photo;
 	private String name;
 	private int sex;
 	private int jifen;
@@ -36,11 +36,11 @@ public class Users {
 		this.pwd = pwd;
 	}
 
-	public byte[] getPhoto() {
+	public String getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(byte[] photo) {
+	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
 
