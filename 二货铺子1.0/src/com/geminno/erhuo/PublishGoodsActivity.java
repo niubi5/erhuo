@@ -458,8 +458,10 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	public static List<String> getSpinnerMarketData() {
 		List<String> spinnerMarketData = new ArrayList<String>();
 		spinnerMarketData.add("选择集市更容易售出哦!");
-		for(Markets markets : MyApplication.getMarketsList()){
-			spinnerMarketData.add(markets.getName());
+		if(MyApplication.getMarketsList()!=null){
+			for(Markets markets : MyApplication.getMarketsList()){
+				spinnerMarketData.add(markets.getName());
+			}			
 		}
 //		spinnerMarketData.add("爱书人的圈子");
 //		spinnerMarketData.add("八一八你败过的数码");

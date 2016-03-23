@@ -193,11 +193,11 @@ public class GoodsDetialActivity extends Activity {
 
 		// 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
 		popupWindow.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.background_grey));
+				R.drawable.round_box));
 
 		// 设置好参数之后再show
-		// popupWindow.showAsDropDown(view);
-		popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+		 popupWindow.showAsDropDown(view);
+		//popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
 	}
 
@@ -287,7 +287,9 @@ public class GoodsDetialActivity extends Activity {
 							View view = mList.get(position);
 							image = ((ImageView) view
 									.findViewById(R.id.iv_goods_image));
-							image.setBackground(imageDrawable);
+							//image.setBackground(imageDrawable);
+							image.setImageDrawable(null);
+							image.setImageDrawable(imageDrawable);
 //							image.setScaleType(ScaleType.CENTER_CROP);
 							container.removeView(mList.get(position));
 							container.addView(mList.get(position));
@@ -298,7 +300,8 @@ public class GoodsDetialActivity extends Activity {
 
 			View view = mList.get(position);
 			image = ((ImageView) view.findViewById(R.id.iv_goods_image));
-			image.setBackground(cachedImage);
+			//image.setBackground(cachedImage);
+			image.setImageDrawable(cachedImage);
 
 			container.removeView(mList.get(position));
 			container.addView(mList.get(position));
@@ -320,12 +323,14 @@ public class GoodsDetialActivity extends Activity {
 			// TODO Auto-generated method stub
 			if (state == 0) {
 				// new MyAdapter(null).notifyDataSetChanged();
+				Log.i("ViewPagerMyListener", "onPageScrollStateChanged");
 			}
 		}
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
 			// TODO Auto-generated method stub
+			Log.i("ViewPagerMyListener", "onPageScrolled");
 
 		}
 
@@ -334,7 +339,7 @@ public class GoodsDetialActivity extends Activity {
 
 			// 改变所有导航的背景图片为：未选中
 			for (int i = 0; i < indicator_imgs.length; i++) {
-
+				Log.i("ViewPagerMyListener", "onPageSelected");
 				indicator_imgs[i]
 						.setBackgroundResource(R.drawable.round_point_normal);
 
