@@ -618,9 +618,9 @@ containing a value of this type.
         public static final int zhongtong=0x7f0200cf;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0174;
+        public static final int action_settings=0x7f0a016e;
         public static final int activity_selectimg_send=0x7f0a00c8;
-        public static final int ad_rl=0x7f0a0170;
+        public static final int ad_rl=0x7f0a016a;
         public static final int ad_view=0x7f0a00f0;
         public static final int addImageView=0x7f0a0036;
         public static final int add_iamge=0x7f0a00ed;
@@ -783,12 +783,12 @@ containing a value of this type.
         public static final int iv_pub_return=0x7f0a0052;
         public static final int iv_publish_goods=0x7f0a0079;
         public static final int iv_pwd=0x7f0a0069;
-        public static final int iv_refresher=0x7f0a0163;
+        public static final int iv_refresher=0x7f0a015d;
         public static final int iv_register_return=0x7f0a00b9;
         public static final int iv_return_reset=0x7f0a00bf;
         public static final int iv_right=0x7f0a0138;
         public static final int iv_share_report=0x7f0a0053;
-        public static final int iv_type_inco=0x7f0a0166;
+        public static final int iv_type_inco=0x7f0a0160;
         public static final int iv_user_head=0x7f0a005a;
         public static final int iv_verify_return=0x7f0a00df;
         public static final int iv_wuzhong=0x7f0a009c;
@@ -840,21 +840,15 @@ containing a value of this type.
         public static final int noScrollgridview=0x7f0a00a9;
         public static final int no_picture_confirm=0x7f0a0147;
         public static final int ok_button=0x7f0a013e;
-        public static final int pager_banner=0x7f0a0171;
+        public static final int pager_banner=0x7f0a016b;
         public static final int parent=0x7f0a012d;
         public static final int person_center_herder_container=0x7f0a0111;
         public static final int point_layout=0x7f0a0065;
         public static final int postage_container=0x7f0a0123;
         public static final int preview=0x7f0a013d;
-        public static final int product_image_left=0x7f0a015d;
-        public static final int product_image_right=0x7f0a0160;
-        public static final int product_info_left=0x7f0a015e;
-        public static final int product_info_right=0x7f0a0161;
-        public static final int product_price_left=0x7f0a015f;
-        public static final int product_price_right=0x7f0a0162;
         public static final int progressBar1=0x7f0a00b8;
         public static final int refreshListView=0x7f0a0110;
-        public static final int refresher=0x7f0a0164;
+        public static final int refresher=0x7f0a015e;
         public static final int request_content=0x7f0a0033;
         public static final int request_donation_address=0x7f0a003e;
         public static final int request_donation_phone=0x7f0a003b;
@@ -933,7 +927,7 @@ containing a value of this type.
         public static final int tv_newaddress_shouhuo=0x7f0a0081;
         public static final int tv_newphone=0x7f0a0084;
         public static final int tv_qingchuhuancun=0x7f0a00cf;
-        public static final int tv_refreshertext=0x7f0a0165;
+        public static final int tv_refreshertext=0x7f0a015f;
         public static final int tv_register=0x7f0a006d;
         public static final int tv_report=0x7f0a015c;
         public static final int tv_share=0x7f0a015b;
@@ -943,7 +937,7 @@ containing a value of this type.
         public static final int tv_time=0x7f0a00a1;
         public static final int tv_time_ss=0x7f0a00a2;
         public static final int tv_title=0x7f0a00f9;
-        public static final int tv_type_name=0x7f0a0167;
+        public static final int tv_type_name=0x7f0a0161;
         public static final int tv_types=0x7f0a00ab;
         public static final int tv_user_location=0x7f0a005c;
         public static final int tv_user_name=0x7f0a005b;
@@ -952,14 +946,14 @@ containing a value of this type.
         public static final int tv_xiugaimima=0x7f0a00c7;
         public static final int tv_yijianfankui=0x7f0a00ca;
         public static final int tv_zhongliang=0x7f0a009b;
-        public static final int type_3c=0x7f0a016c;
-        public static final int type_card=0x7f0a016d;
-        public static final int type_iphone=0x7f0a0168;
-        public static final int type_ixiaomi=0x7f0a016b;
-        public static final int type_luggage=0x7f0a016e;
-        public static final int type_pad=0x7f0a0169;
-        public static final int type_pc=0x7f0a016a;
-        public static final int type_perfume=0x7f0a016f;
+        public static final int type_3c=0x7f0a0166;
+        public static final int type_card=0x7f0a0167;
+        public static final int type_iphone=0x7f0a0162;
+        public static final int type_ixiaomi=0x7f0a0165;
+        public static final int type_luggage=0x7f0a0168;
+        public static final int type_pad=0x7f0a0163;
+        public static final int type_pc=0x7f0a0164;
+        public static final int type_perfume=0x7f0a0169;
         public static final int user_favorite=0x7f0a012c;
         public static final int user_head=0x7f0a0125;
         public static final int user_name=0x7f0a0126;
@@ -983,14 +977,14 @@ containing a value of this type.
         public static final int view4=0x7f0a00ad;
         public static final int view5=0x7f0a00b2;
         public static final int view6=0x7f0a00b6;
-        public static final int viewGroup=0x7f0a0172;
+        public static final int viewGroup=0x7f0a016c;
         public static final int view_address=0x7f0a00d0;
         public static final int view_new1=0x7f0a007c;
         public static final int view_xia=0x7f0a00d3;
         public static final int viewpager=0x7f0a0064;
         public static final int vp_goods_images=0x7f0a0056;
         public static final int wheel_post=0x7f0a0092;
-        public static final int wheel_view_wv=0x7f0a0173;
+        public static final int wheel_view_wv=0x7f0a016d;
     }
     public static final class layout {
         public static final int activity_buy_goods=0x7f030000;
@@ -1042,15 +1036,14 @@ containing a value of this type.
         public static final int plugin_camera_select_imageview=0x7f03002e;
         public static final int plugin_camera_show_all_photo=0x7f03002f;
         public static final int pop_window=0x7f030030;
-        public static final int product_item=0x7f030031;
-        public static final int pull_to_refresh_foot=0x7f030032;
-        public static final int pull_to_refresh_head=0x7f030033;
-        public static final int spinner_item=0x7f030034;
-        public static final int spinner_search=0x7f030035;
-        public static final int spinner_text=0x7f030036;
-        public static final int type_item=0x7f030037;
-        public static final int view_banner_content=0x7f030038;
-        public static final int wheel_view=0x7f030039;
+        public static final int pull_to_refresh_foot=0x7f030031;
+        public static final int pull_to_refresh_head=0x7f030032;
+        public static final int spinner_item=0x7f030033;
+        public static final int spinner_search=0x7f030034;
+        public static final int spinner_text=0x7f030035;
+        public static final int type_item=0x7f030036;
+        public static final int view_banner_content=0x7f030037;
+        public static final int wheel_view=0x7f030038;
     }
     public static final class menu {
         public static final int buy_goods=0x7f090000;
