@@ -51,6 +51,7 @@ public class MyApplication extends Application {
 
 	// 当前登录用户
 	public static Users getCurrentUser() {
+
 		return curUser;
 
 	}

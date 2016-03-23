@@ -2,17 +2,23 @@ package com.geminno.erhuo.fragment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -20,6 +26,7 @@ import android.widget.Toast;
 import com.geminno.erhuo.MainActivity;
 import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.R;
+import com.geminno.erhuo.SearchActivity;
 import com.geminno.erhuo.adapter.HomePageAdapter;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
@@ -37,21 +44,23 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
 @SuppressLint("InflateParams")
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements OnClickListener {
 
 	private ImageCycleView mAdView;
 	private View convertView;
 	private RefreshListView refreshListView;
-	// ------------------------
 	private List<Markets> listMarkets = null;
+	private Map<Goods, List<String>> map = new HashMap<Goods, List<String>>();
 	private List<Goods> listGoods = new ArrayList<Goods>();
 	private Context context;
 	private Handler handler = new Handler();
 	private int curPage = 1; // 页数
-	private int pageSize = 2;// 一次加载几条
+	private int pageSize = 6;// 一次加载几条
 	private String url;
 	private HomePageAdapter adapter;
-	private List<Goods> preGoods = new ArrayList<Goods>();// 记录上一次不满的记录集合
+	private List<Map<Goods, List<String>>> preGoods = new ArrayList<Map<Goods, List<String>>>();// 记录上一次不满的记录集合
+	private String head = null;// http: 头部
+	private List<Map<Goods, List<String>>> listAll = new ArrayList<Map<Goods, List<String>>>();
 
 	public HomeFragment(Context context) {
 		this.context = context;
@@ -65,11 +74,15 @@ public class HomeFragment extends BaseFragment {
 		return refreshListView;
 	}
 
+	ImageView ivhome;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		convertView = inflater.inflate(R.layout.fragment_main_page, null);
-		
+		ivhome = (ImageView) convertView.findViewById(R.id.home_search);
+		ivhome.setOnClickListener(this);
+
 		return convertView;
 	}
 
@@ -91,7 +104,7 @@ public class HomeFragment extends BaseFragment {
 					@Override
 					public void run() {
 						// 清空原来的+新的数据
-						listGoods.clear();
+						map.clear();
 						initData();
 						// 调用刷新完成的方法
 						refreshListView.completeRefresh();
@@ -129,7 +142,7 @@ public class HomeFragment extends BaseFragment {
 
 				HttpUtils http = new HttpUtils();
 				Properties prop = new Properties();
-				String head = null;// http: 头部
+				// String head = null;// http: 头部
 				try {
 					// 从属性文件读取url
 					prop.load(MainActivity.class
@@ -165,53 +178,83 @@ public class HomeFragment extends BaseFragment {
 								listMarkets = (List<Markets>) gson.fromJson(
 										result, type);
 								MyApplication.setMarketsList(listMarkets);
+
+								// -----------------------
+								// 获得商品集合
+								url = head + "/ListGoodsServlet";
+								HttpUtils http2 = new HttpUtils();
+								// 设置不缓存，及时获取数据
+								http2.configCurrentHttpCacheExpiry(0);
+								RequestParams params = new RequestParams();
+								// 设置参数
+								params.addQueryStringParameter("curPage",
+										curPage + "");// 第一次加载
+								params.addQueryStringParameter("pageSize",
+										pageSize + "");
+								http2.send(HttpRequest.HttpMethod.GET, url,
+										params, new RequestCallBack<String>() {
+
+											@Override
+											public void onFailure(
+													HttpException arg0,
+													String arg1) {
+
+											}
+
+											@Override
+											public void onSuccess(
+													ResponseInfo<String> arg0) {
+												String result = arg0.result;
+												Gson gson = new GsonBuilder()
+														.enableComplexMapKeySerialization()
+														.setDateFormat(
+																"yyyy-MM-dd HH:mm:ss")
+														.create();
+												Type type = new TypeToken<List<Map<Goods, List<String>>>>() {
+												}.getType();
+												List<Map<Goods, List<String>>> newGoods = gson
+														.fromJson(result, type);
+												listAll.addAll(newGoods);
+												if (adapter == null) {
+													adapter = new HomePageAdapter(
+															context,
+															listMarkets,
+															newGoods);
+													refreshListView
+															.setAdapter(adapter);
+												} else {
+													adapter.notifyDataSetChanged();
+												}
+												// Type type = new
+												// TypeToken<List<Goods>>() {
+												// }.getType();
+												// // 获得刷新后的新数据
+												// List<Goods> newGoods = gson
+												// .fromJson(result, type);
+												// // 添加到集合中
+												// listGoods.addAll(newGoods);
+												// // 设置数据源
+												// if (adapter == null) {
+												// adapter = new
+												// HomePageAdapter(
+												// context,
+												// listMarkets,
+												// newGoods);
+												// refreshListView
+												// .setAdapter(adapter);
+												// } else {
+												// // 通知改变数据源
+												// adapter.notifyDataSetChanged();
+												// }
+
+											}
+
+										});
+
 							}
 
 						});
 
-				// 获得商品集合
-				url = head + "/ListGoodsServlet";
-				HttpUtils http2 = new HttpUtils();
-				// 设置不缓存，及时获取数据
-				http2.configCurrentHttpCacheExpiry(0);
-				RequestParams params = new RequestParams();
-				// 设置参数
-				params.addQueryStringParameter("curPage", curPage + "");// 第一次加载
-				params.addQueryStringParameter("pageSize", pageSize + "");
-				http2.send(HttpRequest.HttpMethod.GET, url, params,
-						new RequestCallBack<String>() {
-
-							@Override
-							public void onFailure(HttpException arg0,
-									String arg1) {
-
-							}
-
-							@Override
-							public void onSuccess(ResponseInfo<String> arg0) {
-								String result = arg0.result;
-								Gson gson = new GsonBuilder().setDateFormat(
-										"yyyy-MM-dd HH:mm:ss").create();
-								Type type = new TypeToken<List<Goods>>() {
-								}.getType();
-								// 获得刷新后的新数据
-								List<Goods> newGoods = gson.fromJson(result,
-										type);
-								// 添加到集合中
-								listGoods.addAll(newGoods);
-								// 设置数据源
-								if (adapter == null) {
-									adapter = new HomePageAdapter(context,
-											listMarkets, newGoods);
-									refreshListView.setAdapter(adapter);
-								} else {
-									// 通知改变数据源
-									adapter.notifyDataSetChanged();
-								}
-
-							}
-
-						});
 				super.run();
 			}
 
@@ -240,39 +283,45 @@ public class HomeFragment extends BaseFragment {
 						String result = arg0.result;
 						Gson gson = new GsonBuilder().setDateFormat(
 								"yyyy-MM-dd HH:mm:ss").create();
-						Type type = new TypeToken<List<Goods>>() {
+						Type type = new TypeToken<List<Map<Goods, List<String>>>>() {
 						}.getType();
-						List<Goods> newGoods = gson.fromJson(result, type);
+						List<Map<Goods, List<String>>> newGoods = gson
+								.fromJson(result, type);
 						// 判断preGoods是否有记录，如果有，则将其从总集合中删掉
 						if (!preGoods.isEmpty()) {
-							listGoods.removeAll(preGoods);
+							Log.i("erhuo", "清空preGoods");
+							listAll.removeAll(preGoods);
 							// 清空preGoods
 							preGoods.clear();
 						}
 						// 判断有没有加载到数据
 						if (newGoods == null || newGoods.isEmpty()) {
 							// 没有加载到数据，则弹出提示
-							Toast.makeText(context, "没有更多了", Toast.LENGTH_LONG)
+							Toast.makeText(context, "没有更多了", Toast.LENGTH_SHORT)
 									.show();
 							// 页数不变，之前++过，故这里要--
 							curPage--;
 						} else {
-							// 有数据，判断是否加载满,即小于pageSize
+							// 有数据，判断是否加载满,即pageSize
 							if (newGoods != null && newGoods.size() < pageSize) {
+								Log.i("erhuo", "有数据，但没加满 ");
 								// 页数不变
 								curPage--;
 								// 记录在未加载满的集合中
 								preGoods.addAll(newGoods);
 							}
 						}
-						listGoods.addAll(newGoods);
+						listAll.addAll(newGoods);
 						// 改变数据源
 						if (adapter == null) {
 							adapter = new HomePageAdapter(context, listMarkets,
-									newGoods);
+									listAll);
 							refreshListView.setAdapter(adapter);
 						} else {
-							adapter.notifyDataSetChanged();
+							// adapter.notifyDataSetChanged();
+							adapter = new HomePageAdapter(context, listMarkets,
+									listAll);
+							refreshListView.setAdapter(adapter);
 						}
 					}
 				});
@@ -281,6 +330,19 @@ public class HomeFragment extends BaseFragment {
 	@Override
 	protected void initEvent() {
 
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.home_search:
+			startActivity(new Intent(context, SearchActivity.class));
+			break;
+
+		default:
+			break;
+		}
 	}
 
 }

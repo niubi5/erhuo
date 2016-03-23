@@ -13,13 +13,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.AbsListView.OnScrollListener;;
+import android.widget.AbsListView.OnScrollListener;
+
+;
 
 /**
  * @author LuoShiHeng
  * @version 创建时间:2016-3-10下午8:33:20
  */
-public class RefreshListView extends ListView implements OnScrollListener{
+public class RefreshListView extends ListView implements OnScrollListener {
 
 	private View headView;
 	private View footView;
@@ -31,12 +33,12 @@ public class RefreshListView extends ListView implements OnScrollListener{
 	private int footHeight;// 底部高度
 	private float startY;// 开始坐标
 	private float moveY;// 移动坐标
-	
+
 	private int headState;// 头部状态（INIT,REPAREREFRESH ISREFRESH）
 	public final int INIT = 0;// 初始状态
 	public final int PREPAREREFRESH = 1;// 准备刷新
 	public final int ISREFRESHING = 2;// 正在刷新
-	
+
 	private RotateAnimation upAnimation;
 	private RotateAnimation downAnimation;
 	private int firstVisibleItem;// 第一条可见的位置
@@ -75,7 +77,8 @@ public class RefreshListView extends ListView implements OnScrollListener{
 	// 初始化头部
 	public void initHead(Context context) {
 		// 解析XML文件
-		headView = LayoutInflater.from(context).inflate(R.layout.pull_to_refresh_head, null);
+		headView = LayoutInflater.from(context).inflate(
+				R.layout.pull_to_refresh_head, null);
 		// 添加头部
 		addHeaderView(headView);
 		// 头部高度
@@ -86,12 +89,14 @@ public class RefreshListView extends ListView implements OnScrollListener{
 		// 初始化头部控件
 		imageView = (ImageView) headView.findViewById(R.id.iv_refresher);// 箭头
 		progressBar = (ProgressBar) headView.findViewById(R.id.refresher);// progressBar
-		tvRefreshState = (TextView) headView.findViewById(R.id.tv_refreshertext);
+		tvRefreshState = (TextView) headView
+				.findViewById(R.id.tv_refreshertext);
 	}
 
 	// 初始化底部
 	public void initFoot(Context context) {
-		footView = LayoutInflater.from(context).inflate(R.layout.pull_to_refresh_foot, null);
+		footView = LayoutInflater.from(context).inflate(
+				R.layout.pull_to_refresh_foot, null);
 		// 添加foot
 		addFooterView(footView);
 		// 获取foot高度
@@ -111,7 +116,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
 		downAnimation = new RotateAnimation(-180, 0,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
 				0.5f);
-		downAnimation.setFillAfter(false);
+		downAnimation.setFillAfter(true);
 		downAnimation.setDuration(1000);
 	}
 
@@ -165,7 +170,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
 		}
 		return super.onTouchEvent(ev);
 	}
-	
+
 	// 改变状态，界面显示内容跟着改变
 	private void changeState() {
 		switch (headState) {
@@ -194,6 +199,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
 	// 接口：封装下拉刷新，上拉加载的方法
 	public interface OnRefreshCallBack {
 		void onRefresh();// 刷新
+
 		void onPull();// 加载
 	}
 
@@ -215,14 +221,15 @@ public class RefreshListView extends ListView implements OnScrollListener{
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// 最后一条记录可见，并且手在上面 || 手拿掉 ==》 加载操作&当前不在加载
-		if(!loading && getLastVisiblePosition() == getCount() -1){
+		if (!loading && getLastVisiblePosition() == getCount() - 1) {
 			// 滚动装态
-			if(scrollState == SCROLL_STATE_IDLE || scrollState == SCROLL_STATE_TOUCH_SCROLL){
+			if (scrollState == SCROLL_STATE_IDLE
+					|| scrollState == SCROLL_STATE_TOUCH_SCROLL) {
 				// foot显示
 				footView.setPadding(0, 0, 0, 0);
 				loading = true;
 				// 调用onpull方法
-				if(refreshCallBack != null){
+				if (refreshCallBack != null) {
 					refreshCallBack.onPull();
 				}
 			}

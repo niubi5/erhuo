@@ -29,17 +29,16 @@ import android.widget.Toast;
 public class RegisterActivity extends Activity implements OnClickListener {
 	ImageView ivRegBack;
 	CheckBox chkAgree;
-	//账号对象
-	
+	// 账号对象
+
 	EditText etphone;
-	//输入的密码
+	// 输入的密码
 
 	EditText etpwd;
-	//确认密码
-	
+	// 确认密码
+
 	EditText etpwdagain;
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,90 +46,100 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_register);
 		ivRegBack = (ImageView) findViewById(R.id.iv_register_return);
 		chkAgree = (CheckBox) findViewById(R.id.chk_agree_rule);
-		etphone=(EditText) findViewById(R.id.et_phone_register);
-		etpwd=(EditText) findViewById(R.id.et_pwd_register);
-		etpwdagain=(EditText) findViewById(R.id.et_pwd_again);
-		//将传过来的账号显示在账号栏
-		Intent intent=getIntent();
-		String phone=intent.getStringExtra("phone");
-		Log.i("result", "register中phone为"+phone);
+		etphone = (EditText) findViewById(R.id.et_phone_register);
+		etpwd = (EditText) findViewById(R.id.et_pwd_register);
+		etpwdagain = (EditText) findViewById(R.id.et_pwd_again);
+		// 将传过来的账号显示在账号栏
+		Intent intent = getIntent();
+		String phone = intent.getStringExtra("phone");
+		Log.i("result", "register中phone为" + phone);
 		etphone.setText(phone);
-		
-		
+
 		ivRegBack.setOnClickListener(this);
 		Button button;
-		button=(Button) findViewById(R.id.btn_register);
+		button = (Button) findViewById(R.id.btn_register);
 		button.setOnClickListener(this);
-		//调用setColor()方法,实现沉浸式状态栏
-	  	MainActivity.setColor(this, getResources().getColor(R.color.login_background));
+		// 调用setColor()方法,实现沉浸式状态栏
+		MainActivity.setColor(this,
+				getResources().getColor(R.color.login_background));
 		chkAgree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			
+
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked){
-					chkAgree.setTextColor(getResources().getColor(R.color.black));					
-				}else{
-					chkAgree.setTextColor(getResources().getColor(R.color.text_hint_color));
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					chkAgree.setTextColor(getResources()
+							.getColor(R.color.black));
+				} else {
+					chkAgree.setTextColor(getResources().getColor(
+							R.color.text_hint_color));
 				}
-				
+
 			}
 		});
 	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.iv_register_return:
 			this.finish();
 			break;
-		//注册	
+		// 注册
 		case R.id.btn_register:
 			Log.i("cheshi", "注册");
-			RequestParams params=new RequestParams();
-			String name=etphone.getText().toString();
-			String pwd=etpwd.getText().toString();
-			String pwdagain=etpwdagain.getText().toString();
-			if(!pwd.equals(pwdagain)){
+			RequestParams params = new RequestParams();
+			String name = etphone.getText().toString();
+			String pwd = etpwd.getText().toString();
+			String pwdagain = etpwdagain.getText().toString();
+			if (!pwd.equals(pwdagain)) {
 				Toast.makeText(this, "输入密码错误", 0).show();
-				return ;
+				return;
 			}
 			params.addQueryStringParameter("identity", name);
 			params.addQueryStringParameter("pwd", pwd);
-			//String url="http://10.40.5.34:8080/secondHandShop/AddUserServlet";
-			HttpUtils http=new HttpUtils();
-			http.send(HttpMethod.POST, Url.urlregister, params, new RequestCallBack<String>() {
+			// String
+			// url="http://10.40.5.34:8080/secondHandShop/AddUserServlet";
+			HttpUtils http = new HttpUtils();
+			http.send(HttpMethod.POST, Url.urlregister, params,
+					new RequestCallBack<String>() {
 
-				@Override
-				public void onFailure(HttpException arg0, String arg1) {
-					// TODO Auto-generated method stub
-					
-				}
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+							// TODO Auto-generated method stub
 
-				@Override
-				public void onSuccess(ResponseInfo<String> arg0) {
-					// TODO Auto-generated method stub
-					
-					String result=arg0.result;
-					Log.i("result", result);
-					if(result!=null&&!result.equals("null")){
-						Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
-					    startActivity(intent);
-					    //Toast.makeText(RegisterActivity.this, "注册成功", 1).show();
-					}else{
-						Toast.makeText(RegisterActivity.this, "注册失败", 1).show();
-					}
-				}
+						}
 
-				private void setAction(Intent intent) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+							// TODO Auto-generated method stub
+
+							String result = arg0.result;
+							Log.i("result", result);
+							if (result != null && !result.equals("null")) {
+								Intent intent = new Intent(
+										RegisterActivity.this,
+										LoginActivity.class);
+								startActivity(intent);
+								// Toast.makeText(RegisterActivity.this, "注册成功",
+								// 1).show();
+							} else {
+								Toast.makeText(RegisterActivity.this, "注册失败", 1)
+										.show();
+							}
+						}
+
+						private void setAction(Intent intent) {
+							// TODO Auto-generated method stub
+
+						}
+					});
+
 			break;
-		
+
 		default:
 			break;
 		}
-		
+
 	}
 }

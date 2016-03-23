@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 public class MessageFragment extends BaseFragment {
 
 	private View view;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

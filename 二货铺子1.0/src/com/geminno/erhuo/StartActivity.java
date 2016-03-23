@@ -30,32 +30,31 @@ public class StartActivity extends Activity {
 			return;
 		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		setTranslucentStatus();
 		setContentView(R.layout.activity_start);
 		start();
 	}
-	
-	//沉浸式状态栏(图片)
+
+	// 沉浸式状态栏(图片)
 	/**
-     * 设置状态栏背景状态
-     */
-    private void setTranslucentStatus() 
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-        {
-            Window win = getWindow();
-            WindowManager.LayoutParams winParams = win.getAttributes();
-            final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-            winParams.flags |= bits;
-            win.setAttributes(winParams);
-        }
-        SystemStatusManager tintManager = new SystemStatusManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(0);//状态栏无背景
-    }
+	 * 设置状态栏背景状态
+	 */
+	private void setTranslucentStatus() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			Window win = getWindow();
+			WindowManager.LayoutParams winParams = win.getAttributes();
+			final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+			winParams.flags |= bits;
+			win.setAttributes(winParams);
+		}
+		SystemStatusManager tintManager = new SystemStatusManager(this);
+		tintManager.setStatusBarTintEnabled(true);
+		tintManager.setStatusBarTintResource(0);// 状态栏无背景
+	}
+
 	//
-	
+
 	private void start() {
 
 		new Thread() {

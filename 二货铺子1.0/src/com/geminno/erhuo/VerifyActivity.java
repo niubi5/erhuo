@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 import com.geminno.erhuo.utils.Contant;
 
 import cn.smssdk.EventHandler;
@@ -26,74 +25,76 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class VerifyActivity extends Activity implements OnClickListener {
-	
-	 EventHandler eh = new EventHandler() {
 
-	        @Override
-	      //主体方法，供回调试用
-	        public void afterEvent(int event, int result, Object data) {
+	EventHandler eh = new EventHandler() {
 
-	            Log.i("Msm","event:"+event+"    result:"+result+"    data:"+data.toString());
+		@Override
+		// 主体方法，供回调试用
+		public void afterEvent(int event, int result, Object data) {
 
-	                switch (event) {
-	                	//验证的时候使用
-	                    case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:
-	                    	Log.i("result", "验证码结果");
+			Log.i("Msm", "event:" + event + "    result:" + result
+					+ "    data:" + data.toString());
 
-	                        if (result == SMSSDK.RESULT_COMPLETE) {
-                                
-	                            Intent intent=new Intent(VerifyActivity.this,RegisterActivity.class);
-                                intent.putExtra("phone", phone);
-                                Log.i("result","phone:"+ phone);
-	                            startActivity(intent);
-                                
-	                        } else {
+			switch (event) {
+			// 验证的时候使用
+			case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:
+				Log.i("result", "验证码结果");
 
-	                           toast("请输入正确的验证码");
+				if (result == SMSSDK.RESULT_COMPLETE) {
 
-	                        }
+					Intent intent = new Intent(VerifyActivity.this,
+							RegisterActivity.class);
+					intent.putExtra("phone", phone);
+					Log.i("result", "phone:" + phone);
+					startActivity(intent);
 
-	                        break;
-	                       //得到验证码时候使用
-	                    case SMSSDK.EVENT_GET_VERIFICATION_CODE:
-	                    	Log.i("result", result+"");
+				} else {
 
-	                        if (result == SMSSDK.RESULT_COMPLETE) {
+					toast("请输入正确的验证码");
 
-	                            toast("获取验证码成功");
+				}
 
-	                            //默认的智能验证是开启的,我已经在后台关闭
+				break;
+			// 得到验证码时候使用
+			case SMSSDK.EVENT_GET_VERIFICATION_CODE:
+				Log.i("result", result + "");
 
-	                        } else {
+				if (result == SMSSDK.RESULT_COMPLETE) {
 
-	                            toast("获取验证码失败");
+					toast("获取验证码成功");
 
-	                        }
+					// 默认的智能验证是开启的,我已经在后台关闭
 
-	                        break;
+				} else {
 
-	                }
+					toast("获取验证码失败");
 
-	        }
+				}
 
-	    };
-	    
-	    private void toast(final String str) {
+				break;
 
-	        runOnUiThread(new Runnable() {
+			}
 
-	            @Override
+		}
 
-	            public void run() {
+	};
 
-	                Toast.makeText(VerifyActivity.this, str, Toast.LENGTH_SHORT).show();
+	private void toast(final String str) {
 
-	            }
+		runOnUiThread(new Runnable() {
 
-	        });
+			@Override
+			public void run() {
 
-	    }
-	
+				Toast.makeText(VerifyActivity.this, str, Toast.LENGTH_SHORT)
+						.show();
+
+			}
+
+		});
+
+	}
+
 	Button btnVerify;
 	ImageView ivBack;
 	Button butmsgverify;
@@ -101,7 +102,8 @@ public class VerifyActivity extends Activity implements OnClickListener {
 	EditText etphone;
 	// 输入验证嘛
 	EditText etpwd;
-	String phone=null;
+	String phone = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -135,7 +137,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		// 获取客户端输入的验证码
 
 		String SMS = etpwd.getText().toString().trim();
-		phone=etphone.getText().toString().trim();
+		phone = etphone.getText().toString().trim();
 		switch (v.getId()) {
 
 		case R.id.iv_verify_return:
@@ -144,23 +146,22 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		// 获取验证码
 		case R.id.btn_msg_verify:
 
-			if(phone!=null&&isMobileNO(phone)==true){
-			    SMSSDK.getVerificationCode("86",phone);
-			}else {
+			if (phone != null && isMobileNO(phone) == true) {
+				SMSSDK.getVerificationCode("86", phone);
+			} else {
 				toast("请输入正确的电话号码");
 			}
 			break;
 		// 短信验证按钮
 		case R.id.btn_verify:
-			//客户端输入的验证码
-			 	//验证对应手机，返回的短信验证码，会回调前面的afterEvent方法
-			if (phone!=null&&isMobileNO(phone)==true) {
-				 SMSSDK.submitVerificationCode("86", phone, SMS);
-			}else  {
+			// 客户端输入的验证码
+			// 验证对应手机，返回的短信验证码，会回调前面的afterEvent方法
+			if (phone != null && isMobileNO(phone) == true) {
+				SMSSDK.submitVerificationCode("86", phone, SMS);
+			} else {
 				toast("请输入正确的电话号码");
 			}
-		       
-		        
+
 			break;
 		//
 		default:
@@ -169,13 +170,13 @@ public class VerifyActivity extends Activity implements OnClickListener {
 
 	}
 
-	 public static boolean isMobileNO(String mobiles) {
-	 Pattern p = Pattern
-	 .compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
-	 Matcher m = p.matcher(mobiles);
-	 System.out.println(m.matches() + "---");
-	 return m.matches();
-	 }
+	public static boolean isMobileNO(String mobiles) {
+		Pattern p = Pattern
+				.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+		Matcher m = p.matcher(mobiles);
+		System.out.println(m.matches() + "---");
+		return m.matches();
+	}
 
 	@Override
 	protected void onDestroy() {
@@ -185,7 +186,5 @@ public class VerifyActivity extends Activity implements OnClickListener {
 	}
 
 	// ///////////////
-
-	
 
 }

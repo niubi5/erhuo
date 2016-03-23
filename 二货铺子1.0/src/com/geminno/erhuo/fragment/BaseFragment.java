@@ -10,8 +10,6 @@ public abstract class BaseFragment extends Fragment {
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initView();
-		initData();
-		initEvent();
 	}
 
 	protected abstract void initData();
@@ -20,5 +18,4 @@ public abstract class BaseFragment extends Fragment {
 
 	protected abstract void initView();
 
-	
 }

@@ -51,7 +51,6 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-@SuppressLint("InlinedApi")
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	private Context context;
@@ -320,86 +319,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		// initData();
 		// }m
 		super.onResume();
-	}
-
-	private void initData() {
-
-		new Thread() {
-
-			@Override
-			public void run() {
-
-				HttpUtils http = new HttpUtils();
-				Properties prop = new Properties();
-				String head = null;// http: 头部
-				try {
-					// 从属性文件读取url
-					prop.load(MainActivity.class
-							.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
-					head = prop.getProperty("url");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				// 拼接url
-				String url = head + "/ListMarketsServlet";
-				http.send(HttpRequest.HttpMethod.POST, url,
-						new RequestCallBack<String>() {
-
-							@Override
-							public void onFailure(HttpException arg0,
-									String arg1) {
-								Log.i("erhuo", "失败");
-								Toast.makeText(MainActivity.this, "网络异常",
-										Toast.LENGTH_SHORT).show();
-
-							}
-
-							@SuppressWarnings("unchecked")
-							@Override
-							public void onSuccess(ResponseInfo<String> arg0) {
-								String result = arg0.result;// 获得响应结果
-								Gson gson = new Gson();
-								Type type = new TypeToken<List<Markets>>() {
-								}.getType();
-								listMarkets = (List<Markets>) gson.fromJson(
-										result, type);
-							}
-
-						});
-				// 获得商品集合
-				url = head + "/ListGoodsServlet";
-				http.send(HttpRequest.HttpMethod.GET, url,
-						new RequestCallBack<String>() {
-
-							@Override
-							public void onFailure(HttpException arg0,
-									String arg1) {
-
-							}
-
-							@Override
-							public void onSuccess(ResponseInfo<String> arg0) {
-								String result = arg0.result;
-								Gson gson = new GsonBuilder().setDateFormat(
-										"yyyy-MM-dd HH:mm:ss").create();
-								Type type = new TypeToken<List<Goods>>() {
-								}.getType();
-								listGoods = gson.fromJson(result, type);
-								// 获得listview
-								refreshListView = homeFragment
-										.getRefreshListView();
-								// 设置数据源
-								refreshListView.setAdapter(new HomePageAdapter(
-										MainActivity.this, listMarkets,
-										listGoods));
-							}
-
-						});
-				super.run();
-			}
-
-		}.start();
-
 	}
 
 }
