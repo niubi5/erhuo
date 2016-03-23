@@ -140,7 +140,17 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ClassificationActivity"
-            android:label="@string/title_activity_classification" >
+            android:label="@string/title_activity_classification"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ShipAddressActivity"
+            android:label="@string/title_activity_ship_address"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".NewAddressActivity"
+            android:label="@string/title_activity_new_address" >
         </activity>
     </application>
 

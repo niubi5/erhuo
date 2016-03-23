@@ -13,14 +13,13 @@
             android:id="@+id/type_iphone"
             android:drawableTop="@drawable/types_phone"
             android:layout_weight="1"
-            android:onClick="onclick"
             android:text="苹果手机" />
         <Button
             style="@style/TypesButton"
             android:id="@+id/type_pad"
             android:drawableTop="@drawable/types_pad"
             android:layout_weight="1"
-            android:onClick="onclick"
+            android:onClick="hehe"
             android:text="平板电脑" />
         <Button
             style="@style/TypesButton"

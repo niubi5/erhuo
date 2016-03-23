@@ -51,6 +51,7 @@ public class ResetActivity extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		Log.i("cheshi", "罗叼");
 		switch (v.getId()) {
 		case R.id.btn_reset:
 			String pwd=etpwd.getText().toString().trim();
@@ -68,15 +69,18 @@ public class ResetActivity extends Activity implements OnClickListener{
 				RequestParams params=new RequestParams();
 			    Intent intent=getIntent();
 				String phone=intent.getStringExtra("phone");
-				params.addBodyParameter("identity", phone);
+				//String phone="15071048315";
+				Log.i("cheshi", "账号密码"+phone+pwd);
+				params.addBodyParameter("phone", phone);
 				params.addBodyParameter("pwd", pwd);
 				HttpUtils httpUtils=new HttpUtils();
 				httpUtils.send(HttpMethod.POST, Url.urlreget, params,new RequestCallBack<String>() {
 
+					
 					@Override
 					public void onFailure(HttpException arg0, String arg1) {
 						// TODO Auto-generated method stub
-						
+						Log.i("cheshi", "fuck");
 					}
 
 					@Override
@@ -91,7 +95,7 @@ public class ResetActivity extends Activity implements OnClickListener{
 							MyApplication.setUsers((Users)gson.fromJson(result, Users.class));
 							//Toast.makeText(LoginActivity.this, "登陆成功", 0).show();
 						}else {
-							Toast.makeText(ResetActivity.this, "登陆失败,您还未注册", 0).show();
+							Toast.makeText(ResetActivity.this, "修改失败,您还未注册", 0).show();
 						}
 						
 					}

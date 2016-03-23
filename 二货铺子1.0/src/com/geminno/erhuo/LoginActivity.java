@@ -57,6 +57,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_register:
+			Log.i("cheshi", "注册");
 			Intent intent = new Intent(this,VerifyActivity.class);
 			startActivity(intent);
 			
@@ -75,7 +76,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 			HttpUtils http=new HttpUtils();
 			//服务器路劲
 			//String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
-			http.send(HttpMethod.POST, Url.urlreget, params,new RequestCallBack<String>() {
+			http.send(HttpMethod.POST, Url.urllogin, params,new RequestCallBack<String>() {
 
 				
 

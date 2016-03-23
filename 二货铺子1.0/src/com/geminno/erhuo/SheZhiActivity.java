@@ -70,7 +70,7 @@ public class SheZhiActivity extends Activity implements OnClickListener{
 			startActivity(intent3);
 			break;
 		case R.id.lin_jiancha_gengxin:
-			
+			Toast.makeText(this, "当前已是最新版本", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.lin_qingchu_huancun:
 			
