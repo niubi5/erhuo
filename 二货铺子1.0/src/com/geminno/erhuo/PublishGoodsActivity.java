@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.geminno.erhuo.entity.Goods;
+import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.utils.Bimp;
 import com.geminno.erhuo.utils.FileUtils;
 import com.geminno.erhuo.utils.ImageItem;
@@ -25,6 +26,8 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
+import android.R.bool;
+import android.R.layout;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -50,12 +53,14 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AnimationUtils;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -82,6 +87,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	private EditText etBrief;
 	private EditText etPrice;
 	private EditText etOldPrice;
+	private String typeName;
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -124,7 +130,20 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		// 设置分类的适配器
 		typeSpinner.setAdapter(typeAdapter);
 		// 分类下拉列表事件监听
-		// typeSpinner.setOnitem
+		typeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				typeName = (String) typeList.get(position).get("name");				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		// 初始化集市的适配器
 		MyAdapter<String> marketAdapter = new MyAdapter<String>(this,
 				marketList, R.layout.spinner_item) {
@@ -140,6 +159,11 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		};
 		// 设置集市的适配器
 		marketSpinner.setAdapter(marketAdapter);
+		/**
+		 * 
+		 */
+		Log.i("dingwei", MyApplication.getLocation().getLongitude()+"|"+MyApplication.getLocation().getLatitude());
+		 
 	}
 
 	// 03.16修改，多图片上传
@@ -245,7 +269,8 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		}
 
 		public void update() {
-			loading();
+			//loading();
+			adapter.notifyDataSetChanged();
 		}
 
 		public int getCount() {
@@ -394,26 +419,37 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	// 分类下拉列表数据
 	public static List<Map<String, Object>> getSpinnerTypeData() {
 		List<Map<String, Object>> spinnerTypeData = new ArrayList<Map<String, Object>>();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("inco", R.drawable.buyingbook);
-		map.put("name", "书籍文体");
-		spinnerTypeData.add(map);
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("inco", R.drawable.types_others);
+		map1.put("name", "其他闲置");
+		spinnerTypeData.add(map1);
 
 		Map<String, Object> map2 = new HashMap<String, Object>();
-		map2.put("inco", R.drawable.buyingclothes);
-		map2.put("name", "服装鞋靴");
+		map2.put("inco", R.drawable.types_pad);
+		map2.put("name", "手机电脑");
 		spinnerTypeData.add(map2);
 
+		
 		Map<String, Object> map3 = new HashMap<String, Object>();
-		map3.put("inco", R.drawable.buyingphone);
-		map3.put("name", "手机电脑");
+		map3.put("inco", R.drawable.types_3c);
+		map3.put("name", "相机数码");
 		spinnerTypeData.add(map3);
-
+		
 		Map<String, Object> map4 = new HashMap<String, Object>();
-		map4.put("inco", R.drawable.buyingother);
-		map4.put("name", "其他二手");
+		map4.put("inco", R.drawable.types_card);
+		map4.put("name", "书籍文体");
 		spinnerTypeData.add(map4);
-
+		
+		Map<String, Object> map5 = new HashMap<String, Object>();
+		map5.put("inco", R.drawable.types_luggage);
+		map5.put("name", "服装鞋包");
+		spinnerTypeData.add(map5);
+		
+		Map<String, Object> map6 = new HashMap<String, Object>();
+		map6.put("inco", R.drawable.types_perfume);
+		map6.put("name", "美容美体");
+		spinnerTypeData.add(map6);
+		
 		return spinnerTypeData;
 
 	}
@@ -421,11 +457,15 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	// 集市下拉列表数据
 	public static List<String> getSpinnerMarketData() {
 		List<String> spinnerMarketData = new ArrayList<String>();
-		spinnerMarketData.add("爱书人的圈子");
-		spinnerMarketData.add("八一八你败过的数码");
-		spinnerMarketData.add("苹果专区肾宝岛");
-		spinnerMarketData.add("宝宝的惊喜");
-		spinnerMarketData.add("闲置好车等您来骑");
+		spinnerMarketData.add("选择集市更容易售出哦!");
+		for(Markets markets : MyApplication.getMarketsList()){
+			spinnerMarketData.add(markets.getName());
+		}
+//		spinnerMarketData.add("爱书人的圈子");
+//		spinnerMarketData.add("八一八你败过的数码");
+//		spinnerMarketData.add("苹果专区肾宝岛");
+//		spinnerMarketData.add("宝宝的惊喜");
+//		spinnerMarketData.add("闲置好车等您来骑");
 		return spinnerMarketData;
 	}
 
@@ -454,10 +494,11 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				}
 
 				Goods goods = new Goods();
-				goods.setUserId(1);
+				final int USERID = 2;//仅做测试用，正式版应从MyApplication.getCurrentUser().getId()获取
+				goods.setUserId(USERID);
 				goods.setName(etName.getText().toString());
 				goods.setImformation(etBrief.getText().toString());
-				goods.setTypeId(1);
+				goods.setTypeId(getTypeId(typeName));
 				goods.setSoldPrice(Double.parseDouble(etPrice.getText()
 						.toString()));
 				if (TextUtils.isEmpty(etOldPrice.getText())) {
@@ -466,9 +507,14 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 					goods.setBuyPrice(Double.parseDouble(etOldPrice.getText()
 							.toString()));
 				}
-				goods.setMarketId(2);
-				goods.setLongitude(33.8640844584);
-				goods.setLatitude(112.4709425635);// 33.8640844584,112.4709425635
+				goods.setMarketId(getmarketsId());
+				if(MyApplication.getLocation() == null){
+					goods.setLongitude(0);
+					goods.setLatitude(0);
+				}else{
+					goods.setLongitude(MyApplication.getLocation().getLongitude());					
+					goods.setLatitude(MyApplication.getLocation().getLatitude());// 33.8640844584,112.4709425635
+				}
 				goods.setPubTime(new Date(System.currentTimeMillis()));
 				goods.setState(1);
 				//
@@ -476,13 +522,14 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				Gson gson = new GsonBuilder().setDateFormat(
 						"yyyy-MM-dd hh-mm-ss").create();
 				String goodsJson = gson.toJson(goods);
-				// 服务器地址(测试，后期从配置文件获取)
+				//服务器地址(测试，后期从配置文件获取)
+				//String url = null;
 				final String url = "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
 				RequestParams rp = new RequestParams();
 				rp.addBodyParameter("goodJson", goodsJson);
+
 				// 处理商品图片
 				// Log.i("PublishGoodsActivity",imagePathList.get(0));
-				final int USERID = 10;// 仅做测试用，正式版应从MyApplication.getCurrentUser().getId()获取
 				int count = 0;
 				for (ImageItem image : Bimp.tempSelectBitmap) {
 					File file = new File(image.getImagePath());
@@ -490,75 +537,105 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 					Log.i("uploadimage", USERID + count + getNowTime());
 					count++;
 				}
-				//
+				//显示进度动画
+				final ViewGroup la = (ViewGroup) findViewById(R.id.fl_base);
+				disableSubControls(la,false);
+				final LinearLayout ll = (LinearLayout) findViewById(R.id.ll_progress);
+				ll.setVisibility(View.VISIBLE);
 				HttpUtils hu = new HttpUtils();
 				hu.send(HttpMethod.POST, url, rp,
 						new RequestCallBack<String>() {
 
-							@Override
-							public void onFailure(HttpException error,
-									String msg) {
-								Toast.makeText(PublishGoodsActivity.this,
-										"连接服务器失败!", Toast.LENGTH_SHORT).show();
-							}
+					@Override
+					public void onFailure(HttpException error, String msg) {
+						disableSubControls(la,true);
+						ll.setVisibility(View.INVISIBLE);
+						Toast.makeText(PublishGoodsActivity.this, "连接服务器失败!", Toast.LENGTH_SHORT).show();
+					}
 
-							@Override
-							public void onSuccess(
-									ResponseInfo<String> responseInfo) {
-								String result = responseInfo.result;
-								String info = null;
-								Log.i("onSuccess", result);
-								if (result != null
-										&& !"null".equals(result.trim())) {
-									info = "发布成功！" + result;
-									// RequestParams rp = new RequestParams();
-									// int count = 0;
-									// for(ImageItem image :
-									// Bimp.tempSelectBitmap){
-									// File file = new
-									// File(image.getImagePath());
-									// rp.addBodyParameter(result+count+getNowTime(),file);
-									// Log.i("uploadimage",
-									// result+count+getNowTime());
-									// count++;
-									// }
-									// //上传图片
-									// uploadFile(url,rp);
-								} else {
-									info = "发布失败！";
-								}
-								Toast.makeText(PublishGoodsActivity.this, info,
-										Toast.LENGTH_SHORT).show();
 
-							}
-						});
+					@Override
+					public void onSuccess(ResponseInfo<String> responseInfo) {
+						String result = responseInfo.result;
+						String info = null;
+						Log.i("onSuccess", result);
+						disableSubControls(la,true);
+						ll.setVisibility(View.INVISIBLE);
+						if(result != null && !"null".equals(result.trim())){
+							info = "发布成功！"+result;
+							finish();
+						}else{
+							info = "发布失败！";
+						}
+						Toast.makeText(PublishGoodsActivity.this, info, Toast.LENGTH_SHORT).show();
+						
+					}
+				});
+
 			}
 			break;
 		}
 
 	}
 
-	// 上传文件
-	public void uploadFile(String url, RequestParams params) {
-		HttpUtils httpUtils = new HttpUtils();
-		httpUtils.send(HttpMethod.POST, url, params,
-				new RequestCallBack<String>() {
-
-					@Override
-					public void onSuccess(ResponseInfo<String> responseInfo) {
-						// TODO Auto-generated method stub
-						Toast.makeText(PublishGoodsActivity.this, "图片上传成功!",
-								Toast.LENGTH_SHORT).show();
-					}
-
-					@Override
-					public void onFailure(HttpException error, String msg) {
-						// TODO Auto-generated method stub
-						Toast.makeText(PublishGoodsActivity.this, "图片上传失败!",
-								Toast.LENGTH_SHORT).show();
-					}
-
-				});
+	public static void disableSubControls(ViewGroup viewGroup,boolean flag) {
+		for (int i = 0; i < viewGroup.getChildCount(); i++) {
+			View v = viewGroup.getChildAt(i);
+			if (v instanceof ViewGroup) {
+				if (v instanceof Spinner) {
+					Spinner spinner = (Spinner) v;
+					spinner.setClickable(flag);
+					spinner.setEnabled(flag);
+				} else if (v instanceof ListView) {
+					((ListView) v).setClickable(flag);
+					((ListView) v).setEnabled(flag);
+				} else if(v instanceof GridView){
+					((GridView) v).setClickable(flag);
+					((GridView) v).setEnabled(flag);
+				}else{
+					disableSubControls((ViewGroup) v,flag);
+				}
+			} else if (v instanceof EditText) {
+				((EditText) v).setEnabled(flag);
+				((EditText) v).setClickable(flag);
+			}
+		}
+	}
+	//获得分类id
+	public  int getTypeId(String typeName){
+		int typeId = 1;
+		switch(typeName){
+		case "其他闲置":
+			typeId = 1;
+			break;
+		case "手机电脑":
+			typeId = 2;
+			break;
+		case "相机数码":
+			typeId = 3;
+			break;
+		case "书籍文体":
+			typeId = 4;
+			break;
+		case "服装鞋包":
+			typeId = 5;
+			break;
+		case "美容美体":
+			typeId = 6;
+			break;
+		}
+		Log.i("typeId", typeName+","+typeId);
+		return typeId;
+	}
+	//获得集市id
+	public int getmarketsId(){
+		String marketsName = marketSpinner.getSelectedItem().toString();
+		for(Markets markets : MyApplication.getMarketsList()){
+			if(markets.getName().equals(marketsName)){
+				return markets.getId();
+			}
+		}
+		return 0;
 	}
 
 	// 获取当前时间
@@ -569,4 +646,14 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		// return dateFormat.format(date);
 		return System.currentTimeMillis() + "";
 	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		if(!Bimp.tempSelectBitmap.isEmpty()){
+			Bimp.tempSelectBitmap.clear();			
+		}
+	}
+	
 }

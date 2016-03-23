@@ -13,28 +13,25 @@
             android:id="@+id/type_iphone"
             android:drawableTop="@drawable/types_phone"
             android:layout_weight="1"
-            android:text="苹果手机" />
+            android:text="@string/types_phone" />
         <Button
             style="@style/TypesButton"
             android:id="@+id/type_pad"
             android:drawableTop="@drawable/types_pad"
             android:layout_weight="1"
-            android:onClick="hehe"
-            android:text="平板电脑" />
+            android:text="@string/types_pad" />
         <Button
             style="@style/TypesButton"
             android:id="@+id/type_pc"
             android:drawableTop="@drawable/types_pc"
             android:layout_weight="1"
-            android:onClick="onclick"
-            android:text="笔记本" />
+            android:text="@string/types_pc" />
         <Button
             style="@style/TypesButton"
             android:id="@+id/type_ixiaomi"
             android:drawableTop="@drawable/types_xiaomi"
             android:layout_weight="1"
-            android:onClick="onclick"
-            android:text="小米" />
+            android:text="@string/types_xiaomi" />
     </LinearLayout>
     
     <LinearLayout
@@ -46,29 +43,25 @@
             android:id="@+id/type_3c"
             android:drawableTop="@drawable/types_3c"
             android:layout_weight="1"
-            android:onClick="onclick"
-            android:text="数码3c" />
+            android:text="@string/types_3c" />
         <Button
             style="@style/TypesButton"
             android:id="@+id/type_card"
             android:drawableTop="@drawable/types_card"
             android:layout_weight="1"
-            android:onClick="onclick"
-            android:text="卡券" />
+            android:text="@string/types_card" />
         <Button
             style="@style/TypesButton"
             android:id="@+id/type_luggage"
             android:drawableTop="@drawable/types_luggage"
             android:layout_weight="1"
-            android:onClick="onclick"
-            android:text="箱包" />
+            android:text="@string/types_luggage" />
         <Button
             style="@style/TypesButton"
             android:id="@+id/type_perfume"
             android:drawableTop="@drawable/types_perfume"
             android:layout_weight="1"
-            android:onClick="onclick"
-            android:text="美容美体" />
+            android:text="@string/types_perfume" />
     </LinearLayout>
 
 </LinearLayout>

@@ -64,7 +64,7 @@
     <color name="ghostwhite">#fff8f8ff</color>
     <color name="gold">#ffffd700</color>
     <color name="goldenrod">#ffdaa520</color>
-    <color name="gray">#ff808080</color>
+    <color name="gray">#7f808080</color>
     <color name="green">#ff008000</color>
     <color name="greenyellow">#ffadff2f</color>
     <color name="grid_state_focused">#80000000</color>
@@ -235,5 +235,6 @@
     <color name="albumback">#E1E0DE</color>
     <color name="style_red">#ff4c41</color>
     <color name="style_divider_color">#C9C7CD</color>
+    <color name="buy_background">#F9F8F4</color>
 
 </resources>

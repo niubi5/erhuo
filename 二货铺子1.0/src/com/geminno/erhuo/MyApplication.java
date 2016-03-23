@@ -1,8 +1,13 @@
 package com.geminno.erhuo;
 
+import java.util.List;
+
 import android.app.Application;
 
+import com.baidu.location.BDLocation;
+import com.baidu.mapapi.SDKInitializer;
 import com.geminno.erhuo.R;
+import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -12,11 +17,15 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 public class MyApplication extends Application {
 
-	private static Users user;
+	private static Users curUser;
+	private static BDLocation curLocation;
+	private static List<Markets> MarketsList;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		// 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
+		SDKInitializer.initialize(this);
 		// 初始化ImageLoader
 		@SuppressWarnings("deprecation")
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -40,12 +49,32 @@ public class MyApplication extends Application {
 
 	}
 
+	// 当前登录用户
 	public static Users getCurrentUser() {
-		return user;
+
+		return curUser;
 
 	}
 
 	public static void setUsers(Users users) {
-		user = users;
+		curUser = users;
+	}
+
+	// 当前经纬度
+	public static void setLocation(BDLocation location) {
+		curLocation = location;
+	}
+
+	public static BDLocation getLocation() {
+		return curLocation;
+	}
+
+	// 获取集市集合
+	public static void setMarketsList(List market) {
+		MarketsList = market;
+	}
+
+	public static List<Markets> getMarketsList() {
+		return MarketsList;
 	}
 }

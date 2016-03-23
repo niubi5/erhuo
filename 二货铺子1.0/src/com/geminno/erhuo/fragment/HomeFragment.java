@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.geminno.erhuo.MainActivity;
+import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.SearchActivity;
 import com.geminno.erhuo.adapter.HomePageAdapter;
@@ -90,6 +91,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		// 获得listview
 		refreshListView = (RefreshListView) getView().findViewById(
 				R.id.refreshListView);
+		Log.i("erhuo", refreshListView.toString());
 		initData();
 		refreshListView.setOnRefreshCallBack(new OnRefreshCallBack() {
 
@@ -175,6 +177,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								}.getType();
 								listMarkets = (List<Markets>) gson.fromJson(
 										result, type);
+								MyApplication.setMarketsList(listMarkets);
 
 								// -----------------------
 								// 获得商品集合

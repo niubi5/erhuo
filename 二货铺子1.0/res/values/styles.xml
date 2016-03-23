@@ -123,6 +123,12 @@
         <item name="android:layout_height">5.0dip</item>
         <item name="android:layout_marginBottom">2.0dip</item>
     </style>
+    <style name="ShadowTitle2">
+        <item name="android:background">@drawable/shadow_bottom_tabs</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">5.0dip</item>
+        <item name="android:layout_marginBottom">0dip</item>
+    </style>
     <style name="ShadowTitle_vertical">
         <item name="android:background">#20000000</item>
         <item name="android:layout_width">5.0dip</item>
