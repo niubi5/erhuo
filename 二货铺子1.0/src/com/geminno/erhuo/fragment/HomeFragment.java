@@ -4,7 +4,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,13 +19,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.geminno.erhuo.MainActivity;
 import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.SearchActivity;
 import com.geminno.erhuo.adapter.HomePageAdapter;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
+import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.RefreshListView;
@@ -52,10 +51,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private Handler handler = new Handler();
 	private int curPage = 1; // 页数
 	private int pageSize = 3;// 一次加载几条
-	private String url;
 	private HomePageAdapter adapter;
 	private List<Map<Map<Goods, Users>, List<String>>> preGoods = new ArrayList<Map<Map<Goods, Users>, List<String>>>();// 记录上一次不满的记录集合
-	private String head = null;// http: 头部
 	private List<Map<Map<Goods, Users>, List<String>>> listAll = new ArrayList<Map<Map<Goods, Users>, List<String>>>();
 
 	public HomeFragment(Context context) {
@@ -87,7 +84,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		// 获得listview
 		refreshListView = (RefreshListView) getView().findViewById(
 				R.id.refreshListView);
-		Log.i("erhuo", refreshListView.toString());
 		initData();
 		refreshListView.setOnRefreshCallBack(new OnRefreshCallBack() {
 
@@ -101,6 +97,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					public void run() {
 						// 清空原来的+新的数据
 						listAll.clear();
+						curPage = 1;
 						initData();
 						// 调用刷新完成的方法
 						refreshListView.completeRefresh();
@@ -137,18 +134,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			public void run() {
 
 				HttpUtils http = new HttpUtils();
-				Properties prop = new Properties();
 				// String head = null;// http: 头部
-				try {
-					// 从属性文件读取url
-					prop.load(MainActivity.class
-							.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
-					head = prop.getProperty("url");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				String headUrl = Url.getUrlHead();
 				// 拼接url
-				url = head + "/ListMarketsServlet";
+				String url = headUrl + "/ListMarketsServlet";
 				// 设置为不缓存，及时获取数据
 				http.configCurrentHttpCacheExpiry(0);
 				// 获得集市集合
@@ -174,10 +163,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								listMarkets = (List<Markets>) gson.fromJson(
 										result, type);
 								MyApplication.setMarketsList(listMarkets);
-
-								// -----------------------
 								// 获得商品集合
-								url = head + "/ListGoodsServlet";
+								String headUrl = Url.getUrlHead();
+								String url = headUrl + "/ListGoodsServlet";
+								// 发送第二次请求获取商品信息
 								HttpUtils http2 = new HttpUtils();
 								// 设置不缓存，及时获取数据
 								http2.configCurrentHttpCacheExpiry(0);
@@ -187,7 +176,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 										curPage + "");// 第一次加载
 								params.addQueryStringParameter("pageSize",
 										pageSize + "");
-								Log.i("erhuo", "curPage=" + curPage + "pageSize=" + pageSize);
+								Log.i("erhuo", "curPage=" + curPage
+										+ "pageSize=" + pageSize);
 								http2.send(HttpRequest.HttpMethod.GET, url,
 										params, new RequestCallBack<String>() {
 
@@ -246,6 +236,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		params.addQueryStringParameter("curPage", curPage + "");
 		params.addQueryStringParameter("pageSize", pageSize + "");
 		http.configCurrentHttpCacheExpiry(0);
+		String headUrl = Url.getUrlHead();
+		// 拼接url
+		String url = headUrl + "/ListGoodsServlet";
+		Log.i("erhuo", curPage + "  " + pageSize);
+		Log.i("erhuo", url);
 		http.send(HttpRequest.HttpMethod.GET, url, params,
 				new RequestCallBack<String>() {
 
@@ -257,6 +252,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
+						Log.i("erhuo", result);
 						Gson gson = new GsonBuilder()
 								.enableComplexMapKeySerialization()
 								.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -264,7 +260,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 						}.getType();
 						List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
 								.fromJson(result, type);
-						Log.i("erhuo", "加载的数据--------：" + result);
 						// 判断preGoods是否有记录，如果有，则将其从总集合中删掉
 						if (!preGoods.isEmpty()) {
 							Log.i("erhuo", "清空preGoods");
@@ -288,17 +283,17 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								// 记录在未加载满的集合中
 								preGoods.addAll(newGoods);
 							}
+							listAll.addAll(newGoods);// 添加新查到的集合
+							// 改变数据源
+							if (adapter == null) {
+								adapter = new HomePageAdapter(context,
+										listMarkets, listAll, refreshListView);
+								refreshListView.setAdapter(adapter);
+							} else {
+								adapter.notifyDataSetChanged();
+							}
 						}
-						listAll.addAll(newGoods);
-						// 改变数据源
-						if (adapter == null) {
-							adapter = new HomePageAdapter(context, listMarkets,
-									listAll, refreshListView);
-							refreshListView.setAdapter(adapter);
-						} else {
-							Log.i("erhuo", "通知改变数据源");
-							adapter.notifyDataSetChanged();
-						}
+
 					}
 				});
 	}
@@ -310,7 +305,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.home_search:
 			startActivity(new Intent(context, SearchActivity.class));
@@ -320,7 +314,5 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			break;
 		}
 	}
-
-
 
 }

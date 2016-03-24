@@ -1,5 +1,8 @@
 package com.geminno.erhuo;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
 import com.google.gson.Gson;
@@ -61,7 +64,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.tv_register:
 			Log.i("cheshi", "注册");
-			Intent intent = new Intent(this,VerifyActivity.class);
+			Intent intent = new Intent(this, VerifyActivity.class);
 			startActivity(intent);
 
 			break;
@@ -77,10 +80,21 @@ public class LoginActivity extends Activity implements OnClickListener {
 			params.addBodyParameter("identity", name);
 			params.addBodyParameter("pwd", pwd);
 
-			HttpUtils http=new HttpUtils();
-			//服务器路劲
-			//String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
-			http.send(HttpMethod.POST, Url.urllogin, params,new RequestCallBack<String>() {
+			HttpUtils http = new HttpUtils();
+			// 服务器路径
+			Properties prop = new Properties();
+			String headUrl = null;
+			try {
+				prop.load(LoginActivity.class
+						.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+				headUrl = prop.getProperty("url");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			String url = headUrl + "/LoginServlet";
+			// String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
+			http.send(HttpMethod.POST, url, params,
+					new RequestCallBack<String>() {
 
 						@Override
 						public void onFailure(HttpException arg0, String arg1) {
@@ -109,9 +123,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 					});
 
 			break;
-			//页面跳转到找回密码
+		// 页面跳转到找回密码
 		case R.id.tv_forget_mima:
-			Intent intent2=new Intent(this,ZhaoHuiActivity.class);
+			Intent intent2 = new Intent(this, ZhaoHuiActivity.class);
 			startActivity(intent2);
 			Intent intent1 = new Intent(this, ZhaoHuiActivity.class);
 			startActivity(intent1);

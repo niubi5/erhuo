@@ -1,5 +1,8 @@
 package com.geminno.erhuo;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import com.geminno.erhuo.entity.Url;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -98,10 +101,20 @@ public class RegisterActivity extends Activity implements OnClickListener {
 			}
 			params.addQueryStringParameter("identity", name);
 			params.addQueryStringParameter("pwd", pwd);
-			// String
+			// String3
+			Properties prop = new Properties();
+			String headUrl = null;
+			try {
+				prop.load(LoginActivity.class
+						.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+				headUrl = prop.getProperty("url");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			String url = headUrl + "/AddUserServlet";
 			// url="http://10.40.5.34:8080/secondHandShop/AddUserServlet";
 			HttpUtils http = new HttpUtils();
-			http.send(HttpMethod.POST, Url.urlregister, params,
+			http.send(HttpMethod.POST, url, params,
 					new RequestCallBack<String>() {
 
 						@Override

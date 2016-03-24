@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -43,6 +45,18 @@ public class DonateFragment extends BaseFragment {
 	 * 发布图片
 	 */
 	private ImageView ivPublish;
+	/**
+	 * 回到顶部图片
+	 */
+	private ImageView ivToTop;
+	/**
+	 * 标记是否滑动
+	 */
+	private boolean scrollFlag = false;
+	/**
+	 * 记录最后一次滑动的位置
+	 */
+	private int lastVisiblePosition = 0;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -66,6 +80,60 @@ public class DonateFragment extends BaseFragment {
 				helper.setImageResource(R.id.iv_popwindow, item.getButton());
 			}
 
+		});
+		
+		// 监听mListView滚动状态
+		mListView.setOnScrollListener(new OnScrollListener() {
+			
+			// mListView状态改变时回调
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				switch(scrollState){
+				// 空闲状态  -- 停止滚动
+				case OnScrollListener.SCROLL_STATE_IDLE:
+					scrollFlag = false;
+					// 第一条可见item == 0,到顶部,隐藏图片
+					if(mListView.getFirstVisiblePosition() == 0){
+					ivToTop.setVisibility(View.GONE);	
+					}
+					// 最后一条可见item == totalCount - 1,到底部，显示图片
+					if(mListView.getLastVisiblePosition() == (mListView.getCount() - 1)){
+						ivToTop.setVisibility(View.VISIBLE);
+					}
+					break;
+					// 滚动状态
+				case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+					scrollFlag = true;
+					break;
+					// 由于惯性产生的快速滑动
+				case OnScrollListener.SCROLL_STATE_FLING:
+					scrollFlag = false;
+					break;
+				}
+			}
+			
+			// 滚动时回调
+			/**
+			 * firstVisibleItem --> 第一条可见itemId
+			 * visibleItemCount --> 当前可见item数量
+			 * totalItemCount --> item总数
+			 */
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				if(scrollFlag){
+					// 第一条可见itemId > 0,上拉
+					if(firstVisibleItem > lastVisiblePosition){
+						ivToTop.setVisibility(View.VISIBLE);
+						// 第一条可见itemId < 上一次拉动位置,下拉
+					}else if(firstVisibleItem < lastVisiblePosition){
+						ivToTop.setVisibility(View.GONE);
+					}else{
+						return;
+					}
+					lastVisiblePosition = firstVisibleItem;
+				}
+			}
 		});
 		initEvent();
 		return view;
@@ -117,13 +185,22 @@ public class DonateFragment extends BaseFragment {
 	 */
 	@Override
 	protected void initEvent() {
-		// 添加
+		// 跳转到发布捐赠页面
 		ivPublish.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(getActivity(),DonateRequestActivity.class);
 				startActivity(intent);
 			}
 		});
+		// 滚动到第一条
+		ivToTop.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				setPosition(0);
+			}
+		});
+		
         
 	}
 	
@@ -134,6 +211,19 @@ public class DonateFragment extends BaseFragment {
 	protected void initView() {
 		mListView = (ListView) view.findViewById(R.id.lv_donations);
 		ivPublish = (ImageView) view.findViewById(R.id.home_search);
-        
+        ivToTop = (ImageView) view.findViewById(R.id.iv_to_top);
+	}
+	
+	/**
+	 * 滚动mListView到指定位置
+	 * 
+	 * @param position
+	 */
+	public void setPosition(int position){
+		if(android.os.Build.VERSION.SDK_INT >= 8){
+			mListView.smoothScrollToPosition(position);
+		}else{
+			mListView.setSelection(position);
+		}
 	}
 }

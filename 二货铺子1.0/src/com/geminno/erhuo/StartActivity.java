@@ -27,6 +27,7 @@ public class StartActivity extends Activity {
 			// 跳转到引导页
 			Intent intent = new Intent(this, GuideActivity.class);
 			startActivity(intent);
+			finish();
 			return;
 		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);

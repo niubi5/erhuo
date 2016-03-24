@@ -15,8 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 
-;
-
 /**
  * @author LuoShiHeng
  * @version 创建时间:2016-3-10下午8:33:20

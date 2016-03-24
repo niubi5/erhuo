@@ -105,19 +105,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		this.context = context;
 	}
 
-	// public HomePageAdapter(Context context, List<Markets> listMarkets,
-	// List<Map<Map<Goods, Users>, List<String>>> listAll) {
-	// this.context = context;
-	// this.listMarkets = listMarkets;
-	// this.listAll = listAll;
-	// scale = context.getResources().getDisplayMetrics().density;
-	// px1 = (int) (200 * scale + 0.5f);
-	// px2 = (int) (180 * scale + 0.5f);
-	// px3 = (int) (112.5 * scale + 0.5f);
-	// params3 = new LayoutParams(px1, px1);
-	// imageMarket = new LayoutParams(px2, px3);
-	// }
-
 	public HomePageAdapter(final Context context, List<Markets> listMarkets,
 			List<Map<Map<Goods, Users>, List<String>>> listAll,
 			RefreshListView refreshListView) {
@@ -141,8 +128,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 					Intent intent = new Intent(context,
 							GoodsDetialActivity.class);
 					Bundle bundle = new Bundle();
-					Log.i("erhuo", "当前position：" + position);
-					Log.i("erhuo", "商品用户url集合长度：" + userGoodsUrls.size());
 					for (int i = (position - 4) * 3; i < (position - 4) * 3 + 3; i++) {
 						Log.i("erhuo", "i的值：" + i);
 						if (first) {
@@ -211,12 +196,16 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		if (position == 0) {
+			Log.i("erhuo", "getADViewPager");
 			return getADViewPager(convertView);
 		} else if (position == 1) {
+			Log.i("erhuo", "getTypeItem");
 			return getTypeItem(convertView);
 		} else if (position == 2) {
+			Log.i("erhuo", "getMarketView");
 			return getMarketView(convertView);
 		} else
+			Log.i("erhuo", "getGoodsView");
 			return getGoodsView(position, convertView);
 	}
 
@@ -252,14 +241,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		} else {
 			viewHolderType = (ViewHolderType) convertView.getTag();
 		}
-		// viewHolderType.ip.setOnClickListener(this);
-		// viewHolderType.pad.setOnClickListener(this);
-		// viewHolderType.pc.setOnClickListener(this);
-		// viewHolderType.ixiaomi.setOnClickListener(this);
-		// viewHolderType.c.setOnClickListener(this);
-		// viewHolderType.card.setOnClickListener(this);
-		// viewHolderType.luggage.setOnClickListener(this);
-		// viewHolderType.perfume.setOnClickListener(this);
 		return convertView;
 	}
 
@@ -267,7 +248,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 	private View getGoodsView(int position, View convertView) {
 		// 获得ViewHolder
 		ViewHolderGoods viewHolder = null;
-		Log.i("erhuo", "商品position：" + position);
+		Log.i("erhuo", "当前position" + position);
 		// 边界判断
 		if (position - 3 >= 0 && position - 3 < listAll.size()) {
 			// 取得当前商品Map
