@@ -240,7 +240,9 @@
         <!-- 支付宝分享回调 -->
         <activity
             android:name=".ReportGoodActivity"
-            android:label="@string/title_activity_report_good" >
+            android:label="@string/title_activity_report_good"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"  >
         </activity>
     </application>
 

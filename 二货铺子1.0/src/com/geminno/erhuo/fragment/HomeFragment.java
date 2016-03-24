@@ -4,7 +4,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.geminno.erhuo.MainActivity;
 import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.SearchActivity;
@@ -136,7 +134,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			public void run() {
 
 				HttpUtils http = new HttpUtils();
-				Properties prop = new Properties();
 				// String head = null;// http: 头部
 				String headUrl = Url.getUrlHead();
 				// 拼接url
@@ -210,8 +207,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 													adapter = new HomePageAdapter(
 															context,
 															listMarkets,
-															listAll,
-															refreshListView);
+															listAll, refreshListView);
 													refreshListView
 															.setAdapter(adapter);
 												} else {
@@ -242,7 +238,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		http.configCurrentHttpCacheExpiry(0);
 		String headUrl = Url.getUrlHead();
 		// 拼接url
-		String url = headUrl + "/ListMarketsServlet";
+		String url = headUrl + "/ListGoodsServlet";
+		Log.i("erhuo", curPage + "  " + pageSize);
+		Log.i("erhuo", url);
 		http.send(HttpRequest.HttpMethod.GET, url, params,
 				new RequestCallBack<String>() {
 
@@ -254,6 +252,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
+						Log.i("erhuo", result);
 						Gson gson = new GsonBuilder()
 								.enableComplexMapKeySerialization()
 								.setDateFormat("yyyy-MM-dd HH:mm:ss").create();

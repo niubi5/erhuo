@@ -64,7 +64,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		button.setOnClickListener(this);
 		// 调用setColor()方法,实现沉浸式状态栏
 		MainActivity.setColor(this,
-				getResources().getColor(R.color.login_background));
+				getResources().getColor(R.color.main_red));
 		chkAgree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
 			@Override
