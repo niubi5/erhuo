@@ -21,6 +21,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 	private ImageView female;
 	// private EditText address;
     private TextView phone;
+    TextView userreturn;
 	private int sex;
     private Users users;
   //  private ImageView male;
@@ -38,9 +39,9 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		users = MyApplication.getCurrentUser();
 		nickName.setText(users.getName());
 	    if(users.getSex()==1){
-	    	male.setImageResource(R.drawable.radio_active);
+	    	male.setSelected(true);
 	    }else {
-			female.setImageResource(R.drawable.radio_active);
+			female.setSelected(true);
 		}
 	    phone.setText(users.getIdentity());
 	    
@@ -56,12 +57,13 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		female = (ImageView) findViewById(R.id.chose_female);
 		// address = (EditText) findViewById(R.id.et_infodata_address);
 	    phone = (TextView) findViewById(R.id.tv_infodata_phone);
-		
+		userreturn=(TextView) findViewById(R.id.ib_infodata_return);
 		save.setOnClickListener(this);
 		editHeader.setOnClickListener(this);
 		nickName.setOnClickListener(this);
 		male.setOnClickListener(this);
 		female.setOnClickListener(this);
+		userreturn.setOnClickListener(this);
 		// address.setOnClickListener(this);
 		// phone.setOnClickListener(this);
 	}
@@ -89,6 +91,9 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		// case R.id.et_infodata_nickname:
 		//
 		// break;
+		case R.id.ib_infodata_return:
+			this.finish();
+			break;
 		case R.id.chose_male:
 			male.setSelected(true);
 			female.setSelected(false);
