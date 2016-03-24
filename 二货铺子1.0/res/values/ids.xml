@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <item name="market_book" type="id"></item>
+    <item name="market_iphone" type="id"></item>
+    <item name="market_baby" type="id"></item>
+    <item name="market_bao" type="id"></item>
+    <item name="market_nb" type="id"></item>
+    <item name="market_other" type="id"></item>
+    
+</resources>

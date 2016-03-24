@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.geminno.erhuo.ClassificationActivity;
 import com.geminno.erhuo.GoodsDetialActivity;
@@ -53,6 +54,7 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.geminno.erhuo.view.RefreshListView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 /**
  * @author LuoShiHeng
@@ -88,6 +90,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 	private boolean first = true;
 	private boolean second = false;
 	private boolean third = false;
+	private ImageLoader imageLoader = ImageLoader.getInstance();
 
 	// 广告图片
 	private String[] imageUrls = {
@@ -108,7 +111,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		@Override
 		public void displayImage(String imageURL, ImageView imageView) {
 			// 使用ImageLoader对图片进行加装
-			ImageLoader.getInstance().displayImage(imageURL, imageView);
+			imageLoader.displayImage(imageURL, imageView);
 		}
 	};
 
@@ -164,6 +167,9 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 				}
 			}
 		});
+		// 设置滑动、快速滑动过程中不加载图片
+//		refreshListView.setOnScrollListener(new PauseOnScrollListener(
+//				imageLoader, true, true));
 	}
 
 	@Override
@@ -217,7 +223,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 			return getMarketView(convertView);
 		} else
 			Log.i("erhuo", "getGoodsView");
-			return getGoodsView(position, convertView);
+		return getGoodsView(position, convertView);
 	}
 
 	// 获得类别Item
@@ -318,8 +324,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 						// 遍历Url集合，装载图片，放入ScrollView中
 						for (String url : urls) {
 							ImageView imageView = new ImageView(context);
-							ImageLoader.getInstance().displayImage(url,
-									imageView);
+							imageLoader.displayImage(url, imageView);
 							imageView.setScaleType(ScaleType.CENTER_CROP);
 							imageView.setLayoutParams(params3);
 							if (position - 3 != 0) {
@@ -343,7 +348,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 					viewHolder.imagesContainer.removeAllViews();
 					for (String url : urls) {
 						ImageView imageView = new ImageView(context);
-						ImageLoader.getInstance().displayImage(url, imageView);
+						imageLoader.displayImage(url, imageView);
 						imageView.setScaleType(ScaleType.CENTER_CROP);
 						imageView.setLayoutParams(params3);
 						if (position - 3 != 0) {
@@ -361,6 +366,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 	private View getMarketView(View convertView) {
 		ViewHolderMarket viewHolder = null;
 		if (convertView == null) {
+			// 集市ID
+			int ids[] = new int[] { R.id.market_book, R.id.market_iphone,
+					R.id.market_baby, R.id.market_bao, R.id.market_nb,
+					R.id.market_other };
 			viewHolder = new ViewHolderMarket();
 			convertView = LayoutInflater.from(context).inflate(
 					R.layout.market_list, null);
@@ -376,9 +385,11 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 			LayoutParams param3 = new LayoutParams(LayoutParams.WRAP_CONTENT,
 					LayoutParams.MATCH_PARENT);
 			if (listMarkets != null) {
-				for (Markets market : listMarkets) {
+				for (int i = 0; i < listMarkets.size(); i++) {
 					// 线性布局
 					LinearLayout father = new LinearLayout(context);
+					father.setId(ids[i]);
+					father.setOnClickListener(this);
 					father.setLayoutParams(param1);
 					father.setOrientation(LinearLayout.VERTICAL);
 					father.setBackgroundColor(Color.WHITE);
@@ -386,14 +397,14 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 					ImageView imageView = new ImageView(context);
 					imageView.setLayoutParams(imageMarket);
 					imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-					String imageURL = market.getUrl();
-					ImageLoader.getInstance().displayImage(imageURL, imageView);
+					String imageURL = listMarkets.get(i).getUrl();
+					imageLoader.displayImage(imageURL, imageView);
 					// 集市名称
 					TextView tvMarketName = new TextView(context);
 					tvMarketName.setGravity(Gravity.CENTER_HORIZONTAL);
 					tvMarketName.setLayoutParams(param2);
 					tvMarketName.setEllipsize(TextUtils.TruncateAt.END);
-					tvMarketName.setText(market.getName());
+					tvMarketName.setText(listMarkets.get(i).getName());
 					// 装填集市人数，商品数
 					LinearLayout son = new LinearLayout(context);
 					son.setLayoutParams(param2);
@@ -407,7 +418,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 					TextView tvMarketUserCount = new TextView(context);
 					tvMarketUserCount.setLayoutParams(param3);
 					tvMarketUserCount.setPadding(5, 0, 0, 0);
-					tvMarketUserCount.setText(market.getUserCount() + "");
+					tvMarketUserCount.setText(listMarkets.get(i).getUserCount()
+							+ "");
 					tvMarketUserCount.setGravity(Gravity.CENTER_VERTICAL);
 					// 商品数图片
 					ImageView ivGoodsCount = new ImageView(context);// 商品图标
@@ -418,7 +430,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 					TextView tvMarketGoodsCount = new TextView(context);
 					tvMarketGoodsCount.setLayoutParams(param3);
 					tvMarketGoodsCount.setPadding(5, 0, 0, 0);
-					tvMarketGoodsCount.setText(market.getGoodsCount() + "");
+					tvMarketGoodsCount.setText(listMarkets.get(i)
+							.getGoodsCount() + "");
 					tvMarketGoodsCount.setGravity(Gravity.CENTER_VERTICAL);
 					// 布局间距
 					View viewPadding = new View(context);
@@ -437,6 +450,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 					viewHolder.grandpa.addView(father);
 					viewHolder.grandpa.addView(viewPadding);
 				}
+
 			}
 			convertView.setTag(viewHolder);
 		} else {
@@ -577,6 +591,24 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		// context.startActivity(intent);
 		// }
 		// break;
+		case R.id.market_book:
+			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.market_iphone:
+			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.market_baby:
+			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.market_bao:
+			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.market_nb:
+			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.market_other:
+			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			break;
 		}
 	}
 	
