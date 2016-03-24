@@ -85,9 +85,7 @@ public class ResetActivity extends Activity implements OnClickListener {
 								String result = arg0.result;
 								Log.i("cheshi", result);
 								if (result != null && !result.equals("null")) {
-									Intent intent2 = new Intent(
-											ResetActivity.this,
-											LoginActivity.class);
+									Intent intent2 = new Intent(ResetActivity.this,LoginActivity.class);
 									startActivity(intent2);
 									Gson gson = new Gson();
 									MyApplication.setUsers((Users) gson

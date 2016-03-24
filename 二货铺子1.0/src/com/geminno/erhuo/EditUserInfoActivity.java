@@ -23,6 +23,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 	// private TextView phone;
 	private int sex;
     private Users users;
+  //  private ImageView male;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +31,15 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_edit_user_info);
 		initView();
+	
+	}
+	
+	private void userShow(){
 		users = MyApplication.getCurrentUser();
 		nickName.setText(users.getName());
-		
+	    if(users.getSex()==1){
+	    	
+	    }
 	}
 
 	private void initView() {

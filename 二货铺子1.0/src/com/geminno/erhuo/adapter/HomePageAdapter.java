@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import android.R.string;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -27,12 +28,19 @@ import android.widget.TextView;
 
 import com.geminno.erhuo.ClassificationActivity;
 import com.geminno.erhuo.R;
+import com.geminno.erhuo.StartActivity;
 import com.geminno.erhuo.entity.ADInfo;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.text.SimpleDateFormat;
@@ -311,8 +319,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener{
 		}
 		return convertView;
 	}
-
-	// 获得集市view
+// 获得集市view
+	
 	private View getMarketView(View convertView) {
 		ViewHolderMarket viewHolder = null;
 		if (convertView == null) {
@@ -467,27 +475,32 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener{
 		Log.i("cheshi", "老子在这里");
 		switch (v.getId()) {
 		case R.id.type_iphone:
+		
 			String iphone = viewHolderType.ip.getText().toString();
 			Log.i("cheshi", iphone);
 			intent.putExtra("iphone", iphone);
+			intent.putExtra("tag", 1+"");
 			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
 			break;
 		case R.id.type_pad:
 			String padString = viewHolderType.pad.getText().toString();
 			intent.putExtra("iphone", padString);
+			intent.putExtra("tag", 2+"");
 			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
 			break;
 		case R.id.type_pc:
 			String pcString = viewHolderType.pc.getText().toString();
 			intent.putExtra("iphone", pcString);
+			intent.putExtra("tag", 3+"");
 			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
 			break;
 		case R.id.type_ixiaomi:
 			String ixiaomiString = viewHolderType.ixiaomi.getText().toString();
 			intent.putExtra("iphone", ixiaomiString);
+			intent.putExtra("tag", 4+"");
 			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
 
@@ -495,6 +508,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener{
 		case R.id.type_3c:
 			String cString = viewHolderType.c.getText().toString();
 			intent.putExtra("iphone", cString);
+			intent.putExtra("tag", 5+"");
 			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
 
@@ -503,6 +517,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener{
 			String cardString = viewHolderType.card.getText().toString();
 			intent.putExtra("iphone", cardString);
 			Log.i("result", "card:" + cardString);
+			intent.putExtra("tag", 6+"");
 			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
 
@@ -510,6 +525,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener{
 		case R.id.type_luggage:
 			String luggageString = viewHolderType.luggage.getText().toString();
 			intent.putExtra("iphone", luggageString);
+			intent.putExtra("tag", 7+"");
 			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
 
@@ -517,6 +533,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener{
 		case R.id.type_perfume:
 			String perfumeString = viewHolderType.perfume.getText().toString();
 			intent.putExtra("iphone", perfumeString);
+			intent.putExtra("tag", 8+"");
 			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
 
@@ -527,5 +544,5 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener{
 		}
 	}
 	
-
+	
 }
