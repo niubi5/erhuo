@@ -20,7 +20,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 	private ImageView male;
 	private ImageView female;
 	// private EditText address;
-	// private TextView phone;
+    private TextView phone;
 	private int sex;
     private Users users;
   //  private ImageView male;
@@ -31,25 +31,32 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_edit_user_info);
 		initView();
-	
+		userShow();
 	}
 	
 	private void userShow(){
 		users = MyApplication.getCurrentUser();
 		nickName.setText(users.getName());
 	    if(users.getSex()==1){
-	    	
-	    }
+	    	male.setImageResource(R.drawable.radio_active);
+	    }else {
+			female.setImageResource(R.drawable.radio_active);
+		}
+	    phone.setText(users.getIdentity());
+	    
 	}
 
 	private void initView() {
 		save = (TextView) findViewById(R.id.tv_infodata_ok);
 		editHeader = (ImageView) findViewById(R.id.edit_header);
 		nickName = (EditText) findViewById(R.id.et_infodata_nickname);
+		//男点击按钮
 		male = (ImageView) findViewById(R.id.chose_male);
+		//女点击按钮
 		female = (ImageView) findViewById(R.id.chose_female);
 		// address = (EditText) findViewById(R.id.et_infodata_address);
-		// phone = (TextView) findViewById(R.id.tv_infodata_phone);
+	    phone = (TextView) findViewById(R.id.tv_infodata_phone);
+		
 		save.setOnClickListener(this);
 		editHeader.setOnClickListener(this);
 		nickName.setOnClickListener(this);

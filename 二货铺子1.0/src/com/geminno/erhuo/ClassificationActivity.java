@@ -1,6 +1,7 @@
 package com.geminno.erhuo;
 
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,12 +11,17 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import com.geminno.erhuo.R.id;
+import com.geminno.erhuo.adapter.HomePageAdapter;
 import com.geminno.erhuo.adapter.HomePageAdapter.ViewHolderGoods;
 import com.geminno.erhuo.adapter.HomePageAdapter.ViewHolderMarket;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
+import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.MyAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -134,8 +140,8 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 
 		String[] sort = new String[] { "排序", "默认排序", "最新发布", "离我最近", "价格最低",
 				"价格最高" };
-		String[] screen = new String[] { "选择价格", "0~100元", "100~200元",
-				"200~300元", "300~400元", "400~500元", "500以上" };
+		String[] screen = new String[] { "选择价格", "0~500元", "500~1000元",
+				"1000~1500元", "1500~2000元", "2000~2500元", "2500以上" };
 		classificationSpinner = (Spinner) findViewById(R.id.spinner1);
 		sortSpinner = (Spinner) findViewById(R.id.spinner2);
 		screenSpinner = (Spinner) findViewById(R.id.spinner3);
@@ -189,6 +195,10 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 
 		public MyListAdapter(Context context) {
 
+		}
+		public MyListAdapter(Context context,List<Markets> listMarkets,
+				List<Map<Map<Goods, Users>, List<String>>> listAll){
+			
 		}
 
 		public MyListAdapter(List<View> view) {
@@ -316,7 +326,7 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 			HttpUtils httpUtils=new HttpUtils();
 			RequestParams params=new RequestParams();
 			params.addQueryStringParameter("tag",tag);
-			String url="http://10.201.1.16:8080/secondHandShop/ClassificationServlet";
+			String url=Url.getUrlHead()+"ClassificationServlet";
 			httpUtils.send(HttpMethod.POST, url, params,new RequestCallBack<String>() {
 
 				@Override
@@ -328,6 +338,23 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 				@Override
 				public void onSuccess(ResponseInfo<String> arg0) {
 					result=arg0.result;
+					Log.i("erhuo", result);
+					Gson gson = new GsonBuilder()
+							.enableComplexMapKeySerialization()
+							.setDateFormat(
+									"yyyy-MM-dd HH:mm:ss")
+							.create();
+					Type type = new TypeToken<List<Map<Map<Goods, Users>, List<String>>>>() {
+					}.getType();
+					List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
+							.fromJson(result, type);
+					listAll.addAll(newGoods);
+					if (adapter == null) {
+						adapter = new MyListAdapter(context
+								);
+					} else {
+						adapter.notifyDataSetChanged();
+					}
 					
 				}
 			});
