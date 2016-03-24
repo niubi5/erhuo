@@ -164,7 +164,6 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		/**
 		 * 
 		 */
-		Log.i("dingwei", MyApplication.getLocation().getLongitude()+"|"+MyApplication.getLocation().getLatitude());
 		 
 	}
 
@@ -528,15 +527,17 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				String goodsJson = gson.toJson(goods);
 				//服务器地址(测试，后期从配置文件获取)
 				//String url = null;
-				//final String url = "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
 				Properties prop = new Properties();
+				String headUrl = null;
 				try {
 					prop.load(PublishGoodsActivity.class.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+					headUrl = prop.getProperty("url");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String url = prop.getProperty("url")+"/AddGoodServlet";
+				
+				final String url = headUrl + "/AddGoodServlet";
+				//final String url = "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
 				RequestParams rp = new RequestParams();
 				rp.addBodyParameter("goodJson", goodsJson);
 

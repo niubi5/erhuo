@@ -5,6 +5,7 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -48,6 +49,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
+import com.geminno.erhuo.entity.Goods;
+import com.geminno.erhuo.entity.Users;
+
 public class GoodsDetialActivity extends Activity {
 	private ViewPager viewPager;
 	private ArrayList<View> pageview;
@@ -83,6 +88,31 @@ public class GoodsDetialActivity extends Activity {
 		viewPager = (ViewPager) findViewById(R.id.vp_goods_images);
 		List<View> list = new ArrayList<View>();
 		inflater = LayoutInflater.from(this);
+		 /**
+         * 创建多个item （每一条viewPager都是一个item）
+         * 从服务器获取完数据（如文章标题、url地址） 后，再设置适配器
+         */
+        for (int i = 0; i < 7; i++) {
+            item = inflater.inflate(R.layout.goods_images_item, null);
+            list.add(item);
+        }
+        //创建适配器， 把组装完的组件传递进去
+        adapter = new MyAdapter(list);
+        viewPager.setAdapter(adapter);
+ 
+        //绑定动作监听器：如翻页的动画
+        viewPager.setOnPageChangeListener(new MyListener());
+         
+        initIndicator();
+        //获得当前商品的id
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        Users user = (Users) bundle.getSerializable("user");
+        Goods goods = (Goods) bundle.getSerializable("goods");
+        List<String> urls = bundle.getStringArrayList("urls");
+        Log.i("erhuo", user.getName());
+        Log.i("erhuo", goods.getName());
+        Log.i("erhuo", urls.size() + "");
 		/**
 		 * 创建多个item （每一条viewPager都是一个item） 从服务器获取完数据（如文章标题、url地址） 后，再设置适配器
 		 */
