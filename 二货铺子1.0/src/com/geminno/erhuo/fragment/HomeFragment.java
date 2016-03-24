@@ -217,7 +217,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 													adapter = new HomePageAdapter(
 															context,
 															listMarkets,
-															newGoods, refreshListView);
+															listAll, refreshListView);
 													refreshListView
 															.setAdapter(adapter);
 												} else {

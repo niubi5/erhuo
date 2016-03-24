@@ -111,7 +111,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_verify);
 		// 调用setColor()方法,实现沉浸式状态栏
 		MainActivity.setColor(this,
-				getResources().getColor(R.color.login_background));
+				getResources().getColor(R.color.main_red));
 		// 3.17短信验证
 		btnVerify = (Button) findViewById(R.id.btn_verify);
 		ivBack = (ImageView) findViewById(R.id.iv_verify_return);

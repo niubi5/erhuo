@@ -2,9 +2,11 @@ package com.geminno.erhuo;
 
 import java.io.IOException;
 import java.lang.ref.SoftReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -52,29 +54,34 @@ import android.widget.Toast;
 import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Users;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class GoodsDetialActivity extends Activity {
 	private ViewPager viewPager;
 	private ArrayList<View> pageview;
 
 	// 图片的地址，这里可以从服务器获取
-	String[] urls = new String[] {
-
-			"http://a.hiphotos.baidu.com/image/pic/item/3bf33a87e950352ad6465dad5143fbf2b2118b6b.jpg",
-			"http://a.hiphotos.baidu.com/image/pic/item/c8177f3e6709c93d002077529d3df8dcd0005440.jpg",
-			"http://f.hiphotos.baidu.com/image/pic/item/7aec54e736d12f2ecc3d90f84dc2d56285356869.jpg",
-			"http://e.hiphotos.baidu.com/image/pic/item/9c16fdfaaf51f3de308a87fc96eef01f3a297969.jpg",
-			"http://d.hiphotos.baidu.com/image/pic/item/f31fbe096b63f624b88f7e8e8544ebf81b4ca369.jpg",
-			"http://h.hiphotos.baidu.com/image/pic/item/11385343fbf2b2117c2dc3c3c88065380cd78e38.jpg",
-			"http://c.hiphotos.baidu.com/image/pic/item/3801213fb80e7bec5ed8456c2d2eb9389b506b38.jpg"
-
-	};
+	// String[] urls = new String[] {
+	//
+	// "http://a.hiphotos.baidu.com/image/pic/item/3bf33a87e950352ad6465dad5143fbf2b2118b6b.jpg",
+	// "http://a.hiphotos.baidu.com/image/pic/item/c8177f3e6709c93d002077529d3df8dcd0005440.jpg",
+	// "http://f.hiphotos.baidu.com/image/pic/item/7aec54e736d12f2ecc3d90f84dc2d56285356869.jpg",
+	// "http://e.hiphotos.baidu.com/image/pic/item/9c16fdfaaf51f3de308a87fc96eef01f3a297969.jpg",
+	// "http://d.hiphotos.baidu.com/image/pic/item/f31fbe096b63f624b88f7e8e8544ebf81b4ca369.jpg",
+	// "http://h.hiphotos.baidu.com/image/pic/item/11385343fbf2b2117c2dc3c3c88065380cd78e38.jpg",
+	// "http://c.hiphotos.baidu.com/image/pic/item/3801213fb80e7bec5ed8456c2d2eb9389b506b38.jpg"
+	//
+	// };
 
 	private ImageView image;
 	private View item;
 	private MyAdapter adapter;
-	private ImageView[] indicator_imgs = new ImageView[7];// 存放引到图片数组
+	private ImageView[] indicator_imgs;// 存放引到图片数组
 	private LayoutInflater inflater;
+	private String[] urls;
+	private Users user;
+	private Goods goods;
+	private TextView tvGoodBrief;
 
 	//
 
@@ -88,35 +95,26 @@ public class GoodsDetialActivity extends Activity {
 		viewPager = (ViewPager) findViewById(R.id.vp_goods_images);
 		List<View> list = new ArrayList<View>();
 		inflater = LayoutInflater.from(this);
-		 /**
-         * 创建多个item （每一条viewPager都是一个item）
-         * 从服务器获取完数据（如文章标题、url地址） 后，再设置适配器
-         */
-        for (int i = 0; i < 7; i++) {
-            item = inflater.inflate(R.layout.goods_images_item, null);
-            list.add(item);
-        }
-        //创建适配器， 把组装完的组件传递进去
-        adapter = new MyAdapter(list);
-        viewPager.setAdapter(adapter);
- 
-        //绑定动作监听器：如翻页的动画
-        viewPager.setOnPageChangeListener(new MyListener());
-         
-        initIndicator();
-        //获得当前商品的id
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        Users user = (Users) bundle.getSerializable("user");
-        Goods goods = (Goods) bundle.getSerializable("goods");
-        List<String> urls = bundle.getStringArrayList("urls");
-        Log.i("erhuo", user.getName());
-        Log.i("erhuo", goods.getName());
-        Log.i("erhuo", urls.size() + "");
+		// 获得当前商品的id
+		Intent intent = getIntent();
+		Bundle bundle = intent.getExtras();
+		user = (Users) bundle.getSerializable("user");
+		goods = (Goods) bundle.getSerializable("goods");
+		List<String> goodUrl = bundle.getStringArrayList("urls");
+		Log.i("GoodsDetialActivity", user.getName());
+		Log.i("GoodsDetialActivity", goods.getName());
+		Log.i("GoodsDetialActivity", goodUrl.size() + "");
+		urls = new String[goodUrl.size()];
+		for (int i = 0; i < goodUrl.size(); i++) {
+			urls[i] = goodUrl.get(i);
+			Log.i("GoodsDetialActivity", urls[i]);
+		}
+		indicator_imgs = new ImageView[goodUrl.size()];
+		Log.i("GoodsDetialActivity", indicator_imgs.length + "");
 		/**
 		 * 创建多个item （每一条viewPager都是一个item） 从服务器获取完数据（如文章标题、url地址） 后，再设置适配器
 		 */
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < urls.length; i++) {
 			item = inflater.inflate(R.layout.goods_images_item, null);
 			list.add(item);
 		}
@@ -126,16 +124,76 @@ public class GoodsDetialActivity extends Activity {
 
 		// 绑定动作监听器：如翻页的动画
 		viewPager.setOnPageChangeListener(new MyListener());
-
+		initData();
 		initIndicator();
-		// 获得当前商品的信息
-//		Users user = (Users) getIntent().getSerializableExtra("user");
-//		Goods good = (Goods) getIntent().getSerializableExtra("goods");
-//		List<String> url1 = (List<String>) getIntent().getStringArrayListExtra("urls");
-//		Log.i("GoodsDetialActivity", user.getName());
-//		Log.i("GoodsDetialActivity", good.getName());
-//		Log.i("GoodsDetialActivity", url1.get(0));
-		
+
+	}
+
+	public void initData(){
+		ImageView ivHead = (ImageView) findViewById(R.id.iv_user_head);
+		TextView tvUserName = (TextView) findViewById(R.id.tv_user_name);
+		TextView tvUserLocation = (TextView) findViewById(R.id.tv_user_location);
+		TextView tvGoodPrice = (TextView) findViewById(R.id.tv_goods_price);
+		TextView tvGoodOldPrice = (TextView) findViewById(R.id.tv_goods_oldprice);
+		TextView tvGoodName = (TextView) findViewById(R.id.tv_goods_name);
+		TextView tvGoodTime = (TextView) findViewById(R.id.tv_goods_time);
+		tvGoodBrief = (TextView) findViewById(R.id.tv_goods_brief);
+		Log.i("imagelocation", user.getPhoto());
+		if(user.getPhoto() != null && !user.getPhoto().equals("")){
+			Properties prop = new Properties();
+			String headUrl = null;
+			try {
+				prop.load(PublishGoodsActivity.class.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+				headUrl = prop.getProperty("headUrl");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			final String userHeadUrl = headUrl + user.getPhoto();
+			//Log.i("imagelocation", userHeadUrl);
+			ImageLoader.getInstance().displayImage(userHeadUrl, ivHead);
+		}
+		tvUserName.setText(user.getName());
+		int instance = Distance(goods.getLongitude(), goods.getLatitude(), MyApplication.getLocation().getLongitude(), MyApplication.getLocation().getLatitude());
+		tvUserLocation.setText(instance >= 100 ? (instance/1000+"km") : (instance+"m"));
+		tvGoodPrice.setText("¥"+goods.getSoldPrice());
+		tvGoodOldPrice.setText("原价:"+goods.getBuyPrice());
+		tvGoodName.setText(goods.getName());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		tvGoodTime.setText(sdf.format(goods.getPubTime()));
+		tvGoodBrief.setText(goods.getImformation());
+	}
+
+	//
+	/**
+	 * 计算地球上任意两点(经纬度)距离
+	 * 
+	 * @param long1
+	 *            第一点经度
+	 * @param lat1
+	 *            第一点纬度
+	 * @param long2
+	 *            第二点经度
+	 * @param lat2
+	 *            第二点纬度
+	 * @return 返回距离 单位：米
+	 */
+	public static int Distance(double long1, double lat1, double long2,
+			double lat2) {
+		double a, b, R;
+		R = 6378137; // 地球半径
+		lat1 = lat1 * Math.PI / 180.0;
+		lat2 = lat2 * Math.PI / 180.0;
+		a = lat1 - lat2;
+		b = (long1 - long2) * Math.PI / 180.0;
+		double d;
+		double sa2, sb2;
+		sa2 = Math.sin(a / 2.0);
+		sb2 = Math.sin(b / 2.0);
+		d = 2
+				* R
+				* Math.asin(Math.sqrt(sa2 * sa2 + Math.cos(lat1)
+						* Math.cos(lat2) * sb2 * sb2));
+		return (int) d;
 	}
 
 	private void showShare() {
@@ -152,13 +210,13 @@ public class GoodsDetialActivity extends Activity {
 		// titleUrl是标题的网络链接，仅在人人网和QQ空间使用
 		oks.setTitleUrl("http://sharesdk.cn");
 		// text是分享文本，所有平台都需要这个字段
-		oks.setText("我是分享文本");
+		oks.setText(tvGoodBrief.getText().toString());
 		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
 		// oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
 		// url仅在微信（包括好友和朋友圈）中使用
 		oks.setUrl("http://sharesdk.cn");
 		// comment是我对这条分享的评论，仅在人人网和QQ空间使用
-		oks.setComment("我是测试评论文本");
+		oks.setComment("评论文本");
 		// site是分享此内容的网站名称，仅在QQ空间使用
 		oks.setSite(getString(R.string.app_name));
 		// siteUrl是分享此内容的网站地址，仅在QQ空间使用
@@ -178,6 +236,9 @@ public class GoodsDetialActivity extends Activity {
 			finish();
 		case R.id.btn_buy:
 			Intent intent = new Intent(this, BuyGoodsActivity.class);
+			intent.putExtra("user", user);
+			intent.putExtra("good", goods);
+			intent.putExtra("url", urls);
 			startActivity(intent);
 		default:
 			break;
@@ -197,8 +258,8 @@ public class GoodsDetialActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-//				Toast.makeText(GoodsDetialActivity.this, "分享",
-//						Toast.LENGTH_SHORT).show();
+				// Toast.makeText(GoodsDetialActivity.this, "分享",
+				// Toast.LENGTH_SHORT).show();
 				showShare();
 			}
 		});
@@ -207,8 +268,10 @@ public class GoodsDetialActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(GoodsDetialActivity.this, "举报",
-						Toast.LENGTH_SHORT).show();
+//				Toast.makeText(GoodsDetialActivity.this, "举报",
+//						Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(GoodsDetialActivity.this,ReportGoodActivity.class);
+				startActivity(intent);
 			}
 		});
 
@@ -235,8 +298,8 @@ public class GoodsDetialActivity extends Activity {
 				R.drawable.round_box));
 
 		// 设置好参数之后再show
-		 popupWindow.showAsDropDown(view);
-		//popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+		popupWindow.showAsDropDown(view);
+		// popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
 	}
 
@@ -248,14 +311,14 @@ public class GoodsDetialActivity extends Activity {
 		ImageView imgView;
 		View v = findViewById(R.id.indicator);// 线性水平布局，负责动态调整导航图标
 
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < urls.length; i++) {
 			imgView = new ImageView(this);
 			LinearLayout.LayoutParams params_linear = new LinearLayout.LayoutParams(
 					10, 10);
 			params_linear.setMargins(7, 10, 7, 10);
 			imgView.setLayoutParams(params_linear);
 			indicator_imgs[i] = imgView;
-
+			Log.i("erhuo", i + "i的值");
 			if (i == 0) { // 初始化第一个为选中状态
 
 				indicator_imgs[i].setBackgroundResource(R.drawable.round_point);
@@ -326,10 +389,10 @@ public class GoodsDetialActivity extends Activity {
 							View view = mList.get(position);
 							image = ((ImageView) view
 									.findViewById(R.id.iv_goods_image));
-							//image.setBackground(imageDrawable);
+							// image.setBackground(imageDrawable);
 							image.setImageDrawable(null);
 							image.setImageDrawable(imageDrawable);
-//							image.setScaleType(ScaleType.CENTER_CROP);
+							// image.setScaleType(ScaleType.CENTER_CROP);
 							container.removeView(mList.get(position));
 							container.addView(mList.get(position));
 							// adapter.notifyDataSetChanged();
@@ -339,7 +402,7 @@ public class GoodsDetialActivity extends Activity {
 
 			View view = mList.get(position);
 			image = ((ImageView) view.findViewById(R.id.iv_goods_image));
-			//image.setBackground(cachedImage);
+			// image.setBackground(cachedImage);
 			image.setImageDrawable(cachedImage);
 
 			container.removeView(mList.get(position));
@@ -509,7 +572,7 @@ public class GoodsDetialActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onPause();
 		Log.i("popupwindow", "onPause");
-		
+
 	}
 
 	@Override
@@ -518,6 +581,5 @@ public class GoodsDetialActivity extends Activity {
 		super.onStop();
 		Log.i("popupwindow", "onStop");
 	}
-	
 
 }
