@@ -87,7 +87,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		// 获得listview
 		refreshListView = (RefreshListView) getView().findViewById(
 				R.id.refreshListView);
-		Log.i("erhuo", refreshListView.toString());
 		initData();
 		refreshListView.setOnRefreshCallBack(new OnRefreshCallBack() {
 
@@ -101,6 +100,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					public void run() {
 						// 清空原来的+新的数据
 						listAll.clear();
+						curPage = 1;
 						initData();
 						// 调用刷新完成的方法
 						refreshListView.completeRefresh();
@@ -174,10 +174,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								listMarkets = (List<Markets>) gson.fromJson(
 										result, type);
 								MyApplication.setMarketsList(listMarkets);
-
-								// -----------------------
 								// 获得商品集合
 								url = head + "/ListGoodsServlet";
+								// 发送第二次请求获取商品信息
 								HttpUtils http2 = new HttpUtils();
 								// 设置不缓存，及时获取数据
 								http2.configCurrentHttpCacheExpiry(0);
@@ -187,7 +186,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 										curPage + "");// 第一次加载
 								params.addQueryStringParameter("pageSize",
 										pageSize + "");
-								Log.i("erhuo", "curPage=" + curPage + "pageSize=" + pageSize);
+								Log.i("erhuo", "curPage=" + curPage
+										+ "pageSize=" + pageSize);
 								http2.send(HttpRequest.HttpMethod.GET, url,
 										params, new RequestCallBack<String>() {
 
@@ -217,7 +217,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 													adapter = new HomePageAdapter(
 															context,
 															listMarkets,
-															newGoods, refreshListView);
+															listAll,
+															refreshListView);
 													refreshListView
 															.setAdapter(adapter);
 												} else {
@@ -264,7 +265,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 						}.getType();
 						List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
 								.fromJson(result, type);
-						Log.i("erhuo", "加载的数据--------：" + result);
 						// 判断preGoods是否有记录，如果有，则将其从总集合中删掉
 						if (!preGoods.isEmpty()) {
 							Log.i("erhuo", "清空preGoods");
@@ -288,17 +288,17 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								// 记录在未加载满的集合中
 								preGoods.addAll(newGoods);
 							}
+							listAll.addAll(newGoods);// 添加新查到的集合
+							// 改变数据源
+							if (adapter == null) {
+								adapter = new HomePageAdapter(context,
+										listMarkets, listAll, refreshListView);
+								refreshListView.setAdapter(adapter);
+							} else {
+								adapter.notifyDataSetChanged();
+							}
 						}
-						listAll.addAll(newGoods);
-						// 改变数据源
-						if (adapter == null) {
-							adapter = new HomePageAdapter(context, listMarkets,
-									listAll, refreshListView);
-							refreshListView.setAdapter(adapter);
-						} else {
-							Log.i("erhuo", "通知改变数据源");
-							adapter.notifyDataSetChanged();
-						}
+
 					}
 				});
 	}
@@ -310,7 +310,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.home_search:
 			startActivity(new Intent(context, SearchActivity.class));
@@ -320,7 +319,5 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			break;
 		}
 	}
-
-
 
 }

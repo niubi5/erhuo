@@ -2,253 +2,262 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   	android:background="@color/main_bgcolor"
+    android:background="@color/main_bgcolor"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
+    
+    <ListView
+         >
+        
+    </ListView>
 
-    <RelativeLayout
-        android:id="@+id/person_center_herder_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/img_my_bg" >
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/userinfo_btn_herder"
+        <RelativeLayout
+            android:id="@+id/person_center_herder_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:drawableTop="@drawable/header_default"
-            android:paddingBottom="2dip"
-            android:paddingTop="7dip"
-            android:scaleType="matrix"
-            android:text="氟利昂1993"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/font_tiny" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/userinfo_tabs"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/main_white"
-        android:orientation="horizontal" >
-
-        <LinearLayout
-            android:id="@+id/userinfo_selling"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_height="100dp"
+            android:background="@drawable/img_my_bg" >
 
             <Button
-                android:id="@+id/userinfo_btn_selling"
+                android:id="@+id/userinfo_btn_herder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:drawableTop="@drawable/userinfo_selling"
+                android:drawableTop="@drawable/header_default"
                 android:paddingBottom="2dip"
                 android:paddingTop="7dip"
                 android:scaleType="matrix"
-                android:text="在售的"
-                android:textColor="@android:color/black"
+                android:text="氟利昂1993"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/font_tiny" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/userinfo_sold"
-            android:layout_width="0dp"
+            android:id="@+id/userinfo_tabs"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:background="@color/main_white"
+            android:orientation="horizontal" >
 
-            <Button
-                android:id="@+id/userinfo_btn_sold"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:drawableTop="@drawable/userinfo_sold"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
-                android:scaleType="matrix"
-                android:text="卖出的"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/font_tiny" />
+            <LinearLayout
+                android:id="@+id/userinfo_selling"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/userinfo_btn_selling"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@drawable/userinfo_selling"
+                    android:paddingBottom="2dip"
+                    android:paddingTop="7dip"
+                    android:scaleType="matrix"
+                    android:text="在售的"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_tiny" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/userinfo_sold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/userinfo_btn_sold"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@drawable/userinfo_sold"
+                    android:paddingBottom="2dip"
+                    android:paddingTop="7dip"
+                    android:scaleType="matrix"
+                    android:text="卖出的"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_tiny" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/userinfo_bought"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/userinfo_btn_bought"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@drawable/userinfo_bought"
+                    android:paddingBottom="2dip"
+                    android:paddingTop="7dip"
+                    android:scaleType="matrix"
+                    android:text="已买的"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_tiny" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/userinfo_favorite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/userinfo_btn_favorite"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@drawable/userinfo_buying"
+                    android:paddingBottom="2dip"
+                    android:paddingTop="7dip"
+                    android:scaleType="matrix"
+                    android:text="收藏的"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_tiny" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/userinfo_donate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/userinfo_btn_donate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@drawable/userinfo_favorite"
+                    android:paddingBottom="2dip"
+                    android:paddingTop="7dip"
+                    android:scaleType="matrix"
+                    android:text="捐赠的"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_tiny" />
+            </LinearLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5.0dip" />
 
         <LinearLayout
-            android:id="@+id/userinfo_bought"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:id="@+id/shoppingmall_container"
+            style="@style/MyInfoLinearLayout" >
 
-            <Button
-                android:id="@+id/userinfo_btn_bought"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:drawableTop="@drawable/userinfo_bought"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
-                android:scaleType="matrix"
-                android:text="已买的"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/font_tiny" />
+            <ImageView
+                style="@style/MyInfoImage"
+                android:src="@drawable/radish_shop" />
+
+            <TextView
+                style="@style/MyInfoTextView"
+                android:text="积分商城" />
+
+            <ImageView style="@style/MyInfoArrow" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5.0dip" />
 
         <LinearLayout
-            android:id="@+id/userinfo_favorite"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:id="@+id/userinfo_container"
+            style="@style/MyInfoLinearLayout" >
 
-            <Button
-                android:id="@+id/userinfo_btn_favorite"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:drawableTop="@drawable/userinfo_buying"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
-                android:scaleType="matrix"
-                android:text="收藏的"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/font_tiny" />
+            <ImageView
+                style="@style/MyInfoImage"
+                android:src="@drawable/my_info" />
+
+            <TextView
+                style="@style/MyInfoTextView"
+                android:text="个人资料" />
+
+            <ImageView style="@style/MyInfoArrow" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.0dip" />
 
         <LinearLayout
-            android:id="@+id/userinfo_donate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:id="@+id/address_container"
+            style="@style/MyInfoLinearLayout" >
 
-            <Button
-                android:id="@+id/userinfo_btn_donate"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:drawableTop="@drawable/userinfo_favorite"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
-                android:scaleType="matrix"
-                android:text="捐赠的"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/font_tiny" />
+            <ImageView
+                style="@style/MyInfoImage"
+                android:src="@drawable/goods_receive_address" />
+
+            <TextView
+                style="@style/MyInfoTextView"
+                android:text="收货地址" />
+
+            <ImageView style="@style/MyInfoArrow" />
         </LinearLayout>
-    </LinearLayout>
 
-    <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5.0dip" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5.0dip" />
+        <LinearLayout
+            android:id="@+id/share_container"
+            style="@style/MyInfoLinearLayout" >
 
-    <LinearLayout
-        android:id="@+id/shoppingmall_container"
-        style="@style/MyInfoLinearLayout" >
+            <ImageView
+                style="@style/MyInfoImage"
+                android:src="@drawable/share" />
 
-        <ImageView
-            style="@style/MyInfoImage"
-            android:src="@drawable/radish_shop" />
+            <TextView
+                style="@style/MyInfoTextView"
+                android:text="分享给朋友" />
 
-        <TextView
-            style="@style/MyInfoTextView"
-            android:text="积分商城" />
+            <ImageView style="@style/MyInfoArrow" />
+        </LinearLayout>
 
-        <ImageView style="@style/MyInfoArrow" />
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.0dip" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5.0dip" />
+        <LinearLayout
+            android:id="@+id/setting_container"
+            style="@style/MyInfoLinearLayout" >
 
-    <LinearLayout
-        android:id="@+id/userinfo_container"
-        style="@style/MyInfoLinearLayout" >
+            <ImageView
+                style="@style/MyInfoImage"
+                android:src="@drawable/setting" />
 
-        <ImageView
-            style="@style/MyInfoImage"
-            android:src="@drawable/my_info" />
+            <TextView
+                style="@style/MyInfoTextView"
+                android:text="设置" />
 
-        <TextView
-            style="@style/MyInfoTextView"
-            android:text="个人资料" />
+            <ImageView style="@style/MyInfoArrow" />
+        </LinearLayout>
 
-        <ImageView style="@style/MyInfoArrow" />
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.0dip" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1.0dip" />
+        <LinearLayout
+            android:id="@+id/postage_container"
+            style="@style/MyInfoLinearLayout" >
 
-    <LinearLayout
-        android:id="@+id/address_container"
-        style="@style/MyInfoLinearLayout" >
+            <ImageView
+                style="@style/MyInfoImage"
+                android:src="@drawable/postage_assisant" />
 
-        <ImageView
-            style="@style/MyInfoImage"
-            android:src="@drawable/goods_receive_address" />
+            <TextView
+                style="@style/MyInfoTextView"
+                android:text="邮费助手" />
 
-        <TextView
-            style="@style/MyInfoTextView"
-            android:text="收货地址" />
-
-        <ImageView style="@style/MyInfoArrow" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5.0dip" />
-
-    <LinearLayout
-        android:id="@+id/share_container"
-        style="@style/MyInfoLinearLayout" >
-
-        <ImageView
-            style="@style/MyInfoImage"
-            android:src="@drawable/share" />
-
-        <TextView
-            style="@style/MyInfoTextView"
-            android:text="分享给朋友" />
-
-        <ImageView style="@style/MyInfoArrow" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1.0dip" />
-
-    <LinearLayout
-        android:id="@+id/setting_container"
-        style="@style/MyInfoLinearLayout" >
-
-        <ImageView
-            style="@style/MyInfoImage"
-            android:src="@drawable/setting" />
-
-        <TextView
-            style="@style/MyInfoTextView"
-            android:text="设置" />
-
-        <ImageView style="@style/MyInfoArrow" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1.0dip" />
-
-    <LinearLayout
-        android:id="@+id/postage_container"
-        style="@style/MyInfoLinearLayout" >
-
-        <ImageView
-            style="@style/MyInfoImage"
-            android:src="@drawable/postage_assisant" />
-
-        <TextView
-            style="@style/MyInfoTextView"
-            android:text="邮费助手" />
-
-        <ImageView style="@style/MyInfoArrow" />
+            <ImageView style="@style/MyInfoArrow" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
