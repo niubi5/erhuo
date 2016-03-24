@@ -1,12 +1,14 @@
 package com.geminno.erhuo;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
@@ -162,7 +164,6 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		/**
 		 * 
 		 */
-		Log.i("dingwei", MyApplication.getLocation().getLongitude()+"|"+MyApplication.getLocation().getLatitude());
 		 
 	}
 
@@ -458,8 +459,10 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	public static List<String> getSpinnerMarketData() {
 		List<String> spinnerMarketData = new ArrayList<String>();
 		spinnerMarketData.add("选择集市更容易售出哦!");
-		for(Markets markets : MyApplication.getMarketsList()){
-			spinnerMarketData.add(markets.getName());
+		if(MyApplication.getMarketsList()!=null){
+			for(Markets markets : MyApplication.getMarketsList()){
+				spinnerMarketData.add(markets.getName());
+			}			
 		}
 //		spinnerMarketData.add("爱书人的圈子");
 //		spinnerMarketData.add("八一八你败过的数码");
@@ -524,7 +527,17 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				String goodsJson = gson.toJson(goods);
 				//服务器地址(测试，后期从配置文件获取)
 				//String url = null;
-				final String url = "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
+				Properties prop = new Properties();
+				String headUrl = null;
+				try {
+					prop.load(PublishGoodsActivity.class.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+					headUrl = prop.getProperty("url");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				final String url = headUrl + "/AddGoodServlet";
+				//final String url = "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
 				RequestParams rp = new RequestParams();
 				rp.addBodyParameter("goodJson", goodsJson);
 

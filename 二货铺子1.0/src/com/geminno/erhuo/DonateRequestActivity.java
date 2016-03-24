@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,7 +25,6 @@ import android.widget.Toast;
 
 import com.geminno.erhuo.adapter.LogisticsAdapter;
 import com.geminno.erhuo.entity.Logistics;
-import com.geminno.erhuo.utils.DonateDialog;
 import com.geminno.erhuo.view.AddImageView;
 
 /**
@@ -36,10 +39,10 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	 * 请求捐赠标题
 	 */
 	private EditText etTitle;
-	/**
-	 * 返回图片
-	 */
-	private ImageView ivBack;
+	// /**
+	// * 返回图片
+	// */
+	// private ImageView ivBack;
 	/**
 	 * 发布技巧图片
 	 */
@@ -76,6 +79,8 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	 * 发布
 	 */
 	private Button btnDonate;
+
+	Dialog dialog;
 
 	private AddImageView addImageView;
 	private Spinner logisticSpinner;
@@ -149,27 +154,35 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 		etAddress = (EditText) findViewById(R.id.et_donation_address);
 		btnDonate = (Button) findViewById(R.id.btn_request_donate);
 		btnDonate.setOnClickListener(this);
-		ivBack = (ImageView) findViewById(R.id.iv_back);
-		// 返回
-		ivBack.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
 		ivDonationDialog = (ImageView) findViewById(R.id.iv_donation_dialog);
-		// 提示
+		// 点击提示对话框
 		ivDonationDialog.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				DonateDialog.Builder dialog = new DonateDialog.Builder(
-						DonateRequestActivity.this);
-				
-				dialog.create().show();
+				// 设置对话框样式为全屏
+				dialog = new Dialog(DonateRequestActivity.this,R.style.DonationDialog);
+               // 去标题
+				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				View dialogView = LayoutInflater.from(
+						DonateRequestActivity.this).inflate(
+						R.layout.donate_dialog_guide, null);
+				dialog.setContentView(dialogView);
+				ImageView image = (ImageView) dialogView.findViewById(R.id.donation_dialog_back);
+				image.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+					    dialog.dismiss();				
+					}
+				});
+				Window window = dialog.getWindow();	
+				// 背景透明
+				window.setBackgroundDrawableResource(android.R.color.transparent);
+				dialog.show();
 			}
 		});
+
 	}
 
 	/**
