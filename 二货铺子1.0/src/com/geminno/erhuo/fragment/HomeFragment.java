@@ -27,6 +27,7 @@ import com.geminno.erhuo.SearchActivity;
 import com.geminno.erhuo.adapter.HomePageAdapter;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
+import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.RefreshListView;
@@ -52,10 +53,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private Handler handler = new Handler();
 	private int curPage = 1; // 页数
 	private int pageSize = 3;// 一次加载几条
-	private String url;
 	private HomePageAdapter adapter;
 	private List<Map<Map<Goods, Users>, List<String>>> preGoods = new ArrayList<Map<Map<Goods, Users>, List<String>>>();// 记录上一次不满的记录集合
-	private String head = null;// http: 头部
 	private List<Map<Map<Goods, Users>, List<String>>> listAll = new ArrayList<Map<Map<Goods, Users>, List<String>>>();
 
 	public HomeFragment(Context context) {
@@ -139,16 +138,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				HttpUtils http = new HttpUtils();
 				Properties prop = new Properties();
 				// String head = null;// http: 头部
-				try {
-					// 从属性文件读取url
-					prop.load(MainActivity.class
-							.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
-					head = prop.getProperty("url");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				String headUrl = Url.getUrlHead();
 				// 拼接url
-				url = head + "/ListMarketsServlet";
+				String url = headUrl + "/ListMarketsServlet";
 				// 设置为不缓存，及时获取数据
 				http.configCurrentHttpCacheExpiry(0);
 				// 获得集市集合
@@ -175,7 +167,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 										result, type);
 								MyApplication.setMarketsList(listMarkets);
 								// 获得商品集合
-								url = head + "/ListGoodsServlet";
+								String headUrl = Url.getUrlHead();
+								String url = headUrl + "/ListGoodsServlet";
 								// 发送第二次请求获取商品信息
 								HttpUtils http2 = new HttpUtils();
 								// 设置不缓存，及时获取数据
@@ -247,6 +240,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		params.addQueryStringParameter("curPage", curPage + "");
 		params.addQueryStringParameter("pageSize", pageSize + "");
 		http.configCurrentHttpCacheExpiry(0);
+		String headUrl = Url.getUrlHead();
+		// 拼接url
+		String url = headUrl + "/ListMarketsServlet";
 		http.send(HttpRequest.HttpMethod.GET, url, params,
 				new RequestCallBack<String>() {
 
