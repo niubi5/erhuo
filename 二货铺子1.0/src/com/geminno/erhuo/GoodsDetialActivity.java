@@ -82,6 +82,7 @@ public class GoodsDetialActivity extends Activity {
 	private Users user;
 	private Goods goods;
 	private TextView tvGoodBrief;
+	private TextView tvGoodName;
 
 	//
 
@@ -135,7 +136,7 @@ public class GoodsDetialActivity extends Activity {
 		TextView tvUserLocation = (TextView) findViewById(R.id.tv_user_location);
 		TextView tvGoodPrice = (TextView) findViewById(R.id.tv_goods_price);
 		TextView tvGoodOldPrice = (TextView) findViewById(R.id.tv_goods_oldprice);
-		TextView tvGoodName = (TextView) findViewById(R.id.tv_goods_name);
+		tvGoodName = (TextView) findViewById(R.id.tv_goods_name);
 		TextView tvGoodTime = (TextView) findViewById(R.id.tv_goods_time);
 		tvGoodBrief = (TextView) findViewById(R.id.tv_goods_brief);
 		Log.i("imagelocation", user.getPhoto());
@@ -206,7 +207,7 @@ public class GoodsDetialActivity extends Activity {
 		// oks.setNotification(R.drawable.ic_launcher,
 		// getString(R.string.app_name));
 		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-		oks.setTitle(getString(R.string.share));
+		oks.setTitle(tvGoodName.getText().toString());
 		// titleUrl是标题的网络链接，仅在人人网和QQ空间使用
 		oks.setTitleUrl("http://sharesdk.cn");
 		// text是分享文本，所有平台都需要这个字段
