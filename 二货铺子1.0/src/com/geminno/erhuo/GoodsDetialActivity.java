@@ -5,6 +5,7 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -14,7 +15,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 
-import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -40,6 +40,10 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
+import com.geminno.erhuo.entity.Goods;
+import com.geminno.erhuo.entity.Users;
 
 
 
@@ -94,8 +98,14 @@ public class GoodsDetialActivity extends Activity {
          
         initIndicator();
         //获得当前商品的id
-        
-
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        Users user = (Users) bundle.getSerializable("user");
+        Goods goods = (Goods) bundle.getSerializable("goods");
+        List<String> urls = bundle.getStringArrayList("urls");
+        Log.i("erhuo", user.getName());
+        Log.i("erhuo", goods.getName());
+        Log.i("erhuo", urls.size() + "");
 	}
 	//点击事件
 	public void onclick(View v){
