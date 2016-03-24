@@ -7,6 +7,7 @@ import android.app.Application;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.SDKInitializer;
 import com.geminno.erhuo.R;
+import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -20,6 +21,9 @@ public class MyApplication extends Application {
 	private static Users curUser;
 	private static BDLocation curLocation;
 	private static List<Markets> MarketsList;
+	private static List<Object> userGoodsUrlsList;
+	private static List<Users> users;
+	private static List<String> urls;
 
 	@Override
 	public void onCreate() {
@@ -77,4 +81,5 @@ public class MyApplication extends Application {
 	public static List<Markets> getMarketsList() {
 		return MarketsList;
 	}
+	
 }

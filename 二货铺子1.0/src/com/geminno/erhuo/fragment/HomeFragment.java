@@ -51,7 +51,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private Context context;
 	private Handler handler = new Handler();
 	private int curPage = 1; // 页数
-	private int pageSize = 6;// 一次加载几条
+	private int pageSize = 3;// 一次加载几条
 	private String url;
 	private HomePageAdapter adapter;
 	private List<Map<Map<Goods, Users>, List<String>>> preGoods = new ArrayList<Map<Map<Goods, Users>, List<String>>>();// 记录上一次不满的记录集合
@@ -187,6 +187,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 										curPage + "");// 第一次加载
 								params.addQueryStringParameter("pageSize",
 										pageSize + "");
+								Log.i("erhuo", "curPage=" + curPage + "pageSize=" + pageSize);
 								http2.send(HttpRequest.HttpMethod.GET, url,
 										params, new RequestCallBack<String>() {
 
@@ -201,6 +202,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 											public void onSuccess(
 													ResponseInfo<String> arg0) {
 												String result = arg0.result;
+												Log.i("erhuo", result);
 												Gson gson = new GsonBuilder()
 														.enableComplexMapKeySerialization()
 														.setDateFormat(
@@ -262,6 +264,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 						}.getType();
 						List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
 								.fromJson(result, type);
+						Log.i("erhuo", "加载的数据--------：" + result);
 						// 判断preGoods是否有记录，如果有，则将其从总集合中删掉
 						if (!preGoods.isEmpty()) {
 							Log.i("erhuo", "清空preGoods");
@@ -293,6 +296,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 									listAll, refreshListView);
 							refreshListView.setAdapter(adapter);
 						} else {
+							Log.i("erhuo", "通知改变数据源");
 							adapter.notifyDataSetChanged();
 						}
 					}

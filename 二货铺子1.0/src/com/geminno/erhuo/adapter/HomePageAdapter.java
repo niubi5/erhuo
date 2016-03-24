@@ -32,15 +32,15 @@ import android.widget.TextView;
 
 import com.geminno.erhuo.ClassificationActivity;
 import com.geminno.erhuo.GoodsDetialActivity;
+import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.R;
-import com.geminno.erhuo.StartActivity;
 import com.geminno.erhuo.entity.ADInfo;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.view.ImageCycleView;
-import com.geminno.erhuo.view.RefreshListView;
 import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
+import com.geminno.erhuo.view.RefreshListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
@@ -74,8 +74,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 	private ViewHolderType viewHolderType = null;
 	private RefreshListView refreshListView;
 	private List<Object> userGoodsUrls = new ArrayList<Object>();
-	private int count = 0;// 计数器
-	
+	private boolean first = true;
+	private boolean second = false;
+	private boolean third = false;
+
 	// 广告图片
 	private String[] imageUrls = {
 			"http://img.taodiantong.cn/v55183/infoimg/2013-07/130720115322ky.jpg",
@@ -103,21 +105,22 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		this.context = context;
 	}
 
-//	public HomePageAdapter(Context context, List<Markets> listMarkets,
-//			List<Map<Map<Goods, Users>, List<String>>> listAll) {
-//		this.context = context;
-//		this.listMarkets = listMarkets;
-//		this.listAll = listAll;
-//		scale = context.getResources().getDisplayMetrics().density;
-//		px1 = (int) (200 * scale + 0.5f);
-//		px2 = (int) (180 * scale + 0.5f);
-//		px3 = (int) (112.5 * scale + 0.5f);
-//		params3 = new LayoutParams(px1, px1);
-//		imageMarket = new LayoutParams(px2, px3);
-//	}
-	
+	// public HomePageAdapter(Context context, List<Markets> listMarkets,
+	// List<Map<Map<Goods, Users>, List<String>>> listAll) {
+	// this.context = context;
+	// this.listMarkets = listMarkets;
+	// this.listAll = listAll;
+	// scale = context.getResources().getDisplayMetrics().density;
+	// px1 = (int) (200 * scale + 0.5f);
+	// px2 = (int) (180 * scale + 0.5f);
+	// px3 = (int) (112.5 * scale + 0.5f);
+	// params3 = new LayoutParams(px1, px1);
+	// imageMarket = new LayoutParams(px2, px3);
+	// }
+
 	public HomePageAdapter(final Context context, List<Markets> listMarkets,
-			List<Map<Map<Goods, Users>, List<String>>> listAll, RefreshListView refreshListView) {
+			List<Map<Map<Goods, Users>, List<String>>> listAll,
+			RefreshListView refreshListView) {
 		this.context = context;
 		this.listMarkets = listMarkets;
 		this.listAll = listAll;
@@ -133,23 +136,34 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				if(position >= 3 && !userGoodsUrls.isEmpty()){
-					Intent intent = new Intent(context, GoodsDetialActivity.class);
+				// 商品点击事件
+				if (position >= 3 && !userGoodsUrls.isEmpty()) {
+					Intent intent = new Intent(context,
+							GoodsDetialActivity.class);
+					Bundle bundle = new Bundle();
 					Log.i("erhuo", "当前position：" + position);
-//					for(int i = (position - 4) * 3; i < (position - 4)*3+3; i++){
-//						Log.i("erhuo", "i的值：" + i);
-//						if(i == count){
-//							Users user = (Users) userGoodsUrls.get(i);
-//							intent.putExtra("user", user);
-//						} else if(i == count + 1){
-//							Goods goods = (Goods) userGoodsUrls.get(i);
-//							intent.putExtra("goods", goods);
-//						} else if(i == count + 2){
-//							ArrayList<String> urls = (ArrayList<String>) userGoodsUrls.get(i);
-//							intent.putStringArrayListExtra("urls", urls);
-//							count += 3;
-//						}
-//					}
+					Log.i("erhuo", "商品用户url集合长度：" + userGoodsUrls.size());
+					for (int i = (position - 4) * 3; i < (position - 4) * 3 + 3; i++) {
+						Log.i("erhuo", "i的值：" + i);
+						if (first) {
+							Users user = (Users) userGoodsUrls.get(i);
+							bundle.putSerializable("user", user);
+							first = false;
+							second = true;
+						} else if (second) {
+							Goods goods = (Goods) userGoodsUrls.get(i);
+							bundle.putSerializable("goods", goods);
+							second = false;
+							third = true;
+						} else if (third) {
+							ArrayList<String> urls = (ArrayList<String>) userGoodsUrls
+									.get(i);
+							bundle.putStringArrayList("urls", urls);
+							third = false;
+							first = true;
+						}
+					}
+					intent.putExtras(bundle);
 					context.startActivity(intent);
 				}
 			}
@@ -238,14 +252,14 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 		} else {
 			viewHolderType = (ViewHolderType) convertView.getTag();
 		}
-//		viewHolderType.ip.setOnClickListener(this);
-//		viewHolderType.pad.setOnClickListener(this);
-//		viewHolderType.pc.setOnClickListener(this);
-//		viewHolderType.ixiaomi.setOnClickListener(this);
-//		viewHolderType.c.setOnClickListener(this);
-//		viewHolderType.card.setOnClickListener(this);
-//		viewHolderType.luggage.setOnClickListener(this);
-//		viewHolderType.perfume.setOnClickListener(this);
+		// viewHolderType.ip.setOnClickListener(this);
+		// viewHolderType.pad.setOnClickListener(this);
+		// viewHolderType.pc.setOnClickListener(this);
+		// viewHolderType.ixiaomi.setOnClickListener(this);
+		// viewHolderType.c.setOnClickListener(this);
+		// viewHolderType.card.setOnClickListener(this);
+		// viewHolderType.luggage.setOnClickListener(this);
+		// viewHolderType.perfume.setOnClickListener(this);
 		return convertView;
 	}
 
@@ -270,9 +284,13 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 					goods = en1.getKey();
 					user = en1.getValue();
 					// 将数据放入集合，以便商品详情页使用
-					userGoodsUrls.add(user);
-					userGoodsUrls.add(goods);
-					userGoodsUrls.add(urls);
+					if (!userGoodsUrls.contains(user)
+							&& !userGoodsUrls.contains(goods)
+							&& !userGoodsUrls.contains(urls)) {
+						userGoodsUrls.add(user);
+						userGoodsUrls.add(goods);
+						userGoodsUrls.add(urls);
+					}
 					if (convertView == null) {
 						viewHolder = new ViewHolderGoods();
 						convertView = LayoutInflater.from(context).inflate(
@@ -549,17 +567,15 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener {
 			context.startActivity(intent);
 
 			break;
-//		// 商品点击事件
-//		case R.id.goods_images_container:
-//			if (user != null & goods != null) {
-//				intent.putExtra("user", user);
-//				intent.putExtra("goods", goods);
-//				intent.setClass(context, GoodsDetialActivity.class);
-//				context.startActivity(intent);
-//			}
-//			break;
-		default:
-			break;
+		// 商品点击事件
+		// case R.id.goods_images_container:
+		// if (user != null & goods != null) {
+		// intent.putExtra("user", user);
+		// intent.putExtra("goods", goods);
+		// intent.setClass(context, GoodsDetialActivity.class);
+		// context.startActivity(intent);
+		// }
+		// break;
 		}
 	}
 
