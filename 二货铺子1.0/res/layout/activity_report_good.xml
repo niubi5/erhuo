@@ -2,8 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/report_background"
     tools:context="com.geminno.erhuo.ReportGoodActivity" >
-<FrameLayout
+
+    <FrameLayout
         android:id="@+id/erhuo_message_title"
         style="@style/FrameTitleRed"
         android:layout_width="match_parent"
@@ -23,9 +25,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/left_arrow_white"
+                android:onClick="onclick"
                 android:scaleType="centerInside"
-                android:onClick="onclick" />
+                android:src="@drawable/left_arrow_white" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -34,7 +36,66 @@
                 android:layout_centerVertical="true"
                 android:text="@string/report_good"
                 android:textColor="@color/white" />
-
         </RelativeLayout>
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/erhuo_message_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/report_reason" />
+
+    <LinearLayout
+        android:id="@+id/ll_report_reason"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="@string/report_reason_detail"
+            android:inputType="textMultiLine"
+            android:textColorHint="@color/text_hint_color"
+            android:textSize="@dimen/font_large" >
+        </EditText>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_report_reason1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/ll_report_reason"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:button="@null"
+            android:checked="true"
+            android:drawableRight="@drawable/btn_radio_my"
+            android:text="RadioButton" />
+
+    </RelativeLayout>
+
 </RelativeLayout>
