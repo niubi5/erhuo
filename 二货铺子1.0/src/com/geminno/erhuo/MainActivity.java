@@ -51,7 +51,7 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-public class MainActivity extends FragmentActivity implements OnClickListener {
+public class MainActivity extends BaseActivity implements OnClickListener {
 
 	private Context context;
 	private HomeFragment homeFragment;

@@ -43,7 +43,6 @@ public class ZhaoHuiActivity extends Activity implements OnClickListener {
 							ResetActivity.class);
 					intent.putExtra("phone", phone);
 					startActivity(intent);
-
 				} else {
 
 					toast("请输入正确的验证码");

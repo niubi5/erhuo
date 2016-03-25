@@ -47,7 +47,6 @@ public class VerifyActivity extends Activity implements OnClickListener {
 					intent.putExtra("phone", phone);
 					Log.i("result", "phone:" + phone);
 					startActivity(intent);
-
 				} else {
 
 					toast("请输入正确的验证码");
