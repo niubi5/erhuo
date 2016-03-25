@@ -102,6 +102,8 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		//保存
 		case R.id.tv_infodata_ok:
+			String name=nickName.getText().toString();
+			
 			break;
 		 case R.id.edit_header:
 		
