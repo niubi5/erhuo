@@ -1,9 +1,9 @@
 package com.geminno.erhuo;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -32,24 +32,11 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
 import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
-import com.geminno.erhuo.adapter.HomePageAdapter;
-import com.geminno.erhuo.entity.Goods;
-import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.fragment.BaseFragment;
 import com.geminno.erhuo.fragment.DonateFragment;
 import com.geminno.erhuo.fragment.HomeFragment;
 import com.geminno.erhuo.fragment.MessageFragment;
 import com.geminno.erhuo.fragment.UserInfoFragment;
-import com.geminno.erhuo.view.RefreshListView;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
@@ -66,10 +53,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private List<BaseFragment> fragments;
 	private List<Button> btns;
 	private int currentIndex; // 当前fragment索引
-	private RefreshListView refreshListView;
 	// ------------------------
-	private List<Markets> listMarkets = null;
-	private List<Goods> listGoods = null;
 	// 定位相关
 	public LocationClient mLocationClient = null;
 	public BDLocationListener myListener = new MyLocationListener();
@@ -314,11 +298,35 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
-		// 初始化数据源
-		// if (!flag) {
-		// initData();
-		// }m
+		
 		super.onResume();
 	}
+
+	private boolean isExit = false;// 是否退出
+	Timer tExit = new Timer();// 定时器
+	TimerTask task;// 抽象类，实现了Runnable接口，具备多线程能力
+	@Override
+	public void onBackPressed() {
+		if(!isExit){
+			isExit = true;
+			// 弹框提示
+			Toast.makeText(context, "再按一次 退出程序", Toast.LENGTH_SHORT).show();
+			task = new TimerTask(){
+				// 创建一个任务，将状态设为false
+				@Override
+				public void run() {
+					isExit = false;
+				}
+				
+			};
+			tExit.schedule(task, 2000);// timer 2s后执行任务
+		} else {
+			// 退出程序
+			finish();
+			System.exit(0);
+		}
+	}
+	
+	
 
 }

@@ -54,7 +54,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private HomePageAdapter adapter;
 	private List<Map<Map<Goods, Users>, List<String>>> preGoods = new ArrayList<Map<Map<Goods, Users>, List<String>>>();// 记录上一次不满的记录集合
 	private List<Map<Map<Goods, Users>, List<String>>> listAll = new ArrayList<Map<Map<Goods, Users>, List<String>>>();
-
+	private boolean isRefresh = false;
+	
 	public HomeFragment(Context context) {
 		this.context = context;
 	}
@@ -68,12 +69,15 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	}
 
 	ImageView ivhome;
+	ImageView toUP;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		convertView = inflater.inflate(R.layout.fragment_main_page, null);
 		ivhome = (ImageView) convertView.findViewById(R.id.home_search);
+		toUP = (ImageView) convertView.findViewById(R.id.to_up);
+		toUP.setOnClickListener(this);
 		ivhome.setOnClickListener(this);
 
 		return convertView;
@@ -98,6 +102,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 						// 清空原来的+新的数据
 						listAll.clear();
 						curPage = 1;
+						isRefresh = true;
 						initData();
 						// 调用刷新完成的方法
 						refreshListView.completeRefresh();
@@ -176,8 +181,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 										curPage + "");// 第一次加载
 								params.addQueryStringParameter("pageSize",
 										pageSize + "");
-								Log.i("erhuo", "curPage=" + curPage
-										+ "pageSize=" + pageSize);
 								http2.send(HttpRequest.HttpMethod.GET, url,
 										params, new RequestCallBack<String>() {
 
@@ -192,7 +195,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 											public void onSuccess(
 													ResponseInfo<String> arg0) {
 												String result = arg0.result;
-												Log.i("erhuo", result);
 												Gson gson = new GsonBuilder()
 														.enableComplexMapKeySerialization()
 														.setDateFormat(
@@ -207,7 +209,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 													adapter = new HomePageAdapter(
 															context,
 															listMarkets,
-															listAll, refreshListView);
+															listAll, refreshListView, isRefresh);
 													refreshListView
 															.setAdapter(adapter);
 												} else {
@@ -239,8 +241,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		String headUrl = Url.getUrlHead();
 		// 拼接url
 		String url = headUrl + "/ListGoodsServlet";
-		Log.i("erhuo", curPage + "  " + pageSize);
-		Log.i("erhuo", url);
 		http.send(HttpRequest.HttpMethod.GET, url, params,
 				new RequestCallBack<String>() {
 
@@ -252,7 +252,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
-						Log.i("erhuo", result);
 						Gson gson = new GsonBuilder()
 								.enableComplexMapKeySerialization()
 								.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -262,7 +261,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								.fromJson(result, type);
 						// 判断preGoods是否有记录，如果有，则将其从总集合中删掉
 						if (!preGoods.isEmpty()) {
-							Log.i("erhuo", "清空preGoods");
 							listAll.removeAll(preGoods);
 							// 清空preGoods
 							preGoods.clear();
@@ -287,7 +285,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 							// 改变数据源
 							if (adapter == null) {
 								adapter = new HomePageAdapter(context,
-										listMarkets, listAll, refreshListView);
+										listMarkets, listAll, refreshListView, isRefresh);
 								refreshListView.setAdapter(adapter);
 							} else {
 								adapter.notifyDataSetChanged();
@@ -309,7 +307,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		case R.id.home_search:
 			startActivity(new Intent(context, SearchActivity.class));
 			break;
-
+		case R.id.to_up:
+			// 移动到顶部
+			refreshListView.smoothScrollToPosition(0);
+			break;
 		default:
 			break;
 		}
