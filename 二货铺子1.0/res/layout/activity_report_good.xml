@@ -165,7 +165,7 @@
     <Button
         android:id="@+id/btn_commit_report"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:background="@color/main_red"

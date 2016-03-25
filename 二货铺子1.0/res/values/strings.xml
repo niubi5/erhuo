@@ -123,5 +123,12 @@
     <string name="commit">提交</string>
     <string name="title_activity_donation_detail">DonationDetailActivity</string>
     <string name="title_activity_donation_report">DonationReportActivity</string>
+    <string name="title_activity_my_goods">MyGoodsActivity</string>
+    <!-- 三方支付 @heikki -->
+    <string name="alipay">支付宝</string>
+    <string name="mm">微信</string>
+    <string name="unionpay">银联</string>
+    <string name="jd">京东</string>
+    <string name="baidu">百度钱包</string>
 
 </resources>

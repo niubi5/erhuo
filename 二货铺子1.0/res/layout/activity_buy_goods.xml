@@ -234,7 +234,7 @@
             android:id="@+id/view3"
             style="@style/ShadowTitle2" />
         <Button
-        android:id="@+id/btn_publish_goods"
+        android:id="@+id/btn_pay_way"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"

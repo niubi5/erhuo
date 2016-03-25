@@ -63,13 +63,13 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 	    address=(LinearLayout) getView().findViewById(R.id.address_container);
 	    initData();
 	    users = MyApplication.getCurrentUser();
-	    if(users!=null){
-	    	btnHead.setText(users.getName());
+		    if(users!=null&&users.getName()!=null){
+		    	btnHead.setText(users.getName());
+		    }else if (users!=null&&users.getName()==null) {
+		    	btnHead.setText("erhuo_"+users.getIdentity().substring(7,11));
+			}
 	    }
-	    }
-
-	
-	
+ 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -80,7 +80,13 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 			break;
 		case R.id.userinfo_btn_herder:
 			Log.i("onClick", "userinfo_btn_herder");
-			startActivity(new Intent(getActivity(), LoginActivity.class));
+			Users users=MyApplication.getCurrentUser();
+			if(users!=null&&!users.equals("null")){
+				startActivity(new Intent(getActivity(),EditUserInfoActivity.class));
+			}else {
+				   startActivity(new Intent(getActivity(), LoginActivity.class));
+			}
+			
 			break;
 		case R.id.setting_container:
 			Log.i("onClick", "setting_container");
@@ -94,6 +100,8 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		case R.id.address_container:
 			startActivity(new Intent(getActivity(),ShipAddressActivity.class));
 			break;
+//		case R.id.userinfo_btn_selling:
+//			Intent intent = new Intent(getActivity(),);
 			
 
 //			startActivity(new Intent(getActivity(), PostageActivity.class));

@@ -101,6 +101,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 			}
 			params.addQueryStringParameter("identity", name);
 			params.addQueryStringParameter("pwd", pwd);
+			
 			// String3
 			Properties prop = new Properties();
 			String headUrl = null;

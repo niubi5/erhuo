@@ -34,13 +34,13 @@
     
     <ImageView 
         android:id="@+id/iv_to_top"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/donation_back_top"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:src="@drawable/up_icon"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="6dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         
         
         />

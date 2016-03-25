@@ -42,6 +42,7 @@
             android:gravity="left" >
 
             <TextView
+                android:id="@+id/tv_dingwei"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -63,23 +64,23 @@
             android:layout_height="55dp"
             android:gravity="left" >
 
-            <TextView
+            <EditText
+                android:id="@+id/et_newaddress_xianshi"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="25dp"
-                android:hint="显示位置"
-                android:textSize="@dimen/font_middle" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:background="@drawable/shape_address"
+                android:ems="10"
+                android:textSize="@dimen/font_middle" 
+                android:hint="当前位置"
+                android:inputType="textPersonName"
+                android:layout_marginLeft="27dp" />
 
             <Button
+                android:id="@+id/but_shiyong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
+                android:layout_marginLeft="30dp"
                 android:background="@color/main_red"
                 android:text="使用"
                 android:textSize="@dimen/font_middle" />
@@ -118,6 +119,7 @@
         <LinearLayout
             android:id="@+id/lin_newphone"
             style="@style/MyInfoLinearLayout"
+            
             android:gravity="left" >
 
             <TextView
@@ -202,7 +204,7 @@
         android:text="设为默认地址" />
     
     <Button
-        android:id="@+id/but_tuichu"
+        android:id="@+id/but_baochun"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
