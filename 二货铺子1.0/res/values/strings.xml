@@ -113,12 +113,15 @@
     <string name="pay_way">请选择付款方式</string>
     <string name="title_activity_report_good">ReportGoodActivity</string>
     <string name="report_good">举报商品</string>
-	<string name="report_reason">您为什么举报?</string>
-	<string name="report_reason_detail">详细描述举报原因(选填)</string>
-	<string name="lier">欺诈骗钱</string>
-	<string name="break_rule">违规商品</string>
-	<string name="gar_ads">垃圾信息/广告骚扰</string>
-	<string name="yellew_infor">传播色情信息</string>
-	<string name="violence">传播暴力/反动等不良信息</string>
-	<string name="commit">提交</string>
+    <string name="report_reason">您为什么举报?</string>
+    <string name="report_reason_detail">详细描述举报原因(选填)</string>
+    <string name="lier">欺诈骗钱</string>
+    <string name="break_rule">违规商品</string>
+    <string name="gar_ads">垃圾信息/广告骚扰</string>
+    <string name="yellew_infor">传播色情信息</string>
+    <string name="violence">传播暴力/反动等不良信息</string>
+    <string name="commit">提交</string>
+    <string name="title_activity_donation_detail">DonationDetailActivity</string>
+    <string name="title_activity_donation_report">DonationReportActivity</string>
+
 </resources>
