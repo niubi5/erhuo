@@ -57,6 +57,7 @@ import com.geminno.erhuo.entity.Users;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class GoodsDetialActivity extends Activity {
+	public static Activity goodsDetialActivity;
 	private ViewPager viewPager;
 	private ArrayList<View> pageview;
 
@@ -77,6 +78,7 @@ public class GoodsDetialActivity extends Activity {
 		// 设置无标题栏
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_goods_detial);
+		goodsDetialActivity = this;
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		viewPager = (ViewPager) findViewById(R.id.vp_goods_images);
 		List<View> list = new ArrayList<View>();
@@ -214,6 +216,7 @@ public class GoodsDetialActivity extends Activity {
 			break;
 		case R.id.iv_detial_return:
 			finish();
+			break;
 		case R.id.btn_buy:
 			Intent intent = new Intent(this, BuyGoodsActivity.class);
 			intent.putExtra("user", user);
@@ -279,7 +282,7 @@ public class GoodsDetialActivity extends Activity {
 
 		// 设置好参数之后再show
 		popupWindow.showAsDropDown(view);
-		// popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+		//popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
 	}
 

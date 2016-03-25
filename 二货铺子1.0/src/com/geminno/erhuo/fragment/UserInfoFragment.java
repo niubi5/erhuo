@@ -100,6 +100,8 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		case R.id.address_container:
 			startActivity(new Intent(getActivity(),ShipAddressActivity.class));
 			break;
+//		case R.id.userinfo_btn_selling:
+//			Intent intent = new Intent(getActivity(),);
 			
 
 //			startActivity(new Intent(getActivity(), PostageActivity.class));
