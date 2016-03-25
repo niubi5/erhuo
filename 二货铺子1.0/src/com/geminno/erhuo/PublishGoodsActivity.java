@@ -177,7 +177,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		View view = getLayoutInflater().inflate(R.layout.item_popupwindows,
 				null);
 
-		ll_popup = (LinearLayout) view.findViewById(R.id.ll_popup);
+		ll_popup = (LinearLayout) view.findViewById(R.id.ll_pop);
 
 		pop.setWidth(LayoutParams.MATCH_PARENT);
 		pop.setHeight(LayoutParams.WRAP_CONTENT);

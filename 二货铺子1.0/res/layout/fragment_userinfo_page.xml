@@ -114,7 +114,7 @@
                     android:paddingBottom="2dip"
                     android:paddingTop="7dip"
                     android:scaleType="matrix"
-                    android:text="收藏的"
+                    android:text="捐赠的"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/font_tiny" />
             </LinearLayout>
@@ -134,7 +134,7 @@
                     android:paddingBottom="2dip"
                     android:paddingTop="7dip"
                     android:scaleType="matrix"
-                    android:text="捐赠的"
+                    android:text="收藏的"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/font_tiny" />
             </LinearLayout>
