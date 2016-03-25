@@ -834,7 +834,6 @@ int id iv_logistics_image 0x7f0c0139
 int id iv_moren 0x7f0c00da
 int id iv_mudidi 0x7f0c0095
 int id iv_name 0x7f0c0065
-int id iv_popwindow 0x7f0c00f8
 int id iv_poverty_image 0x7f0c00f4
 int id iv_pub_return 0x7f0c00a4
 int id iv_publish_goods 0x7f0c0078
@@ -844,6 +843,7 @@ int id iv_register_return 0x7f0c00b9
 int id iv_return_reset 0x7f0c00bf
 int id iv_right 0x7f0c013e
 int id iv_share_report 0x7f0c0051
+int id iv_toDonate 0x7f0c00f8
 int id iv_to_top 0x7f0c010f
 int id iv_type_inco 0x7f0c0166
 int id iv_user_head 0x7f0c0058

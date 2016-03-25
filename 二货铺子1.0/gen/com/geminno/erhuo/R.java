@@ -897,7 +897,6 @@ containing a value of this type.
         public static final int iv_moren=0x7f0c00da;
         public static final int iv_mudidi=0x7f0c0095;
         public static final int iv_name=0x7f0c0065;
-        public static final int iv_popwindow=0x7f0c00f8;
         public static final int iv_poverty_image=0x7f0c00f4;
         public static final int iv_pub_return=0x7f0c00a4;
         public static final int iv_publish_goods=0x7f0c0078;
@@ -907,6 +906,7 @@ containing a value of this type.
         public static final int iv_return_reset=0x7f0c00bf;
         public static final int iv_right=0x7f0c013e;
         public static final int iv_share_report=0x7f0c0051;
+        public static final int iv_toDonate=0x7f0c00f8;
         public static final int iv_to_top=0x7f0c010f;
         public static final int iv_type_inco=0x7f0c0166;
         public static final int iv_user_head=0x7f0c0058;
