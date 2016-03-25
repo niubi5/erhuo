@@ -2,6 +2,11 @@ package com.geminno.erhuo;
 
 import java.util.ArrayList;
 
+import org.apache.http.client.UserTokenHandler;
+
+import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.ActivityCollector;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class SheZhiActivity extends Activity implements OnClickListener {
+public class SheZhiActivity extends BaseActivity implements OnClickListener {
 
 	LinearLayout linxiugaimima;
 	LinearLayout linyijianfankui;
@@ -83,16 +88,14 @@ public class SheZhiActivity extends Activity implements OnClickListener {
 
 		case R.id.but_tuichu:
 			// 通过设定SharedPreferences中的用户名键值为空，返回登录界面，可以进行注销操作
-			SharedPreferences preferences = SheZhiActivity.this
-					.getSharedPreferences("actm", Context.MODE_PRIVATE);
+			SharedPreferences preferences = getSharedPreferences("userInfo",MODE_PRIVATE);
 			// 从SharedPreferences中读取用户名
-			String uname = preferences.getString(null, null);
-
-			if (uname == null) {
-				Toast.makeText(this, "请登录", Toast.LENGTH_LONG).show();
-				startActivity(new Intent(this, LoginActivity.class));
-			}
-
+			SharedPreferences.Editor editor = preferences.edit();
+			editor.clear().commit();
+			Users users=null;
+            MyApplication.setUsers(users);
+			startActivity(new Intent(this, LoginActivity.class));
+			ActivityCollector.finishAll();
 			break;
 
 		default:

@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.ActivityCollector;
 import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -17,6 +18,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LoginActivity extends Activity implements OnClickListener {
+public class LoginActivity extends BaseActivity implements OnClickListener {
 	TextView tvRegister;
 	TextView tvforget;
 	ImageView ivBack;
@@ -66,7 +68,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 			Log.i("cheshi", "注册");
 			Intent intent = new Intent(this, VerifyActivity.class);
 			startActivity(intent);
-
 			break;
 		case R.id.iv_login_return:
 			this.finish();
@@ -82,17 +83,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 			HttpUtils http = new HttpUtils();
 			// 服务器路径
-			Properties prop = new Properties();
-			String headUrl = null;
-			try {
-				prop.load(LoginActivity.class
-						.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
-				headUrl = prop.getProperty("url");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			String url = headUrl + "/LoginServlet";
-			// String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
+//			String headUrl = Url.getUrlHead();
+//			String url = headUrl + "/LoginServlet";
+			String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
 			http.send(HttpMethod.POST, url, params,
 					new RequestCallBack<String>() {
 
@@ -105,16 +98,17 @@ public class LoginActivity extends Activity implements OnClickListener {
 						@Override
 						public void onSuccess(ResponseInfo<String> arg0) {
 							result = arg0.result;
-							Log.i("cheshi", result);
 							if (result != null && !result.equals("null")) {
 								Intent intent2 = new Intent(LoginActivity.this,
 										MainActivity.class);
 								startActivity(intent2);
 								Gson gson = new Gson();
-								MyApplication.setUsers((Users) gson.fromJson(
-										result, Users.class));
-								// Toast.makeText(LoginActivity.this, "登陆成功",
-								// 0).show();
+								Users users =  gson.fromJson(
+										result, Users.class);
+								MyApplication.setUsers(users);
+								SharedPreferences shared = getSharedPreferences("userInfo", MODE_PRIVATE);
+								shared.edit().putString("userName", users.getIdentity()).putString("userPwd", users.getPwd()).commit();
+                               ActivityCollector.finishAll();
 							} else {
 								Toast.makeText(LoginActivity.this,
 										"登陆失败,您还未注册", 0).show();
