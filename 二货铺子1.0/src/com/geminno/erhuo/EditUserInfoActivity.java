@@ -20,9 +20,11 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 	private ImageView male;
 	private ImageView female;
 	// private EditText address;
-	// private TextView phone;
+    private TextView phone;
+    TextView userreturn;
 	private int sex;
     private Users users;
+  //  private ImageView male;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,24 +32,38 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_edit_user_info);
 		initView();
+		userShow();
+	}
+	
+	private void userShow(){
 		users = MyApplication.getCurrentUser();
 		nickName.setText(users.getName());
-		
+	    if(users.getSex()==1){
+	    	male.setSelected(true);
+	    }else {
+			female.setSelected(true);
+		}
+	    phone.setText(users.getIdentity());
+	    
 	}
 
 	private void initView() {
 		save = (TextView) findViewById(R.id.tv_infodata_ok);
 		editHeader = (ImageView) findViewById(R.id.edit_header);
 		nickName = (EditText) findViewById(R.id.et_infodata_nickname);
+		//男点击按钮
 		male = (ImageView) findViewById(R.id.chose_male);
+		//女点击按钮
 		female = (ImageView) findViewById(R.id.chose_female);
 		// address = (EditText) findViewById(R.id.et_infodata_address);
-		// phone = (TextView) findViewById(R.id.tv_infodata_phone);
+	    phone = (TextView) findViewById(R.id.tv_infodata_phone);
+		userreturn=(TextView) findViewById(R.id.ib_infodata_return);
 		save.setOnClickListener(this);
 		editHeader.setOnClickListener(this);
 		nickName.setOnClickListener(this);
 		male.setOnClickListener(this);
 		female.setOnClickListener(this);
+		userreturn.setOnClickListener(this);
 		// address.setOnClickListener(this);
 		// phone.setOnClickListener(this);
 	}
@@ -75,6 +91,9 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		// case R.id.et_infodata_nickname:
 		//
 		// break;
+		case R.id.ib_infodata_return:
+			this.finish();
+			break;
 		case R.id.chose_male:
 			male.setSelected(true);
 			female.setSelected(false);

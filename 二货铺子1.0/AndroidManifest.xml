@@ -59,7 +59,7 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
@@ -107,7 +107,7 @@
         </activity>
         <activity
             android:name=".StartActivity"
-            android:label="@string/title_activity_start"
+            android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -173,15 +173,18 @@
         </activity>
         <activity
             android:name=".DonationActivity"
-            android:label="@string/title_activity_donation" >
+            android:label="@string/title_activity_donation"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".GoodsDetialActivity"
-            android:label="@string/title_activity_goods_detial" >
+            android:label="@string/title_activity_goods_detial"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".BuyGoodsActivity"
-            android:label="@string/title_activity_buy_goods" >
+            android:label="@string/title_activity_buy_goods"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ClassificationActivity"
@@ -195,7 +198,8 @@
         </activity>
         <activity
             android:name=".NewAddressActivity"
-            android:label="@string/title_activity_new_address" >
+            android:label="@string/title_activity_new_address"
+            android:screenOrientation="portrait" >
         </activity>
 
         <!-- shareSDK -->
@@ -236,7 +240,9 @@
         <!-- 支付宝分享回调 -->
         <activity
             android:name=".ReportGoodActivity"
-            android:label="@string/title_activity_report_good" >
+            android:label="@string/title_activity_report_good"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"  >
         </activity>
     </application>
 

@@ -29,7 +29,7 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 	private LinearLayout linearshezhi;
 	private LinearLayout linearyoufei;
 	private LinearLayout address;
-
+	private Users users;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
@@ -62,11 +62,11 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 	    linearyoufei=(LinearLayout) getView().findViewById(R.id.postage_container);
 	    address=(LinearLayout) getView().findViewById(R.id.address_container);
 	    initData();
-		linearshezhi = (LinearLayout) getView().findViewById(
-				R.id.setting_container);
-		linearyoufei = (LinearLayout) getView().findViewById(
-				R.id.postage_container);
-		initData();	}
+	    users = MyApplication.getCurrentUser();
+	    if(users!=null){
+	    	btnHead.setText(users.getName());
+	    }
+	    }
 
 	
 	

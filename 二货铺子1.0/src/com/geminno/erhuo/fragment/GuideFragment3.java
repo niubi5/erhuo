@@ -27,6 +27,7 @@ public class GuideFragment3 extends Fragment {
 					public void onClick(View v) {
 						startActivity(new Intent(getActivity(),
 								MainActivity.class));
+						getActivity().finish();
 					}
 				});
 		return view;

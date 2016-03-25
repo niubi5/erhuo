@@ -86,8 +86,8 @@ public class ImageCycleView extends LinearLayout {
 		mImageViews = new ImageView[infoList.size()];
 		for (int i = 0; i < infoList.size(); i++) {
 			mImageView = new ImageView(mContext);
-			int imageParams = (int) (mScale * 20 + 0.5f);// PX与DP转换，适应不同分辨率
-			int imagePadding = (int) (mScale * 5 + 0.5f);
+//			int imageParams = (int) (mScale * 20 + 0.5f);// PX与DP转换，适应不同分辨率
+//			int imagePadding = (int) (mScale * 5 + 0.5f);
 			LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			layout.setMargins(3, 0, 3, 0);

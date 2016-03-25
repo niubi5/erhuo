@@ -1,5 +1,8 @@
 package com.geminno.erhuo;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
 import com.google.gson.Gson;
@@ -70,8 +73,18 @@ public class ResetActivity extends Activity implements OnClickListener {
 				String phone = intent.getStringExtra("phone");
 				params.addBodyParameter("identity", phone);
 				params.addBodyParameter("pwd", pwd);
+				Properties prop = new Properties();
+				String headUrl = null;
+				try {
+					prop.load(LoginActivity.class
+							.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+					headUrl = prop.getProperty("url");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				String url = headUrl + "/UpdateUserServlet";
 				HttpUtils httpUtils = new HttpUtils();
-				httpUtils.send(HttpMethod.POST, Url.urlreget, params,new RequestCallBack<String>() {
+				httpUtils.send(HttpMethod.POST, url, params,new RequestCallBack<String>() {
 
 					
 					@Override
@@ -85,9 +98,7 @@ public class ResetActivity extends Activity implements OnClickListener {
 								String result = arg0.result;
 								Log.i("cheshi", result);
 								if (result != null && !result.equals("null")) {
-									Intent intent2 = new Intent(
-											ResetActivity.this,
-											LoginActivity.class);
+									Intent intent2 = new Intent(ResetActivity.this,LoginActivity.class);
 									startActivity(intent2);
 									Gson gson = new Gson();
 									MyApplication.setUsers((Users) gson
