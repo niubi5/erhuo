@@ -65,6 +65,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
             android:lineSpacingExtra="1dip"
+            android:textSize="@dimen/font_middlesmall"
             android:lines="1"
             android:hint="@string/request_donation_title"
             android:background="@null"
@@ -96,6 +97,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="12dp"
                 android:background="@null"
+                android:textSize="@dimen/font_middlesmall"
                 android:hint="@string/request_donation_content"
                  >
 
@@ -153,7 +155,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:text="@string/logistics"
-        android:textSize="16sp"
+        android:textSize="@dimen/font_middlesmall"
         android:layout_marginTop="22dp"
         />
         
@@ -181,6 +183,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
+            android:textSize="@dimen/font_middlesmall"
             android:lines="1"
             android:hint="@string/request_donation_phone"
             android:background="@null"/>
@@ -206,6 +209,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="8dp"
             android:lines="2"
+            android:textSize="@dimen/font_middlesmall"
             android:hint="@string/request_donation_address"
             android:background="@null"/>
      

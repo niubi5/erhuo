@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,7 +27,7 @@ import com.geminno.erhuo.adapter.CommonAdapter;
 import com.geminno.erhuo.entity.Donation;
 import com.geminno.erhuo.utils.DonationViewHolder;
 
-public class DonateFragment extends BaseFragment {
+public class DonateFragment extends BaseFragment{
 
 	private ListView mListView;
 	/**
@@ -57,7 +58,7 @@ public class DonateFragment extends BaseFragment {
 	 * 记录最后一次滑动的位置
 	 */
 	private int lastVisiblePosition = 0;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,58 +78,58 @@ public class DonateFragment extends BaseFragment {
 				helper.setImageResource(R.id.iv_donation_address,
 						item.getAddressImage());
 				helper.setText(R.id.tv_donatoin_addresss, item.getAddress());
-				helper.setImageResource(R.id.iv_popwindow, item.getButton());
+				helper.setImageResource(R.id.iv_toDonate, item.getButton());
 			}
 
 		});
-		
+
 		// 监听mListView滚动状态
 		mListView.setOnScrollListener(new OnScrollListener() {
-			
+
 			// mListView状态改变时回调
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				switch(scrollState){
-				// 空闲状态  -- 停止滚动
+				switch (scrollState) {
+				// 空闲状态 -- 停止滚动
 				case OnScrollListener.SCROLL_STATE_IDLE:
 					scrollFlag = false;
 					// 第一条可见item == 0,到顶部,隐藏图片
-					if(mListView.getFirstVisiblePosition() == 0){
-					ivToTop.setVisibility(View.GONE);	
+					if (mListView.getFirstVisiblePosition() == 0) {
+						ivToTop.setVisibility(View.GONE);
 					}
 					// 最后一条可见item == totalCount - 1,到底部，显示图片
-					if(mListView.getLastVisiblePosition() == (mListView.getCount() - 1)){
+					if (mListView.getLastVisiblePosition() == (mListView
+							.getCount() - 1)) {
 						ivToTop.setVisibility(View.VISIBLE);
 					}
 					break;
-					// 滚动状态
+				// 滚动状态
 				case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
 					scrollFlag = true;
 					break;
-					// 由于惯性产生的快速滑动
+				// 由于惯性产生的快速滑动
 				case OnScrollListener.SCROLL_STATE_FLING:
-					scrollFlag = false;
+					scrollFlag = true;
 					break;
 				}
 			}
-			
+
 			// 滚动时回调
 			/**
-			 * firstVisibleItem --> 第一条可见itemId
-			 * visibleItemCount --> 当前可见item数量
+			 * firstVisibleItem --> 第一条可见itemId visibleItemCount --> 当前可见item数量
 			 * totalItemCount --> item总数
 			 */
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
-				if(scrollFlag){
+				if (scrollFlag) {
 					// 第一条可见itemId > 0,上拉
-					if(firstVisibleItem > lastVisiblePosition){
+					if (firstVisibleItem > lastVisiblePosition) {
 						ivToTop.setVisibility(View.VISIBLE);
 						// 第一条可见itemId < 上一次拉动位置,下拉
-					}else if(firstVisibleItem < lastVisiblePosition){
+					} else if (firstVisibleItem < lastVisiblePosition) {
 						ivToTop.setVisibility(View.GONE);
-					}else{
+					} else {
 						return;
 					}
 					lastVisiblePosition = firstVisibleItem;
@@ -188,22 +189,21 @@ public class DonateFragment extends BaseFragment {
 		// 跳转到发布捐赠页面
 		ivPublish.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(),DonateRequestActivity.class);
+				Intent intent = new Intent(getActivity(),
+						DonateRequestActivity.class);
 				startActivity(intent);
 			}
 		});
 		// 滚动到第一条
 		ivToTop.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				setPosition(0);
 			}
 		});
-		
-        
 	}
-	
+
 	/**
 	 * 初始化控件
 	 */
@@ -211,19 +211,21 @@ public class DonateFragment extends BaseFragment {
 	protected void initView() {
 		mListView = (ListView) view.findViewById(R.id.lv_donations);
 		ivPublish = (ImageView) view.findViewById(R.id.home_search);
-        ivToTop = (ImageView) view.findViewById(R.id.iv_to_top);
+		ivToTop = (ImageView) view.findViewById(R.id.iv_to_top);
 	}
-	
+
 	/**
 	 * 滚动mListView到指定位置
 	 * 
 	 * @param position
 	 */
-	public void setPosition(int position){
-		if(android.os.Build.VERSION.SDK_INT >= 8){
+	public void setPosition(int position) {
+		if (android.os.Build.VERSION.SDK_INT >= 8) {
 			mListView.smoothScrollToPosition(position);
-		}else{
+		} else {
 			mListView.setSelection(position);
 		}
 	}
+
+	
 }

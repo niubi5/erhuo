@@ -1,12 +1,18 @@
 package com.geminno.erhuo.utils;
 
+import com.geminno.erhuo.DonateRequestActivity;
+import com.geminno.erhuo.R;
+import com.geminno.erhuo.StartActivity;
+import com.geminno.erhuo.fragment.DonateFragment;
 import com.geminno.erhuo.utils.ImageLoader.Type;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +28,8 @@ public class DonationViewHolder {
     private int mPosition;
     private View mConvertView;
     
+    
+    
     /**
      * 构造方法
      * 
@@ -35,6 +43,7 @@ public class DonationViewHolder {
     	this.mViews = new SparseArray<View>();
     	// 解析布局文件
     	mConvertView = LayoutInflater.from(context).inflate(layoutId, parent,false);
+    	ImageView toDoante = (ImageView) mConvertView.findViewById(R.id.iv_toDonate);
     	// 设置标签
     	mConvertView.setTag(this);
     }
