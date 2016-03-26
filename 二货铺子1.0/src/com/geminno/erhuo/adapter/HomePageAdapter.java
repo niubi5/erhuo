@@ -2,6 +2,7 @@ package com.geminno.erhuo.adapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -31,22 +30,29 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geminno.erhuo.ClassificationActivity;
 import com.geminno.erhuo.GoodsDetialActivity;
+import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.entity.ADInfo;
+import com.geminno.erhuo.entity.Collections;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
+import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
-
 import com.geminno.erhuo.view.RefreshListView;
-
+import com.google.gson.Gson;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
@@ -84,8 +90,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	private boolean third = false;
 	private boolean isRefresh;
 	// -------------------
+	private List<Integer> collection = new ArrayList<Integer>();// 收藏按钮的position集合
 	private float startX;
 	private float stopX;
+	private boolean isFavorite = false;// 是否收藏
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	// 广告图片
 	private String[] imageUrls = {
@@ -114,6 +122,16 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		this.context = context;
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param listAll
+	 *            所有商品信息
+	 * @param refreshListView
+	 *            listview
+	 * @param isRefresh
+	 *            是否是刷新操作
+	 */
 	public HomePageAdapter(Context context,
 			List<Map<Map<Goods, Users>, List<String>>> listAll,
 			RefreshListView refreshListView, boolean isRefresh) {
@@ -131,10 +149,14 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	/**
 	 * 
 	 * @param context
-	 * @param listMarkets	集市集合
-	 * @param listAll		所有商品信息
-	 * @param refreshListView	listview
-	 * @param isRefresh		是否是刷新操作
+	 * @param listMarkets
+	 *            集市集合
+	 * @param listAll
+	 *            所有商品信息
+	 * @param refreshListView
+	 *            listview
+	 * @param isRefresh
+	 *            是否是刷新操作
 	 */
 	public HomePageAdapter(final Context context, List<Markets> listMarkets,
 			List<Map<Map<Goods, Users>, List<String>>> listAll,
@@ -208,7 +230,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			} else
 				return getGoodsView(position, convertView, parent);
 		} else
-			Log.i("erhuo", "获得分类商品数据");
 			return getGoodsView(position, convertView, parent);
 
 	}
@@ -233,25 +254,24 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 					.findViewById(R.id.type_luggage);
 			viewHolderType.perfume = (Button) convertView
 					.findViewById(R.id.type_perfume);
-			viewHolderType.ip.setOnClickListener(this);
-			viewHolderType.pad.setOnClickListener(this);
-			viewHolderType.pc.setOnClickListener(this);
-			viewHolderType.ixiaomi.setOnClickListener(this);
-			viewHolderType.c.setOnClickListener(this);
-			viewHolderType.card.setOnClickListener(this);
-			viewHolderType.luggage.setOnClickListener(this);
-			viewHolderType.perfume.setOnClickListener(this);
 			convertView.setTag(viewHolderType);
 		} else {
 			viewHolderType = (ViewHolderType) convertView.getTag();
 		}
+		viewHolderType.ip.setOnClickListener(this);
+		viewHolderType.pad.setOnClickListener(this);
+		viewHolderType.pc.setOnClickListener(this);
+		viewHolderType.ixiaomi.setOnClickListener(this);
+		viewHolderType.c.setOnClickListener(this);
+		viewHolderType.card.setOnClickListener(this);
+		viewHolderType.luggage.setOnClickListener(this);
+		viewHolderType.perfume.setOnClickListener(this);
 		return convertView;
 	}
 
 	// 获得商品view
-	private View getGoodsView(int position, View convertView, ViewGroup parent) {
-		// 获得ViewHolder
-		ViewHolderGoods viewHolder = null;
+	private View getGoodsView(final int position, View convertView,
+			ViewGroup parent) {
 		if (typeCount == 4) {
 			map = listAll.get(position - 3);
 		} else {
@@ -268,8 +288,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				// 取得最里面的map中的goods和users对象
 				goods = en1.getKey();
 				user = en1.getValue();
-				if(isRefresh){
+				if (isRefresh) {
+					Log.i("erhuo", "确实清空了");
 					userGoodsUrls.clear();// 如果是刷新操作，清空集合
+					isRefresh = false;
 				}
 				// 将数据放入集合，以便商品详情页使用
 				if (!userGoodsUrls.contains(user)
@@ -279,6 +301,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 					userGoodsUrls.add(goods);
 					userGoodsUrls.add(urls);
 				}
+				ViewHolderGoods viewHolder = null;
 				if (convertView == null) {
 					viewHolder = new ViewHolderGoods();
 					convertView = LayoutInflater.from(context).inflate(
@@ -301,38 +324,47 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 							.findViewById(R.id.home_scrollview);
 					viewHolder.imagesContainer = (LinearLayout) convertView
 							.findViewById(R.id.goods_images_container);
-					// 设置值
-					viewHolder.userHead
-							.setImageResource(R.drawable.header_default);
-					viewHolder.userName.setText(user.getName());
-					viewHolder.goodsName.setText(goods.getName());
-					viewHolder.goodsInfo.setText(goods.getImformation());
-					viewHolder.goodsPrice.setText("￥" + goods.getSoldPrice()
-							+ "");
-					viewHolder.pubTime.setText(sdf.format(goods.getPubTime()));
 					convertView.setTag(viewHolder);
-					// 遍历Url集合，装载图片，放入ScrollView中
-					for (int i = 0; i < urls.size(); i++) {
-						ImageView imageView = new ImageView(context);
-						imageLoader.displayImage(urls.get(i), imageView);
-						imageView.setScaleType(ScaleType.CENTER_CROP);
-						imageView.setLayoutParams(params3);
-						if (i != 0) {
-							// 将除了第一张图片的左边距都设置值
-							imageView.setPadding(5, 0, 0, 0);
-						}
-						viewHolder.imagesContainer.addView(imageView);
-					}
 				} else {
 					viewHolder = (ViewHolderGoods) convertView.getTag();
 				}
-				// 重新赋值，解决控件复用带来的数据重复
 				viewHolder.userHead.setImageResource(R.drawable.header_default);
 				viewHolder.userName.setText(user.getName());
 				viewHolder.goodsName.setText(goods.getName());
 				viewHolder.goodsInfo.setText(goods.getImformation());
 				viewHolder.goodsPrice.setText("￥" + goods.getSoldPrice() + "");
-				viewHolder.pubTime.setText(sdf.format(goods.getPubTime()));
+				viewHolder.pubTime.setText(goods.getPubTime().substring(2,10));
+				// --------------------
+				viewHolder.imagesContainer
+						.setOnClickListener(new OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								onItemClick(refreshListView, v, position + 1,
+										position + 1);
+							}
+						});
+				viewHolder.userFavorite.setTag(position);
+				if (collection.contains(position)) {
+					// 如果集合中有，代表收藏过,显示为收藏状态
+					viewHolder.userFavorite.setSelected(true);
+				} else {
+					viewHolder.userFavorite.setSelected(false);
+				}
+				viewHolder.userFavorite
+						.setOnClickListener(new OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								// 如果在集合里面，说明点过，再次点击则取消收藏，并从集合移除
+								if (collection.contains(v.getTag())) {
+									collectGoods(goods, v, false);// 调用收藏商品方法
+								} else {
+									// 否则设为选中状态，并加入集合
+									collectGoods(goods, v, true);
+								}
+							}
+						});
 				// 移除之前的所有商品图片
 				viewHolder.imagesContainer.removeAllViews();
 				for (int i = 0; i < urls.size(); i++) {
@@ -351,7 +383,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	}
 
 	// 获得集市view
-
 	private View getMarketView(View convertView) {
 		ViewHolderMarket viewHolder = null;
 		if (convertView == null) {
@@ -507,85 +538,74 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	@Override
 	public void onClick(View v) {
 		Intent intent = new Intent();
+		intent.setClass(context, ClassificationActivity.class);
 		switch (v.getId()) {
 		case R.id.type_iphone:
 			String iphone = viewHolderType.ip.getText().toString();
-			intent.putExtra("iphone", iphone);
+			intent.putExtra("type", iphone);
 			intent.putExtra("tag", 1 + "");
-			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
 			break;
 		case R.id.type_pad:
 			String padString = viewHolderType.pad.getText().toString();
-			intent.putExtra("iphone", padString);
+			intent.putExtra("type", padString);
 			intent.putExtra("tag", 2 + "");
-			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
 			break;
 		case R.id.type_pc:
 			String pcString = viewHolderType.pc.getText().toString();
-			intent.putExtra("iphone", pcString);
+			intent.putExtra("type", pcString);
 			intent.putExtra("tag", 3 + "");
-			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
 			break;
 		case R.id.type_ixiaomi:
 			String ixiaomiString = viewHolderType.ixiaomi.getText().toString();
-			intent.putExtra("iphone", ixiaomiString);
+			intent.putExtra("type", ixiaomiString);
 			intent.putExtra("tag", 4 + "");
-			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
-
 			break;
 		case R.id.type_3c:
 			String cString = viewHolderType.c.getText().toString();
-			intent.putExtra("iphone", cString);
+			intent.putExtra("type", cString);
 			intent.putExtra("tag", 5 + "");
-			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
-
 			break;
 		case R.id.type_card:
 			String cardString = viewHolderType.card.getText().toString();
-			intent.putExtra("iphone", cardString);
+			intent.putExtra("type", cardString);
 			intent.putExtra("tag", 6 + "");
-			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
-
 			break;
 		case R.id.type_luggage:
 			String luggageString = viewHolderType.luggage.getText().toString();
-			intent.putExtra("iphone", luggageString);
+			intent.putExtra("type", luggageString);
 			intent.putExtra("tag", 7 + "");
-			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
-
 			break;
 		case R.id.type_perfume:
 			String perfumeString = viewHolderType.perfume.getText().toString();
-			intent.putExtra("iphone", perfumeString);
+			intent.putExtra("type", perfumeString);
 			intent.putExtra("tag", 8 + "");
-			intent.setClass(context, ClassificationActivity.class);
 			context.startActivity(intent);
-
 			break;
+		// 集市按钮
 		case R.id.market_book:
-			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.market_iphone:
-			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.market_baby:
-			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.market_bao:
-			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.market_nb:
-			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.market_other:
-			Toast.makeText(context, "点到了", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
 			break;
 		}
 	}
@@ -594,24 +614,30 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		// 商品点击事件
-		if (position >= 3 && !userGoodsUrls.isEmpty()) {
+		if (!userGoodsUrls.isEmpty()) {
 			Intent intent = new Intent(context, GoodsDetialActivity.class);
 			Bundle bundle = new Bundle();
+			int i = 0;
+			if (typeCount == 4) {
+				i = (position - 4);
+			} else {
+				i = position - 1;
+			}
 			Log.i("erhuo", "当前position：" + position);
-			for (int i = (position - 4) * 3; i < (position - 4) * 3 + 3; i++) {
+			for (int j = i * 3; j < i * 3 + 3; j++) {
 				if (first) {
-					Users user = (Users) userGoodsUrls.get(i);
+					Users user = (Users) userGoodsUrls.get(j);
 					bundle.putSerializable("user", user);
 					first = false;
 					second = true;
 				} else if (second) {
-					Goods goods = (Goods) userGoodsUrls.get(i);
+					Goods goods = (Goods) userGoodsUrls.get(j);
 					bundle.putSerializable("goods", goods);
 					second = false;
 					third = true;
 				} else if (third) {
 					ArrayList<String> urls = (ArrayList<String>) userGoodsUrls
-							.get(i);
+							.get(j);
 					bundle.putStringArrayList("urls", urls);
 					third = false;
 					first = true;
@@ -621,6 +647,58 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			context.startActivity(intent);
 		}
 
+	}
+
+	/**
+	 * 
+	 * @param goods
+	 *            当前商品对象
+	 * @param v
+	 *            当前点击的图片控件
+	 * @param isFavorite
+	 *            是否收藏
+	 */
+	private void collectGoods(Goods goods, View v, boolean isFavorite) {
+		// if (!isFavorite) {
+		// 取消收藏
+		// 当前用户登录过则发请求，否则弹框提示
+		Users user = MyApplication.getCurrentUser();
+		if (user != null && goods != null) {
+			HttpUtils http = new HttpUtils();
+			RequestParams params = new RequestParams();
+			String urlHead = Url.getUrlHead();
+			String url = null;
+			if (!isFavorite) {
+				// 取消收藏
+				v.setSelected(false);// 设为取消状态
+				collection.remove(v.getTag());// 从集合中移除
+				params.addBodyParameter("userId", user.getId() + "");
+				params.addBodyParameter("goodsId", goods.getId() + "");
+				url = urlHead + "/DeleteCollectionsServlet";
+			} else {
+				// 收藏
+				v.setSelected(true);// 设为取消状态
+				collection.add((Integer) v.getTag());// 并加入集合
+				params.addBodyParameter("userId", user.getId() + "");
+				params.addBodyParameter("goodsId", goods.getId() + "");
+				url = urlHead + "/AddCollectionsServlet";
+			}
+			http.send(HttpRequest.HttpMethod.POST, url, params,
+					new RequestCallBack<String>() {
+
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+
+						}
+
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+
+						}
+					});
+		} else {
+			Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 }

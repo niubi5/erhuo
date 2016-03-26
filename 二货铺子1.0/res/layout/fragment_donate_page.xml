@@ -23,6 +23,7 @@
 
     <View 
         android:id="@+id/separate_one"
+        android:layout_below="@id/erhuo_donate_title"
         style="@style/ShadowTitle" />
 
     <ListView

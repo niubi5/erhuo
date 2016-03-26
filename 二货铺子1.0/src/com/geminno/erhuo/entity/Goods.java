@@ -1,8 +1,6 @@
 package com.geminno.erhuo.entity;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Goods implements Serializable {
 	private int id;
@@ -15,7 +13,7 @@ public class Goods implements Serializable {
 	private int marketId;
 	private double longitude;
 	private double latitude;
-	private Date pubTime;
+	private String pubTime;
 	private int state;
 
 	public int getId() {
@@ -98,11 +96,11 @@ public class Goods implements Serializable {
 		this.latitude = latitude;
 	}
 
-	public Date getPubTime() {
+	public String getPubTime() {
 		return pubTime;
 	}
 
-	public void setPubTime(Date pubTime) {
+	public void setPubTime(String pubTime) {
 		this.pubTime = pubTime;
 	}
 

@@ -40,6 +40,7 @@ import android.widget.Toast;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Orders;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.MySdf;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lidroid.xutils.HttpUtils;
@@ -118,7 +119,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 		initData();
 		initPay();
 	}
-
+	
 	// 初始化支付
 	public void initPay() {
 		pop = new PopupWindow(this);
@@ -424,8 +425,8 @@ public class BuyGoodsActivity extends FragmentActivity implements
 		int userId = 3;//测试用，正式应从MyApplication.getCurrentUser().getId()获取
 		order.setUserId(3);
 		order.setOrderNum(getNowTime()+userId+good.getId());
-		order.setCreateTime(new Date(System.currentTimeMillis()));
-		order.setPayTime(new Date(System.currentTimeMillis()));
+		order.setCreateTime(MySdf.getDateToString(new Date(System.currentTimeMillis())));
+		order.setPayTime(MySdf.getDateToString(new Date(System.currentTimeMillis())));
 		order.setSendTime(null);
 		order.setCompleteTime(null);
 		order.setState(0);

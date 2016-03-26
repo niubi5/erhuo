@@ -131,17 +131,15 @@ public class GoodsDetialActivity extends Activity {
 				e.printStackTrace();
 			}
 			final String userHeadUrl = headUrl + user.getPhoto();
-			//Log.i("imagelocation", userHeadUrl);
 			ImageLoader.getInstance().displayImage(userHeadUrl, ivHead);
 		}
 		tvUserName.setText(user.getName());
 		int instance = Distance(goods.getLongitude(), goods.getLatitude(), MyApplication.getLocation().getLongitude(), MyApplication.getLocation().getLatitude());
-		tvUserLocation.setText(instance >= 100 ? (instance/1000+"km") : (instance+"m"));
+		tvUserLocation.setText(instance >= 100 ? ("距我:" + instance/1000+"km") : ("距我:" + instance+"m"));
 		tvGoodPrice.setText("¥"+goods.getSoldPrice());
 		tvGoodOldPrice.setText("原价:"+goods.getBuyPrice());
 		tvGoodName.setText(goods.getName());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		tvGoodTime.setText(sdf.format(goods.getPubTime()));
+		tvGoodTime.setText((goods.getPubTime().substring(2,10)));
 		tvGoodBrief.setText(goods.getImformation());
 	}
 
@@ -218,11 +216,15 @@ public class GoodsDetialActivity extends Activity {
 			finish();
 			break;
 		case R.id.btn_buy:
-			Intent intent = new Intent(this, BuyGoodsActivity.class);
-			intent.putExtra("user", user);
-			intent.putExtra("good", goods);
-			intent.putExtra("url", urls);
-			startActivity(intent);
+			if(goods.getState() == 2){
+				Toast.makeText(GoodsDetialActivity.this, "该商品已被下单", Toast.LENGTH_SHORT).show();
+			} else {
+				Intent intent = new Intent(this, BuyGoodsActivity.class);
+				intent.putExtra("user", user);
+				intent.putExtra("good", goods);
+				intent.putExtra("url", urls);
+				startActivity(intent);
+			}
 		default:
 			break;
 		}
@@ -302,7 +304,6 @@ public class GoodsDetialActivity extends Activity {
 			params_linear.setMargins(7, 10, 7, 10);
 			imgView.setLayoutParams(params_linear);
 			indicator_imgs[i] = imgView;
-			Log.i("erhuo", i + "i的值");
 			if (i == 0) { // 初始化第一个为选中状态
 
 				indicator_imgs[i].setBackgroundResource(R.drawable.round_point);
