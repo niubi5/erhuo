@@ -6,7 +6,7 @@
     android:background="@drawable/bg_transparent" >
 
     <LinearLayout
-        android:id="@+id/ll_popup"
+        android:id="@+id/ll_pop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
