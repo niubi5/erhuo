@@ -556,7 +556,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				//
 				// 商品转化为Josn数据
 				Gson gson = new GsonBuilder().setDateFormat(
-						"yyyy-MM-dd hh-mm-ss").create();
+						"yyyy-MM-dd HH:mm:ss").create();
 				String goodsJson = gson.toJson(goods);
 				// 服务器地址(测试，后期从配置文件获取)
 				// String url = null;
