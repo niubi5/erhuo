@@ -69,7 +69,7 @@
     <string name="request_donation_add_image">添加图片</string>
     <string name="logistics">物流</string>
     <string name="request_donation_address">请填写您的收货地址</string>
-    <string name="request_donation_phone">请填写您的联系方式</string>
+    <string name="request_donation_getername">请填写您的联系方式</string>
     <string name="request_donation_button_donate">请求捐赠</string>
     <string name="mytoast_text">标题不能为空！</string>
     <string name="donation_user_name">来自星星的我</string>

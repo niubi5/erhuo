@@ -3,6 +3,7 @@ package com.geminno.erhuo;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -39,10 +40,10 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	 * 请求捐赠标题
 	 */
 	private EditText etTitle;
-	 /**
+	/**
 	 * 返回图片
 	 */
-	 private ImageView ivBack;
+	private ImageView ivBack;
 	/**
 	 * 发布技巧图片
 	 */
@@ -68,9 +69,9 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	 */
 	private TextView tvLogistics;
 	/**
-	 * 请求捐赠电话
+	 * 请求捐赠收货人名字
 	 */
-	private EditText etPhone;
+	private EditText etGeterName;
 	/**
 	 * 请求捐赠地址
 	 */
@@ -96,7 +97,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_donate_request);
-		addImageView = (AddImageView) findViewById(R.id.addImageView);
+
 		init();
 		initDatas();
 
@@ -108,7 +109,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	/**
 	 * 发布请求
 	 */
-	@Override
+	@SuppressLint("ShowToast") @Override
 	public void onClick(View v) {
 		Toast toast = new Toast(getApplicationContext());
 		switch (v.getId()) {
@@ -121,23 +122,33 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 					.findViewById(R.id.mytoast_text);
 			String title = etTitle.getText().toString();
 			String content = etContent.getText().toString();
-			String phone = etPhone.getText().toString();
+			String geterName = etGeterName.getText().toString();
 			String address = etAddress.getText().toString();
 			// 设置Toast显示的位置
 			toast.setGravity(Gravity.CENTER, 0, 0);
 			// 设置Toast显示的时间
-			toast.setDuration(Toast.LENGTH_LONG);
+			toast.setDuration(Toast.LENGTH_SHORT);
 			// 要显示的view
 			toast.setView(view);
 			toast.show();
-			if (title.equals("")) {
-				toastText.setText("标题不能为空");
-			} else if (content.equals("")) {
-				toastText.setText("描述不能为空");
-			} else if (phone.equals("")) {
-				toastText.setText("电话不能为空");
-			} else if (address.equals("")) {
-				toastText.setText("地址不能为空");
+			if (!title.equals("")) {
+				if (!content.equals("")) {
+					if (!etGeterName.equals("")) {
+						if (address.equals("")) {
+							Toast.makeText(DonateRequestActivity.this,
+				     				"地址不能为空哦！", Toast.LENGTH_SHORT);
+						}
+					} else {
+						Toast.makeText(DonateRequestActivity.this, "收货人是谁呢？",
+								Toast.LENGTH_SHORT);
+					}
+				} else {
+					Toast.makeText(DonateRequestActivity.this, "请详细描述一下您的信息！",
+							Toast.LENGTH_SHORT);
+				}
+			} else {
+				Toast.makeText(DonateRequestActivity.this, "取个标题吧！",
+						Toast.LENGTH_SHORT);
 			}
 			break;
 		}
@@ -149,20 +160,30 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	public void init() {
 		ivBack = (ImageView) findViewById(R.id.iv_donaton_request_back);
 		ivBack.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				finish();
-				
+
 			}
 		});
 		logisticSpinner = (Spinner) findViewById(R.id.sp_logistics);
 		etTitle = (EditText) findViewById(R.id.et_donation_title);
 		etContent = (EditText) findViewById(R.id.et_donation_content);
-		etPhone = (EditText) findViewById(R.id.et_donation_phone);
+		spLogistics = (Spinner) findViewById(R.id.sp_logistics);
+		etGeterName= (EditText) findViewById(R.id.et_donation_getername);
 		etAddress = (EditText) findViewById(R.id.et_donation_address);
+		addImageView = (AddImageView) findViewById(R.id.addImageView);
 		btnDonate = (Button) findViewById(R.id.btn_request_donate);
-		btnDonate.setOnClickListener(this);
+		// 发布捐赠，将信息提交到Servlet
+		btnDonate.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+
 		ivDonationDialog = (ImageView) findViewById(R.id.iv_donation_dialog);
 		// 点击提示对话框
 		ivDonationDialog.setOnClickListener(new OnClickListener() {
@@ -170,22 +191,24 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				// 设置对话框样式为全屏
-				dialog = new Dialog(DonateRequestActivity.this,R.style.DonationDialog);
-               // 去标题
+				dialog = new Dialog(DonateRequestActivity.this,
+						R.style.DonationDialog);
+				// 去标题
 				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 				View dialogView = LayoutInflater.from(
 						DonateRequestActivity.this).inflate(
 						R.layout.donate_dialog_guide, null);
 				dialog.setContentView(dialogView);
-				ImageView image = (ImageView) dialogView.findViewById(R.id.donation_dialog_back);
+				ImageView image = (ImageView) dialogView
+						.findViewById(R.id.donation_dialog_back);
 				image.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
-					    dialog.dismiss();				
+						dialog.dismiss();
 					}
 				});
-				Window window = dialog.getWindow();	
+				Window window = dialog.getWindow();
 				// 背景透明
 				window.setBackgroundDrawableResource(android.R.color.transparent);
 				dialog.show();
