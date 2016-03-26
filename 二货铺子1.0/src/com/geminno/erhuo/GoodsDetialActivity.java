@@ -129,12 +129,11 @@ public class GoodsDetialActivity extends Activity {
 				e.printStackTrace();
 			}
 			final String userHeadUrl = headUrl + user.getPhoto();
-			//Log.i("imagelocation", userHeadUrl);
 			ImageLoader.getInstance().displayImage(userHeadUrl, ivHead);
 		}
 		tvUserName.setText(user.getName());
 		int instance = Distance(goods.getLongitude(), goods.getLatitude(), MyApplication.getLocation().getLongitude(), MyApplication.getLocation().getLatitude());
-		tvUserLocation.setText(instance >= 100 ? (instance/1000+"km") : (instance+"m"));
+		tvUserLocation.setText(instance >= 100 ? ("距我:" + instance/1000+"km") : ("距我:" + instance+"m"));
 		tvGoodPrice.setText("¥"+goods.getSoldPrice());
 		tvGoodOldPrice.setText("原价:"+goods.getBuyPrice());
 		tvGoodName.setText(goods.getName());
@@ -298,7 +297,6 @@ public class GoodsDetialActivity extends Activity {
 			params_linear.setMargins(7, 10, 7, 10);
 			imgView.setLayoutParams(params_linear);
 			indicator_imgs[i] = imgView;
-			Log.i("erhuo", i + "i的值");
 			if (i == 0) { // 初始化第一个为选中状态
 
 				indicator_imgs[i].setBackgroundResource(R.drawable.round_point);

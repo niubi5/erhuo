@@ -10,10 +10,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.IntDef;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -34,9 +30,9 @@ public class BuyGoodsActivity extends Activity {
 		user = (Users) getIntent().getSerializableExtra("user");
 		good = (Goods) getIntent().getSerializableExtra("good");
 		goodUrl = getIntent().getStringArrayExtra("url");
-		Log.i("BuyGoodsActivity", goodUrl[0]);
 		initData();
 	}
+	
 	//点击事件
 	public void onclick(View v){
 		switch (v.getId()) {
