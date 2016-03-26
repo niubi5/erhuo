@@ -480,7 +480,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.btn_publish_goods:
-			// 发布商品
+			// 发布商品，判断用户输入信息
 			if (TextUtils.isEmpty(etName.getText())) {
 				Toast.makeText(this, "给宝贝取个名字吧！", Toast.LENGTH_SHORT).show();
 			} else if (TextUtils.isEmpty(etBrief.getText())) {
@@ -492,10 +492,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				// Toast.makeText(this,
 				// typeSpinner.getSelectedItem().toString(),
 				// Toast.LENGTH_LONG).show();
-				for (ImageItem index : Bimp.tempSelectBitmap) {
-					Log.i("selectImagePath", index.getImagePath());
-				}
-
+				//将用户输入的信息封装成Goods对象
 				Goods goods = new Goods();
 				final int USERID = 2;//仅做测试用，正式版应从MyApplication.getCurrentUser().getId()获取
 				goods.setUserId(USERID);
@@ -525,7 +522,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				Gson gson = new GsonBuilder().setDateFormat(
 						"yyyy-MM-dd hh-mm-ss").create();
 				String goodsJson = gson.toJson(goods);
-				//服务器地址(测试，后期从配置文件获取)
+				//服务器地址(从配置文件获取)
 				//String url = null;
 				Properties prop = new Properties();
 				String headUrl = null;
@@ -550,12 +547,15 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 					Log.i("uploadimage", USERID + count + getNowTime());
 					count++;
 				}
-				//显示进度动画
+				
 				final ViewGroup la = (ViewGroup) findViewById(R.id.fl_base);
+				//禁用界面控件
 				disableSubControls(la,false);
 				final LinearLayout ll = (LinearLayout) findViewById(R.id.ll_progress);
+				//显示进度动画
 				ll.setVisibility(View.VISIBLE);
 				HttpUtils hu = new HttpUtils();
+				//发送请求，连接服务器，传送数据
 				hu.send(HttpMethod.POST, url, rp,
 						new RequestCallBack<String>() {
 
@@ -590,7 +590,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		}
 
 	}
-
+	//禁用界面控件，防止发布过程中再次编辑界面控件内容
 	public static void disableSubControls(ViewGroup viewGroup,boolean flag) {
 		for (int i = 0; i < viewGroup.getChildCount(); i++) {
 			View v = viewGroup.getChildAt(i);
@@ -643,11 +643,13 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	//获得集市id
 	public int getmarketsId(){
 		String marketsName = marketSpinner.getSelectedItem().toString();
-		for(Markets markets : MyApplication.getMarketsList()){
-			if(markets.getName().equals(marketsName)){
-				return markets.getId();
+		if(MyApplication.getMarketsList() != null ){
+			for(Markets markets : MyApplication.getMarketsList()){
+				if(markets.getName().equals(marketsName)){
+					return markets.getId();
+				}
 			}
-		}
+		}	
 		return 0;
 	}
 
@@ -660,6 +662,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		return System.currentTimeMillis() + "";
 	}
 
+	// 当activity销毁时，清空选中的图片
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub

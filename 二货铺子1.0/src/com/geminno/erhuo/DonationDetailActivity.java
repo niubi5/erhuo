@@ -1,6 +1,7 @@
 package com.geminno.erhuo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,7 +48,8 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 		content = (TextView) findViewById(R.id.tv_donation_ditail_content);
 		logistics = (TextView) findViewById(R.id.tv_donation_detail_logistics);
 		address = (TextView) findViewById(R.id.tv_donation_detail_address);
-		report = (Button) findViewById(R.id.btn_report);
+		report = (Button) findViewById(R.id.btn_donation_report);
+		report.setOnClickListener(this);
 	}
 
 	@Override
@@ -55,6 +57,10 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 	    switch(v.getId()){
 	    case R.id.iv_back:
 	    	finish();
+	    	break;
+	    case R.id.btn_donation_report:
+	    	Intent intent = new Intent(this,DonationReportActivity.class);
+	    	startActivity(intent);
 	    	break;
 	    }
 		

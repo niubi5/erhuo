@@ -39,10 +39,10 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	 * 请求捐赠标题
 	 */
 	private EditText etTitle;
-	// /**
-	// * 返回图片
-	// */
-	// private ImageView ivBack;
+	 /**
+	 * 返回图片
+	 */
+	 private ImageView ivBack;
 	/**
 	 * 发布技巧图片
 	 */
@@ -147,6 +147,15 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	 * 实例化控件对象
 	 */
 	public void init() {
+		ivBack = (ImageView) findViewById(R.id.iv_donaton_request_back);
+		ivBack.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+				
+			}
+		});
 		logisticSpinner = (Spinner) findViewById(R.id.sp_logistics);
 		etTitle = (EditText) findViewById(R.id.et_donation_title);
 		etContent = (EditText) findViewById(R.id.et_donation_content);

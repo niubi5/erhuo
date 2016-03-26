@@ -16,10 +16,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.geminno.erhuo.DonateRequestActivity;
+import com.geminno.erhuo.DonationDetailActivity;
 import com.geminno.erhuo.MainActivity;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.StartActivity;
@@ -136,6 +139,25 @@ public class DonateFragment extends BaseFragment{
 				}
 			}
 		});
+		
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(getActivity(),DonationDetailActivity.class);
+				startActivity(intent);
+			}
+		});
+//		ImageView v = (ImageView) mListView.findViewById(R.id.iv_toDonate);
+//		v.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent(getActivity(),DonateRequestActivity.class);
+//				startActivity(intent);
+//			}
+//		});
 		initEvent();
 		return view;
 	}
