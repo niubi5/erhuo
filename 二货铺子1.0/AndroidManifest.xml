@@ -262,6 +262,7 @@
         <activity
             android:name=".DonationDetailActivity"
             android:label="@string/title_activity_donation_detail" >
+
         </activity>
         <activity
             android:name=".DonationReportActivity"
@@ -453,4 +454,6 @@
             android:windowSoftInputMode="stateHidden" />
     </application>
 
+
 </manifest>
+

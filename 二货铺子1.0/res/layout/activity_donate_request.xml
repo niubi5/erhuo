@@ -105,11 +105,11 @@
                 <LinearLayout
                     android:id="@+id/donation_request_image"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
+                    android:layout_height="140dp"
                     android:layout_marginTop="3dp"
                     android:orientation="horizontal" >
 
-                    <com.geminno.erhuo.view.AddImageView
+                   <!--  <com.geminno.erhuo.view.AddImageView
                         android:id="@+id/addImageView"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
@@ -123,6 +123,19 @@
                         android:layout_height="60dp"
                         android:layout_marginLeft="8dp"
                         android:src="@drawable/comui_face_d11" />
+                        --> 
+                   <GridView
+                        android:id="@+id/doantion_noScrollgridview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:horizontalSpacing="3dp"
+                        android:numColumns="4"
+                        android:scrollbars="none"
+                        android:verticalSpacing="5dp" >
+                    </GridView>
+                      
+                        
                 </LinearLayout>
             </LinearLayout>
 
