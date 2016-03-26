@@ -423,35 +423,35 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	// 照相机返回的照片
 	protected void onActivityResult(int requestCode, int resultCode,
 			final Intent data) {
-		
+
 		switch (requestCode) {
 		case TAKE_PICTURE:
-			 if (Bimp.tempSelectBitmap.size() < 9 && resultCode == RESULT_OK)
-			 {
-			
-			 String fileName = String.valueOf(System.currentTimeMillis());
-			 //获得拍照返回的图片
-			 Bitmap bm = (Bitmap) data.getExtras().get("data");
-			 String takePhotoUrl = FileUtils.saveBitmap(bm, fileName);
-			 
-			 ImageItem takePhoto = new ImageItem();
-			 takePhoto.setBitmap(bm);
-			 takePhoto.setImagePath(takePhotoUrl);		 
-			 Bimp.tempSelectBitmap.add(takePhoto);
-			 }
-				break;
+			if (Bimp.tempSelectBitmap.size() < 9 && resultCode == RESULT_OK) {
+
+				String fileName = String.valueOf(System.currentTimeMillis());
+				// 获得拍照返回的图片
+				Bitmap bm = (Bitmap) data.getExtras().get("data");
+				String takePhotoUrl = FileUtils.saveBitmap(bm, fileName);
+
+				ImageItem takePhoto = new ImageItem();
+				takePhoto.setBitmap(bm);
+				takePhoto.setImagePath(takePhotoUrl);
+				Bimp.tempSelectBitmap.add(takePhoto);
+			}
+			break;
 		}
 	}
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if (keyCode == KeyEvent.KEYCODE_BACK) {
-//			for (int i = 0; i < PublicWay.activityList.size(); i++) {
-//				if (null != PublicWay.activityList.get(i)) {
-//					PublicWay.activityList.get(i).finish();
-//				}
-//			}
-//		}
-//		return true;
-//	}
+
+	// public boolean onKeyDown(int keyCode, KeyEvent event) {
+	// if (keyCode == KeyEvent.KEYCODE_BACK) {
+	// for (int i = 0; i < PublicWay.activityList.size(); i++) {
+	// if (null != PublicWay.activityList.get(i)) {
+	// PublicWay.activityList.get(i).finish();
+	// }
+	// }
+	// }
+	// return true;
+	// }
 
 	// 分类下拉列表数据
 	public static List<Map<String, Object>> getSpinnerTypeData() {
@@ -527,7 +527,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				// Toast.makeText(this,
 				// typeSpinner.getSelectedItem().toString(),
 				// Toast.LENGTH_LONG).show();
-				//将用户输入的信息封装成Goods对象
+				// 将用户输入的信息封装成Goods对象
 				Goods goods = new Goods();
 				final int USERID = 2;// 仅做测试用，正式版应从MyApplication.getCurrentUser().getId()获取
 				goods.setUserId(USERID);
@@ -551,12 +551,13 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 							.getLongitude());
 					goods.setLatitude(MyApplication.getLocation().getLatitude());// 33.8640844584,112.4709425635
 				}
-				goods.setPubTime(new Date(System.currentTimeMillis()));
+				goods.setPubTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+						.format(new Date(System.currentTimeMillis())));
 				goods.setState(1);
 				//
 				// 商品转化为Josn数据
 				Gson gson = new GsonBuilder().setDateFormat(
-						"yyyy-MM-dd hh-mm-ss").create();
+						"yyyy-MM-dd HH:mm:ss").create();
 				String goodsJson = gson.toJson(goods);
 				// 服务器地址(测试，后期从配置文件获取)
 				// String url = null;
@@ -586,13 +587,13 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 					count++;
 				}
 				final ViewGroup la = (ViewGroup) findViewById(R.id.fl_base);
-				//禁用界面控件
-				disableSubControls(la,false);
+				// 禁用界面控件
+				disableSubControls(la, false);
 				final LinearLayout ll = (LinearLayout) findViewById(R.id.ll_progress);
-				//显示进度动画
+				// 显示进度动画
 				ll.setVisibility(View.VISIBLE);
 				HttpUtils hu = new HttpUtils();
-				//发送请求，连接服务器，传送数据
+				// 发送请求，连接服务器，传送数据
 				hu.send(HttpMethod.POST, url, rp,
 						new RequestCallBack<String>() {
 
@@ -631,8 +632,9 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		}
 
 	}
-	//禁用界面控件，防止发布过程中再次编辑界面控件内容
-	public static void disableSubControls(ViewGroup viewGroup,boolean flag) {
+
+	// 禁用界面控件，防止发布过程中再次编辑界面控件内容
+	public static void disableSubControls(ViewGroup viewGroup, boolean flag) {
 		for (int i = 0; i < viewGroup.getChildCount(); i++) {
 			View v = viewGroup.getChildAt(i);
 			if (v instanceof ViewGroup) {
@@ -686,13 +688,13 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	// 获得集市id
 	public int getmarketsId() {
 		String marketsName = marketSpinner.getSelectedItem().toString();
-		if(MyApplication.getMarketsList() != null ){
-			for(Markets markets : MyApplication.getMarketsList()){
-				if(markets.getName().equals(marketsName)){
+		if (MyApplication.getMarketsList() != null) {
+			for (Markets markets : MyApplication.getMarketsList()) {
+				if (markets.getName().equals(marketsName)) {
 					return markets.getId();
 				}
 			}
-		}	
+		}
 		return 0;
 	}
 

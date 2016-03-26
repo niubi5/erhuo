@@ -244,12 +244,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 					.findViewById(R.id.type_iphone);
 			viewHolderType.pad = (Button) convertView
 					.findViewById(R.id.type_pad);
-			viewHolderType.pc = (Button) convertView
-					.findViewById(R.id.type_pc);
+			viewHolderType.pc = (Button) convertView.findViewById(R.id.type_pc);
 			viewHolderType.ixiaomi = (Button) convertView
 					.findViewById(R.id.type_ixiaomi);
-			viewHolderType.c = (Button) convertView
-					.findViewById(R.id.type_3c);
+			viewHolderType.c = (Button) convertView.findViewById(R.id.type_3c);
 			viewHolderType.card = (Button) convertView
 					.findViewById(R.id.type_card);
 			viewHolderType.luggage = (Button) convertView
@@ -272,7 +270,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	}
 
 	// 获得商品view
-	private View getGoodsView(final int position, View convertView, ViewGroup parent) {
+	private View getGoodsView(final int position, View convertView,
+			ViewGroup parent) {
 		if (typeCount == 4) {
 			map = listAll.get(position - 3);
 		} else {
@@ -334,38 +333,38 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				viewHolder.goodsName.setText(goods.getName());
 				viewHolder.goodsInfo.setText(goods.getImformation());
 				viewHolder.goodsPrice.setText("￥" + goods.getSoldPrice() + "");
-				viewHolder.pubTime.setText(sdf.format(goods.getPubTime()));
+				viewHolder.pubTime.setText(goods.getPubTime().substring(2,10));
 				// --------------------
-				viewHolder.imagesContainer.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						onItemClick(refreshListView, v, position + 1, position + 1);
-					}
-				});
+				viewHolder.imagesContainer
+						.setOnClickListener(new OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								onItemClick(refreshListView, v, position + 1,
+										position + 1);
+							}
+						});
 				viewHolder.userFavorite.setTag(position);
-				if(collection.contains(position)){
+				if (collection.contains(position)) {
 					// 如果集合中有，代表收藏过,显示为收藏状态
 					viewHolder.userFavorite.setSelected(true);
 				} else {
 					viewHolder.userFavorite.setSelected(false);
 				}
-				viewHolder.userFavorite.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// 如果在集合里面，说明点过，再次点击则取消收藏，并从集合移除
-						ImageView iv = (ImageView) v;
-						if(collection.contains(v.getTag())){
-							iv.setSelected(false);
-							collection.remove(v.getTag());
-						} else {
-							// 否则设为选中状态，并加入集合
-							iv.setSelected(true);
-							collection.add((Integer) v.getTag());
-						}
-					}
-				});
+				viewHolder.userFavorite
+						.setOnClickListener(new OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								// 如果在集合里面，说明点过，再次点击则取消收藏，并从集合移除
+								if (collection.contains(v.getTag())) {
+									collectGoods(goods, v, false);// 调用收藏商品方法
+								} else {
+									// 否则设为选中状态，并加入集合
+									collectGoods(goods, v, true);
+								}
+							}
+						});
 				// 移除之前的所有商品图片
 				viewHolder.imagesContainer.removeAllViews();
 				for (int i = 0; i < urls.size(); i++) {
@@ -589,18 +588,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			intent.putExtra("tag", 8 + "");
 			context.startActivity(intent);
 			break;
-		// 收藏按钮
-//		case R.id.user_favorite:
-//			// 调用收藏商品方法
-//			if (!isFavorite) {
-//				collectGoods(isFavorite);
-//				isFavorite = true;
-//			} else {
-//				collectGoods(isFavorite);
-//				isFavorite = false;
-//			}
-//
-//			break;
 		// 集市按钮
 		case R.id.market_book:
 			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
@@ -658,66 +645,59 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			}
 			intent.putExtras(bundle);
 			context.startActivity(intent);
-		} 
+		}
 
 	}
 
-	private void collectGoods(boolean isFavorite) {
-		if (!isFavorite) {
-			// 当前用户登录过则发请求，否则弹框提示
-			Users user = MyApplication.getCurrentUser();
-			if (user != null && goods != null) {
-				
-//				// 如果未收藏，则收藏， 并将按钮设为选中状态，将数据写入数据库
-//				Log.i("erhuo", "确实点收藏了");
-//				viewHolder.userFavorite.setSelected(true);
-//				HttpUtils http = new HttpUtils();
-//				String headUrl = Url.getUrlHead();
-//				String url = headUrl + "/AddCollectionsServlet";
-//				RequestParams params = new RequestParams();
-//				params.addBodyParameter("userId", user.getId() + "");
-//				params.addBodyParameter("goodsId", goods.getId() + "");
-//				http.send(HttpRequest.HttpMethod.POST, url, params,
-//						new RequestCallBack<String>() {
-//
-//							@Override
-//							public void onFailure(HttpException arg0,
-//									String arg1) {
-//
-//							}
-//
-//							@Override
-//							public void onSuccess(ResponseInfo<String> arg0) {
-//							
-//							}
-//						});
+	/**
+	 * 
+	 * @param goods
+	 *            当前商品对象
+	 * @param v
+	 *            当前点击的图片控件
+	 * @param isFavorite
+	 *            是否收藏
+	 */
+	private void collectGoods(Goods goods, View v, boolean isFavorite) {
+		// if (!isFavorite) {
+		// 取消收藏
+		// 当前用户登录过则发请求，否则弹框提示
+		Users user = MyApplication.getCurrentUser();
+		if (user != null && goods != null) {
+			HttpUtils http = new HttpUtils();
+			RequestParams params = new RequestParams();
+			String urlHead = Url.getUrlHead();
+			String url = null;
+			if (!isFavorite) {
+				// 取消收藏
+				v.setSelected(false);// 设为取消状态
+				collection.remove(v.getTag());// 从集合中移除
+				params.addBodyParameter("userId", user.getId() + "");
+				params.addBodyParameter("goodsId", goods.getId() + "");
+				url = urlHead + "/DeleteCollectionsServlet";
 			} else {
-				Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+				// 收藏
+				v.setSelected(true);// 设为取消状态
+				collection.add((Integer) v.getTag());// 并加入集合
+				params.addBodyParameter("userId", user.getId() + "");
+				params.addBodyParameter("goodsId", goods.getId() + "");
+				url = urlHead + "/AddCollectionsServlet";
 			}
+			http.send(HttpRequest.HttpMethod.POST, url, params,
+					new RequestCallBack<String>() {
+
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+
+						}
+
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+
+						}
+					});
 		} else {
-			// 取消收藏
-//			viewHolder.userFavorite.setSelected(false);
-//			Log.i("erhuo", "确实取消了");
-//			HttpUtils http = new HttpUtils();
-//			String headUrl = Url.getUrlHead();
-//			String url = headUrl + "/DeleteCollectionsServlet";
-//			RequestParams params = new RequestParams();
-//			params.addBodyParameter("userId", user.getId() + "");
-//			params.addBodyParameter("goodsId", goods.getId() + "");
-//			http.send(HttpRequest.HttpMethod.POST, url, 
-//					new RequestCallBack<String>() {
-//
-//						@Override
-//						public void onFailure(HttpException arg0,
-//								String arg1) {
-//
-//						}
-//
-//						@Override
-//						public void onSuccess(ResponseInfo<String> arg0) {
-//						
-//						}
-//					});
+			Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
 		}
 	}
 

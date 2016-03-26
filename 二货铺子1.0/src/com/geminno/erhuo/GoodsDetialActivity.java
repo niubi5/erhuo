@@ -139,8 +139,7 @@ public class GoodsDetialActivity extends Activity {
 		tvGoodPrice.setText("¥"+goods.getSoldPrice());
 		tvGoodOldPrice.setText("原价:"+goods.getBuyPrice());
 		tvGoodName.setText(goods.getName());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		tvGoodTime.setText(sdf.format(goods.getPubTime()));
+		tvGoodTime.setText((goods.getPubTime().substring(2,10)));
 		tvGoodBrief.setText(goods.getImformation());
 	}
 

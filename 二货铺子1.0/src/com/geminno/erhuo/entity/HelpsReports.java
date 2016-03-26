@@ -1,12 +1,11 @@
 package com.geminno.erhuo.entity;
 
-import java.util.Date;
 
 public class HelpsReports {
 	private int id;
 	private int helpId;
 	private String brief;
-	private Date repTime;
+	private String repTime;
 	private int state;
 
 	public int getId() {
@@ -33,11 +32,11 @@ public class HelpsReports {
 		this.brief = brief;
 	}
 
-	public Date getRepTime() {
+	public String getRepTime() {
 		return repTime;
 	}
 
-	public void setRepTime(Date repTime) {
+	public void setRepTime(String repTime) {
 		this.repTime = repTime;
 	}
 
