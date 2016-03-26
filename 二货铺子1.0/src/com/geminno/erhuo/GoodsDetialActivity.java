@@ -216,11 +216,15 @@ public class GoodsDetialActivity extends Activity {
 			finish();
 			break;
 		case R.id.btn_buy:
-			Intent intent = new Intent(this, BuyGoodsActivity.class);
-			intent.putExtra("user", user);
-			intent.putExtra("good", goods);
-			intent.putExtra("url", urls);
-			startActivity(intent);
+			if(goods.getState() == 2){
+				Toast.makeText(GoodsDetialActivity.this, "该商品已被下单", Toast.LENGTH_SHORT).show();
+			} else {
+				Intent intent = new Intent(this, BuyGoodsActivity.class);
+				intent.putExtra("user", user);
+				intent.putExtra("good", goods);
+				intent.putExtra("url", urls);
+				startActivity(intent);
+			}
 		default:
 			break;
 		}
