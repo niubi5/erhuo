@@ -34,7 +34,7 @@ import com.geminno.erhuo.view.AddImageView;
  * @author Administrator
  * 
  */
-public class DonateRequestActivity extends Activity implements OnClickListener {
+public class DonateRequestActivity extends Activity implements OnClickListener{
 
 	/**
 	 * 请求捐赠标题
@@ -109,7 +109,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	/**
 	 * 发布请求
 	 */
-	@SuppressLint("ShowToast") @Override
+     @SuppressLint("ShowToast") @Override
 	public void onClick(View v) {
 		Toast toast = new Toast(getApplicationContext());
 		switch (v.getId()) {
@@ -135,22 +135,25 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 				if (!content.equals("")) {
 					if (!etGeterName.equals("")) {
 						if (address.equals("")) {
-							Toast.makeText(DonateRequestActivity.this,
-				     				"地址不能为空哦！", Toast.LENGTH_SHORT);
+							toastText.setText("务必把收货地址填写上");
+							break;
+//							Toast.makeText(this, "务必把收货地址填写上", Toast.LENGTH_SHORT);
 						}
 					} else {
-						Toast.makeText(DonateRequestActivity.this, "收货人是谁呢？",
-								Toast.LENGTH_SHORT);
+						toastText.setText("收货人是谁呢？");
+						break;
+//						Toast.makeText(this, "收货人是谁呢？", Toast.LENGTH_SHORT);
 					}
 				} else {
-					Toast.makeText(DonateRequestActivity.this, "请详细描述一下您的信息！",
-							Toast.LENGTH_SHORT);
+					toastText.setText("别忘了描述一下您的需要哦！");
+					break;
+//					Toast.makeText(this, "别忘了详细描述一下您的需要哦！", Toast.LENGTH_SHORT);
 				}
 			} else {
-				Toast.makeText(DonateRequestActivity.this, "取个标题吧！",
-						Toast.LENGTH_SHORT);
+//				Toast.makeText(this, "取个标题吧", Toast.LENGTH_SHORT);
+				toastText.setText("取个标题吧");
+				break;
 			}
-			break;
 		}
 	}
 
@@ -176,14 +179,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 		addImageView = (AddImageView) findViewById(R.id.addImageView);
 		btnDonate = (Button) findViewById(R.id.btn_request_donate);
 		// 发布捐赠，将信息提交到Servlet
-		btnDonate.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
-
+        btnDonate.setOnClickListener(this);
 		ivDonationDialog = (ImageView) findViewById(R.id.iv_donation_dialog);
 		// 点击提示对话框
 		ivDonationDialog.setOnClickListener(new OnClickListener() {

@@ -251,6 +251,7 @@
 
         <!-- 易信分享回调 -->
 
+
         <!-- 支付宝分享回调 -->
         <activity
             android:name=".ReportGoodActivity"
@@ -261,7 +262,6 @@
         <activity
             android:name=".DonationDetailActivity"
             android:label="@string/title_activity_donation_detail" >
-            
         </activity>
         <activity
             android:name=".DonationReportActivity"
@@ -271,8 +271,8 @@
             android:name=".MyGoodsActivity"
             android:label="@string/title_activity_my_goods" >
         </activity>
-        <!-- 第三方支付 @heikki-->
-         <!-- Ping++ sdk -->
+        <!-- 第三方支付 @heikki -->
+        <!-- Ping++ sdk -->
         <activity
             android:name="com.pingplusplus.android.PaymentActivity"
             android:configChanges="orientation|screenSize"
@@ -304,13 +304,13 @@
         <activity
             android:name="com.pingplusplus.libone.PayActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent"
-            android:label="@string/pingpp_title_activity_pay"/>
+            android:label="@string/pingpp_title_activity_pay"
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name="com.pingplusplus.libone.PaySucessedActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/pingpp_title_activity_pay_sucessed"/>
-        
+            android:label="@string/pingpp_title_activity_pay_sucessed" />
+
         <!-- 百付宝 sdk -->
         <activity
             android:name="com.baidu.paysdk.login.LoginActivity"
@@ -453,6 +453,4 @@
             android:windowSoftInputMode="stateHidden" />
     </application>
 
-
 </manifest>
-
