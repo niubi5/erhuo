@@ -20,6 +20,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EditUserInfoActivity extends Activity implements OnClickListener {
 
@@ -102,8 +103,36 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		//保存
 		case R.id.tv_infodata_ok:
-			String name=nickName.getText().toString();
-			
+			String username=nickName.getText().toString();
+			String userphone=phone.getText().toString();
+			HttpUtils httpUtils=new HttpUtils();
+			RequestParams params=new RequestParams();
+			params.addQueryStringParameter("name",username);
+			params.addQueryStringParameter("phone",userphone);
+			params.addQueryStringParameter("sex",sex+"");
+//			String headUrl = Url.getUrlHead();
+//			String url = headUrl + "/LoginServlet";
+			String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
+			httpUtils.send(HttpMethod.POST,url, params,
+					new RequestCallBack<String>() {
+
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+							// TODO Auto-generated method stub
+							Log.i("cheshi","fuck");
+						}
+
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+							String result=arg0.result;
+							Log.i("result","result值为："+result);
+							if (result != null && !result.equals("null")) {
+								Toast.makeText(EditUserInfoActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+							}else {
+								Toast.makeText(EditUserInfoActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
+							}
+						}
+			});
 			break;
 		 case R.id.edit_header:
 		
