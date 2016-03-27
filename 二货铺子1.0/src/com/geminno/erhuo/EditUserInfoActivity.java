@@ -62,13 +62,15 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		  nickName.setText(users.getName());
 		}
 		String sex=users.getSex()+"";
-		if(sex!=null&&users.getSex()==1){
+		if(sex!=null&&users.getSex()==0){
 		    	male.setSelected(true);
 		}else if(sex!=null){
 				female.setSelected(true);
 		}
 		if (users.getIdentity()!=null) {
-			phone.setText(users.getIdentity());
+			String head = users.getIdentity().substring(0, 3);
+			String foot = users.getIdentity().substring(7, 11);
+			phone.setText(head + "****" + foot);
 		}
 	    
 	    
@@ -116,9 +118,8 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 				params.addQueryStringParameter("name",username);
 				params.addQueryStringParameter("phone",userphone);
 				params.addQueryStringParameter("sex",sex+"");
-//				String headUrl = Url.getUrlHead();
-//				String url = headUrl + "/UserInformationServlet";
-				String url="http://10.201.1.16:8080/secondHandShop/UserInformationServlet";
+				String headUrl = Url.getUrlHead();
+				String url = headUrl + "/UserInformationServlet";
 				httpUtils.send(HttpMethod.POST,url, params,
 						new RequestCallBack<String>() {
 

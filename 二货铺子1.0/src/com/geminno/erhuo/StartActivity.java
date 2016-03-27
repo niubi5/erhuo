@@ -1,6 +1,7 @@
 package com.geminno.erhuo;
 
 
+import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.SystemStatusManager;
 import com.google.gson.Gson;
@@ -44,9 +45,8 @@ public class StartActivity extends Activity {
 		String userPwd = sharedPreferences.getString("userPwd", "");
 		Log.i("cheshi", "userName,userPwd"+userName+userPwd);
 		HttpUtils httpUtils = new HttpUtils();
-//		String headUrl = Url.getUrlHead();
-//		String url = headUrl + "/LoginServlet";
-		String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
+		String headUrl = Url.getUrlHead();
+		String url = headUrl + "/LoginServlet";
 		RequestParams params = new RequestParams();
 		params.addBodyParameter("identity", userName);
 		params.addBodyParameter("pwd", userPwd);

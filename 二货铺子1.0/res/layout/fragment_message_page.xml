@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_bgcolor"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:background="@color/main_bgcolor"
     android:orientation="vertical" >
 
     <FrameLayout
@@ -14,15 +14,19 @@
         <TextView
             style="@style/FrameTitleRedText"
             android:text="@string/message" />
-
     </FrameLayout>
 
-    <View style="@style/ShadowTitle" />
-
-    <com.geminno.erhuo.view.RefreshListView
-        android:id="@+id/message_refreshListView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </com.geminno.erhuo.view.RefreshListView>
+        android:layout_height="match_parent" >
+
+        <com.geminno.erhuo.view.RefreshListView
+            android:id="@+id/message_refreshListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </com.geminno.erhuo.view.RefreshListView>
+
+        <View style="@style/ShadowTitle" />
+    </FrameLayout>
 
 </LinearLayout>

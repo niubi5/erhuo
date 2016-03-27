@@ -49,6 +49,13 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		initAnimation(context);
 		setOnScrollListener(this);
 	}
+	
+	public RefreshListView(Context context, boolean showFoot){
+		super(context);
+		initHead(context);
+		initAnimation(context);
+		setOnScrollListener(this);
+	}
 
 	public RefreshListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
