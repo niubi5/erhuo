@@ -22,6 +22,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
 import com.geminno.erhuo.entity.Goods;
+import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.entity.Users;
 
 import android.annotation.SuppressLint;
@@ -54,6 +55,12 @@ import android.widget.Toast;
 import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Users;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class GoodsDetialActivity extends Activity {
@@ -71,6 +78,9 @@ public class GoodsDetialActivity extends Activity {
 	private Goods goods;
 	private TextView tvGoodBrief;
 	private TextView tvGoodName;
+	private ArrayList<Integer> collection;
+	private int position;
+	private boolean isFavorite = false;// 是否收藏
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +98,8 @@ public class GoodsDetialActivity extends Activity {
 		Bundle bundle = intent.getExtras();
 		user = (Users) bundle.getSerializable("user");
 		goods = (Goods) bundle.getSerializable("goods");
+		position = bundle.getInt("position");
+		collection = bundle.getIntegerArrayList("collection");
 		List<String> goodUrl = bundle.getStringArrayList("urls");
 		urls = new String[goodUrl.size()];
 		for (int i = 0; i < goodUrl.size(); i++) {
@@ -112,6 +124,7 @@ public class GoodsDetialActivity extends Activity {
 	}
 
 	public void initData(){
+		ImageView goodsFavorite = (ImageView) findViewById(R.id.goods_favorite);
 		ImageView ivHead = (ImageView) findViewById(R.id.iv_user_head);
 		TextView tvUserName = (TextView) findViewById(R.id.tv_user_name);
 		TextView tvUserLocation = (TextView) findViewById(R.id.tv_user_location);
@@ -133,6 +146,25 @@ public class GoodsDetialActivity extends Activity {
 			final String userHeadUrl = headUrl + user.getPhoto();
 			ImageLoader.getInstance().displayImage(userHeadUrl, ivHead);
 		}
+		// 设置收藏的显示状态
+		Log.i("erhuo", "传过来的position" + position);
+		Log.i("erhuo", "包含position吗？" + collection.contains(position));
+		if(collection.contains(position)){
+			goodsFavorite.setSelected(true);
+		} else {
+			goodsFavorite.setSelected(false);
+		}
+		goodsFavorite.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (collection.contains(position)) {
+					collectGoods(goods, v, false);// 调用收藏商品方法
+				} else {
+					collectGoods(goods, v, true);
+				}
+			}
+		});
 		tvUserName.setText(user.getName());
 		int instance = Distance(goods.getLongitude(), goods.getLatitude(), MyApplication.getLocation().getLongitude(), MyApplication.getLocation().getLatitude());
 		tvUserLocation.setText(instance >= 100 ? ("距我:" + instance/1000+"km") : ("距我:" + instance+"m"));
@@ -141,6 +173,48 @@ public class GoodsDetialActivity extends Activity {
 		tvGoodName.setText(goods.getName());
 		tvGoodTime.setText((goods.getPubTime().substring(2,10)));
 		tvGoodBrief.setText(goods.getImformation());
+	}
+
+	protected void collectGoods(Goods goods, View v, boolean b) {
+		Users user = MyApplication.getCurrentUser();
+		if (user != null && goods != null) {
+			HttpUtils http = new HttpUtils();
+			RequestParams params = new RequestParams();
+			String urlHead = Url.getUrlHead();
+			String url = null;
+			Log.i("erhuo", "进来了啊");
+			if (!isFavorite) {
+				// 取消收藏
+				Log.i("erhuo", "设为取消了");
+				v.setSelected(false);// 设为取消状态
+				collection.remove(v.getTag());// 从集合中移除
+				params.addBodyParameter("userId", user.getId() + "");
+				params.addBodyParameter("goodsId", goods.getId() + "");
+				url = urlHead + "/DeleteCollectionsServlet";
+			} else {
+				// 收藏
+				v.setSelected(true);// 设为取消状态
+				collection.add((Integer) v.getTag());// 并加入集合
+				params.addBodyParameter("userId", user.getId() + "");
+				params.addBodyParameter("goodsId", goods.getId() + "");
+				url = urlHead + "/AddCollectionsServlet";
+			}
+			http.send(HttpRequest.HttpMethod.POST, url, params,
+					new RequestCallBack<String>() {
+
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+
+						}
+
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+
+						}
+					});
+		} else {
+			Toast.makeText(GoodsDetialActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	//
@@ -225,6 +299,7 @@ public class GoodsDetialActivity extends Activity {
 				intent.putExtra("url", urls);
 				startActivity(intent);
 			}
+			break;
 		default:
 			break;
 		}

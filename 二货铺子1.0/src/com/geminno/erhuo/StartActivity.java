@@ -1,8 +1,8 @@
 package com.geminno.erhuo;
 
+import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.SystemStatusManager;
-import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -43,11 +43,11 @@ public class StartActivity extends Activity {
 		
 		SharedPreferences sharedPreferences = getSharedPreferences("userInfo",
 				MODE_PRIVATE);
-		
-			final String userName = sharedPreferences.getString("userName", "");
-			String userPwd = sharedPreferences.getString("userPwd", "");
-			Log.i("cheshi", "userName,userPwd" + userName + userPwd);
-			if (!userName.isEmpty() && !userPwd.isEmpty()) {
+
+		final String userName = sharedPreferences.getString("userName", "");
+		String userPwd = sharedPreferences.getString("userPwd", "");
+		Log.i("cheshi", "userName,userPwd" + userName + userPwd);
+		if (!userName.isEmpty() && !userPwd.isEmpty()) {
 			HttpUtils httpUtils = new HttpUtils();
 			String headUrl = Url.getUrlHead();
 			String url = headUrl + "/LoginServlet";
