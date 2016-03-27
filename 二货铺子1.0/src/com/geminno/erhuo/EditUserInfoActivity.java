@@ -3,8 +3,8 @@ package com.geminno.erhuo;
 import java.lang.reflect.Type;
 
 import com.geminno.erhuo.entity.Address;
-import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;

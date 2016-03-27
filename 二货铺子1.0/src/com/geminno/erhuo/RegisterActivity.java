@@ -3,7 +3,9 @@ package com.geminno.erhuo;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.geminno.erhuo.entity.Url;
+import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.Url;
+import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -66,8 +68,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		button = (Button) findViewById(R.id.btn_register);
 		button.setOnClickListener(this);
 		// 调用setColor()方法,实现沉浸式状态栏
-		MainActivity.setColor(this,
-				getResources().getColor(R.color.main_red));
+		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		chkAgree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
 			@Override
@@ -94,96 +95,65 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		// 注册
 		case R.id.btn_register:
 			Log.i("cheshi", "注册");
-			
+
 			RequestParams params = new RequestParams();
 			name = etphone.getText().toString();
-			
+
 			pwd = etpwd.getText().toString();
 			pwdagain = etpwdagain.getText().toString();
-			
+
 			HttpUtils http = new HttpUtils();
-			//String url="http://10.201.1.16:8080/secondHandShop/CanRegisterServlet";
+			if (!pwd.equals(pwdagain)) {
+				Toast.makeText(RegisterActivity.this, "两次输入的密码不一致！", 0).show();
+				return;
+			}
+			Log.i("cheshi", "开始注册没有");
+			Users user = new Users();
+			user.setIdentity(name);
+			user.setPwd(pwd);
+			user.setSex(0);
+			user.setInvCode(null);
+			user.setName("erhuo" + name.substring(7, 11));
+			user.setPhoto(null);
+			user.setJifen(0);
+			Gson gson = new Gson();
+			String userJson = gson.toJson(user);
+			params.addBodyParameter("userJson", userJson);
 			String headUrl = Url.getUrlHead();
-			String url = headUrl + "/CanRegisterServlet";
-			params.addQueryStringParameter("identity", name);
-			http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
+			String url = headUrl + "/AddUserServlet";
+			// String
+			// url="http://10.201.1.16:8080/secondHandShop/AddUserServlet";
 
-				@Override
-				public void onFailure(HttpException arg0, String arg1) {
-					// TODO Auto-generated method stub
-					Log.i("cheshi", "fuck!失败");
-				}
+			http.send(HttpMethod.POST, url, params,
+					new RequestCallBack<String>() {
 
-				@Override
-				public void onSuccess(ResponseInfo<String> arg0) {
-					// TODO Auto-generated method stub
-					String result=arg0.result;
-					Log.i("cheshi", "首先result"+result);
-					if(result.equals("ok")){
-						Log.i("cheshi", "应该是可以注册");
-						HttpUtils http = new HttpUtils();
-						RequestParams params = new RequestParams();
-						if (!pwd.equals(pwdagain)) {
-							Toast.makeText(RegisterActivity.this, "输入密码错误", 0).show();
-							return;
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+							// TODO Auto-generated method stub
+							Toast.makeText(RegisterActivity.this, "网络异常！", 1)
+									.show();
 						}
-						Log.i("cheshi", "开始注册没有");
-						params.addQueryStringParameter("identity", name);
-						params.addQueryStringParameter("pwd", pwd);
-						String headUrl = Url.getUrlHead();
-						String url = headUrl + "/AddUserServlet";
-					    //String url="http://10.201.1.16:8080/secondHandShop/AddUserServlet";
-						
-						http.send(HttpMethod.POST, url, params,
-								new RequestCallBack<String>() {
 
-									@Override
-									public void onFailure(HttpException arg0, String arg1) {
-										// TODO Auto-generated method stub
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+							// TODO Auto-generated method stub
 
-									}
-
-									@Override
-									public void onSuccess(ResponseInfo<String> arg0) {
-										// TODO Auto-generated method stub
-
-										String result = arg0.result;
-										Log.i("result", "最后"+result);
-										if (result != null && !result.equals("null")) {
-											Intent intent = new Intent(
-													RegisterActivity.this,
-													LoginActivity.class);
-											startActivity(intent);
-											// Toast.makeText(RegisterActivity.this, "注册成功",
-											// 1).show();
-										} else {
-											Toast.makeText(RegisterActivity.this, "注册失败", 1)
-													.show();
-										}
-									}
-
-									private void setAction(Intent intent) {
-										// TODO Auto-generated method stub
-
-									}
-								});
-					}else if (result.equals("no")) {
-						Log.i("cheshi", "那就应该是这里");
-						Intent intent = new Intent(
-								RegisterActivity.this,
-								LoginActivity.class);
-						startActivity(intent);
-						Toast.makeText(RegisterActivity.this, "您已经注册，请登录", 1).show();
-					}
-				}
-			});
-			
-			
-			
-			
-
+							String result = arg0.result;
+							Log.i("result", "最后" + result);
+							if (result != null && !result.equals("null")) {
+								Intent intent = new Intent(
+										RegisterActivity.this,
+										LoginActivity.class);
+								startActivity(intent);
+								Toast.makeText(RegisterActivity.this, "注册成功！",
+										1).show();
+							} else {
+								Toast.makeText(RegisterActivity.this, "注册失败！",
+										1).show();
+							}
+						}
+					});
 			break;
-
 		default:
 			break;
 		}
