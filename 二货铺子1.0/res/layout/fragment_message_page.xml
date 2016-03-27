@@ -19,4 +19,10 @@
 
     <View style="@style/ShadowTitle" />
 
+    <com.geminno.erhuo.view.RefreshListView
+        android:id="@+id/message_refreshListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.geminno.erhuo.view.RefreshListView>
+
 </LinearLayout>

@@ -90,7 +90,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	private boolean third = false;
 	private boolean isRefresh;
 	// -------------------
-	private List<Integer> collection = new ArrayList<Integer>();// 收藏按钮的position集合
+	private ArrayList<Integer> collection = new ArrayList<Integer>();// 收藏按钮的position集合
 	private float startX;
 	private float stopX;
 	private boolean isFavorite = false;// 是否收藏
@@ -333,7 +333,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				viewHolder.goodsName.setText(goods.getName());
 				viewHolder.goodsInfo.setText(goods.getImformation());
 				viewHolder.goodsPrice.setText("￥" + goods.getSoldPrice() + "");
-				viewHolder.pubTime.setText(goods.getPubTime().substring(2,10));
+				viewHolder.pubTime.setText(goods.getPubTime().substring(2, 10));
 				// --------------------
 				viewHolder.imagesContainer
 						.setOnClickListener(new OnClickListener() {
@@ -643,6 +643,9 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 					first = true;
 				}
 			}
+			// 传当前item的position和position集合。判断是否点过赞
+			bundle.putInt("position", position);
+			bundle.putIntegerArrayList("collection", collection);
 			intent.putExtras(bundle);
 			context.startActivity(intent);
 		}
@@ -659,8 +662,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	 *            是否收藏
 	 */
 	private void collectGoods(Goods goods, View v, boolean isFavorite) {
-		// if (!isFavorite) {
-		// 取消收藏
 		// 当前用户登录过则发请求，否则弹框提示
 		Users user = MyApplication.getCurrentUser();
 		if (user != null && goods != null) {

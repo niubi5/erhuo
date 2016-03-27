@@ -122,28 +122,28 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 	private void setSpinner() {
 		if (type.equals("苹果手机")) {
 			classif = new String[] { type, "全部分类", "平板电脑", "笔记本", "小米",
-					"数码3c", "卡劵", "美容美体", "箱包", "其他", };
+					"数码3c", "书籍文体", "美容美体", "箱包", "其他", };
 		} else if (type.equals("平板电脑")) {
 			classif = new String[] { type, "全部分类", "苹果手机", "笔记本", "小米",
-					"数码3c", "卡劵", "美容美体", "箱包", "其他", };
+					"数码3c", "书籍文体", "美容美体", "箱包", "其他", };
 		} else if (type.equals("笔记本")) {
 			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "小米",
-					"数码3c", "卡劵", "美容美体", "箱包", "其他", };
+					"数码3c", "书籍文体", "美容美体", "箱包", "其他", };
 		} else if (type.equals("小米")) {
 			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "笔记本",
-					"数码3c", "卡劵", "美容美体", "箱包", "其他", };
+					"数码3c", "书籍文体", "美容美体", "箱包", "其他", };
 		} else if (type.equals("数码3C")) {
 			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "笔记本",
-					"小米", "卡劵", "美容美体", "箱包", "其他", };
+					"小米", "书籍文体", "美容美体", "箱包", "其他", };
 		} else if (type.equals("书籍文体")) {
 			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "笔记本",
 					"小米", "数码3c", "美容美体", "箱包", "其他", };
 		} else if (type.equals("服装鞋包")) {
 			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "笔记本",
-					"小米", "数码3c", "美容美体", "卡劵", "其他", };
+					"小米", "数码3c", "美容美体", "书籍文体", "其他", };
 		} else if (type.equals("美容美体")) {
 			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "笔记本",
-					"小米", "数码3c", "卡劵", "箱包", "其他", };
+					"小米", "数码3c", "书籍文体", "箱包", "其他", };
 		}
 		String[] sort = new String[] { "排序", "默认排序", "最新发布", "离我最近", "价格最低",
 				"价格最高" };
