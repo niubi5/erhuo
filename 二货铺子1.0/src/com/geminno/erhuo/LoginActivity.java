@@ -14,6 +14,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import com.lidroid.xutils.view.ViewInjectInfo;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import android.app.Activity;
@@ -46,6 +47,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_login);
+		ViewUtils.inject(this);
+		etName.setFocusable(true);
+		etName.setFocusableInTouchMode(true);  
+		etName.requestFocus();  
 		tvRegister = (TextView) findViewById(R.id.tv_register);
 		ivBack = (ImageView) findViewById(R.id.iv_login_return);
 		Button button;
@@ -71,6 +76,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			break;
 		case R.id.iv_login_return:
 			this.finish();
+			break;
 		case R.id.btn_login:
 			Log.i("cheshi", "进来了");
 			RequestParams params = new RequestParams();
@@ -83,8 +89,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 			HttpUtils http = new HttpUtils();
 			// 服务器路径
-			String headUrl = Url.getUrlHead();
-			String url = headUrl + "/LoginServlet";
+//			String headUrl = Url.getUrlHead();
+//			String url = headUrl + "/LoginServlet";
+	     	String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
+		
 			http.send(HttpMethod.POST, url, params,
 					new RequestCallBack<String>() {
 
@@ -120,8 +128,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		case R.id.tv_forget_mima:
 			Intent intent2 = new Intent(this, ZhaoHuiActivity.class);
 			startActivity(intent2);
-			Intent intent1 = new Intent(this, ZhaoHuiActivity.class);
-			startActivity(intent1);
+			
 			break;
 
 		default:
