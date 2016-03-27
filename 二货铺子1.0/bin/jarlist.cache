@@ -1,9 +1,18 @@
 # cache for current jar dependency. DO NOT EDIT.
 # format is <lastModified> <length> <SHA-1> <path>
 # Encoding is UTF-8
+<<<<<<< HEAD
+1458268771488 88085 d06f7ca553bedcbbc7b6a9b5be1c6f2503dc5064 E:\erhuo\二货铺子1.0\libs\SMSSDK-2.0.2.jar
+1456976798000 88085 d06f7ca553bedcbbc7b6a9b5be1c6f2503dc5064 E:\Android_Eclipse_WorkSpace\SMSSDK\libs\SMSSDK-2.0.2.jar
+1456979423762 15687 daa572a22ffbbf3550a9e3e4d65045c3e3936602 E:\Android_Eclipse_WorkSpace\SMSSDK\libs\MobCommons-2016.0303.1229.jar
+1458268771354 15687 daa572a22ffbbf3550a9e3e4d65045c3e3936602 E:\erhuo\二货铺子1.0\libs\MobCommons-2016.0303.1229.jar
+1458268771303 148357 d76d489d04db5e475927a0077c8677b0e3a9fb8a E:\erhuo\二货铺子1.0\libs\MobTools-2016.0303.1229.jar
+1456979423767 148357 d76d489d04db5e475927a0077c8677b0e3a9fb8a E:\Android_Eclipse_WorkSpace\SMSSDK\libs\MobTools-2016.0303.1229.jar
+=======
 1456976798000 88085 d06f7ca553bedcbbc7b6a9b5be1c6f2503dc5064 F:\git\SMSSDK\SMSSDK\libs\SMSSDK-2.0.2.jar
 1458264565644 88085 d06f7ca553bedcbbc7b6a9b5be1c6f2503dc5064 F:\git\erhuo\二货铺子1.0\libs\SMSSDK-2.0.2.jar
 1458264565635 15687 daa572a22ffbbf3550a9e3e4d65045c3e3936602 F:\git\erhuo\二货铺子1.0\libs\MobCommons-2016.0303.1229.jar
 1456979423762 15687 daa572a22ffbbf3550a9e3e4d65045c3e3936602 F:\git\SMSSDK\SMSSDK\libs\MobCommons-2016.0303.1229.jar
 1456979423767 148357 d76d489d04db5e475927a0077c8677b0e3a9fb8a F:\git\SMSSDK\SMSSDK\libs\MobTools-2016.0303.1229.jar
 1458264565640 148357 d76d489d04db5e475927a0077c8677b0e3a9fb8a F:\git\erhuo\二货铺子1.0\libs\MobTools-2016.0303.1229.jar
+>>>>>>> branch 'master' of https://github.com/niubi5/erhuo.git

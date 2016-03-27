@@ -214,7 +214,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		context = this;
 		homeFragment = new HomeFragment(context);
 		donateFragment = new DonateFragment();
-		messageFragment = new MessageFragment();
+		messageFragment = new MessageFragment(context);
 		shopFragment = new UserInfoFragment();
 		homeBtn = (Button) findViewById(R.id.btn_main_home);
 		donateBtn = (Button) findViewById(R.id.btn_main_donate);
