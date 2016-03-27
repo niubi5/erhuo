@@ -71,7 +71,7 @@
                 android:orientation="vertical" >
 
                 <EditText
-                    android:id="@+id/editText1"
+                    android:id="@+id/et_reason"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -87,6 +87,7 @@
             </LinearLayout>
 
             <RadioGroup
+                android:id="@+id/rg_report_reason"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_report_reason"

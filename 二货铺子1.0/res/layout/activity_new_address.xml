@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
-            <ImageView style="@style/NewAddress" />
+            
         </LinearLayout>
 
         <LinearLayout
@@ -68,12 +68,11 @@
                 android:id="@+id/et_newaddress_xianshi"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:background="@drawable/shape_address"
                 android:ems="10"
                 android:textSize="@dimen/font_middle" 
                 android:hint="当前位置"
-                android:inputType="textPersonName"
                 android:layout_marginLeft="27dp" />
 
             <Button
@@ -92,9 +91,10 @@
             android:background="#F9F8F4" />
 
         <LinearLayout
+            
             android:id="@+id/lin_newshouhuo"
             style="@style/MyInfoLinearLayout"
-            android:gravity="left" >
+            android:gravity="center" >
 
             <TextView
                 android:id="@+id/tv_newaddress_shouhuo"
@@ -120,7 +120,7 @@
             android:id="@+id/lin_newphone"
             style="@style/MyInfoLinearLayout"
             
-            android:gravity="left" >
+            android:gravity="center" >
 
             <TextView
                 android:id="@+id/tv_newphone"
@@ -145,7 +145,7 @@
         <LinearLayout
             android:id="@+id/lin_newaddress_diqu"
             style="@style/MyInfoLinearLayout"
-            android:gravity="left" >
+            android:gravity="center" >
 
             <TextView
                 android:id="@+id/tv_newaddress_diqu"
@@ -170,7 +170,7 @@
         <LinearLayout
             android:id="@+id/lin_xiangxi_dizhi"
             style="@style/MyInfoLinearLayout"
-            android:gravity="left" >
+            android:gravity="center" >
 
             <TextView
                 android:id="@+id/tv_newaddress_dizhi"

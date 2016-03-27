@@ -39,7 +39,7 @@
                 android:textSize="@dimen/font_middle" />
 
             <TextView
-                android:id="@+id/et_phone"
+                android:id="@+id/et_ship_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -50,7 +50,7 @@
                 android:textSize="@dimen/font_middle"
                 android:layout_marginLeft="15dp"/>
         </LinearLayout>
-        
+    <!--     
          <LinearLayout
             android:id="@+id/lin_address"
             style="@style/MyInfoLinearLayout"
@@ -66,24 +66,38 @@
                 android:hint="所在地区"
                 android:textSize="@dimen/font_middle" />
 
-            <TextView
-                android:id="@+id/tv_specific"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="所在位置"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:inputType="textPersonName"
-                android:textSize="@dimen/font_middle"
-                android:layout_marginLeft="15dp"/>
+            
             
             <ImageView
             android:id="@+id/iv_moren"
-            style="@style/FrameTitleButtonLeft"
+            style="@style/FrameTitleButtonRight"
             android:src="@drawable/address_select_default" />
         </LinearLayout>
-        
+        -->
+        <LinearLayout
+            android:id="@+id/lin_address"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_address_qu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_gravity="center|left"
+                android:background="@null"
+                android:hint="所在地区"
+                android:textSize="@dimen/font_middle" />
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            
+             <ImageView
+            android:id="@+id/iv_moren"
+            style="@style/FrameTitleButtonRight"
+            android:src="@drawable/address_select_default" />
+            
+        </LinearLayout>
            <LinearLayout
             android:id="@+id/lin_address_specific"
             style="@style/MyInfoLinearLayout"

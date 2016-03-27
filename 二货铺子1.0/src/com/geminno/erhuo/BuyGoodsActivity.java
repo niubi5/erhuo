@@ -12,20 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.geminno.erhuo.entity.Goods;
-import com.geminno.erhuo.entity.Users;
-import com.google.gson.Gson;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.pingplusplus.android.PaymentActivity;
-import com.pingplusplus.android.PingppLog;
-import com.pingplusplus.libone.PayResultCallBack;
-import com.pingplusplus.libone.PingppOnePayment;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -40,9 +26,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +36,29 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.geminno.erhuo.entity.Goods;
+import com.geminno.erhuo.entity.Orders;
+import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.MySdf;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.pingplusplus.android.PaymentActivity;
+import com.pingplusplus.android.PingppLog;
+import com.pingplusplus.libone.PayResultCallBack;
+import com.pingplusplus.libone.PingppOnePayment;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 public class BuyGoodsActivity extends FragmentActivity implements
 		View.OnClickListener, PayResultCallBack {
@@ -411,7 +420,56 @@ public class BuyGoodsActivity extends FragmentActivity implements
 
 	//向服务器发送请求，提交订单
 	public void commitOrder(){
-		
+		Orders order = new Orders();
+		order.setGoodId(good.getId());
+		int userId = 3;//测试用，正式应从MyApplication.getCurrentUser().getId()获取
+		order.setUserId(3);
+		order.setOrderNum(getNowTime()+userId+good.getId());
+		order.setCreateTime(MySdf.getDateToString(new Date(System.currentTimeMillis())));
+		order.setPayTime(MySdf.getDateToString(new Date(System.currentTimeMillis())));
+		order.setSendTime(null);
+		order.setCompleteTime(null);
+		order.setState(0);
+		order.setLogisticsCom(null);
+		order.setLogisticsNum(null);
+		//将订单转换为json数据
+		Gson gson = new GsonBuilder().setDateFormat(
+				"yyyy-MM-dd HH:mm:ss").create();
+		String orderJson = gson.toJson(order);
+		Log.i("commitOrder", orderJson);
+		//从配置文件获取服务器url
+		Properties prop = new Properties();
+		try {
+			prop.load(BuyGoodsActivity.class.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String url = prop.getProperty("heikkiUrl")+"/AddGoodOrderServlet";
+		RequestParams rp = new RequestParams();
+		rp.addBodyParameter("orderJosn",orderJson);
+		HttpUtils hu = new HttpUtils();
+		hu.send(HttpRequest.HttpMethod.POST, url, rp, new RequestCallBack<String>() {
+			@Override
+			public void onFailure(HttpException arg0, String arg1) {
+				// TODO Auto-generated method stub
+				Log.i("commitOrder", "失败");
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> arg0) {
+				// TODO Auto-generated method stub
+				Log.i("commitOrder", "成功");
+			}
+		});
+	}
+	// 获取当前时间
+	private String getNowTime() {
+		 Date date = new Date(System.currentTimeMillis());
+		 SimpleDateFormat dateFormat = new
+		 SimpleDateFormat("yyyyMMddHHmmss");
+		 return dateFormat.format(date);
+		//return System.currentTimeMillis() + "";
 	}
 	
 	// 显示支付结果
@@ -425,6 +483,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 		// }
 		if ("success".equals(title)) {
 			str = "支付成功！";
+			commitOrder();
 		} else if ("cancel".equals(title)) {
 			str = "支付已取消！";
 		} else if ("fail".equals(title)) {

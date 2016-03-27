@@ -331,6 +331,7 @@ public class GoodsDetialActivity extends Activity {
 //				Toast.makeText(GoodsDetialActivity.this, "举报",
 //						Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(GoodsDetialActivity.this,ReportGoodActivity.class);
+				intent.putExtra("goodId", goods.getId());
 				startActivity(intent);
 			}
 		});
