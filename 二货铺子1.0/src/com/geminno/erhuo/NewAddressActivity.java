@@ -85,13 +85,14 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     			String receiptdiqu=etdiqu.getText().toString();
     			String receiptdizhi=etdizhi.getText().toString();
     			Log.i("cheshi","收货"+receiptName+ receiptPhone+receiptdiqu+receiptdizhi);
-    			if (receiptName!=null&&!receiptName.equals("null")&&receiptPhone!=null&&!receiptPhone.equals("null")&&receiptdiqu!=null&&!receiptdiqu.equals("null")&&receiptdizhi!=null&&!receiptdizhi.equals("null")) {
+    			if (receiptName.length()!=0 && !receiptName.equals("null") && receiptPhone.length()!=0 && !receiptPhone.equals("null") && receiptdiqu.length()!=0 && !receiptdiqu.equals("null") && receiptdizhi.length()!=0 && !receiptdizhi.equals("null")) {
     				Intent intent=new Intent(NewAddressActivity.this,ShipAddressActivity.class);
     				intent.putExtra("name", receiptName);
     				intent.putExtra("phone", receiptPhone);
     				intent.putExtra("diqu", receiptdiqu);
     				intent.putExtra("dizhi", receiptdizhi);
     				startActivity(intent);
+    				Log.i("cheshi","默认"+isdefault);
     				Address ads=new Address();
     				ads.setUserId(users.getId());
     				ads.setName(receiptName);
@@ -103,8 +104,8 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				RequestParams params=new RequestParams();
     				params.addQueryStringParameter("address",adds);
 //    				String headUrl = Url.getUrlHead();
-//    				String url = headUrl + "/UserInformationServlet";
-    				String url="http://10.201.1.16:8080/secondHandShop/UserInformationServlet";
+//    				String url = headUrl + "/SaveAddressServlet";
+    				String url="http://10.201.1.16:8080/secondHandShop/SaveAddressServlet";
     				httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
 						@Override

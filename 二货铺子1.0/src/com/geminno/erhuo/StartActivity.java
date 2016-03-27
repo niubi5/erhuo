@@ -39,7 +39,8 @@ public class StartActivity extends Activity {
 			startActivity(intent);
 			finish();
 			return;
-		}
+		} 
+		
 		SharedPreferences sharedPreferences = getSharedPreferences("userInfo",
 				MODE_PRIVATE);
 		

@@ -198,37 +198,41 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 	}
 	
 	private void sendAddress() {
-		String userid=users.getId()+"";
-		HttpUtils http=new HttpUtils();
-		RequestParams params=new RequestParams();
-		params.addQueryStringParameter("userid",userid);
-		// 服务器路径
-//		String headUrl = Url.getUrlHead();
-//		String url = headUrl + "/UserAddressServlet";
-		String url="http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
-		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
+		
+		 String userid=users.getId()+"";
+         if (userid!=null&&!userid.equals("null")) {
+        	 HttpUtils http=new HttpUtils();
+     		RequestParams params=new RequestParams();
+     		params.addQueryStringParameter("userid",userid);
+     		// 服务器路径
+//     		String headUrl = Url.getUrlHead();
+//     		String url = headUrl + "/UserAddressServlet";
+     		String url="http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
+     		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
-			@Override
-			public void onFailure(HttpException arg0, String arg1) {
-				// TODO Auto-generated method stub
-				
-			}
+     			@Override
+     			public void onFailure(HttpException arg0, String arg1) {
+     				// TODO Auto-generated method stub
+     				Toast.makeText(EditUserInfoActivity.this,"获取失败", Toast.LENGTH_SHORT).show();
+     			}
 
-			@Override
-			public void onSuccess(ResponseInfo<String> arg0) {
-				// TODO Auto-generated method stub
-				String result=arg0.result;
-				Log.i("cheshi", "地址："+result);
-				if(result!=null&&!result.equals("null")){
-					Gson gson = new Gson();
-					Address usersAddress =  gson.fromJson(
-							result, Address.class);
-					address.setText(usersAddress.getAddress());
-				}else {
-					address.setText("未设置地址");
-				}
-			}
-		});
+     			@Override
+     			public void onSuccess(ResponseInfo<String> arg0) {
+     				// TODO Auto-generated method stub
+     				String result=arg0.result;
+     				Log.i("cheshi", "地址："+result);
+     				if(result!=null&&!result.equals("null")){
+     					Gson gson = new Gson();
+     					Address usersAddress =  gson.fromJson(
+     							result, Address.class);
+     					address.setText(usersAddress.getAddress());
+     				}else {
+     					address.setText("未设置地址");
+     				}
+     			}
+     		});
+		}
+		
 	}
 
 }

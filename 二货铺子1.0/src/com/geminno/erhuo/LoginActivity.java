@@ -14,6 +14,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import com.lidroid.xutils.view.ViewInjectInfo;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import android.app.Activity;
@@ -47,6 +48,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_login);
+		ViewUtils.inject(this);
+		etName.setFocusable(true);
+		etName.setFocusableInTouchMode(true);
+		etName.requestFocus();
 		tvRegister = (TextView) findViewById(R.id.tv_register);
 		ivBack = (ImageView) findViewById(R.id.iv_login_return);
 		Button button;
@@ -88,6 +93,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 				// 服务器路径
 				String headUrl = Url.getUrlHead();
 				String url = headUrl + "/LoginServlet";
+		//      String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
 				http.send(HttpMethod.POST, url, params,
 						new RequestCallBack<String>() {
 
@@ -96,18 +102,16 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 									String arg1) {
 								// TODO Auto-generated method stub
 								Log.i("cheshi", "失败");
-								Toast.makeText(LoginActivity.this, "网络异常！", 0)
-										.show();
 							}
 
 							@Override
 							public void onSuccess(ResponseInfo<String> arg0) {
 								result = arg0.result;
 								if (result != null && !result.equals("null")) {
-									if(result.toString().equals("phoneIsNull")){
+									if (result.toString().equals("phoneIsNull")) {
 										Toast.makeText(LoginActivity.this,
 												"登陆失败,您还未注册！", 0).show();
-									}else{
+									} else {
 										Intent intent2 = new Intent(
 												LoginActivity.this,
 												MainActivity.class);
@@ -122,10 +126,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 												.putString("userName",
 														users.getIdentity())
 												.putString("userPwd",
-														users.getPwd()).commit();
+														users.getPwd())
+												.commit();
 										ActivityCollector.finishAll();
 									}
-									
+
 								} else {
 									Toast.makeText(LoginActivity.this,
 											"登陆失败,密码错误！", 0).show();
