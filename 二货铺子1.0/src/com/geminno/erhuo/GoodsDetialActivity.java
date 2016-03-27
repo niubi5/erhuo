@@ -22,7 +22,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
 import com.geminno.erhuo.entity.Goods;
-import com.geminno.erhuo.entity.Url;
+import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.entity.Users;
 
 import android.annotation.SuppressLint;

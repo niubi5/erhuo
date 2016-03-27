@@ -1,12 +1,20 @@
 package com.geminno.erhuo.entity;
 
-
 public class GoodsReports {
 	private int id;
 	private int goodId;
+	private int userId;// 举报人id
 	private String brief;
 	private String repTime;
 	private int state;
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 	public int getId() {
 		return id;

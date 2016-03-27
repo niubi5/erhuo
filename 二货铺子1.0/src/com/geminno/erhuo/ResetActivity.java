@@ -3,8 +3,8 @@ package com.geminno.erhuo;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;

@@ -3,9 +3,9 @@ package com.geminno.erhuo;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.ActivityCollector;
+import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -71,59 +72,74 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			break;
 		case R.id.iv_login_return:
 			this.finish();
+			break;
 		case R.id.btn_login:
 			Log.i("cheshi", "进来了");
 			RequestParams params = new RequestParams();
 			// 获取输入的账号
 			String name = etName.getText().toString();
 			String pwd = etPwd.getText().toString();
-			//
-			params.addBodyParameter("identity", name);
-			params.addBodyParameter("pwd", pwd);
+			if (TextUtils.isEmpty(etPwd.getText())) {
+				Toast.makeText(this, "请输入密码!", Toast.LENGTH_SHORT).show();
+			} else {
+				params.addBodyParameter("pwd", pwd);
+				params.addBodyParameter("identity", name);
+				HttpUtils http = new HttpUtils();
+				// 服务器路径
+				String headUrl = Url.getUrlHead();
+				String url = headUrl + "/LoginServlet";
+				http.send(HttpMethod.POST, url, params,
+						new RequestCallBack<String>() {
 
-			HttpUtils http = new HttpUtils();
-			// 服务器路径
-			String headUrl = Url.getUrlHead();
-			String url = headUrl + "/LoginServlet";
-			http.send(HttpMethod.POST, url, params,
-					new RequestCallBack<String>() {
-
-						@Override
-						public void onFailure(HttpException arg0, String arg1) {
-							// TODO Auto-generated method stub
-							Log.i("cheshi", "失败");
-						}
-
-						@Override
-						public void onSuccess(ResponseInfo<String> arg0) {
-							result = arg0.result;
-							if (result != null && !result.equals("null")) {
-								Intent intent2 = new Intent(LoginActivity.this,
-										MainActivity.class);
-								startActivity(intent2);
-								Gson gson = new Gson();
-								Users users =  gson.fromJson(
-										result, Users.class);
-								MyApplication.setUsers(users);
-								SharedPreferences shared = getSharedPreferences("userInfo", MODE_PRIVATE);
-								shared.edit().putString("userName", users.getIdentity()).putString("userPwd", users.getPwd()).commit();
-                               ActivityCollector.finishAll();
-							} else {
-								Toast.makeText(LoginActivity.this,
-										"登陆失败,您还未注册", 0).show();
+							@Override
+							public void onFailure(HttpException arg0,
+									String arg1) {
+								// TODO Auto-generated method stub
+								Log.i("cheshi", "失败");
+								Toast.makeText(LoginActivity.this, "网络异常！", 0)
+										.show();
 							}
-						}
-					});
+
+							@Override
+							public void onSuccess(ResponseInfo<String> arg0) {
+								result = arg0.result;
+								if (result != null && !result.equals("null")) {
+									if(result.toString().equals("phoneIsNull")){
+										Toast.makeText(LoginActivity.this,
+												"登陆失败,您还未注册！", 0).show();
+									}else{
+										Intent intent2 = new Intent(
+												LoginActivity.this,
+												MainActivity.class);
+										startActivity(intent2);
+										Gson gson = new Gson();
+										Users users = gson.fromJson(result,
+												Users.class);
+										MyApplication.setUsers(users);
+										SharedPreferences shared = getSharedPreferences(
+												"userInfo", MODE_PRIVATE);
+										shared.edit()
+												.putString("userName",
+														users.getIdentity())
+												.putString("userPwd",
+														users.getPwd()).commit();
+										ActivityCollector.finishAll();
+									}
+									
+								} else {
+									Toast.makeText(LoginActivity.this,
+											"登陆失败,密码错误！", 0).show();
+								}
+							}
+						});
+			}
 
 			break;
 		// 页面跳转到找回密码
 		case R.id.tv_forget_mima:
-			Intent intent2 = new Intent(this, ZhaoHuiActivity.class);
-			startActivity(intent2);
 			Intent intent1 = new Intent(this, ZhaoHuiActivity.class);
 			startActivity(intent1);
 			break;
-
 		default:
 			break;
 		}

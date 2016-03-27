@@ -5,6 +5,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.geminno.erhuo.utils.Contant;
+import com.geminno.erhuo.utils.Url;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -109,8 +116,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_verify);
 		// 调用setColor()方法,实现沉浸式状态栏
-		MainActivity.setColor(this,
-				getResources().getColor(R.color.main_red));
+		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		// 3.17短信验证
 		btnVerify = (Button) findViewById(R.id.btn_verify);
 		ivBack = (ImageView) findViewById(R.id.iv_verify_return);
@@ -144,12 +150,38 @@ public class VerifyActivity extends Activity implements OnClickListener {
 			break;
 		// 获取验证码
 		case R.id.btn_msg_verify:
+			// 判断手机号是否已注册过
+			HttpUtils http = new HttpUtils();
+			String headUrl = Url.getUrlHead();
+			String url = headUrl + "/CanRegisterServlet";
+			RequestParams params = new RequestParams();
+			params.addQueryStringParameter("identity", phone);
+			http.send(HttpRequest.HttpMethod.POST, url, params,
+					new RequestCallBack<String>() {
 
-			if (phone != null && isMobileNO(phone) == true) {
-				SMSSDK.getVerificationCode("86", phone);
-			} else {
-				toast("请输入正确的电话号码");
-			}
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+							Toast.makeText(VerifyActivity.this,
+									"网络异常！", Toast.LENGTH_SHORT)
+									.show();
+						}
+
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+							if(arg0.result.toString().equals("ok")){
+								if (phone != null && isMobileNO(phone) == true) {
+									SMSSDK.getVerificationCode("86", phone);
+								} else {
+									toast("请输入正确的电话号码");
+								}
+							}else{
+								Toast.makeText(VerifyActivity.this,
+										"该手机号码已注册过，请直接登录！", Toast.LENGTH_SHORT)
+										.show();
+							}
+							
+						}
+					});
 			break;
 		// 短信验证按钮
 		case R.id.btn_verify:
@@ -160,15 +192,14 @@ public class VerifyActivity extends Activity implements OnClickListener {
 			} else {
 				toast("请输入正确的电话号码");
 			}
-
 			break;
-		//
 		default:
 			break;
 		}
 
 	}
 
+	// 判断输入的的是否为正确的手机号码
 	public static boolean isMobileNO(String mobiles) {
 		Pattern p = Pattern
 				.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
