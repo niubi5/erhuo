@@ -1,9 +1,12 @@
 package com.geminno.erhuo;
 
+import java.lang.reflect.Type;
+
 import com.geminno.erhuo.entity.Address;
-import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -59,18 +62,21 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		  nickName.setText(users.getName());
 		}
 		String sex=users.getSex()+"";
-		if(sex!=null&&users.getSex()==1){
+		if(sex!=null&&users.getSex()==0){
 		    	male.setSelected(true);
 		}else if(sex!=null){
 				female.setSelected(true);
 		}
 		if (users.getIdentity()!=null) {
-			phone.setText(users.getIdentity());
+			String head = users.getIdentity().substring(0, 3);
+			String foot = users.getIdentity().substring(7, 11);
+			phone.setText(head + "****" + foot);
 		}
 	    
 	    
 	}
-
+	
+	
 	private void initView() {
 		//保存
 		save = (TextView) findViewById(R.id.tv_infodata_ok);
@@ -103,36 +109,55 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		//保存
 		case R.id.tv_infodata_ok:
+			
 			String username=nickName.getText().toString();
 			String userphone=phone.getText().toString();
-			HttpUtils httpUtils=new HttpUtils();
-			RequestParams params=new RequestParams();
-			params.addQueryStringParameter("name",username);
-			params.addQueryStringParameter("phone",userphone);
-			params.addQueryStringParameter("sex",sex+"");
-//			String headUrl = Url.getUrlHead();
-//			String url = headUrl + "/LoginServlet";
-			String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
-			httpUtils.send(HttpMethod.POST,url, params,
-					new RequestCallBack<String>() {
+			if (username!=users.getName()||sex!=users.getSex()) {
+				HttpUtils httpUtils=new HttpUtils();
+				RequestParams params=new RequestParams();
+				params.addQueryStringParameter("name",username);
+				params.addQueryStringParameter("phone",userphone);
+				params.addQueryStringParameter("sex",sex+"");
+				String headUrl = Url.getUrlHead();
+				String url = headUrl + "/UserInformationServlet";
+				httpUtils.send(HttpMethod.POST,url, params,
+						new RequestCallBack<String>() {
 
-						@Override
-						public void onFailure(HttpException arg0, String arg1) {
-							// TODO Auto-generated method stub
-							Log.i("cheshi","fuck");
-						}
-
-						@Override
-						public void onSuccess(ResponseInfo<String> arg0) {
-							String result=arg0.result;
-							Log.i("result","result值为："+result);
-							if (result != null && !result.equals("null")) {
-								Toast.makeText(EditUserInfoActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
-							}else {
-								Toast.makeText(EditUserInfoActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
+							@Override
+							public void onFailure(HttpException arg0, String arg1) {
+								// TODO Auto-generated method stub
+								Log.i("cheshi","fuck");
 							}
+
+							@Override
+							public void onSuccess(ResponseInfo<String> arg0) {
+								String result=arg0.result;
+								
+								
+								Log.i("cheshi","result值为："+result);
+								if (result != null && !result.equals("null")) {
+									Toast.makeText(EditUserInfoActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+									Gson gson = new Gson();
+									Type type = new TypeToken<Users>(){}.getType();
+									Users usersInfo =  gson.fromJson(
+											result,type);
+									Log.i("cheshi", "------------usersinfo:"+usersInfo.toString());
+									MyApplication.setUsers(users);
+									nickName.setText(usersInfo.getName());
+									phone.setText(usersInfo.getIdentity());
+									if(usersInfo.getSex()==1){
+								    	male.setSelected(true);
+								    }else{
+										female.setSelected(true);
+								    }
+									
+								}else {
+									Toast.makeText(EditUserInfoActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
+								}
+							}
+				});			
 						}
-			});
+		
 			break;
 		 case R.id.edit_header:
 		
@@ -174,37 +199,41 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 	}
 	
 	private void sendAddress() {
-		String phone=users.getIdentity();
-		HttpUtils http=new HttpUtils();
-		RequestParams params=new RequestParams();
-		params.addQueryStringParameter("phone",phone);
-		// 服务器路径
-//		String headUrl = Url.getUrlHead();
-//		String url = headUrl + "/UserAddressServlet";
-		String url="http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
-		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
+		
+		 String userid=users.getId()+"";
+         if (userid!=null&&!userid.equals("null")) {
+        	 HttpUtils http=new HttpUtils();
+     		RequestParams params=new RequestParams();
+     		params.addQueryStringParameter("userid",userid);
+     		// 服务器路径
+//     		String headUrl = Url.getUrlHead();
+//     		String url = headUrl + "/UserAddressServlet";
+     		String url="http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
+     		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
-			@Override
-			public void onFailure(HttpException arg0, String arg1) {
-				// TODO Auto-generated method stub
-				
-			}
+     			@Override
+     			public void onFailure(HttpException arg0, String arg1) {
+     				// TODO Auto-generated method stub
+     				Toast.makeText(EditUserInfoActivity.this,"获取失败", Toast.LENGTH_SHORT).show();
+     			}
 
-			@Override
-			public void onSuccess(ResponseInfo<String> arg0) {
-				// TODO Auto-generated method stub
-				String result=arg0.result;
-				Log.i("cheshi", "地址："+result);
-				if(result!=null&&!result.equals("null")){
-					Gson gson = new Gson();
-					Address usersAddress =  gson.fromJson(
-							result, Address.class);
-					address.setText(usersAddress.getAddress());
-				}else {
-					address.setText("未设置地址");
-				}
-			}
-		});
+     			@Override
+     			public void onSuccess(ResponseInfo<String> arg0) {
+     				// TODO Auto-generated method stub
+     				String result=arg0.result;
+     				Log.i("cheshi", "地址："+result);
+     				if(result!=null&&!result.equals("null")){
+     					Gson gson = new Gson();
+     					Address usersAddress =  gson.fromJson(
+     							result, Address.class);
+     					address.setText(usersAddress.getAddress());
+     				}else {
+     					address.setText("未设置地址");
+     				}
+     			}
+     		});
+		}
+		
 	}
 
 }

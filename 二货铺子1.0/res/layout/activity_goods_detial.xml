@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.geminno.erhuo.GoodsDetialActivity" >
 
     <FrameLayout
@@ -23,10 +24,9 @@
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/left_arrow_white"
+                android:onClick="onclick"
                 android:scaleType="centerInside"
-                android:onClick="onclick" />
+                android:src="@drawable/left_arrow_white" />
 
             <ImageView
                 android:id="@+id/iv_share_report"
@@ -34,7 +34,6 @@
                 android:layout_height="fill_parent"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
                 android:onClick="onclick"
                 android:paddingBottom="0dp"
                 android:scaleType="centerInside"
@@ -47,7 +46,6 @@
                 android:layout_centerVertical="true"
                 android:text="@string/goodsDetial"
                 android:textColor="@color/white" />
-
         </RelativeLayout>
     </FrameLayout>
 
@@ -151,6 +149,15 @@
                     android:textSize="@dimen/font_middle" />
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/rl_goods_user"
+                android:background="#C1C1C1" />
+
             <RelativeLayout
                 android:id="@+id/rl_goods_brief"
                 android:layout_width="match_parent"
@@ -189,6 +196,17 @@
                     android:singleLine="false"
                     android:text="TextView" />
             </RelativeLayout>
+            
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/rl_goods_brief"
+                android:background="#C1C1C1" />
+            
+            
         </RelativeLayout>
     </ScrollView>
 
@@ -205,57 +223,65 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_below="@+id/view3" >
-			<LinearLayout 
-			    android:layout_width="wrap_content"
-			    android:layout_height="match_parent"
-			    android:layout_weight="1"
-			    android:gravity="center_horizontal|center_vertical">
-            <ImageView
-                android:id="@+id/imageView2"
+            android:layout_below="@+id/view3"
+            android:orientation="horizontal" >
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/userinfo_favorite" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical" >
+
+                <ImageView
+                    android:id="@+id/goods_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/goodsinfo_favorite" />
             </LinearLayout>
-            <LinearLayout 
-			    android:layout_width="wrap_content"
-			    android:layout_height="match_parent"
-			    android:layout_weight="1"
-			    android:gravity="center_horizontal|center_vertical">
-            <ImageView
-                android:id="@+id/imageView3"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/comment2" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_horizontal|center_vertical" >
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/comment2" />
             </LinearLayout>
-            <LinearLayout 
-			    android:layout_width="wrap_content"
-			    android:layout_height="match_parent"
-			    android:layout_weight="1"
-			    android:background="#F7AD3D">
-            <Button 
-                android:id="@+id/btn_chat"
-                android:layout_width="match_parent"
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:textColor="@color/white"
-                android:text="@string/chat"/>
-             </LinearLayout>
-            <LinearLayout 
-			    android:layout_width="wrap_content"
-			    android:layout_height="match_parent"
-			    android:layout_weight="1"
-			    android:background="@color/main_red">
-            <Button 
-                android:id="@+id/btn_buy"
-                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:background="#F7AD3D" >
+
+                <Button
+                    android:id="@+id/btn_chat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:text="@string/chat"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:textColor="@color/white"
-                android:onClick="onclick"
-                android:text="@string/buy"/>
-             </LinearLayout>
+                android:layout_weight="1"
+                android:background="@color/main_red" >
+
+                <Button
+                    android:id="@+id/btn_buy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:onClick="onclick"
+                    android:text="@string/buy"
+                    android:textColor="@color/white" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 

@@ -1,6 +1,5 @@
 package com.geminno.erhuo.entity;
 
-import java.util.Date;
 
 /**
  * 捐赠信息

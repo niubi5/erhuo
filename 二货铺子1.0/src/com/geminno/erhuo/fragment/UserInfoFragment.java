@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class UserInfoFragment extends BaseFragment implements OnClickListener {
 
@@ -65,9 +66,10 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 	    users = MyApplication.getCurrentUser();
 		    if(users!=null&&users.getName()!=null){
 		    	btnHead.setText(users.getName());
-		    }else if (users!=null&&users.getName()==null) {
-		    	btnHead.setText("erhuo_"+users.getIdentity().substring(7,11));
-			}
+		    }
+//		    else if (users!=null&&users.getName()==null) {
+//		    	btnHead.setText("erhuo_"+users.getIdentity().substring(7,11));
+//			}
 	    }
  
 	@Override
@@ -76,11 +78,15 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		case R.id.userinfo_container:
 			// 跳转到EditUserInfoActivity
 			Log.i("onClick", "userinfo_container");
-			startActivity(new Intent(getActivity(), EditUserInfoActivity.class));
+			if(users != null){
+				startActivity(new Intent(getActivity(), EditUserInfoActivity.class));				
+			}else{
+				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT).show();
+			}
 			break;
 		case R.id.userinfo_btn_herder:
 			Log.i("onClick", "userinfo_btn_herder");
-			Users users=MyApplication.getCurrentUser();
+//			Users users=MyApplication.getCurrentUser();
 			if(users!=null&&!users.equals("null")){
 				startActivity(new Intent(getActivity(),EditUserInfoActivity.class));
 			}else {
@@ -98,7 +104,11 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 			startActivity(new Intent(getActivity(),PostageActivity.class));
 			break;	
 		case R.id.address_container:
-			startActivity(new Intent(getActivity(),ShipAddressActivity.class));
+			if(users != null){
+				startActivity(new Intent(getActivity(),ShipAddressActivity.class));				
+			}else{
+				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT).show();
+			}
 			break;
 //		case R.id.userinfo_btn_selling:
 //			Intent intent = new Intent(getActivity(),);

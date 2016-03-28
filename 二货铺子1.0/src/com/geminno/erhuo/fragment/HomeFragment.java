@@ -25,8 +25,8 @@ import com.geminno.erhuo.SearchActivity;
 import com.geminno.erhuo.adapter.HomePageAdapter;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
-import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.RefreshListView;
 import com.geminno.erhuo.view.RefreshListView.OnRefreshCallBack;
@@ -50,7 +50,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private Context context;
 	private Handler handler = new Handler();
 	private int curPage = 1; // 页数
-	private int pageSize = 3;// 一次加载几条
+	private int pageSize = 5;// 一次加载几条
 	private HomePageAdapter adapter;
 	private List<Map<Map<Goods, Users>, List<String>>> preGoods = new ArrayList<Map<Map<Goods, Users>, List<String>>>();// 记录上一次不满的记录集合
 	private List<Map<Map<Goods, Users>, List<String>>> listAll = new ArrayList<Map<Map<Goods, Users>, List<String>>>();
@@ -205,16 +205,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 												List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
 														.fromJson(result, type);
 												listAll.addAll(newGoods);
-												if (adapter == null) {
 													adapter = new HomePageAdapter(
 															context,
 															listMarkets,
 															listAll, refreshListView, isRefresh);
 													refreshListView
 															.setAdapter(adapter);
-												} else {
-													adapter.notifyDataSetChanged();
-												}
 											}
 
 										});
@@ -275,11 +271,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 						} else {
 							// 有数据，判断是否加载满,即pageSize
 							if (newGoods != null && newGoods.size() < pageSize) {
-								Log.i("erhuo", "有数据，但没加满 ");
-								// 页数不变
-								curPage--;
-								// 记录在未加载满的集合中
+								Log.i("erhuo", "有数据但没加满");
 								preGoods.addAll(newGoods);
+								//  页数不变
+								curPage--;
+								Log.i("erhuo", "curPage ：" + curPage);
 							}
 							listAll.addAll(newGoods);// 添加新查到的集合
 							// 改变数据源

@@ -1,6 +1,6 @@
 package com.geminno.erhuo;
 
-
+import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.SystemStatusManager;
 import com.google.gson.Gson;
@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class StartActivity extends Activity {
 
@@ -39,37 +40,44 @@ public class StartActivity extends Activity {
 			finish();
 			return;
 		} 
-		SharedPreferences sharedPreferences = getSharedPreferences("userInfo",MODE_PRIVATE);
-		String userName = sharedPreferences.getString("userName", "");
+		
+		SharedPreferences sharedPreferences = getSharedPreferences("userInfo",
+				MODE_PRIVATE);
+
+		final String userName = sharedPreferences.getString("userName", "");
 		String userPwd = sharedPreferences.getString("userPwd", "");
-		Log.i("cheshi", "userName,userPwd"+userName+userPwd);
-		HttpUtils httpUtils = new HttpUtils();
-//		String headUrl = Url.getUrlHead();
-//		String url = headUrl + "/LoginServlet";
-		String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
-		RequestParams params = new RequestParams();
-		params.addBodyParameter("identity", userName);
-		params.addBodyParameter("pwd", userPwd);
-		httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>(){
+		Log.i("cheshi", "userName,userPwd" + userName + userPwd);
+		if (!userName.isEmpty() && !userPwd.isEmpty()) {
+			HttpUtils httpUtils = new HttpUtils();
+			String headUrl = Url.getUrlHead();
+			String url = headUrl + "/LoginServlet";
+			// String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
+			RequestParams params = new RequestParams();
+			params.addBodyParameter("identity", userName);
+			params.addBodyParameter("pwd", userPwd);
+			httpUtils.send(HttpMethod.POST, url, params,
+					new RequestCallBack<String>() {
 
-			@Override
-			public void onFailure(HttpException arg0, String arg1) {
-				// TODO Auto-generated method stub
-				Log.i("cheshi", "罗叼");
-			}
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+							// TODO Auto-generated method stub
+							Log.i("cheshi", "罗叼");
+						}
 
-			@Override
-			public void onSuccess(ResponseInfo<String> arg0) {
-				String result = arg0.result;
-				Log.i("erhuo", result);
-				Gson gson = new Gson();
-				Users users =  gson.fromJson(
-						result, Users.class);
-				MyApplication.setUsers(users);
-			}
-			
-			
-		});
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+							String result = arg0.result;
+							Log.i("erhuo", result);
+							Gson gson = new Gson();
+							Users users = gson.fromJson(result, Users.class);
+							MyApplication.setUsers(users);
+							Toast.makeText(StartActivity.this,
+									users.getName() + ",欢迎回来！ ",
+									Toast.LENGTH_SHORT).show();
+						}
+
+					});
+		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		setTranslucentStatus();

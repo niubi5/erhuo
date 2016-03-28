@@ -3,7 +3,9 @@ package com.geminno.erhuo;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.geminno.erhuo.entity.Url;
+import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.Url;
+import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -41,6 +43,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
 	// 确认密码
 
 	EditText etpwdagain;
+	private String name;
+	private String pwd;
+	private String pwdagain;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +68,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		button = (Button) findViewById(R.id.btn_register);
 		button.setOnClickListener(this);
 		// 调用setColor()方法,实现沉浸式状态栏
-		MainActivity.setColor(this,
-				getResources().getColor(R.color.main_red));
+		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		chkAgree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
 			@Override
@@ -91,37 +95,43 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		// 注册
 		case R.id.btn_register:
 			Log.i("cheshi", "注册");
+
 			RequestParams params = new RequestParams();
-			String name = etphone.getText().toString();
-			String pwd = etpwd.getText().toString();
-			String pwdagain = etpwdagain.getText().toString();
+			name = etphone.getText().toString();
+
+			pwd = etpwd.getText().toString();
+			pwdagain = etpwdagain.getText().toString();
+
+			HttpUtils http = new HttpUtils();
 			if (!pwd.equals(pwdagain)) {
-				Toast.makeText(this, "输入密码错误", 0).show();
+				Toast.makeText(RegisterActivity.this, "两次输入的密码不一致！", 0).show();
 				return;
 			}
-			params.addQueryStringParameter("identity", name);
-			params.addQueryStringParameter("pwd", pwd);
-			
-			// String3
-			Properties prop = new Properties();
-			String headUrl = null;
-			try {
-				prop.load(LoginActivity.class
-						.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
-				headUrl = prop.getProperty("url");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Log.i("cheshi", "开始注册没有");
+			Users user = new Users();
+			user.setIdentity(name);
+			user.setPwd(pwd);
+			user.setSex(0);
+			user.setInvCode(null);
+			user.setName("erhuo" + name.substring(7, 11));
+			user.setPhoto(null);
+			user.setJifen(0);
+			Gson gson = new Gson();
+			String userJson = gson.toJson(user);
+			params.addBodyParameter("userJson", userJson);
+			String headUrl = Url.getUrlHead();
 			String url = headUrl + "/AddUserServlet";
-			// url="http://10.40.5.34:8080/secondHandShop/AddUserServlet";
-			HttpUtils http = new HttpUtils();
+			// String
+			// url="http://10.201.1.16:8080/secondHandShop/AddUserServlet";
+
 			http.send(HttpMethod.POST, url, params,
 					new RequestCallBack<String>() {
 
 						@Override
 						public void onFailure(HttpException arg0, String arg1) {
 							// TODO Auto-generated method stub
-
+							Toast.makeText(RegisterActivity.this, "网络异常！", 1)
+									.show();
 						}
 
 						@Override
@@ -129,28 +139,21 @@ public class RegisterActivity extends Activity implements OnClickListener {
 							// TODO Auto-generated method stub
 
 							String result = arg0.result;
-							Log.i("result", result);
+							Log.i("result", "最后" + result);
 							if (result != null && !result.equals("null")) {
 								Intent intent = new Intent(
 										RegisterActivity.this,
 										LoginActivity.class);
 								startActivity(intent);
-								// Toast.makeText(RegisterActivity.this, "注册成功",
-								// 1).show();
+								Toast.makeText(RegisterActivity.this, "注册成功！",
+										1).show();
 							} else {
-								Toast.makeText(RegisterActivity.this, "注册失败", 1)
-										.show();
+								Toast.makeText(RegisterActivity.this, "注册失败！",
+										1).show();
 							}
 						}
-
-						private void setAction(Intent intent) {
-							// TODO Auto-generated method stub
-
-						}
 					});
-
 			break;
-
 		default:
 			break;
 		}

@@ -8,8 +8,8 @@ import java.util.Map;
 
 import com.geminno.erhuo.adapter.HomePageAdapter;
 import com.geminno.erhuo.entity.Goods;
-import com.geminno.erhuo.entity.Url;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.view.RefreshListView;
 import com.geminno.erhuo.view.RefreshListView.OnRefreshCallBack;
 import com.google.gson.Gson;
@@ -28,18 +28,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class ClassificationActivity extends Activity implements
-		OnClickListener{
+public class ClassificationActivity extends Activity implements OnClickListener {
 
 	private Context context;
 	private Spinner classificationSpinner = null; // 分类
@@ -53,13 +49,13 @@ public class ClassificationActivity extends Activity implements
 	// spinner中的分类
 	private String[] classif = new String[] { "分类", "全部分类", "手机", "数码", "交通工具",
 			"生活文体", "二手书苑", "美妆美饰", "鞋服箱包", "其他", };
-	private String iphone = null;
+	private String type = null;
 	private String tag = null;
 	private HomePageAdapter adapter;
 	private String result = null;
 	private Handler handler = new Handler();
 	private int curPage = 1; // 页数
-	private int pageSize = 3;// 一次加载几条
+	private int pageSize = 5;// 一次加载几条
 	private boolean isRefersh = false;
 	private List<Map<Map<Goods, Users>, List<String>>> preGoods = new ArrayList<Map<Map<Goods, Users>, List<String>>>();// 记录上一次不满的记录集合
 	private List<Map<Map<Goods, Users>, List<String>>> listAll = new ArrayList<Map<Map<Goods, Users>, List<String>>>();
@@ -73,9 +69,8 @@ public class ClassificationActivity extends Activity implements
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		Intent intent = getIntent();
 		// 获得点击分类按钮传过来的tag值
-		iphone = intent.getStringExtra("iphone");
+		type = intent.getStringExtra("type");
 		tag = intent.getStringExtra("tag");
-		Log.i("erhuo", "tag的值：" + tag);
 		context = this;
 		// 返回按钮
 		findViewById(R.id.ib_fenlei).setOnClickListener(this);
@@ -125,30 +120,30 @@ public class ClassificationActivity extends Activity implements
 	}
 
 	private void setSpinner() {
-		if (iphone.equals("苹果手机")) {
-			classif = new String[] { iphone, "全部分类", "平板电脑", "笔记本", "小米",
-					"数码3c", "卡劵", "美容美体", "箱包", "其他", };
-		} else if (iphone.equals("平板电脑")) {
-			classif = new String[] { iphone, "全部分类", "苹果手机", "笔记本", "小米",
-					"数码3c", "卡劵", "美容美体", "箱包", "其他", };
-		} else if (iphone.equals("笔记本")) {
-			classif = new String[] { iphone, "全部分类", "苹果手机", "平板电脑", "小米",
-					"数码3c", "卡劵", "美容美体", "箱包", "其他", };
-		} else if (iphone.equals("小米")) {
-			classif = new String[] { iphone, "全部分类", "苹果手机", "平板电脑", "笔记本",
-					"数码3c", "卡劵", "美容美体", "箱包", "其他", };
-		} else if (iphone.equals("数码3c")) {
-			classif = new String[] { iphone, "全部分类", "苹果手机", "平板电脑", "笔记本",
-					"小米", "卡劵", "美容美体", "箱包", "其他", };
-		} else if (iphone.equals("卡券")) {
-			classif = new String[] { iphone, "全部分类", "苹果手机", "平板电脑", "笔记本",
+		if (type.equals("苹果手机")) {
+			classif = new String[] { type, "全部分类", "平板电脑", "笔记本", "小米",
+					"数码3c", "书籍文体", "美容美体", "箱包", "其他", };
+		} else if (type.equals("平板电脑")) {
+			classif = new String[] { type, "全部分类", "苹果手机", "笔记本", "小米",
+					"数码3c", "书籍文体", "美容美体", "箱包", "其他", };
+		} else if (type.equals("笔记本")) {
+			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "小米",
+					"数码3c", "书籍文体", "美容美体", "箱包", "其他", };
+		} else if (type.equals("小米")) {
+			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "笔记本",
+					"数码3c", "书籍文体", "美容美体", "箱包", "其他", };
+		} else if (type.equals("数码3C")) {
+			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "笔记本",
+					"小米", "书籍文体", "美容美体", "箱包", "其他", };
+		} else if (type.equals("书籍文体")) {
+			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "笔记本",
 					"小米", "数码3c", "美容美体", "箱包", "其他", };
-		} else if (iphone.equals("箱包")) {
-			classif = new String[] { iphone, "全部分类", "苹果手机", "平板电脑", "笔记本",
-					"小米", "数码3c", "美容美体", "卡劵", "其他", };
-		} else if (iphone.equals("美容美体")) {
-			classif = new String[] { iphone, "全部分类", "苹果手机", "平板电脑", "笔记本",
-					"小米", "数码3c", "卡劵", "箱包", "其他", };
+		} else if (type.equals("服装鞋包")) {
+			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "笔记本",
+					"小米", "数码3c", "美容美体", "书籍文体", "其他", };
+		} else if (type.equals("美容美体")) {
+			classif = new String[] { type, "全部分类", "苹果手机", "平板电脑", "笔记本",
+					"小米", "数码3c", "书籍文体", "箱包", "其他", };
 		}
 		String[] sort = new String[] { "排序", "默认排序", "最新发布", "离我最近", "价格最低",
 				"价格最高" };
@@ -224,9 +219,6 @@ public class ClassificationActivity extends Activity implements
 						List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
 								.fromJson(result, type);
 						listAll.addAll(newGoods);
-						if (result != null) {
-							Log.i("erhuo", "成功获得分类商品数据：" + result);
-						}
 						if (adapter == null) {
 							adapter = new HomePageAdapter(context, listAll,
 									refreshListView, isRefersh);
@@ -263,7 +255,6 @@ public class ClassificationActivity extends Activity implements
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
-						Log.i("erhuo", result);
 						Gson gson = new GsonBuilder()
 								.enableComplexMapKeySerialization()
 								.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -273,7 +264,6 @@ public class ClassificationActivity extends Activity implements
 								.fromJson(result, type);
 						// 判断preGoods是否有记录，如果有，则将其从总集合中删掉
 						if (!preGoods.isEmpty()) {
-							Log.i("erhuo", "清空preGoods");
 							listAll.removeAll(preGoods);
 							// 清空preGoods
 							preGoods.clear();
@@ -288,7 +278,6 @@ public class ClassificationActivity extends Activity implements
 						} else {
 							// 有数据，判断是否加载满,即pageSize
 							if (newGoods != null && newGoods.size() < pageSize) {
-								Log.i("erhuo", "有数据，但没加满 ");
 								// 页数不变
 								curPage--;
 								// 记录在未加载满的集合中
@@ -298,7 +287,7 @@ public class ClassificationActivity extends Activity implements
 							// 改变数据源
 							if (adapter == null) {
 								adapter = new HomePageAdapter(context, listAll,
-										refreshListView,isRefersh);
+										refreshListView, isRefersh);
 								refreshListView.setAdapter(adapter);
 							} else {
 								adapter.notifyDataSetChanged();
