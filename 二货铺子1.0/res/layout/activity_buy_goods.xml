@@ -23,8 +23,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:src="@drawable/left_arrow_white"
-                android:onClick="onclick" />
+                android:onClick="onclick"
+                android:src="@drawable/left_arrow_white" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -52,9 +52,9 @@
             android:id="@+id/iv_buy_good"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/goods_default"
             android:layout_gravity="center_vertical"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/goods_default" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -68,9 +68,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
-                android:textSize="@dimen/font_big"
                 android:singleLine="true"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="@dimen/font_big" />
 
             <TextView
                 android:id="@+id/tv_goods_price"
@@ -89,10 +89,10 @@
                 android:layout_alignLeft="@+id/tv_goods_name"
                 android:layout_below="@+id/tv_goods_name"
                 android:layout_marginTop="3dp"
-                android:textSize="@dimen/font_middle"
-                android:textColor="@color/dimgray"
                 android:singleLine="false"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="@color/dimgray"
+                android:textSize="@dimen/font_middle" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -113,7 +113,8 @@
         android:layout_below="@id/imageView2"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:onClick="onclick" >
 
         <ImageView
             android:id="@+id/imageView3"
@@ -122,69 +123,96 @@
             android:layout_marginLeft="15dp"
             android:src="@drawable/receive_address" />
 
-        <RelativeLayout
-            android:id="@+id/rl_address"
-            android:layout_width="fill_parent"
+      
+
+            <RelativeLayout
+                android:id="@+id/rl_address"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" >
+  <FrameLayout
+            android:id="@+id/fl_address"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent" >
+				<RelativeLayout android:id="@+id/rl_no_address"
+				    android:layout_width="match_parent"
+				    android:layout_height="match_parent"
+				    android:gravity="center_vertical|center_horizontal">
+				    <TextView 
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"
+				        android:text="@string/add_address"
+				        android:textSize="@dimen/font_huge"
+				        android:textColor="@color/dimgrey"
+				        android:gravity="center_horizontal"/>
+				</RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rl_center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible" >
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="18dp"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/my_info" />
+                    <ImageView
+                        android:id="@+id/iv_ads_user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/my_info" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imageView4"
-                android:layout_marginLeft="3dp"
-                android:layout_toRightOf="@+id/imageView4"
-                android:text="TextView"
-                android:textSize="@dimen/font_big" />
+                    <TextView
+                        android:id="@+id/tv_receive_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/iv_ads_user"
+                        android:layout_marginLeft="3dp"
+                        android:layout_toRightOf="@+id/iv_ads_user"
+                        android:text="TextView"
+                        android:textSize="@dimen/font_big" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/imageView4"
-                android:layout_below="@+id/imageView4"
-                android:layout_marginRight="30dp"
-                android:text="TextView"
-                android:textSize="@dimen/font_big" />
+                    <TextView
+                        android:id="@+id/tv_receive_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/iv_ads_user"
+                        android:layout_below="@+id/iv_ads_user"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="30dp"
+                        android:text="TextView"
+                        android:textSize="@dimen/font_big" />
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="@id/imageView4"
-                android:layout_alignTop="@+id/textView2"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/left_receiver_phone" />
+                    <TextView
+                        android:id="@+id/tv_receive_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/iv_ads_user"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/imageView5"
+                        android:text="TextView"
+                        android:textSize="@dimen/font_big" />
 
-            <TextView
-                android:id="@+id/tv_user_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imageView5"
-                android:layout_marginLeft="3dp"
-                android:layout_toRightOf="@+id/imageView5"
-                android:text="TextView"
-                android:textSize="@dimen/font_big" />
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/tv_receive_address"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/tv_receive_name"
+                        android:src="@drawable/left_receiver_phone" />
 
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/right_arrow_gray" />
-        </RelativeLayout>
+                </RelativeLayout>
+  </FrameLayout>
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/right_arrow_gray" />
+            </RelativeLayout>
+      
     </LinearLayout>
 
     <ImageView
@@ -230,20 +258,22 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white" >
+
         <View
             android:id="@+id/view3"
             style="@style/ShadowTitle2" />
+
         <Button
-        android:id="@+id/btn_pay_way"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/view3"
-        android:background="@color/main_red"
-        android:onClick="onclick"
-        android:text="@string/pay_way"
-        android:textColor="#ffffff" />
+            android:id="@+id/btn_pay_way"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/view3"
+            android:background="@color/main_red"
+            android:onClick="onclick"
+            android:text="@string/pay_way"
+            android:textColor="#ffffff" />
     </RelativeLayout>
 
 </RelativeLayout>

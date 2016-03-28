@@ -23,6 +23,7 @@ public class MyApplication extends Application {
 	private static Users curUser;
 	private static BDLocation curLocation;
 	private static List<Markets> MarketsList;
+	private static com.geminno.erhuo.entity.Address userAdds;
 
 	@Override
 	public void onCreate() {
@@ -86,6 +87,13 @@ public class MyApplication extends Application {
 
 	public static List<Markets> getMarketsList() {
 		return MarketsList;
+	}
+	//获取当前用户的默认收货地址
+	public static void setCurUserDefAddress(com.geminno.erhuo.entity.Address userAddress){
+		userAdds = userAddress;
+	}
+	public static com.geminno.erhuo.entity.Address getCurUserDefAddress(){
+		return userAdds;
 	}
 	
 }

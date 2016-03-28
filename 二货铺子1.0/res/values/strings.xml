@@ -130,7 +130,7 @@
     <string name="unionpay">银联</string>
     <string name="jd">京东</string>
     <string name="baidu">百度钱包</string>
+	<string name="add_address">添加收货地址</string>
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_system_msg">SystemMsg</string>
-
 </resources>

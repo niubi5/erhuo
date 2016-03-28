@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +31,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -37,10 +39,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.geminno.erhuo.entity.Address;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Orders;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.MySdf;
+import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lidroid.xutils.HttpUtils;
@@ -80,6 +84,11 @@ public class BuyGoodsActivity extends FragmentActivity implements
 	private ImageView ivBaidu;
 	private TextView tvPayAmount;
 	private String currentAmount = "";
+	//收货地址
+	private TextView tvReceiveName;
+	private TextView tvReceivePhone;
+	private TextView tvReceiveAddress;
+	private Button btnPayWay;
 	/**
 	 * 开发者需要填一个服务端URL 该URL是用来请求支付需要的charge。务必确保，URL能返回json格式的charge对象。
 	 * 服务端生成charge 的方式可以参考ping++官方文档，地址
@@ -118,6 +127,32 @@ public class BuyGoodsActivity extends FragmentActivity implements
 		Log.i("BuyGoodsActivity", good.toString());
 		initData();
 		initPay();
+	}
+	//获取当前用户默认收货地址
+	public void getCurUserAddress(){
+		RelativeLayout rlAddress  = (RelativeLayout) findViewById(R.id.rl_center);
+		RelativeLayout rlNewAddress = (RelativeLayout) findViewById(R.id.rl_no_address);
+		btnPayWay = (Button) findViewById(R.id.btn_pay_way);
+		if(MyApplication.getCurUserDefAddress() != null){
+			rlAddress.setVisibility(View.VISIBLE);
+			rlNewAddress.setVisibility(View.INVISIBLE);
+			Address curUserAddress = MyApplication.getCurUserDefAddress();
+			tvReceiveName = (TextView) findViewById(R.id.tv_receive_name);
+			tvReceivePhone = (TextView) findViewById(R.id.tv_receive_phone);
+			tvReceiveAddress = (TextView) findViewById(R.id.tv_receive_address);
+			
+			tvReceiveName.setText(curUserAddress.getName());
+			tvReceivePhone.setText(curUserAddress.getPhone());
+			tvReceiveAddress.setText(curUserAddress.getAddress());
+			Log.i("BuyCurAddress", tvReceiveName.getText().toString());
+			btnPayWay.setBackgroundColor(getResources().getColor(R.color.main_red));
+			btnPayWay.setEnabled(true);
+		}else{
+			rlAddress.setVisibility(View.INVISIBLE);
+			rlNewAddress.setVisibility(View.VISIBLE);
+			btnPayWay.setBackgroundColor(getResources().getColor(R.color.btn_no_click));
+			btnPayWay.setEnabled(false);
+		}
 	}
 	
 	// 初始化支付
@@ -223,6 +258,10 @@ public class BuyGoodsActivity extends FragmentActivity implements
 			ll_popup.startAnimation(AnimationUtils.loadAnimation(this,
 					R.anim.activity_translate_in));
 			pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
+			break;
+		case R.id.ll_user_address:
+			Intent intent = new Intent(BuyGoodsActivity.this,ShipAddressActivity.class);
+			startActivity(intent);
 			break;
 		default:
 			break;
@@ -525,5 +564,13 @@ public class BuyGoodsActivity extends FragmentActivity implements
 			this.amount = amount;
 		}
 	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		getCurUserAddress();
+	}
+	
 
 }

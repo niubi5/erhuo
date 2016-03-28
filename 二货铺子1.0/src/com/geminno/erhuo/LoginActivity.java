@@ -3,6 +3,7 @@ package com.geminno.erhuo;
 import java.io.IOException;
 import java.util.Properties;
 
+import com.geminno.erhuo.entity.Address;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.ActivityCollector;
 import com.geminno.erhuo.utils.Url;
@@ -13,6 +14,7 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.view.ViewInjectInfo;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -91,9 +93,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 				params.addBodyParameter("identity", name);
 				HttpUtils http = new HttpUtils();
 				// 服务器路径
-//				String headUrl = Url.getUrlHead();
-//				String url = headUrl + "/LoginServlet";
-		        String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
+				String headUrl = Url.getUrlHead();
+				String url = headUrl + "/LoginServlet";
+				// String
+				// url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
 				http.send(HttpMethod.POST, url, params,
 						new RequestCallBack<String>() {
 
@@ -120,6 +123,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 										Users users = gson.fromJson(result,
 												Users.class);
 										MyApplication.setUsers(users);
+										getCurUserAddress();
 										SharedPreferences shared = getSharedPreferences(
 												"userInfo", MODE_PRIVATE);
 										shared.edit()
@@ -149,6 +153,36 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			break;
 		}
 
+	}
+
+	// 获取当前用户默认收货地址
+	public void getCurUserAddress() {
+		Users curUser = MyApplication.getCurrentUser();
+		if (curUser != null) {
+			String url = Url.getUrlHead() + "/UserAddressServlet";
+			RequestParams rp = new RequestParams();
+			rp.addBodyParameter("curUserId", curUser.getId() + "");
+			HttpUtils hu = new HttpUtils();
+			hu.send(HttpRequest.HttpMethod.POST, url, rp,
+					new RequestCallBack<String>() {
+
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+							// TODO Auto-generated method stub
+							if (result != null && !result.equals("null")) {
+								Gson gson = new Gson();
+								Address curUserAddress = gson.fromJson(arg0.result.toString(), Address.class);
+								MyApplication.setCurUserDefAddress(curUserAddress);
+							}
+						}
+					});
+		}
 	}
 
 }
