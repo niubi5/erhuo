@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+     <LinearLayout
+        android:id="@+id/ship_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_address"
+        android:layout_above="@+id/view_xia"
+        android:background="@color/main_title_white"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/lin_ship"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_ship_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:hint="收货人"
+                android:background="@null"
+                android:textSize="@dimen/font_middle" />
+
+            <TextView
+                android:id="@+id/et_ship_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="电话号码"
+                android:layout_gravity="center"
+                android:inputType="textPersonName"
+                android:background="@null" 
+                android:textSize="@dimen/font_middle"
+                android:layout_marginLeft="15dp"/>
+        </LinearLayout>
+    <!--     
+         <LinearLayout
+            android:id="@+id/lin_address"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_address_qu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:background="@null"
+                android:hint="所在地区"
+                android:textSize="@dimen/font_middle" />
+
+            
+            
+            <ImageView
+            android:id="@+id/iv_moren"
+            style="@style/FrameTitleButtonRight"
+            android:src="@drawable/address_select_default" />
+        </LinearLayout>
+        -->
+        <LinearLayout
+            android:id="@+id/lin_address"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_address_qu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_gravity="center|left"
+                android:background="@null"
+                android:hint="所在地区"
+                android:textSize="@dimen/font_middle" />
+            <View android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"/>
+            
+             <ImageView
+            android:id="@+id/iv_moren"
+            style="@style/FrameTitleButtonRight"
+            android:src="@drawable/address_select_default" />
+            
+        </LinearLayout>
+           <LinearLayout
+            android:id="@+id/lin_address_specific"
+            style="@style/MyInfoLinearLayout"
+            android:gravity="left" >
+
+            <TextView
+                android:id="@+id/tv_ship_specific"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:background="@null"
+                android:hint="具体地址"
+                android:textSize="@dimen/font_middle" />
+
+           
+        </LinearLayout>
+    </LinearLayout>
+    
+   
+</LinearLayout>
