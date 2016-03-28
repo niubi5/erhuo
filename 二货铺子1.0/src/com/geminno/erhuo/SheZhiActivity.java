@@ -94,6 +94,7 @@ public class SheZhiActivity extends BaseActivity implements OnClickListener {
 			editor.clear().commit();
 			Users users=null;
             MyApplication.setUsers(users);
+            MyApplication.setCurUserDefAddress(null);
 			startActivity(new Intent(this, LoginActivity.class));
 			ActivityCollector.finishAll();
 			break;
