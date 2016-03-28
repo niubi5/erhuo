@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bgcolor"
+    tools:context="com.geminno.erhuo.SystemMsgActivity"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        style="@style/FrameTitleRed" >
+        
+        <ImageView
+            android:id="@+id/message_sys_back"
+            style="@style/FrameTitleButtonLeft"
+            android:onClick="msgSys"
+            android:src="@drawable/left_arrow_white" />
+
+        <TextView
+            style="@style/FrameTitleRedText"
+            android:text="@string/message" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/fail_noresult" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="暂无消息" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

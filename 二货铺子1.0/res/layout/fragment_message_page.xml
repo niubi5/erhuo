@@ -20,11 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <com.geminno.erhuo.view.RefreshListView
+        <com.geminno.erhuo.view.PullToFreshListView
             android:id="@+id/message_refreshListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-        </com.geminno.erhuo.view.RefreshListView>
+        </com.geminno.erhuo.view.PullToFreshListView>
 
         <View style="@style/ShadowTitle" />
     </FrameLayout>

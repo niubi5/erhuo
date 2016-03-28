@@ -20,7 +20,7 @@
     <style name="MyInfoLinearLayout">
         <item name="android:gravity">center</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@color/main_white</item>
+        <item name="android:background">@drawable/btn_press</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">44.0dip</item>
     </style>

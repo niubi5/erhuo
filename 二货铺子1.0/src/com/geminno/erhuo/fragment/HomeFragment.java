@@ -55,21 +55,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private List<Map<Map<Goods, Users>, List<String>>> preGoods = new ArrayList<Map<Map<Goods, Users>, List<String>>>();// 记录上一次不满的记录集合
 	private List<Map<Map<Goods, Users>, List<String>>> listAll = new ArrayList<Map<Map<Goods, Users>, List<String>>>();
 	private boolean isRefresh = false;
+	private ImageView ivhome;
+	private ImageView toUP;
 	
 	public HomeFragment(Context context) {
 		this.context = context;
 	}
-
-	public ImageCycleView getmAdView() {
-		return mAdView;
-	}
-
-	public RefreshListView getRefreshListView() {
-		return refreshListView;
-	}
-
-	ImageView ivhome;
-	ImageView toUP;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,

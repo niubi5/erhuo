@@ -60,9 +60,8 @@ public class StartActivity extends Activity {
 
 						@Override
 						public void onFailure(HttpException arg0, String arg1) {
-							// TODO Auto-generated method stub
-							Log.i("cheshi", "罗叼");
-						}
+
+							}
 
 						@Override
 						public void onSuccess(ResponseInfo<String> arg0) {

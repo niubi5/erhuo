@@ -30,6 +30,8 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 	private LinearLayout linearshezhi;
 	private LinearLayout linearyoufei;
 	private LinearLayout address;
+	private LinearLayout shoppingMall;
+	private LinearLayout share;
 	private Users users;
 
 	@Override
@@ -62,9 +64,11 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 	    linearshezhi=(LinearLayout) getView().findViewById(R.id.setting_container);
 	    linearyoufei=(LinearLayout) getView().findViewById(R.id.postage_container);
 	    address=(LinearLayout) getView().findViewById(R.id.address_container);
+	    shoppingMall = (LinearLayout) getView().findViewById(R.id.shoppingmall_container);
+	    share = (LinearLayout) getView().findViewById(R.id.share_container);
 	    initData();
 	    users = MyApplication.getCurrentUser();
-		    if(users!=null&&users.getName()!=null){
+		    if(users!=null && users.getName()!=null){
 		    	btnHead.setText(users.getName());
 		    }
 //		    else if (users!=null&&users.getName()==null) {
@@ -112,8 +116,6 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 			break;
 //		case R.id.userinfo_btn_selling:
 //			Intent intent = new Intent(getActivity(),);
-			
-
 //			startActivity(new Intent(getActivity(), PostageActivity.class));
 //			break;
 		}
