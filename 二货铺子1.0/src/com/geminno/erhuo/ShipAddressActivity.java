@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 
 import com.geminno.erhuo.entity.Address;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
@@ -49,39 +50,45 @@ public class ShipAddressActivity extends Activity implements OnClickListener{
 		shipdizhi = (TextView) findViewById(R.id.tv_ship_specific);
 		findViewById(R.id.ib_address_return).setOnClickListener(this);
 	  	findViewById(R.id.but_address_xin).setOnClickListener(this);
-//		users = MyApplication.getCurrentUser();
-//		String userId=users.getId()+"";
-//		HttpUtils httpUtils=new HttpUtils();
-//		RequestParams params=new RequestParams();
-////		String headUrl = Url.getUrlHead();
-////		String url = headUrl + "/UserAddressServlet";
-//		String url="http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
-//		params.addQueryStringParameter("userid",userId);
-//		httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
-//
-//			@Override
-//			public void onFailure(HttpException arg0, String arg1) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onSuccess(ResponseInfo<String> arg0) {
-//				// TODO Auto-generated method stub
-//				String result=arg0.result;
-//				if (users!=null&&!users.equals("null")) {
-//					Gson gson = new Gson();
-//					Type type = new TypeToken<Address>(){}.getType();
-//					Address address =  gson.fromJson(
-//							result,type);
-//					shipName.setText(address.getName());
-//					shipPhone.setText(address.getPhone());
-//					String shipaddress=address.getAddress().toString();
-//					shipdiqu.setText(shipaddress.substring(0,shipaddress.indexOf("市"))+"市");
-//					shipdizhi.setText(shipaddress);
-//				}
-//			}
-//		});
+		users = MyApplication.getCurrentUser();
+		Log.i("CurrentUser", users.toString());
+		String userId=users.getId()+"";
+		HttpUtils httpUtils=new HttpUtils();
+		RequestParams params=new RequestParams();
+		String headUrl = Url.getUrlHead();
+		String url = headUrl + "/UserAddressServlet";
+		//String url="http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
+		params.addQueryStringParameter("userid",userId);
+		httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
+
+			@Override
+			public void onFailure(HttpException arg0, String arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> arg0) {
+				// TODO Auto-generated method stub
+				String result=arg0.result;
+				if (users!=null&&!users.equals("null")) {
+					Gson gson = new Gson();
+					Type type = new TypeToken<Address>(){}.getType();
+					Address address =  gson.fromJson(
+							result,type);
+					MyApplication.setCurUserDefAddress(address);
+					shipName.setText(address.getName());
+					shipPhone.setText(address.getPhone());
+					String shipaddress=address.getAddress().toString();
+					if(shipaddress.indexOf("市") != -1){
+						shipdiqu.setText(shipaddress.substring(0,shipaddress.indexOf("市"))+"市");						
+					}else{
+						shipdiqu.setText(shipaddress);
+					}
+					shipdizhi.setText(shipaddress);
+				}
+			}
+		});
 	}
 	
 	
