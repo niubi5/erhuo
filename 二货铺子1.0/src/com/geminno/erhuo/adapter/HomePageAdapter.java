@@ -2,7 +2,6 @@ package com.geminno.erhuo.adapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,6 @@ import com.geminno.erhuo.GoodsDetialActivity;
 import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.entity.ADInfo;
-import com.geminno.erhuo.entity.Collections;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
@@ -46,7 +44,6 @@ import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
 import com.geminno.erhuo.view.RefreshListView;
-import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -59,6 +56,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * @author LuoShiHeng
  * @version 创建时间:2016-3-15下午1:48:37
  */
+@SuppressLint("InflateParams")
 public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		OnItemClickListener {
 
@@ -91,9 +89,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	private boolean isRefresh;
 	// -------------------
 	private ArrayList<Integer> collection = new ArrayList<Integer>();// 收藏按钮的position集合
-	private float startX;
-	private float stopX;
-	private boolean isFavorite = false;// 是否收藏
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	// 广告图片
 	private String[] imageUrls = {
@@ -169,7 +164,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		typeCount = 4;
 		scale = context.getResources().getDisplayMetrics().density;
 		px1 = (int) (200 * scale + 0.5f);
-		px2 = (int) (180 * scale + 0.5f);
+		px2 = (int) (195 * scale + 0.5f);
 		px3 = (int) (112.5 * scale + 0.5f);
 		params3 = new LayoutParams(px1, px1);
 		imageMarket = new LayoutParams(px2, px3);
@@ -468,9 +463,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 					father.addView(tvMarketName);
 					father.addView(son);
 					viewHolder.grandpa.addView(father);
-					viewHolder.grandpa.addView(viewPadding);
+					if (i != listMarkets.size() - 1) {
+						viewHolder.grandpa.addView(viewPadding);
+					}
 				}
-
 			}
 			convertView.setTag(viewHolder);
 		} else {
@@ -610,6 +606,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {

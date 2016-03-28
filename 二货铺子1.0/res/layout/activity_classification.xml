@@ -45,22 +45,7 @@
             android:background="@color/white"
             android:dropDownWidth="600dp" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent" />
-
-        <Spinner
-            android:id="@+id/spinner3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:dropDownWidth="600dp" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp" />
 
     <com.geminno.erhuo.view.RefreshListView
         android:id="@+id/listView_class"
