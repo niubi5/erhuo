@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -39,7 +40,8 @@ import com.geminno.erhuo.fragment.MessageFragment;
 import com.geminno.erhuo.fragment.UserInfoFragment;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
-
+	private View flMain;
+	public static Activity mainActivity;
 	private Context context;
 	private HomeFragment homeFragment;
 	private DonateFragment donateFragment;
@@ -65,13 +67,21 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
+		flMain = (FrameLayout) findViewById(R.id.parent_main);
+		mainActivity = this;
 		// 调用setColor()方法
-		setColor(this, getResources().getColor(R.color.main_red));
+		//setColor(this, getResources().getColor(R.color.main_red));
 		mLocationClient = new LocationClient(getApplicationContext()); // 声明LocationClient类
 		mLocationClient.registerLocationListener(myListener);
 		initView();
 		initLocation();
 		mLocationClient.start();
+		///透明状态栏
+		getWindow()
+				.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+		//透明导航栏
+		getWindow().addFlags(
+				WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 	}
 
 	// 沉浸式状态栏
@@ -277,7 +287,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		btns.get(nextIndex).setSelected(true);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void changeFragment(int nextIndex) {
+		
 		// 判断是否是当前选中的fragment
 		if (currentIndex != nextIndex) {
 			FragmentTransaction transaction = getSupportFragmentManager()
@@ -289,6 +301,12 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				// 未添加，则先添加
 				transaction.add(R.id.fragment_container,
 						fragments.get(nextIndex));
+			}
+			if(nextIndex == 3){
+				flMain.setBackgroundResource(R.drawable.img_my_bg);
+				//flMain.setBackground(getResources().getDrawable(R.drawable.img_my_bg));
+			}else{
+				flMain.setBackgroundColor(getResources().getColor(R.color.main_red));
 			}
 			transaction.show(fragments.get(nextIndex)).commit();
 		}

@@ -22,17 +22,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewAddressActivity extends Activity implements OnClickListener{
 	
-    private EditText etxianshi;  //定位显示
+    private TextView etxianshi;  //定位显示
     private EditText etname;//收货人
     private EditText etnewphone;//收货人电话
     private EditText etdiqu;//地区
     private EditText etdizhi;//详细地址
+    private ImageView ivReturn;
 	private String address;
 	private String isdefault="no";
 	private Users users;
@@ -50,18 +52,21 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 		// 调用setColor()方法,实现沉浸式状态栏
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 	    create();
+	    getCurAddress();
 	}
    
 	private void create() {
-		etxianshi=(EditText) findViewById(R.id.et_newaddress_xianshi);
+		etxianshi=(TextView) findViewById(R.id.et_newaddress_xianshi);
 		etname=(EditText) findViewById(R.id.et_newaddress_name);
 		etnewphone=(EditText) findViewById(R.id.et_newphone);
 		etdiqu=(EditText) findViewById(R.id.et_newaddress_diqu);
 		etdizhi=(EditText) findViewById(R.id.et_dizhi);
+		ivReturn = (ImageView) findViewById(R.id.ib_newaddress_return);
 		findViewById(R.id.check_moren).setOnClickListener(this);
 		findViewById(R.id.but_shiyong).setOnClickListener(this);
 		findViewById(R.id.but_baochun).setOnClickListener(this);
 		findViewById(R.id.tv_dingwei).setOnClickListener(this);
+		ivReturn.setOnClickListener(this);
 	}
 
 	@Override
@@ -70,13 +75,13 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 		switch (v.getId()) {
 		//定位
 		case R.id.tv_dingwei:
-			if (MyApplication.getLocation()!=null) {
-				address = MyApplication.getLocation().getAddrStr().toString();
-				etxianshi.setText(address);
-				Log.i("cheshi", "定位2："+address);
-			}else {
-				etxianshi.setText("定位失败");
-			}
+//			if (MyApplication.getLocation()!=null) {
+//				address = MyApplication.getLocation().getAddrStr().toString();
+//				etxianshi.setText(address);
+//				Log.i("cheshi", "定位2："+address);
+//			}else {
+//				etxianshi.setText("定位失败");
+//			}
 			
 			break;
 		//保存信息
@@ -106,7 +111,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				String adds=new Gson().toJson(ads);
     				HttpUtils httpUtils=new HttpUtils();
     				RequestParams params=new RequestParams();
-    				params.addQueryStringParameter("address",adds);
+    				params.addBodyParameter("address",adds);
     				String headUrl = Url.getUrlHead();
     				String url = headUrl + "/SaveAddressServlet";
 //    				String url="http://10.201.1.16:8080/secondHandShop/SaveAddressServlet";
@@ -130,6 +135,8 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 			    				intent.putExtra("diqu", receiptdiqu);
 			    				intent.putExtra("dizhi", receiptdizhi);
 			    				startActivity(intent);
+			    				ShipAddressActivity.shipAddressActivity.finish();
+			    				finish();
 							}
 						}
 					});
@@ -147,14 +154,27 @@ public class NewAddressActivity extends Activity implements OnClickListener{
         	if (address!=null) {
 				String newaddress=address.substring(0,address.indexOf("市"));
 				etdiqu.setText(newaddress+"市");
-				etdizhi.setText(address);
+				etdizhi.setText(address.substring(address.indexOf("市")+1));
 				Log.i("cheshi",newaddress );
 			}
+        	break;
+        case R.id.ib_newaddress_return:
+        	finish();
         	break;
 		default:
 			break;
 		}
 		
+	}
+	
+	public void getCurAddress(){
+		if (MyApplication.getLocation()!=null) {
+			address = MyApplication.getLocation().getAddrStr().toString();
+			etxianshi.setText(address);
+			Log.i("cheshi", "定位2："+address);
+		}else {
+			etxianshi.setText("定位失败");
+		}
 	}
 
 	

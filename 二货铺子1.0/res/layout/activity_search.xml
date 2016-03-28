@@ -42,7 +42,7 @@
             android:layout_marginRight="14dp"
             android:text="搜索"
             android:textColor="@color/main_white"
-            android:textSize="20sp" />
+            android:textSize="@dimen/font_huge" />
 
     </RelativeLayout>
 

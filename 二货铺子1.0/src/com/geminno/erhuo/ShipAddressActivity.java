@@ -26,7 +26,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 public class ShipAddressActivity extends Activity implements OnClickListener{
-
+	public static Activity shipAddressActivity;
 	private TextView shipName;
 	private TextView shipPhone;
 	private TextView shipdiqu;
@@ -37,6 +37,7 @@ public class ShipAddressActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_ship_address);
+		shipAddressActivity = this;
 		//调用setColor()方法,实现沉浸式状态栏
 	  	MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 	  	create();
@@ -71,18 +72,18 @@ public class ShipAddressActivity extends Activity implements OnClickListener{
 			public void onSuccess(ResponseInfo<String> arg0) {
 				// TODO Auto-generated method stub
 				String result=arg0.result;
-				if (users!=null&&!users.equals("null")) {
+				if (result!=null&&!result.equals("null")) {
 					Gson gson = new Gson();
 					Type type = new TypeToken<Address>(){}.getType();
 					Address address =  gson.fromJson(
 							result,type);
+					Log.i("CurAddress", result);
 					MyApplication.setCurUserDefAddress(address);
 					shipName.setText(address.getName());
 					shipPhone.setText(address.getPhone());
 					String shipaddress=address.getAddress().toString();
-					String adsString=shipaddress.substring(0,shipaddress.indexOf("市"));
-					Log.i("cheshi", "截取地址"+adsString);
-					shipdiqu.setText(adsString+"市");
+//					Log.i("cheshi", "截取地址"+adsString);
+//					shipdiqu.setText(adsString+"市");
 					if(shipaddress.indexOf("市") != -1){
 						shipdiqu.setText(shipaddress.substring(0,shipaddress.indexOf("市"))+"市");						
 					}else{

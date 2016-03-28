@@ -132,6 +132,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 												.putString("userPwd",
 														users.getPwd())
 												.commit();
+										Toast.makeText(MainActivity.mainActivity, users.getName()+",欢迎您！", Toast.LENGTH_SHORT).show();
 										ActivityCollector.finishAll();
 									}
 
@@ -177,11 +178,23 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 							// TODO Auto-generated method stub
 							if (result != null && !result.equals("null")) {
 								Gson gson = new Gson();
-								Address curUserAddress = gson.fromJson(arg0.result.toString(), Address.class);
-								MyApplication.setCurUserDefAddress(curUserAddress);
+								Address curUserAddress = gson.fromJson(
+										arg0.result.toString(), Address.class);
+								MyApplication
+										.setCurUserDefAddress(curUserAddress);
 							}
 						}
 					});
+		}
+	}
+
+	@Override
+	public void finish() {
+		// TODO Auto-generated method stub
+		super.finish();
+		if (isTaskRoot()) {
+			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+			startActivity(intent);
 		}
 	}
 

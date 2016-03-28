@@ -3,26 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bgcolor"
-    android:clipToPadding="true"
-    android:fitsSystemWindows="true"
     android:orientation="vertical" >
-    
+
     <LinearLayout
         android:id="@+id/lin_user_xinxi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
         android:orientation="vertical" >
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/person_center_herder_container"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@drawable/img_my_bg" >
+            android:background="@drawable/img_my_bg"
+            android:gravity="center_vertical|center_horizontal" >
 
             <Button
                 android:id="@+id/userinfo_btn_herder"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:drawableTop="@drawable/header_default"
                 android:paddingBottom="2dip"
@@ -31,7 +32,7 @@
                 android:text="未登录"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/font_tiny" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/userinfo_tabs"
