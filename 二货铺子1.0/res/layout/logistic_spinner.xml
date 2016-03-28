@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="TextView" 
-        android:textSize="16sp"
+        android:textSize="@dimen/font_middlesmall"
         android:layout_marginLeft="20dp"
         />
 
