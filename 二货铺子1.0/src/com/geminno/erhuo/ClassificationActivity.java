@@ -138,6 +138,7 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 						if (position != 0) {
 							tag = position + "";
 							listAll.clear();
+							isRefersh = true;
 							curPage = 1;
 							initData();
 						}
@@ -205,13 +206,13 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 						List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
 								.fromJson(result, type);
 						listAll.addAll(newGoods);
-						if (adapter == null) {
+//						if (adapter == null) {
 							adapter = new HomePageAdapter(context, listAll,
 									refreshListView, isRefersh);
 							refreshListView.setAdapter(adapter);
-						} else {
-							adapter.notifyDataSetChanged();
-						}
+//						} else {
+//							adapter.notifyDataSetChanged();
+//						}
 
 					}
 				});
