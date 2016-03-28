@@ -35,6 +35,10 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 	private String address;
 	private String isdefault="no";
 	private Users users;
+	private String receiptName;
+	private String receiptPhone;
+	private String receiptdiqu;
+	private String receiptdizhi;
     //private Button butshiyong;//使用按钮
     //private TextView tvdingwei;//定位按钮
     //private Button butbaochun;//保存按钮
@@ -82,18 +86,12 @@ public class NewAddressActivity extends Activity implements OnClickListener{
         case R.id.but_baochun:
         	users = MyApplication.getCurrentUser();
         	if (users!=null&&!users.equals("null")) {
-        		String receiptName=etname.getText().toString();
-    			String receiptPhone=etnewphone.getText().toString().trim();
-    			String receiptdiqu=etdiqu.getText().toString();
-    			String receiptdizhi=etdizhi.getText().toString();
+        		receiptName = etname.getText().toString();
+    			receiptPhone = etnewphone.getText().toString().trim();
+    			receiptdiqu = etdiqu.getText().toString();
+    			receiptdizhi = etdizhi.getText().toString();
     			Log.i("cheshi","收货"+receiptName+ receiptPhone+receiptdiqu+receiptdizhi);
     			if (receiptName.length()!=0 && !receiptName.equals("null") && receiptPhone.length()!=0 && !receiptPhone.equals("null") && receiptdiqu.length()!=0 && !receiptdiqu.equals("null") && receiptdizhi.length()!=0 && !receiptdizhi.equals("null")) {
-    				Intent intent=new Intent(NewAddressActivity.this,ShipAddressActivity.class);
-    				intent.putExtra("name", receiptName);
-    				intent.putExtra("phone", receiptPhone);
-    				intent.putExtra("diqu", receiptdiqu);
-    				intent.putExtra("dizhi", receiptdizhi);
-    				startActivity(intent);
     				Log.i("cheshi","默认"+isdefault);
     				Address ads=new Address();
     				ads.setUserId(users.getId());
@@ -122,6 +120,12 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 							String result=arg0.result;
 							if (result != null && !result.equals("null")) {
 								Toast.makeText(NewAddressActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+								Intent intent=new Intent(NewAddressActivity.this,ShipAddressActivity.class);
+			    				intent.putExtra("name", receiptName);
+			    				intent.putExtra("phone", receiptPhone);
+			    				intent.putExtra("diqu", receiptdiqu);
+			    				intent.putExtra("dizhi", receiptdizhi);
+			    				startActivity(intent);
 							}
 						}
 					});
@@ -139,6 +143,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
         	if (address!=null) {
 				String newaddress=address.substring(0,address.indexOf("市"));
 				etdiqu.setText(newaddress+"市");
+				etdizhi.setText(address);
 				Log.i("cheshi",newaddress );
 			}
         	break;

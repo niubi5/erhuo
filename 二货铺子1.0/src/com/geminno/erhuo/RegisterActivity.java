@@ -121,35 +121,23 @@ public class RegisterActivity extends Activity implements OnClickListener {
 			params.addBodyParameter("userJson", userJson);
 			String headUrl = Url.getUrlHead();
 			String url = headUrl + "/AddUserServlet";
-			// String
-			// url="http://10.201.1.16:8080/secondHandShop/AddUserServlet";
-
 			http.send(HttpMethod.POST, url, params,
 					new RequestCallBack<String>() {
-
 						@Override
 						public void onFailure(HttpException arg0, String arg1) {
-							// TODO Auto-generated method stub
 							Toast.makeText(RegisterActivity.this, "网络异常！", 1)
 									.show();
 						}
-
 						@Override
 						public void onSuccess(ResponseInfo<String> arg0) {
-							// TODO Auto-generated method stub
-
 							String result = arg0.result;
 							Log.i("result", "最后" + result);
 							if (result != null && !result.equals("null")) {
-								Intent intent = new Intent(
-										RegisterActivity.this,
-										LoginActivity.class);
+								Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
 								startActivity(intent);
-								Toast.makeText(RegisterActivity.this, "注册成功！",
-										1).show();
+								Toast.makeText(RegisterActivity.this, "注册成功！",1).show();
 							} else {
-								Toast.makeText(RegisterActivity.this, "注册失败！",
-										1).show();
+								Toast.makeText(RegisterActivity.this, "注册失败！",1).show();
 							}
 						}
 					});
