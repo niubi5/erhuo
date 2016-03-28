@@ -226,7 +226,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 							 * 获得用户输入的信息,将其封装成Donation对象
 							 */
 							Donation donation = new Donation();
-							donation.setUesrId(1);
+							donation.setUserId(1);
 							donation.setTitle(title);
 							donation.setDetail(content);
 							SimpleDateFormat sdf = new SimpleDateFormat(
@@ -235,41 +235,49 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 							donation.setLogistics(logistics);
 							donation.setAddress(address);
 
-							Log.i("donation", donation.toString());
-							Gson gson = new GsonBuilder().create();
+							Log.i("donation",
+									"" + donation.getUserId()
+											+ donation.getTitle()
+											+ donation.getDetail()
+											+ donation.getTime()
+											+ donation.getLogistics()
+											+ donation.getAddress());
+							Gson gson = new GsonBuilder().setDateFormat(
+									"yyyy-MM-dd hh:mm:ss").create();
 							String donationGson = gson.toJson(donation);
 
 							// 传参数
 							String url = "http://10.201.1.20:8080/secondHandShop/HelpsServlet";
 							RequestParams rp = new RequestParams();
 							rp.addBodyParameter("DonationRequest", donationGson);
-							
+
 							int count = 0;
 							for (ImageItem image : Bimp.tempSelectBitmap) {
 								File file = new File(image.getImagePath());
-								rp.addBodyParameter(1 + count + getNowTime(), file);
-								Log.i("uploadimage",1  + count + getNowTime());
+								rp.addBodyParameter(1 + count + getNowTime(),
+										file);
+								Log.i("uploadimage", 1 + count + getNowTime());
 								count++;
-								Log.i("donation",String.valueOf(count));
+								Log.i("donation", String.valueOf(count));
 							}
 							Log.i("params", rp.toString());
 							// 连接服务器
 							HttpUtils hu = new HttpUtils();
-							hu.send(HttpMethod.POST, url,rp,
+							hu.send(HttpMethod.POST, url, rp,
 									new RequestCallBack<String>() {
 
 										@Override
 										public void onFailure(
 												HttpException arg0, String arg1) {
-											Log.i("Request","请求失败");
-											
+											Log.i("Request", "请求失败");
+
 										}
 
 										@Override
 										public void onSuccess(
 												ResponseInfo<String> arg0) {
-											Log.i("Request","请求成功");
-											
+											Log.i("Request", "请求成功");
+
 										}
 									});
 						} else {
@@ -659,9 +667,9 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 			Bimp.tempSelectBitmap.clear();
 		}
 	}
-	
+
 	// 获取系统当前时间
-	public String getNowTime(){
+	public String getNowTime() {
 		return System.currentTimeMillis() + "";
 	}
 

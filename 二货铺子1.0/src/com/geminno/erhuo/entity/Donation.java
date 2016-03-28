@@ -16,7 +16,7 @@ public class Donation {
 	/**
 	 * 用户id
 	 */
-	private Integer uesrId;
+	private Integer userId;
 	/**
 	 * 用户头像
 	 */
@@ -76,13 +76,13 @@ public class Donation {
 		super();
 	}
 
-	public Donation(Integer id, Integer uesrId, Integer userHeadImage,
+	public Donation(Integer id, Integer userId, Integer userHeadImage,
 			Integer image, String userName, String time, String detail,
 			Integer addressImage, String address, String logistics,
 			String consignee, Integer state) {
 		super();
 		this.id = id;
-		this.uesrId = uesrId;
+		this.userId = userId;
 		this.userHeadImage = userHeadImage;
 		this.image = image;
 		this.userName = userName;
@@ -103,12 +103,12 @@ public class Donation {
 		this.id = id;
 	}
 
-	public Integer getUesrId() {
-		return uesrId;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUesrId(Integer uesrId) {
-		this.uesrId = uesrId;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getLogistics() {
