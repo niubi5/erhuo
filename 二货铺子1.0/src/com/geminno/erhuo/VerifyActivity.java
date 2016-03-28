@@ -34,55 +34,37 @@ import android.widget.Toast;
 public class VerifyActivity extends Activity implements OnClickListener {
 
 	EventHandler eh = new EventHandler() {
-
 		@Override
 		// 主体方法，供回调试用
 		public void afterEvent(int event, int result, Object data) {
-
 			Log.i("Msm", "event:" + event + "    result:" + result
 					+ "    data:" + data.toString());
-
 			switch (event) {
 			// 验证的时候使用
 			case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:
 				Log.i("result", "验证码结果");
-
 				if (result == SMSSDK.RESULT_COMPLETE) {
-
 					Intent intent = new Intent(VerifyActivity.this,
 							RegisterActivity.class);
 					intent.putExtra("phone", phone);
 					Log.i("result", "phone:" + phone);
 					startActivity(intent);
 				} else {
-
 					toast("请输入正确的验证码");
-
 				}
-
 				break;
 			// 得到验证码时候使用
 			case SMSSDK.EVENT_GET_VERIFICATION_CODE:
 				Log.i("result", result + "");
-
 				if (result == SMSSDK.RESULT_COMPLETE) {
-
 					toast("获取验证码成功");
-
 					// 默认的智能验证是开启的,我已经在后台关闭
-
 				} else {
-
 					toast("获取验证码失败");
-
 				}
-
 				break;
-
 			}
-
 		}
-
 	};
 
 	private void toast(final String str) {
@@ -129,9 +111,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		butmsgverify.setOnClickListener(this);
 		ivBack.setOnClickListener(this);
 		// Mob创建发送验证码应用的key，secret
-
 		SMSSDK.initSDK(this, Contant.APPKEY, Contant.SECRET);
-
 		// //发送短信，也会回调前面的方法
 		SMSSDK.registerEventHandler(eh);
 
