@@ -2,6 +2,7 @@ package com.geminno.erhuo;
 
 import com.geminno.erhuo.entity.Address;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -99,13 +100,16 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				ads.setPhone(receiptPhone);
     				ads.setAddress(receiptdizhi);
     				ads.setIsdefault(isdefault);
+    				if(ads.getIsdefault().equals("yes")){
+    					MyApplication.setCurUserDefAddress(ads);
+    				}
     				String adds=new Gson().toJson(ads);
     				HttpUtils httpUtils=new HttpUtils();
     				RequestParams params=new RequestParams();
     				params.addQueryStringParameter("address",adds);
-//    				String headUrl = Url.getUrlHead();
-//    				String url = headUrl + "/SaveAddressServlet";
-    				String url="http://10.201.1.16:8080/secondHandShop/SaveAddressServlet";
+    				String headUrl = Url.getUrlHead();
+    				String url = headUrl + "/SaveAddressServlet";
+//    				String url="http://10.201.1.16:8080/secondHandShop/SaveAddressServlet";
     				httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
 						@Override

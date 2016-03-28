@@ -60,9 +60,8 @@ public class StartActivity extends Activity {
 
 						@Override
 						public void onFailure(HttpException arg0, String arg1) {
-							// TODO Auto-generated method stub
-							Log.i("cheshi", "罗叼");
-						}
+
+							}
 
 						@Override
 						public void onSuccess(ResponseInfo<String> arg0) {
@@ -71,6 +70,7 @@ public class StartActivity extends Activity {
 							Gson gson = new Gson();
 							Users users = gson.fromJson(result, Users.class);
 							MyApplication.setUsers(users);
+							Log.i("CurrentUser", "StartCurrentUser:"+users.getId());
 							Toast.makeText(StartActivity.this,
 									users.getName() + ",欢迎回来！ ",
 									Toast.LENGTH_SHORT).show();

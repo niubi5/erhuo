@@ -41,19 +41,11 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	private RotateAnimation downAnimation;
 	private int firstVisibleItem;// 第一条可见的位置
 	private boolean loading = false;// 正在加载
-	
 
 	public RefreshListView(Context context) {
 		super(context);
 		initHead(context);
 		initFoot(context);
-		initAnimation(context);
-		setOnScrollListener(this);
-	}
-	
-	public RefreshListView(Context context, boolean showFoot){
-		super(context);
-		initHead(context);
 		initAnimation(context);
 		setOnScrollListener(this);
 	}
@@ -239,6 +231,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 					refreshCallBack.onPull();
 				}
 			}
+
 		}
 	}
 

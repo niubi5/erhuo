@@ -5,8 +5,8 @@ import java.util.List;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.adapter.MessagePageAdapter;
 import com.geminno.erhuo.entity.Messages;
-import com.geminno.erhuo.view.RefreshListView;
-import com.geminno.erhuo.view.RefreshListView.OnRefreshCallBack;
+import com.geminno.erhuo.view.PullToFreshListView;
+import com.geminno.erhuo.view.PullToFreshListView.OnPullTofreshCallBack;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,7 +21,7 @@ public class MessageFragment extends BaseFragment {
 	private View view;
 	private Context context;
 	private List<Messages> message;
-	private RefreshListView refreshListView;
+	private PullToFreshListView pullToFreshListView;
 	private Handler handler = new Handler();
 
 	public MessageFragment(Context context) {
@@ -37,33 +37,21 @@ public class MessageFragment extends BaseFragment {
 
 	@Override
 	protected void initView() {
-		refreshListView = new RefreshListView(context, false);
-		refreshListView = (RefreshListView) view
+		pullToFreshListView = (PullToFreshListView) view
 				.findViewById(R.id.message_refreshListView);
-		initData();
-		refreshListView.setOnRefreshCallBack(new OnRefreshCallBack() {
-
+		initData();// 初始化数据操作
+		pullToFreshListView.setOnPullToFresh(new OnPullTofreshCallBack() {
+			
 			@Override
 			public void onRefresh() {
-				handler.postDelayed(new Runnable() {
+				handler.postDelayed(new Runnable(){
 
 					@Override
 					public void run() {
-						refreshListView.completeRefresh();
+						// 刷新操作
+						pullToFreshListView.completeRefresh();
 					}
-
-				}, 2000);
-			}
-
-			@Override
-			public void onPull() {
-				handler.postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						refreshListView.completePull();
-					}
-
+					
 				}, 2000);
 			}
 		});
@@ -72,14 +60,13 @@ public class MessageFragment extends BaseFragment {
 	@Override
 	protected void initData() {
 		// ---------------------- 
-		MessagePageAdapter adapter = new MessagePageAdapter(context, message);
-		refreshListView.setAdapter(adapter);
+		MessagePageAdapter adapter = new MessagePageAdapter(context, message, pullToFreshListView);
+		pullToFreshListView.setAdapter(adapter);
 	}
 
 	@Override
 	protected void initEvent() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }

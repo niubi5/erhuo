@@ -124,7 +124,6 @@
             android:name=".StartActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -452,6 +451,16 @@
             android:hardwareAccelerated="false"
             android:theme="@style/EbpayThemeActivit"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".CommentActivity"
+            android:label="@string/title_activity_comment"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".SystemMsgActivity"
+            android:label="@string/title_activity_system_msg"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

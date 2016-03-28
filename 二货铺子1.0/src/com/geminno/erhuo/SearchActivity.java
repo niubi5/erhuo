@@ -24,9 +24,6 @@ import android.widget.TextView;
 
 public class SearchActivity extends Activity implements OnClickListener{
 	
-	
-	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -135,6 +135,7 @@
     <color name="main_orange_yellow">#fff7ad3d</color>
     <color name="main_radish_record">#fff6b37f</color>
     <color name="main_red">#ffff3f40</color>
+    <color name="btn_no_click">#808080</color>
     <color name="main_red_price">#ffff0000</color>
     <color name="main_shallowalpha_red">#40ff3f40</color>
     <color name="main_shallowalphablack">#30000000</color>
@@ -227,7 +228,7 @@
     <color name="text_hint_color">#DCDCDC</color>
     <color name="separate_line">#C8C8C8</color>
     <color name="add_image_background">#D0D0D0</color>
-
+	<color name="mybtn_press">#EEEEEE</color>
     <!-- 多图片上传 -->
     <color name="grey">#808080</color> <!-- 灰色 -->
 

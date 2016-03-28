@@ -3,21 +3,27 @@ package com.geminno.erhuo.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.geminno.erhuo.CommentActivity;
 import com.geminno.erhuo.R;
+import com.geminno.erhuo.SystemMsgActivity;
 import com.geminno.erhuo.entity.Messages;
+import com.geminno.erhuo.view.PullToFreshListView;
 
 /**
  * @author LuoShiHeng
  * @version 创建时间:2016-3-27下午5:12:49
  */
-public class MessagePageAdapter extends BaseAdapter {
+public class MessagePageAdapter extends BaseAdapter implements OnItemClickListener{
 
 	private Context context;
 	// 消息图标
@@ -27,31 +33,31 @@ public class MessagePageAdapter extends BaseAdapter {
 	private String[] messageTitles = new String[]{"私聊", "收到的评论", "系统消息"};
 	private String[] messageState = new String[]{"还没有收到私聊哦", "还没有收到评论哦", "暂无消息"};
 	private List<Messages> message;
+	private PullToFreshListView pullToFreshListView;
 	
 	public MessagePageAdapter(Context context) {
 		this.context = context;
 	}
 	
-	public MessagePageAdapter(Context context, List<Messages> message){
+	public MessagePageAdapter(Context context, List<Messages> message, PullToFreshListView pullToFreshListView){
 		this.context = context;
 		this.message = message;
+		this.pullToFreshListView = pullToFreshListView;
+		pullToFreshListView.setOnItemClickListener(this);
 	}
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return 3;
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -86,6 +92,22 @@ public class MessagePageAdapter extends BaseAdapter {
 		ImageView messageImage;
 		TextView messageTitle;
 		TextView messageState;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		switch(position){
+		case 1:
+			
+			break;
+		case 2:
+			context.startActivity(new Intent(context, CommentActivity.class));
+			break;
+		case 3:
+			context.startActivity(new Intent(context, SystemMsgActivity.class));
+			break;
+		}
 	}
 
 }
