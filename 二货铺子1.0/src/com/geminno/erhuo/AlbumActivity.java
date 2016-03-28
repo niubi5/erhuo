@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -104,7 +105,15 @@ public class AlbumActivity extends Activity {
 		public void onClick(View v) {
 			overridePendingTransition(R.anim.activity_translate_in,
 					R.anim.activity_translate_out);
-			intent.setClass(mContext, PublishGoodsActivity.class);
+			String activity = intent.getStringExtra("activity");
+			if(activity.equals("publishGoodsActivity")){
+				Log.i("chengxingen", "one"+"," + activity);
+				intent.setClass(mContext, PublishGoodsActivity.class);
+			}else if(activity.equals("donateRequestActivity")){
+				Log.i("chengxingen", "two" + "," + activity);
+				intent.setClass(mContext, DonateRequestActivity.class); 
+//			intent.setClass(mContext, PublishGoodsActivity.class);
+			}
 			startActivity(intent);
 			finish();
 		}

@@ -64,12 +64,12 @@
     <string name="title_activity_donate_request">DonateRequestActivity</string>
     <string name="caring_donation">爱心捐赠</string>
     <string name="request_donation">请求捐赠</string>
-    <string name="request_donation_title">标题</string>
-    <string name="request_donation_content">请描述一下您的需求</string>
+    <string name="request_donation_title">先来个标题吧</string>
+    <string name="request_donation_content">您需要哪些以及什么样的物品呢？</string>
     <string name="request_donation_add_image">添加图片</string>
     <string name="logistics">物流</string>
-    <string name="request_donation_address">请填写您的收货地址</string>
-    <string name="request_donation_getername">请填写您的联系方式</string>
+    <string name="request_donation_address">东西给您寄到哪里去呢？填个地址吧</string>
+    <string name="request_donation_getername">务必要填写收货人哦！</string>
     <string name="request_donation_button_donate">请求捐赠</string>
     <string name="mytoast_text">标题不能为空！</string>
     <string name="donation_user_name">来自星星的我</string>

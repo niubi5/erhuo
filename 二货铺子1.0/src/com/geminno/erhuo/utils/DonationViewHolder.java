@@ -43,7 +43,7 @@ public class DonationViewHolder {
     	this.mViews = new SparseArray<View>();
     	// 解析布局文件
     	mConvertView = LayoutInflater.from(context).inflate(layoutId, parent,false);
-    	ImageView toDoante = (ImageView) mConvertView.findViewById(R.id.iv_toDonate);
+
     	// 设置标签
     	mConvertView.setTag(this);
     }
