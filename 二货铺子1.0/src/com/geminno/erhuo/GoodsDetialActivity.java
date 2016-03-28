@@ -123,7 +123,7 @@ public class GoodsDetialActivity extends Activity {
 		initIndicator();
 	}
 
-	public void initData(){
+	public void initData() {
 		ImageView goodsFavorite = (ImageView) findViewById(R.id.goods_favorite);
 		ImageView ivHead = (ImageView) findViewById(R.id.iv_user_head);
 		TextView tvUserName = (TextView) findViewById(R.id.tv_user_name);
@@ -134,11 +134,12 @@ public class GoodsDetialActivity extends Activity {
 		TextView tvGoodTime = (TextView) findViewById(R.id.tv_goods_time);
 		tvGoodBrief = (TextView) findViewById(R.id.tv_goods_brief);
 		Log.i("imagelocation", user.getPhoto());
-		if(user.getPhoto() != null && !user.getPhoto().equals("")){
+		if (user.getPhoto() != null && !user.getPhoto().equals("")) {
 			Properties prop = new Properties();
 			String headUrl = null;
 			try {
-				prop.load(PublishGoodsActivity.class.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+				prop.load(PublishGoodsActivity.class
+						.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
 				headUrl = prop.getProperty("headUrl");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -149,13 +150,13 @@ public class GoodsDetialActivity extends Activity {
 		// 设置收藏的显示状态
 		Log.i("erhuo", "传过来的position" + position);
 		Log.i("erhuo", "包含position吗？" + collection.contains(position));
-		if(collection.contains(position)){
+		if (collection.contains(position)) {
 			goodsFavorite.setSelected(true);
 		} else {
 			goodsFavorite.setSelected(false);
 		}
 		goodsFavorite.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				if (collection.contains(position)) {
@@ -166,12 +167,16 @@ public class GoodsDetialActivity extends Activity {
 			}
 		});
 		tvUserName.setText(user.getName());
-		int instance = Distance(goods.getLongitude(), goods.getLatitude(), MyApplication.getLocation().getLongitude(), MyApplication.getLocation().getLatitude());
-		tvUserLocation.setText(instance >= 100 ? ("距我:" + instance/1000+"km") : ("距我:" + instance+"m"));
-		tvGoodPrice.setText("¥"+goods.getSoldPrice());
-		tvGoodOldPrice.setText("原价:"+goods.getBuyPrice());
+		int instance = Distance(goods.getLongitude(), goods.getLatitude(),
+				MyApplication.getLocation().getLongitude(), MyApplication
+						.getLocation().getLatitude());
+		tvUserLocation
+				.setText(instance >= 100 ? ("距我:" + instance / 1000 + "km")
+						: ("距我:" + instance + "m"));
+		tvGoodPrice.setText("¥" + goods.getSoldPrice());
+		tvGoodOldPrice.setText("原价:" + goods.getBuyPrice());
 		tvGoodName.setText(goods.getName());
-		tvGoodTime.setText((goods.getPubTime().substring(2,10)));
+		tvGoodTime.setText((goods.getPubTime().substring(2, 10)));
 		tvGoodBrief.setText(goods.getImformation());
 	}
 
@@ -213,7 +218,8 @@ public class GoodsDetialActivity extends Activity {
 						}
 					});
 		} else {
-			Toast.makeText(GoodsDetialActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+			Toast.makeText(GoodsDetialActivity.this, "请先登录", Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
 
@@ -290,15 +296,21 @@ public class GoodsDetialActivity extends Activity {
 			finish();
 			break;
 		case R.id.btn_buy:
-			if(goods.getState() == 2){
-				Toast.makeText(GoodsDetialActivity.this, "该商品已被下单", Toast.LENGTH_SHORT).show();
+			if (MyApplication.getCurrentUser() == null) {
+				Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
 			} else {
-				Intent intent = new Intent(this, BuyGoodsActivity.class);
-				intent.putExtra("user", user);
-				intent.putExtra("good", goods);
-				intent.putExtra("url", urls);
-				startActivity(intent);
+				if (goods.getState() == 2) {
+					Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Intent intent = new Intent(this, BuyGoodsActivity.class);
+					intent.putExtra("user", user);
+					intent.putExtra("good", goods);
+					intent.putExtra("url", urls);
+					startActivity(intent);
+				}
 			}
+
 			break;
 		default:
 			break;
@@ -328,9 +340,10 @@ public class GoodsDetialActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-//				Toast.makeText(GoodsDetialActivity.this, "举报",
-//						Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(GoodsDetialActivity.this,ReportGoodActivity.class);
+				// Toast.makeText(GoodsDetialActivity.this, "举报",
+				// Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(GoodsDetialActivity.this,
+						ReportGoodActivity.class);
 				intent.putExtra("goodId", goods.getId());
 				startActivity(intent);
 			}
@@ -360,7 +373,7 @@ public class GoodsDetialActivity extends Activity {
 
 		// 设置好参数之后再show
 		popupWindow.showAsDropDown(view);
-		//popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+		// popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
 	}
 
