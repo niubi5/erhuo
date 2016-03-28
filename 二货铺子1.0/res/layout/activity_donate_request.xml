@@ -70,7 +70,7 @@
                         android:lines="1"
                         android:textSize="@dimen/font_middlesmall" >
 
-                        <requestFocus />
+                   
                     </EditText>
                 </LinearLayout>
 
@@ -98,7 +98,6 @@
                         android:hint="@string/request_donation_content"
                         android:textSize="@dimen/font_middlesmall" >
 
-                        <requestFocus />
                     </EditText>
                 </LinearLayout>
 

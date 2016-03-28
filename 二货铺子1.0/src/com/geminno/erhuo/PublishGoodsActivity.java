@@ -2,6 +2,7 @@ package com.geminno.erhuo;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -221,6 +222,8 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 			public void onClick(View v) {
 				Intent intent = new Intent(PublishGoodsActivity.this,
 						AlbumActivity.class);
+
+				intent.putExtra("activity","publishGoodsActivity");
 				startActivity(intent);
 				// activity切换时动画
 				overridePendingTransition(R.anim.activity_translate_in,

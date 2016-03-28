@@ -7,7 +7,7 @@
     <ScrollView 
         android:id="@+id/detail_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         >
     <RelativeLayout 
         android:layout_width="match_parent"
@@ -246,7 +246,8 @@
         />
     
     </RelativeLayout>
-    </ScrollView><Button
+    </ScrollView>
+    <Button
         android:id="@+id/btn_donation_report"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -256,7 +257,7 @@
         android:layout_marginRight="10dp"
         android:background="@color/main_red"
         android:gravity="center"
-        android:text="举报"
+        android:text="捐赠"
         android:textColor="@color/white" />
     
 </RelativeLayout>

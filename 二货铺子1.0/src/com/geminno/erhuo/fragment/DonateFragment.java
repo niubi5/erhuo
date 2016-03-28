@@ -81,7 +81,6 @@ public class DonateFragment extends BaseFragment{
 				helper.setImageResource(R.id.iv_donation_address,
 						item.getAddressImage());
 				helper.setText(R.id.tv_donatoin_addresss, item.getAddress());
-				helper.setImageResource(R.id.iv_toDonate, item.getButton());
 			}
 
 		});

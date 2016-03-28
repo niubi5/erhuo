@@ -1,12 +1,15 @@
 package com.geminno.erhuo;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -29,6 +32,7 @@ import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,6 +46,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geminno.erhuo.adapter.LogisticsAdapter;
+import com.geminno.erhuo.entity.Donation;
 import com.geminno.erhuo.entity.Logistics;
 import com.geminno.erhuo.utils.Bimp;
 import com.geminno.erhuo.utils.FileUtils;
@@ -49,6 +54,14 @@ import com.geminno.erhuo.utils.ImageItem;
 import com.geminno.erhuo.utils.PublicWay;
 import com.geminno.erhuo.utils.Res;
 import com.geminno.erhuo.view.AddImageView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
  * 点击捐赠页面添加按钮时跳转的页面
@@ -56,7 +69,7 @@ import com.geminno.erhuo.view.AddImageView;
  * @author Administrator
  * 
  */
-public class DonateRequestActivity extends Activity implements OnClickListener{
+public class DonateRequestActivity extends Activity implements OnClickListener {
 
 	/**
 	 * 请求捐赠标题
@@ -93,7 +106,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener{
 	/**
 	 * 请求捐赠收货人名字
 	 */
-	private EditText etGeterName;
+	private EditText consignee;
 	/**
 	 * 请求捐赠地址
 	 */
@@ -102,6 +115,10 @@ public class DonateRequestActivity extends Activity implements OnClickListener{
 	 * 发布
 	 */
 	private Button btnDonate;
+	/**
+	 * 物流名称
+	 */
+	private String logisticsName;
 	/**
 	 * 多图片上传
 	 */
@@ -131,7 +148,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-//		setContentView(R.layout.activity_donate_request);
+		// setContentView(R.layout.activity_donate_request);
 		// 03.16修改，多图片上传
 		// 初始化文件夹路径和R资源
 		Res.init(this);
@@ -144,61 +161,139 @@ public class DonateRequestActivity extends Activity implements OnClickListener{
 				R.layout.activity_donate_request, null);
 		setContentView(parentView);
 		Init();
-		
+
 		initView();
 		initDatas();
 
 		// 设置适配器
 		LogisticsAdapter adapter = new LogisticsAdapter(logistics, this);
 		logisticSpinner.setAdapter(adapter);
+		// 下拉列表item监听
+		logisticSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				logisticsName = verifys.get(position);
+				// Log.i("logisticsName", logisticsName);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 	}
 
 	/**
 	 * 发布请求
 	 */
-     @SuppressLint("ShowToast") @Override
+	@SuppressLint("ShowToast")
+	@Override
 	public void onClick(View v) {
-		Toast toast = new Toast(getApplicationContext());
+		// Toast toast = new Toast(getApplicationContext());
 		switch (v.getId()) {
 		case R.id.btn_request_donate:
 			Log.i("MyToast", "点击了");
-			View view = getLayoutInflater().inflate(
-					R.layout.donate_value_null_toast,
-					(ViewGroup) findViewById(R.id.mytoast));
-			TextView toastText = (TextView) view
-					.findViewById(R.id.mytoast_text);
+			// View view = getLayoutInflater().inflate(
+			// R.layout.donate_value_null_toast,
+			// (ViewGroup) findViewById(R.id.mytoast));
+			// TextView toastText = (TextView) view
+			// .findViewById(R.id.mytoast_text);
+			/**
+			 * 获取请求捐赠页面用户输入值
+			 */
 			String title = etTitle.getText().toString();
 			String content = etContent.getText().toString();
-			String geterName = etGeterName.getText().toString();
+			String geterName = consignee.getText().toString();
 			String address = etAddress.getText().toString();
-			// 设置Toast显示的位置
-			toast.setGravity(Gravity.CENTER, 0, 0);
-			// 设置Toast显示的时间
-			toast.setDuration(Toast.LENGTH_SHORT);
-			// 要显示的view
-			toast.setView(view);
-			toast.show();
+			String logistics = logisticsName;
+			//
+			// // 设置Toast显示的位置
+			// toast.setGravity(Gravity.CENTER, 0, 0);
+			// // 设置Toast显示的时间
+			// toast.setDuration(Toast.LENGTH_SHORT);
+			// // 要显示的view
+			// toast.setView(view);
+			// toast.show();
 			if (!title.equals("")) {
 				if (!content.equals("")) {
-					if (!etGeterName.equals("")) {
-						if (address.equals("")) {
-							toastText.setText("务必把收货地址填写上");
+					if (!geterName.equals("")) {
+						if (!address.equals("")) {
+							// toastText.setText("务必把收货地址填写上");
+							/**
+							 * 获得用户输入的信息,将其封装成Donation对象
+							 */
+							Donation donation = new Donation();
+							donation.setUesrId(1);
+							donation.setTitle(title);
+							donation.setDetail(content);
+							SimpleDateFormat sdf = new SimpleDateFormat(
+									"yyyy-MM-dd hh:mm:ss");
+							donation.setTime(sdf.format(new Date()));
+							donation.setLogistics(logistics);
+							donation.setAddress(address);
+
+							Log.i("donation", donation.toString());
+							Gson gson = new GsonBuilder().create();
+							String donationGson = gson.toJson(donation);
+
+							// 传参数
+							String url = "http://10.201.1.20:8080/secondHandShop/HelpsServlet";
+							RequestParams rp = new RequestParams();
+							rp.addBodyParameter("DonationRequest", donationGson);
+							
+							int count = 0;
+							for (ImageItem image : Bimp.tempSelectBitmap) {
+								File file = new File(image.getImagePath());
+								rp.addBodyParameter(1 + count + getNowTime(), file);
+								Log.i("uploadimage",1  + count + getNowTime());
+								count++;
+								Log.i("donation",String.valueOf(count));
+							}
+							Log.i("params", rp.toString());
+							// 连接服务器
+							HttpUtils hu = new HttpUtils();
+							hu.send(HttpMethod.POST, url,rp,
+									new RequestCallBack<String>() {
+
+										@Override
+										public void onFailure(
+												HttpException arg0, String arg1) {
+											Log.i("Request","请求失败");
+											
+										}
+
+										@Override
+										public void onSuccess(
+												ResponseInfo<String> arg0) {
+											Log.i("Request","请求成功");
+											
+										}
+									});
+						} else {
+
+							Toast.makeText(this, "务必把收货地址填写上",
+									Toast.LENGTH_SHORT).show();
 							break;
-//							Toast.makeText(this, "务必把收货地址填写上", Toast.LENGTH_SHORT);
 						}
+
 					} else {
-						toastText.setText("收货人是谁呢？");
+						// toastText.setText("收货人是谁呢？");
+						Toast.makeText(this, "收货人是谁呢？", Toast.LENGTH_SHORT)
+								.show();
 						break;
-//						Toast.makeText(this, "收货人是谁呢？", Toast.LENGTH_SHORT);
 					}
 				} else {
-					toastText.setText("别忘了描述一下您的需要哦！");
+					// toastText.setText("别忘了描述一下您的需要哦！");
+					Toast.makeText(this, "别忘了详细描述一下您的需要哦！", Toast.LENGTH_SHORT)
+							.show();
 					break;
-//					Toast.makeText(this, "别忘了详细描述一下您的需要哦！", Toast.LENGTH_SHORT);
 				}
 			} else {
-//				Toast.makeText(this, "取个标题吧", Toast.LENGTH_SHORT);
-				toastText.setText("取个标题吧");
+				Toast.makeText(this, "取个标题吧", Toast.LENGTH_SHORT).show();
+				// toastText.setText("取个标题吧");
 				break;
 			}
 		}
@@ -221,20 +316,11 @@ public class DonateRequestActivity extends Activity implements OnClickListener{
 		etTitle = (EditText) findViewById(R.id.et_donation_title);
 		etContent = (EditText) findViewById(R.id.et_donation_content);
 		spLogistics = (Spinner) findViewById(R.id.sp_logistics);
-		etGeterName= (EditText) findViewById(R.id.et_donation_getername);
+		consignee = (EditText) findViewById(R.id.et_donation_getername);
 		etAddress = (EditText) findViewById(R.id.et_donation_address);
-//		addImageView = (AddImageView) findViewById(R.id.addImageView);
-//		addImageView.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//            
-//				
-//			}
-//		});
 		btnDonate = (Button) findViewById(R.id.btn_request_donate);
 		// 发布捐赠，将信息提交到Servlet
-        btnDonate.setOnClickListener(this);
+		btnDonate.setOnClickListener(this);
 		ivDonationDialog = (ImageView) findViewById(R.id.iv_donation_dialog);
 		// 点击提示对话框
 		ivDonationDialog.setOnClickListener(new OnClickListener() {
@@ -300,7 +386,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener{
 			logistics.add(new Logistics(imageIds.get(i), verifys.get(i)));
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@SuppressLint("InflateParams")
 	// 初始化数据
@@ -347,6 +433,8 @@ public class DonateRequestActivity extends Activity implements OnClickListener{
 			public void onClick(View v) {
 				Intent intent = new Intent(DonateRequestActivity.this,
 						AlbumActivity.class);
+
+				intent.putExtra("activity", "donateRequestActivity");
 				startActivity(intent);
 				// activity切换时动画
 				overridePendingTransition(R.anim.activity_translate_in,
@@ -365,36 +453,39 @@ public class DonateRequestActivity extends Activity implements OnClickListener{
 		// 初始化图片选择框GridView
 		doantion_noScrollgridview = (GridView) findViewById(R.id.doantion_noScrollgridview);
 		// 设置点击GridView时出现背景
-		doantion_noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
+		doantion_noScrollgridview.setSelector(new ColorDrawable(
+				Color.TRANSPARENT));
 		// 初始化适配器
 		adapter = new GridAdapter(this);
 		adapter.update();
 		// 设置适配器
 		doantion_noScrollgridview.setAdapter(adapter);
 		// 设置GridView的item点击事件
-		doantion_noScrollgridview.setOnItemClickListener(new OnItemClickListener() {
+		doantion_noScrollgridview
+				.setOnItemClickListener(new OnItemClickListener() {
 
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
+					public void onItemClick(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
 
-				if (arg2 == Bimp.tempSelectBitmap.size()) { // 如果点击的是添加图片按钮
-					Log.i("ddddddd", "----------");
-					// 点击item切换弹出popupwindow时的动画
-					ll_popup.startAnimation(AnimationUtils.loadAnimation(
-							DonateRequestActivity.this,
-							R.anim.activity_translate_in));
-					// 设置popupwindow显示位置
-					pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
-				} else {// 点击的是已添加的图片
-					// 跳转到进行图片浏览时的界面
-					Intent intent = new Intent(DonateRequestActivity.this,
-							GalleryActivity.class);
-					intent.putExtra("position", "1");
-					intent.putExtra("ID", arg2);
-					startActivity(intent);
-				}
-			}
-		});
+						if (arg2 == Bimp.tempSelectBitmap.size()) { // 如果点击的是添加图片按钮
+							Log.i("ddddddd", "----------");
+							// 点击item切换弹出popupwindow时的动画
+							ll_popup.startAnimation(AnimationUtils
+									.loadAnimation(DonateRequestActivity.this,
+											R.anim.activity_translate_in));
+							// 设置popupwindow显示位置
+							pop.showAtLocation(parentView, Gravity.BOTTOM, 0, 0);
+						} else {// 点击的是已添加的图片
+							// 跳转到进行图片浏览时的界面
+							Intent intent = new Intent(
+									DonateRequestActivity.this,
+									GalleryActivity.class);
+							intent.putExtra("position", "1");
+							intent.putExtra("ID", arg2);
+							startActivity(intent);
+						}
+					}
+				});
 
 	}
 
@@ -540,26 +631,24 @@ public class DonateRequestActivity extends Activity implements OnClickListener{
 	// 照相机返回的照片
 	protected void onActivityResult(int requestCode, int resultCode,
 			final Intent data) {
-		
+
 		switch (requestCode) {
 		case TAKE_PICTURE:
-			 if (Bimp.tempSelectBitmap.size() < 9 && resultCode == RESULT_OK)
-			 {
-			
-			 String fileName = String.valueOf(System.currentTimeMillis());
-			 //获得拍照返回的图片
-			 Bitmap bm = (Bitmap) data.getExtras().get("data");
-			 String takePhotoUrl = FileUtils.saveBitmap(bm, fileName);
-			 
-			 ImageItem takePhoto = new ImageItem();
-			 takePhoto.setBitmap(bm);
-			 takePhoto.setImagePath(takePhotoUrl);		 
-			 Bimp.tempSelectBitmap.add(takePhoto);
-			 }
-				break;
+			if (Bimp.tempSelectBitmap.size() < 9 && resultCode == RESULT_OK) {
+
+				String fileName = String.valueOf(System.currentTimeMillis());
+				// 获得拍照返回的图片
+				Bitmap bm = (Bitmap) data.getExtras().get("data");
+				String takePhotoUrl = FileUtils.saveBitmap(bm, fileName);
+
+				ImageItem takePhoto = new ImageItem();
+				takePhoto.setBitmap(bm);
+				takePhoto.setImagePath(takePhotoUrl);
+				Bimp.tempSelectBitmap.add(takePhoto);
+			}
+			break;
 		}
 	}
-	
 
 	// 当activity销毁时，清空选中的图片
 	@Override
@@ -569,6 +658,11 @@ public class DonateRequestActivity extends Activity implements OnClickListener{
 		if (!Bimp.tempSelectBitmap.isEmpty()) {
 			Bimp.tempSelectBitmap.clear();
 		}
+	}
+	
+	// 获取系统当前时间
+	public String getNowTime(){
+		return System.currentTimeMillis() + "";
 	}
 
 }
