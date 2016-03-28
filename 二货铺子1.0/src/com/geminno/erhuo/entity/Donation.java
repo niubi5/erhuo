@@ -10,9 +10,21 @@ package com.geminno.erhuo.entity;
 
 public class Donation {
 	/**
+	 * id
+	 */
+	private Integer id;
+	/**
+	 * 用户id
+	 */
+	private Integer userId;
+	/**
 	 * 用户头像
 	 */
 	private Integer userHeadImage;
+	/**
+	 * 发布图片
+	 */
+	private Integer image;
 	/**
 	 * 用户名
 	 */
@@ -22,10 +34,6 @@ public class Donation {
 	 */
 	private String time;
 	/**
-	 * 发布图片
-	 */
-	private Integer image;
-	/**
 	 * 发布内容
 	 */
 	private String detail;
@@ -34,28 +42,110 @@ public class Donation {
 	 */
 	private Integer addressImage;
 	/**
-	 * 请求捐赠地址
+	 * 请求捐赠收货地址
 	 */
 	private String address;
 	/**
-	 * 按钮
+	 * 请求捐赠物流
 	 */
-	private Integer button;
+	private String logistics;
+	/**
+	 * 请求捐赠收货人
+	 */
+	private String consignee;
+	/**
+	 * 请求捐赠状态
+	 */
+	private Integer state;
+	/**
+	 * 标题
+	 */
+	private String title;
+	
+	
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Donation() {
+		super();
+	}
+
+	public Donation(Integer id, Integer userId, Integer userHeadImage,
+			Integer image, String userName, String time, String detail,
+			Integer addressImage, String address, String logistics,
+			String consignee, Integer state) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.userHeadImage = userHeadImage;
+		this.image = image;
+		this.userName = userName;
+		this.time = time;
+		this.detail = detail;
+		this.addressImage = addressImage;
+		this.address = address;
+		this.logistics = logistics;
+		this.consignee = consignee;
+		this.state = state;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String getLogistics() {
+		return logistics;
+	}
+
+	public void setLogistics(String logistics) {
+		this.logistics = logistics;
+	}
+
+	public String getConsignee() {
+		return consignee;
+	}
+
+	public void setConsignee(String consignee) {
+		this.consignee = consignee;
+	}
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
+	/**
+	 * get方法
+	 * 
+	 * @return
+	 */
 	public String getDetail() {
 		return detail;
 	}
 
 	public void setDetail(String detail) {
 		this.detail = detail;
-	}
-
-	public Integer getButton() {
-		return button;
-	}
-
-	public void setButton(Integer button) {
-		this.button = button;
 	}
 
 	public Donation(Integer userHeadImage, String userName, String time,
@@ -69,7 +159,6 @@ public class Donation {
 		this.detail = detail;
 		this.addressImage = addressImage;
 		this.address = address;
-		this.button = button;
 	}
 
 	public Donation(Integer userHeadImage, String userName, String time,

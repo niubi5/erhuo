@@ -91,13 +91,6 @@
             android:textSize="@dimen/font_s_tinysmall"
             android:text="@string/donation_address" />
 
-        <ImageView
-            android:id="@+id/iv_toDonate"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginLeft="220dp"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/publish_donation" />
         
     </LinearLayout>
 

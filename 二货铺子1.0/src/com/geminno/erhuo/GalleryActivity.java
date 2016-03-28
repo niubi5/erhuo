@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -57,6 +58,8 @@ public class GalleryActivity extends Activity {
 	public List<String> del = new ArrayList<String>();
 
 	private Context mContext;
+	
+	private Object object;
 
 	RelativeLayout photo_relativeLayout;
 
@@ -74,7 +77,11 @@ public class GalleryActivity extends Activity {
 		send_bt.setOnClickListener(new GallerySendListener());
 		del_bt.setOnClickListener(new DelListener());
 		intent = getIntent();
+		
+		
 		Bundle bundle = intent.getExtras();
+		object = bundle.getSerializable("activity");
+		
 		position = Integer.parseInt(intent.getStringExtra("position"));
 		isShowOkBt();
 		// 为发送按钮设置文字
@@ -106,6 +113,7 @@ public class GalleryActivity extends Activity {
 
 		}
 	};
+	
 
 	private void initListViews(Bitmap bm) {
 		if (listViews == null)
@@ -157,9 +165,17 @@ public class GalleryActivity extends Activity {
 	// 完成按钮的监听
 	private class GallerySendListener implements OnClickListener {
 		public void onClick(View v) {
-			finish();
-			intent.setClass(mContext, PublishGoodsActivity.class);
+			String activity = intent.getStringExtra("activity");
+			if(activity.equals("publishGoodsActivity")){
+				Log.i("chengxingen", "one"+"," + activity);
+				intent.setClass(mContext, PublishGoodsActivity.class);
+			}else if(activity.equals("donateRequestActivity")){
+				Log.i("chengxingen", "two" + "," + activity);
+				intent.setClass(mContext, DonateRequestActivity.class); 	
+			}
 			startActivity(intent);
+			finish();
+            
 		}
 
 	}
