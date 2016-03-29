@@ -2,142 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.geminno.erhuo.ShipAddressActivity"
-    android:background="#F9F8F4" 
-    >
-    
-    <View
-            android:id="@+id/view_address"
-            android:layout_width="match_parent"
-            android:layout_height="10dp" 
-            android:layout_below="@+id/erhuo_title_address"
-            android:background="#F9F8F4" />
-    
-
-    <LinearLayout
-        android:id="@+id/ship_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/view_address"
-        android:layout_above="@+id/view_xia"
-        android:background="@color/main_title_white"
-        android:orientation="vertical" >
-
-        <LinearLayout
-            android:id="@+id/lin_ship"
-            style="@style/MyInfoLinearLayout"
-            android:gravity="left" >
-
-            <TextView
-                android:id="@+id/tv_ship_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="25dp"
-                android:hint="收货人"
-                android:background="@null"
-                android:textSize="@dimen/font_middle" />
-
-            <TextView
-                android:id="@+id/et_ship_phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="电话号码"
-                android:layout_gravity="center"
-                android:inputType="textPersonName"
-                android:background="@null" 
-                android:textSize="@dimen/font_middle"
-                android:layout_marginLeft="15dp"/>
-        </LinearLayout>
-    <!--     
-         <LinearLayout
-            android:id="@+id/lin_address"
-            style="@style/MyInfoLinearLayout"
-            android:gravity="left" >
-
-            <TextView
-                android:id="@+id/tv_address_qu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="25dp"
-                android:background="@null"
-                android:hint="所在地区"
-                android:textSize="@dimen/font_middle" />
-
-            
-            
-            <ImageView
-            android:id="@+id/iv_moren"
-            style="@style/FrameTitleButtonRight"
-            android:src="@drawable/address_select_default" />
-        </LinearLayout>
-        -->
-        <LinearLayout
-            android:id="@+id/lin_address"
-            style="@style/MyInfoLinearLayout"
-            android:gravity="left" >
-
-            <TextView
-                android:id="@+id/tv_address_qu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_gravity="center|left"
-                android:background="@null"
-                android:hint="所在地区"
-                android:textSize="@dimen/font_middle" />
-            <View android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight="1"/>
-            
-             <ImageView
-            android:id="@+id/iv_moren"
-            style="@style/FrameTitleButtonRight"
-            android:src="@drawable/address_select_default" />
-            
-        </LinearLayout>
-           <LinearLayout
-            android:id="@+id/lin_address_specific"
-            style="@style/MyInfoLinearLayout"
-            android:gravity="left" >
-
-            <TextView
-                android:id="@+id/tv_ship_specific"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="25dp"
-                android:background="@null"
-                android:hint="具体地址"
-                android:textSize="@dimen/font_middle" />
-
-           
-        </LinearLayout>
-        
-           <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp" 
-              android:background="#F9F8F4" />
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         >
-</LinearLayout>
-    
-        
-        
-    </LinearLayout>
-    
-    <View
-           android:id="@+id/view_xia"
-           android:layout_width="match_parent"
-           android:layout_height="10dp" 
-           android:background="#F9F8F4"
-           android:layout_above="@+id/but_address_xin" />
-    
+    android:background="#F9F8F4"
+    tools:context="com.geminno.erhuo.ShipAddressActivity" >
 <Button
         android:id="@+id/but_address_xin"
         android:layout_width="match_parent"
@@ -163,5 +29,16 @@
         style="@style/FrameTitleRedText"
         android:text="请选择收货地址" />
 </FrameLayout>
+
+<ListView
+    android:id="@+id/list_ship"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/but_address_xin"
+    android:layout_below="@+id/erhuo_title_address"
+    android:layout_centerHorizontal="true" 
+    >
+
+</ListView>
 
 </RelativeLayout>

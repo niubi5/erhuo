@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.geminno.erhuo.ReleaseActivity" >
+    <FrameLayout
+        android:id="@+id/erhuo_title"
+        style="@style/FrameTitleRed" >
+
+        <ImageView
+            android:id="@+id/iv_release_return"
+            style="@style/FrameTitleButtonLeft"
+            android:src="@drawable/left_arrow_white" />
+
+        <TextView
+            style="@style/FrameTitleRedText"
+            android:text="在售的" />
+    </FrameLayout>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/erhuo_title"
+        >
+        <TextView 
+            android:layout_height="25dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="全部"/>
+        <TextView 
+            android:layout_height="25dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="转让"/>
+        <TextView 
+            android:layout_height="25dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="求购"/>
+        
+    </LinearLayout>
+    <View 
+        android:background="#F9F8F4"/>
+    
+
+</RelativeLayout>

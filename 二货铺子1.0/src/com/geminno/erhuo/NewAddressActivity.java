@@ -62,6 +62,19 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 		findViewById(R.id.but_shiyong).setOnClickListener(this);
 		findViewById(R.id.but_baochun).setOnClickListener(this);
 		findViewById(R.id.tv_dingwei).setOnClickListener(this);
+		Intent intent=getIntent();
+		String name=intent.getStringExtra("name");
+		String phone=intent.getStringExtra("phone");
+		String diqu=intent.getStringExtra("diqu");
+		String dizhi=intent.getStringExtra("dizhi");
+		Log.i("cheshi", "传来的值"+name+phone+diqu+dizhi);
+		if (name!=null && !name.equals("null")&& phone!=null&&  !phone.equals("null") && diqu!=null&& !diqu.equals("null")&& dizhi!=null&&!dizhi.equals("null")) {
+			etname.setText(name);
+			etnewphone.setText(phone);
+			etdiqu.setText(diqu);
+			etdizhi.setText(dizhi);
+		}
+		
 	}
 
 	@Override

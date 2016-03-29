@@ -261,11 +261,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" >
         </activity>
-
         <activity
             android:name=".DonationDetailActivity"
             android:label="@string/title_activity_donation_detail" >
-
         </activity>
         <activity
             android:name=".DonationReportActivity"
@@ -464,6 +462,14 @@
             android:name=".SystemMsgActivity"
             android:label="@string/title_activity_system_msg"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ReleaseActivity"
+            android:label="@string/title_activity_release" >
+        </activity>
+        <activity
+            android:name=".SpecificAddressActivity"
+            android:label="@string/title_activity_specific_address" >
         </activity>
     </application>
 
