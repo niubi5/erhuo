@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.geminno.erhuo.adapter.HomePageAdapter.ViewHolderType;
 import com.geminno.erhuo.entity.Address;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
@@ -140,9 +141,9 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 		String userId=users.getId()+"";
 		HttpUtils httpUtils=new HttpUtils();
 		RequestParams params=new RequestParams();
-//		String headUrl = Url.getUrlHead();
-//		String url = headUrl + "/UserAddressServlet";
-		String url="http://10.201.1.16:8080/secondHandShop/AddressListServlet";
+		String headUrl = Url.getUrlHead();
+		String url = headUrl + "/AddressListServlet";
+		//String url="http://10.201.1.16:8080/secondHandShop/AddressListServlet";
 		params.addQueryStringParameter("curUserId",userId);
 		httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
@@ -175,19 +176,20 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 							// TODO Auto-generated method stub
 							Log.i("cheshi", "点击事件，跳转");
 							Intent intent=new Intent(ShipAddressActivity.this,NewAddressActivity.class);
-							intent.putExtra("name", listad.get(position).getName());
-							intent.putExtra("phone", listad.get(position).getPhone());
-							String shipaddress = listad.get(position).getAddress().toString();
-							String diqu=null;
-							if (shipaddress.indexOf("市") != -1) {
-								 diqu=shipaddress.substring(0,shipaddress.indexOf("市"))+ "市";
-							} else {
-							     diqu=shipaddress;
-							}
-							intent.putExtra("diqu", diqu);
-							intent.putExtra("dizhi", shipaddress);
-							Log.i("cheshi", "跳转传值:"+name+phone+diqu+dizhi);
+//							intent.putExtra("name", listad.get(position).getName());
+//							intent.putExtra("phone", listad.get(position).getPhone());
+//							String shipaddress = listad.get(position).getAddress().toString();
+//							String diqu=null;
+//							if (shipaddress.indexOf("市") != -1) {
+//								 diqu=shipaddress.substring(0,shipaddress.indexOf("市"))+ "市";
+//							} else {
+//							     diqu=shipaddress;
+//							}
+//							intent.putExtra("diqu", diqu);
+//							intent.putExtra("dizhi", shipaddress);
+//							Log.i("cheshi", "跳转传值:"+name+phone+diqu+dizhi);
 							startActivity(intent);
+							finish();
 						}
 					});
 				}
