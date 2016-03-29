@@ -134,5 +134,6 @@
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_system_msg">SystemMsg</string>
     <string name="title_activity_release">ReleaseActivity</string>
+    <string name="title_activity_specific_address">SpecificAddressActivity</string>
 
 </resources>

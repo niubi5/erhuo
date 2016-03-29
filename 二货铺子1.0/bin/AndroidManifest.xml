@@ -472,6 +472,10 @@
             android:name=".ReleaseActivity"
             android:label="@string/title_activity_release" >
         </activity>
+        <activity
+            android:name=".SpecificAddressActivity"
+            android:label="@string/title_activity_specific_address" >
+        </activity>
     </application>
 
 </manifest>

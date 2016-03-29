@@ -2806,9 +2806,10 @@ int menu reset 0x7f0d0012
 int menu search 0x7f0d0013
 int menu she_zhi 0x7f0d0014
 int menu ship_address 0x7f0d0015
-int menu system_msg 0x7f0d0016
-int menu wo_men 0x7f0d0017
-int menu zhao_hui 0x7f0d0018
+int menu specific_address 0x7f0d0016
+int menu system_msg 0x7f0d0017
+int menu wo_men 0x7f0d0018
+int menu zhao_hui 0x7f0d0019
 int raw libs 0x7f050000
 int raw smssdk_pydb 0x7f050001
 int string action_settings 0x7f07020f
@@ -3420,6 +3421,7 @@ int string title_activity_reset 0x7f07023c
 int string title_activity_search 0x7f07023a
 int string title_activity_she_zhi 0x7f070237
 int string title_activity_ship_address 0x7f070262
+int string title_activity_specific_address 0x7f07028c
 int string title_activity_start 0x7f070236
 int string title_activity_system_msg 0x7f07028a
 int string title_activity_wo_men 0x7f070238

@@ -36,7 +36,8 @@
     android:layout_height="wrap_content"
     android:layout_above="@+id/but_address_xin"
     android:layout_below="@+id/erhuo_title_address"
-    android:layout_centerHorizontal="true" >
+    android:layout_centerHorizontal="true" 
+    >
 
 </ListView>
 

@@ -2965,9 +2965,10 @@ containing a value of this type.
         public static final int search=0x7f0d0013;
         public static final int she_zhi=0x7f0d0014;
         public static final int ship_address=0x7f0d0015;
-        public static final int system_msg=0x7f0d0016;
-        public static final int wo_men=0x7f0d0017;
-        public static final int zhao_hui=0x7f0d0018;
+        public static final int specific_address=0x7f0d0016;
+        public static final int system_msg=0x7f0d0017;
+        public static final int wo_men=0x7f0d0018;
+        public static final int zhao_hui=0x7f0d0019;
     }
     public static final class raw {
         public static final int libs=0x7f050000;
@@ -3605,6 +3606,7 @@ containing a value of this type.
         public static final int title_activity_search=0x7f07023a;
         public static final int title_activity_she_zhi=0x7f070237;
         public static final int title_activity_ship_address=0x7f070262;
+        public static final int title_activity_specific_address=0x7f07028c;
         public static final int title_activity_start=0x7f070236;
         public static final int title_activity_system_msg=0x7f07028a;
         public static final int title_activity_wo_men=0x7f070238;
