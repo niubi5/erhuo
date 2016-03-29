@@ -2,10 +2,10 @@ package com.geminno.erhuo;
 
 import java.io.IOException;
 import java.lang.ref.SoftReference;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.http.HttpEntity;
@@ -17,16 +17,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
 
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
-
-import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
-import com.geminno.erhuo.entity.Goods;
-import com.geminno.erhuo.utils.Url;
-import com.geminno.erhuo.entity.Users;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -36,7 +29,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,15 +38,23 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
+import com.geminno.erhuo.adapter.RemarkAdapter;
 import com.geminno.erhuo.entity.Goods;
+import com.geminno.erhuo.entity.Remark;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.Url;
+import com.geminno.erhuo.view.PullUpToLoadListView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -66,8 +66,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class GoodsDetialActivity extends Activity {
 	public static Activity goodsDetialActivity;
 	private ViewPager viewPager;
-	private ArrayList<View> pageview;
-
 	private ImageView image;
 	private View item;
 	private MyAdapter adapter;
@@ -79,8 +77,9 @@ public class GoodsDetialActivity extends Activity {
 	private TextView tvGoodBrief;
 	private TextView tvGoodName;
 	private ArrayList<Integer> collection;
-	private int position;
-	private boolean isFavorite = false;// 是否收藏
+	private Integer goodsId;
+	private PullUpToLoadListView pullUpToLoadListView;
+	private Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +88,11 @@ public class GoodsDetialActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_goods_detial);
 		goodsDetialActivity = this;
+		context = this;
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		viewPager = (ViewPager) findViewById(R.id.vp_goods_images);
+		// 上拉加载的listview
+		pullUpToLoadListView = (PullUpToLoadListView) findViewById(R.id.pull_up_to_load);
 		List<View> list = new ArrayList<View>();
 		inflater = LayoutInflater.from(this);
 		// 获得当前商品的id
@@ -98,8 +100,8 @@ public class GoodsDetialActivity extends Activity {
 		Bundle bundle = intent.getExtras();
 		user = (Users) bundle.getSerializable("user");
 		goods = (Goods) bundle.getSerializable("goods");
-		position = bundle.getInt("position");
-		collection = bundle.getIntegerArrayList("collection");
+		goodsId = goods.getId();
+		collection = MyApplication.getCollection();
 		List<String> goodUrl = bundle.getStringArrayList("urls");
 		urls = new String[goodUrl.size()];
 		for (int i = 0; i < goodUrl.size(); i++) {
@@ -120,10 +122,11 @@ public class GoodsDetialActivity extends Activity {
 		// 绑定动作监听器：如翻页的动画
 		viewPager.setOnPageChangeListener(new MyListener());
 		initData();
+		initComment();// 初始化评论数据
 		initIndicator();
 	}
 
-	public void initData(){
+	private void initData() {
 		ImageView goodsFavorite = (ImageView) findViewById(R.id.goods_favorite);
 		ImageView ivHead = (ImageView) findViewById(R.id.iv_user_head);
 		TextView tvUserName = (TextView) findViewById(R.id.tv_user_name);
@@ -133,12 +136,12 @@ public class GoodsDetialActivity extends Activity {
 		tvGoodName = (TextView) findViewById(R.id.tv_goods_name);
 		TextView tvGoodTime = (TextView) findViewById(R.id.tv_goods_time);
 		tvGoodBrief = (TextView) findViewById(R.id.tv_goods_brief);
-		Log.i("imagelocation", user.getPhoto());
-		if(user.getPhoto() != null && !user.getPhoto().equals("")){
+		if (user.getPhoto() != null && !user.getPhoto().equals("")) {
 			Properties prop = new Properties();
 			String headUrl = null;
 			try {
-				prop.load(PublishGoodsActivity.class.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+				prop.load(PublishGoodsActivity.class
+						.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
 				headUrl = prop.getProperty("headUrl");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -147,54 +150,66 @@ public class GoodsDetialActivity extends Activity {
 			ImageLoader.getInstance().displayImage(userHeadUrl, ivHead);
 		}
 		// 设置收藏的显示状态
-		Log.i("erhuo", "传过来的position" + position);
-		Log.i("erhuo", "包含position吗？" + collection.contains(position));
-		if(collection.contains(position)){
+		if (collection.contains(goodsId)) {
+			Log.i("erhuo", "初始化时为true");
 			goodsFavorite.setSelected(true);
 		} else {
+			Log.i("erhuo", "初始化时就为false");
 			goodsFavorite.setSelected(false);
 		}
 		goodsFavorite.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				if (collection.contains(position)) {
-					collectGoods(goods, v, false);// 调用收藏商品方法
+				collection = MyApplication.getCollection();
+				if (collection.contains(goodsId)) {
+					Log.i("erhuo", "调用取消收藏方法");
+					collectGoods(goods, v, false);// 调用取消收藏商品方法
 				} else {
+					Log.i("erhuo", "调用收藏方法");
 					collectGoods(goods, v, true);
 				}
 			}
 		});
 		tvUserName.setText(user.getName());
-		int instance = Distance(goods.getLongitude(), goods.getLatitude(), MyApplication.getLocation().getLongitude(), MyApplication.getLocation().getLatitude());
-		tvUserLocation.setText(instance >= 100 ? ("距我:" + instance/1000+"km") : ("距我:" + instance+"m"));
-		tvGoodPrice.setText("¥"+goods.getSoldPrice());
-		tvGoodOldPrice.setText("原价:"+goods.getBuyPrice());
+		int instance = Distance(goods.getLongitude(), goods.getLatitude(),
+				MyApplication.getLocation().getLongitude(), MyApplication
+						.getLocation().getLatitude());
+		tvUserLocation
+				.setText(instance >= 100 ? ("距我:" + instance / 1000 + "km")
+						: ("距我:" + instance + "m"));
+		tvGoodPrice.setText("¥" + goods.getSoldPrice());
+		tvGoodOldPrice.setText("原价:" + goods.getBuyPrice());
 		tvGoodName.setText(goods.getName());
-		tvGoodTime.setText((goods.getPubTime().substring(2,10)));
+		tvGoodTime.setText((goods.getPubTime().substring(2, 10)));
 		tvGoodBrief.setText(goods.getImformation());
 	}
 
-	protected void collectGoods(Goods goods, View v, boolean b) {
+	private void collectGoods(Goods goods, View v, boolean b) {
 		Users user = MyApplication.getCurrentUser();
 		if (user != null && goods != null) {
 			HttpUtils http = new HttpUtils();
 			RequestParams params = new RequestParams();
 			String urlHead = Url.getUrlHead();
 			String url = null;
-			Log.i("erhuo", "进来了啊");
-			if (!isFavorite) {
+			if (!b) {
 				// 取消收藏
-				Log.i("erhuo", "设为取消了");
 				v.setSelected(false);// 设为取消状态
-				collection.remove(v.getTag());// 从集合中移除
+				// 从集合中移除
+				if (collection.contains(goods.getId())) {
+					collection.remove(Integer.valueOf(goods.getId()));
+					MyApplication.setCollections(collection);// 更新Application里的集合
+				}
 				params.addBodyParameter("userId", user.getId() + "");
 				params.addBodyParameter("goodsId", goods.getId() + "");
 				url = urlHead + "/DeleteCollectionsServlet";
 			} else {
 				// 收藏
-				v.setSelected(true);// 设为取消状态
-				collection.add((Integer) v.getTag());// 并加入集合
+				v.setSelected(true);// 设为收藏状态
+				Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT);
+				// 并加入集合
+				collection.add(goods.getId());
+				MyApplication.setCollections(collection);
 				params.addBodyParameter("userId", user.getId() + "");
 				params.addBodyParameter("goodsId", goods.getId() + "");
 				url = urlHead + "/AddCollectionsServlet";
@@ -213,8 +228,56 @@ public class GoodsDetialActivity extends Activity {
 						}
 					});
 		} else {
-			Toast.makeText(GoodsDetialActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+			Toast.makeText(GoodsDetialActivity.this, "请先登录", Toast.LENGTH_SHORT)
+					.show();
 		}
+	}
+
+	// 初始化评论数据
+	private void initComment() {
+		HttpUtils http = new HttpUtils();
+		String urlHead = Url.getUrlHead();
+		String url = urlHead + "/ListRemarkServlet";
+		RequestParams params = new RequestParams();
+		params.addQueryStringParameter("goodsId", goods.getId() + "");
+		http.send(HttpRequest.HttpMethod.GET, url, params,
+				new RequestCallBack<String>() {
+
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
+
+					}
+
+					@Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						String result = arg0.result;
+						Gson gson = new Gson();
+						List<Map<Remark, Users>> listRemarkUsers = gson
+								.fromJson(
+										result,
+										new TypeToken<List<Map<Remark, Users>>>() {
+										}.getType());
+						// 设置数据源
+						pullUpToLoadListView.setAdapter(new RemarkAdapter(
+								context, listRemarkUsers));
+						// 解决scrollview嵌套listview高度问题.
+						// 获得listview对应的adapter
+						ListAdapter listAdapter = pullUpToLoadListView.getAdapter();
+						int totalHeight = 0;
+						for(int i = 0, len = listAdapter.getCount();i<len;i++){
+							View listItem = listAdapter.getView(i, null, pullUpToLoadListView);
+							// 计算子项的宽高
+							listItem.measure(0, 0);
+							// 统计所有子项总高度
+							totalHeight += listItem.getMeasuredHeight(); 
+						}
+						ViewGroup.LayoutParams params = pullUpToLoadListView.getLayoutParams();
+						// 获取子项间分隔符占用的高度 + 到总高度重去
+						params.height = totalHeight + (pullUpToLoadListView.getDividerHeight() * (listAdapter.getCount() - 1));
+						// params.height最后得到整个ListView完整显示需要的高度
+						pullUpToLoadListView.setLayoutParams(params);
+					}
+				});
 	}
 
 	//
@@ -290,8 +353,9 @@ public class GoodsDetialActivity extends Activity {
 			finish();
 			break;
 		case R.id.btn_buy:
-			if(goods.getState() == 2){
-				Toast.makeText(GoodsDetialActivity.this, "该商品已被下单", Toast.LENGTH_SHORT).show();
+			if (goods.getState() == 2) {
+				Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
+						Toast.LENGTH_SHORT).show();
 			} else {
 				Intent intent = new Intent(this, BuyGoodsActivity.class);
 				intent.putExtra("user", user);
@@ -328,9 +392,10 @@ public class GoodsDetialActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-//				Toast.makeText(GoodsDetialActivity.this, "举报",
-//						Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(GoodsDetialActivity.this,ReportGoodActivity.class);
+				// Toast.makeText(GoodsDetialActivity.this, "举报",
+				// Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(GoodsDetialActivity.this,
+						ReportGoodActivity.class);
 				intent.putExtra("goodId", goods.getId());
 				startActivity(intent);
 			}
@@ -346,8 +411,6 @@ public class GoodsDetialActivity extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
-				Log.i("mengdd", "onTouch : ");
-
 				return false;
 				// 这里如果返回true的话，touch事件将被拦截
 				// 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
@@ -360,7 +423,7 @@ public class GoodsDetialActivity extends Activity {
 
 		// 设置好参数之后再show
 		popupWindow.showAsDropDown(view);
-		//popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+		// popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
 	}
 
@@ -485,14 +548,12 @@ public class GoodsDetialActivity extends Activity {
 			// TODO Auto-generated method stub
 			if (state == 0) {
 				// new MyAdapter(null).notifyDataSetChanged();
-				Log.i("ViewPagerMyListener", "onPageScrollStateChanged");
 			}
 		}
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
 			// TODO Auto-generated method stub
-			Log.i("ViewPagerMyListener", "onPageScrolled");
 
 		}
 
@@ -501,7 +562,6 @@ public class GoodsDetialActivity extends Activity {
 
 			// 改变所有导航的背景图片为：未选中
 			for (int i = 0; i < indicator_imgs.length; i++) {
-				Log.i("ViewPagerMyListener", "onPageSelected");
 				indicator_imgs[i]
 						.setBackgroundResource(R.drawable.round_point_normal);
 
@@ -631,7 +691,6 @@ public class GoodsDetialActivity extends Activity {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		Log.i("popupwindow", "onPause");
 
 	}
 
@@ -639,7 +698,6 @@ public class GoodsDetialActivity extends Activity {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		Log.i("popupwindow", "onStop");
 	}
 
 }

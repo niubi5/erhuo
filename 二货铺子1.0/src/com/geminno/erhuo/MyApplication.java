@@ -1,5 +1,6 @@
 package com.geminno.erhuo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
@@ -24,6 +25,7 @@ public class MyApplication extends Application {
 	private static BDLocation curLocation;
 	private static List<Markets> MarketsList;
 	private static com.geminno.erhuo.entity.Address userAdds;
+	private static ArrayList<Integer> goodsIds;
 
 	@Override
 	public void onCreate() {
@@ -94,6 +96,14 @@ public class MyApplication extends Application {
 	}
 	public static com.geminno.erhuo.entity.Address getCurUserDefAddress(){
 		return userAdds;
+	}
+
+	public static void setCollections(ArrayList<Integer> goodsIdList) {
+		goodsIds = goodsIdList;
+	}
+	
+	public static ArrayList<Integer> getCollection(){
+		return goodsIds;
 	}
 	
 }

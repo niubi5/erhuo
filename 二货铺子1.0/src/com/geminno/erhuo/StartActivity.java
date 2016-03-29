@@ -1,15 +1,8 @@
 package com.geminno.erhuo;
 
-import com.geminno.erhuo.utils.Url;
-import com.geminno.erhuo.entity.Users;
-import com.geminno.erhuo.utils.SystemStatusManager;
-import com.google.gson.Gson;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,7 +14,21 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.SystemStatusManager;
+import com.geminno.erhuo.utils.Url;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+
 public class StartActivity extends Activity {
+
+	private String headUrl;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +55,8 @@ public class StartActivity extends Activity {
 		String userPwd = sharedPreferences.getString("userPwd", "");
 		Log.i("cheshi", "userName,userPwd" + userName + userPwd);
 		if (!userName.isEmpty() && !userPwd.isEmpty()) {
-			HttpUtils httpUtils = new HttpUtils();
-			String headUrl = Url.getUrlHead();
+			final HttpUtils httpUtils = new HttpUtils();
+			headUrl = Url.getUrlHead();
 			String url = headUrl + "/LoginServlet";
 			RequestParams params = new RequestParams();
 			params.addBodyParameter("identity", userName);
@@ -73,8 +80,28 @@ public class StartActivity extends Activity {
 							Toast.makeText(StartActivity.this,
 									users.getName() + ",欢迎回来！ ",
 									Toast.LENGTH_SHORT).show();
-						}
+							// 获得当前用户收藏的商品
+							String url = headUrl + "/CollectionsServlet";
+							RequestParams params = new RequestParams();
+							params.addQueryStringParameter("userId", users.getId() + "");
+							httpUtils.send(HttpMethod.GET, url, params, new RequestCallBack<String>() {
 
+								@Override
+								public void onFailure(HttpException arg0,
+										String arg1) {
+									
+								}
+
+								@Override
+								public void onSuccess(ResponseInfo<String> arg0) {
+									String result = arg0.result;
+									Gson gson = new Gson();
+									Type type = new TypeToken<ArrayList<Integer>>(){}.getType();
+									ArrayList<Integer> goodsIdList = gson.fromJson(result, type);
+									MyApplication.setCollections(goodsIdList);
+								}
+							}); 
+						}
 					});
 		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
