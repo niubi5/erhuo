@@ -1,9 +1,13 @@
 package com.geminno.erhuo;
 
+import io.rong.imkit.RongIM;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.baidu.location.BDLocation;
@@ -25,6 +29,7 @@ public class MyApplication extends Application {
 	private static BDLocation curLocation;
 	private static List<Markets> MarketsList;
 	private static com.geminno.erhuo.entity.Address userAdds;
+	private static String curToken;
 	private static ArrayList<Integer> goodsIds;
 
 	@Override
@@ -32,6 +37,8 @@ public class MyApplication extends Application {
 		super.onCreate();
 		// 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
 		SDKInitializer.initialize(this);
+		// 初始化融云
+		RongIM.init(this);
 		// 初始化ImageLoader
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.icon_stub) // 设置图片下载期间显示的图片
@@ -42,24 +49,46 @@ public class MyApplication extends Application {
 				.imageScaleType(ImageScaleType.IN_SAMPLE_INT)// 设置图片以如何的编码方式显示
 				.considerExifParams(true)// 启用EXIF和JPEG图像格式
 				.bitmapConfig(Bitmap.Config.RGB_565)// 比默认的ARGB_8888少消耗2倍内存
-//				.displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间
-//				.displayer(new RoundedBitmapDisplayer(20)) // 设置成圆角图片
+				// .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间
+				// .displayer(new RoundedBitmapDisplayer(20)) // 设置成圆角图片
 				.build(); // 创建配置过得DisplayImageOption对象
 
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				this)
-				.defaultDisplayImageOptions(options)
-				.threadPriority(Thread.NORM_PRIORITY - 2)
-				.threadPoolSize(3)
-//				.memoryCache(new UsingFreqLimitedMemoryCache(2* 1024 * 1024))
-//				.memoryCacheSize(4 * 1024 * 1024)// 内存缓存大小
+				this).defaultDisplayImageOptions(options)
+				.threadPriority(Thread.NORM_PRIORITY - 2).threadPoolSize(3)
+				// .memoryCache(new UsingFreqLimitedMemoryCache(2* 1024 * 1024))
+				// .memoryCacheSize(4 * 1024 * 1024)// 内存缓存大小
 				.denyCacheImageMultipleSizesInMemory()
-//				.discCacheFileNameGenerator(new Md5FileNameGenerator())// 将保存的时候的URI名称用MD5 加密
+				// .discCacheFileNameGenerator(new Md5FileNameGenerator())//
+				// 将保存的时候的URI名称用MD5 加密
 				.tasksProcessingOrder(QueueProcessingType.LIFO)
-//				.discCache(new UnlimitedDiscCache(cacheDir))// 硬盘缓存路径
+				// .discCache(new UnlimitedDiscCache(cacheDir))// 硬盘缓存路径
 				.build();
 		ImageLoader.getInstance().init(config);
 
+	}
+
+	/**
+	 * 获得当前进程的名字
+	 * 
+	 * @param context
+	 * @return 进程号
+	 */
+	public static String getCurProcessName(Context context) {
+
+		int pid = android.os.Process.myPid();
+
+		ActivityManager activityManager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+
+		for (ActivityManager.RunningAppProcessInfo appProcess : activityManager
+				.getRunningAppProcesses()) {
+
+			if (appProcess.pid == pid) {
+				return appProcess.processName;
+			}
+		}
+		return null;
 	}
 
 	// 当前登录用户
@@ -90,13 +119,24 @@ public class MyApplication extends Application {
 	public static List<Markets> getMarketsList() {
 		return MarketsList;
 	}
-	//获取当前用户的默认收货地址
-	public static void setCurUserDefAddress(com.geminno.erhuo.entity.Address userAddress){
+
+	// 获取当前用户的默认收货地址
+	public static void setCurUserDefAddress(
+			com.geminno.erhuo.entity.Address userAddress) {
 		userAdds = userAddress;
 	}
-	public static com.geminno.erhuo.entity.Address getCurUserDefAddress(){
+
+	public static com.geminno.erhuo.entity.Address getCurUserDefAddress() {
 		return userAdds;
 	}
+	//获取当前用户融云Token
+	public static void setCurToken(String token){
+		curToken = token;
+	}
+	public static String getCurToken(){
+		return curToken;
+	}
+
 
 	public static void setCollections(ArrayList<Integer> goodsIdList) {
 		goodsIds = goodsIdList;

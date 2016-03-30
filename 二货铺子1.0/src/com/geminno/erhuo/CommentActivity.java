@@ -12,6 +12,7 @@ public class CommentActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_comment);
+		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 	}
 	
 	public void msgComment(View v){

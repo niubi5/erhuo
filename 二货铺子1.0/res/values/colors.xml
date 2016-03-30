@@ -110,6 +110,7 @@
     <color name="main_black">#ff000000</color>
     <color name="main_blackgray">#ff303030</color>
     <color name="main_blue">#ff7ecef4</color>
+    <color name="selling_blue">#67BF97</color>
     <color name="main_brightgray">#ffdcdcdc</color>
     <color name="main_darkwhite">#ffe6e6fa</color>
     <color name="main_deepalpha_lightred">#a0fa8072</color>
@@ -229,6 +230,8 @@
     <color name="separate_line">#C8C8C8</color>
     <color name="add_image_background">#D0D0D0</color>
 	<color name="mybtn_press">#EEEEEE</color>
+	<color name="my_blue">#2A00FF</color>
+	
     <!-- 多图片上传 -->
     <color name="grey">#808080</color> <!-- 灰色 -->
 

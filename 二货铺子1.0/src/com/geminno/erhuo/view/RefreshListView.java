@@ -145,7 +145,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 					changeState();
 				}
 				headView.setPadding(0, paddingHeight, 0, 0);
-				return true;
+				return false;
 			}
 			break;
 		case MotionEvent.ACTION_UP:
@@ -160,6 +160,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 				// 开始刷新操作：回调
 				if (refreshCallBack != null) {
 					refreshCallBack.onRefresh();
+					return true;
 				}
 			}
 			break;
