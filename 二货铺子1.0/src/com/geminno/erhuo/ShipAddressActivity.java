@@ -184,6 +184,10 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 							}
 							intent.putExtra("diqu", diqu);
 							intent.putExtra("dizhi", shipaddress);
+							if (listad.get(position).getIsdefault().equals("yes")) {
+								MyApplication
+								.setCurUserDefAddress(listad.get(position));
+							}
 							startActivity(intent);
 							finish();
 						}
