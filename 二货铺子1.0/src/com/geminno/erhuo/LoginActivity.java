@@ -159,7 +159,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		Users curUser = MyApplication.getCurrentUser();
 		if (curUser != null) {
 			 String url = Url.getUrlHead() + "/UserAddressServlet";
-			//String url = "http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
+//			String url = "http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
 			RequestParams rp = new RequestParams();
 			rp.addBodyParameter("curUserId", curUser.getId() + "");
 			HttpUtils hu = new HttpUtils();

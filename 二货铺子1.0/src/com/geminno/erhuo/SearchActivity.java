@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class SearchActivity extends Activity implements OnClickListener {
@@ -47,6 +48,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 	private Context context;
 	private String result = null;
 	private String word;
+	private LinearLayout linsearch;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +58,12 @@ public class SearchActivity extends Activity implements OnClickListener {
 		// 调用setColor()方法,实现沉浸式状态栏
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		keyword = (EditText) findViewById(R.id.search_et_input);
+		linsearch=(LinearLayout) findViewById(R.id.lin_search);
+		refreshListView = (RefreshListView) findViewById(R.id.refres_list_search);
 		findViewById(R.id.tv_search).setOnClickListener(this);
 		findViewById(R.id.ib_sousuo).setOnClickListener(this);
 		context = this;
-		refreshListView = (RefreshListView) findViewById(R.id.refres_list_search);
+		
 	}
 
 	private void initView() {
@@ -110,6 +114,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 			word = keyword.getText().toString();
 			Log.i("cheshi", "获得word值："+word);
 			if (word.length() != 0) {
+				linsearch.setVisibility(linsearch.GONE);
 				initData();
 				initView();
 			}else {
@@ -178,10 +183,10 @@ public class SearchActivity extends Activity implements OnClickListener {
 				params.addQueryStringParameter("curPage", curPage + "");
 				params.addQueryStringParameter("pageSize", pageSize + "");
 				http.configCurrentHttpCacheExpiry(0);
-				//String headUrl = Url.getUrlHead();
 				// 拼接url
-				//String url = headUrl + "/SearchGoodsServlet";
-				String url="http://10.201.1.16:8080/secondHandShop/SearchGoodsServlet";
+				String headUrl = Url.getUrlHead();
+				String url = headUrl + "/SearchGoodsServlet";
+//				String url="http://10.201.1.16:8080/secondHandShop/SearchGoodsServlet";
 				http.send(HttpRequest.HttpMethod.GET, url, params,
 						new RequestCallBack<String>() {
 
