@@ -40,10 +40,7 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 	private ViewHolderType viewHolderType = null;
 	private Address address;
 	private List<Address> listad;
-	private String name;
-	private String phone;
-	private String diqu;
-	private String dizhi;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +140,7 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 		RequestParams params=new RequestParams();
 		String headUrl = Url.getUrlHead();
 		String url = headUrl + "/AddressListServlet";
-		//String url="http://10.201.1.16:8080/secondHandShop/AddressListServlet";
+//		String url="http://10.201.1.16:8080/secondHandShop/AddressListServlet";
 		params.addQueryStringParameter("curUserId",userId);
 		httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
@@ -176,18 +173,17 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 							// TODO Auto-generated method stub
 							Log.i("cheshi", "点击事件，跳转");
 							Intent intent=new Intent(ShipAddressActivity.this,NewAddressActivity.class);
-//							intent.putExtra("name", listad.get(position).getName());
-//							intent.putExtra("phone", listad.get(position).getPhone());
-//							String shipaddress = listad.get(position).getAddress().toString();
-//							String diqu=null;
-//							if (shipaddress.indexOf("市") != -1) {
-//								 diqu=shipaddress.substring(0,shipaddress.indexOf("市"))+ "市";
-//							} else {
-//							     diqu=shipaddress;
-//							}
-//							intent.putExtra("diqu", diqu);
-//							intent.putExtra("dizhi", shipaddress);
-//							Log.i("cheshi", "跳转传值:"+name+phone+diqu+dizhi);
+							intent.putExtra("name", listad.get(position).getName());
+							intent.putExtra("phone", listad.get(position).getPhone());
+							String shipaddress = listad.get(position).getAddress().toString();
+							String diqu=null;
+							if (shipaddress.indexOf("市") != -1) {
+								 diqu=shipaddress.substring(0,shipaddress.indexOf("市"))+ "市";
+							} else {
+							     diqu=shipaddress;
+							}
+							intent.putExtra("diqu", diqu);
+							intent.putExtra("dizhi", shipaddress);
 							startActivity(intent);
 							finish();
 						}
