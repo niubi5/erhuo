@@ -63,4 +63,5 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 		return DonationViewHolder.get(mContext, parent, convertView, mItemLayoutId, position);	
 	}
 	
+	
 }

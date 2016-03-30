@@ -166,7 +166,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		default:
 			break;
 		}
-		return super.onTouchEvent(ev);
+		return true;
 	}
 
 	// 改变状态，界面显示内容跟着改变

@@ -124,11 +124,12 @@
             android:name=".StartActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <intent-filter>
+               <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
         </activity>
         <activity
             android:name=".SheZhiActivity"
@@ -187,16 +188,13 @@
         <activity
             android:name=".DonateRequestActivity"
             android:launchMode="singleTask" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            
         </activity>
         <activity
             android:name=".DonationActivity"
             android:label="@string/title_activity_donation"
             android:screenOrientation="portrait" >
+         
         </activity>
         <activity
             android:name=".GoodsDetialActivity"
@@ -266,11 +264,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" >
         </activity>
-
         <activity
             android:name=".DonationDetailActivity"
             android:label="@string/title_activity_donation_detail" >
-
         </activity>
         <activity
             android:name=".DonationReportActivity"
@@ -469,6 +465,11 @@
             android:name=".SystemMsgActivity"
             android:label="@string/title_activity_system_msg"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".DemoActivity"
+            android:label="@string/title_activity_demo" >
+            
         </activity>
     </application>
 

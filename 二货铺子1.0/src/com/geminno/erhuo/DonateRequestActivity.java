@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -231,17 +232,19 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 							donation.setDetail(content);
 							SimpleDateFormat sdf = new SimpleDateFormat(
 									"yyyy-MM-dd hh:mm:ss");
-							donation.setTime(sdf.format(new Date()));
+							donation.setPubTime(sdf.format(new Date()));
 							donation.setLogistics(logistics);
+							donation.setConsignee(geterName);
 							donation.setAddress(address);
 
 							Log.i("donation",
 									"" + donation.getUserId()
 											+ donation.getTitle()
 											+ donation.getDetail()
-											+ donation.getTime()
+											+ donation.getPubTime()
 											+ donation.getLogistics()
-											+ donation.getAddress());
+											+ donation.getAddress()
+											+ donation.getConsignee());
 							Gson gson = new GsonBuilder().setDateFormat(
 									"yyyy-MM-dd hh:mm:ss").create();
 							String donationGson = gson.toJson(donation);
@@ -305,6 +308,9 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 				break;
 			}
 		}
+		Intent intent = new Intent(this,MainActivity.class);
+		startActivity(intent);
+		this.finish();
 	}
 
 	/**
@@ -460,6 +466,10 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 		});
 		// 初始化图片选择框GridView
 		doantion_noScrollgridview = (GridView) findViewById(R.id.doantion_noScrollgridview);
+		// 隐藏输入法
+		InputMethodManager inputMethodManager =(InputMethodManager)getApplicationContext().
+				getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(doantion_noScrollgridview.getWindowToken(), 0); //隐藏
 		// 设置点击GridView时出现背景
 		doantion_noScrollgridview.setSelector(new ColorDrawable(
 				Color.TRANSPARENT));
