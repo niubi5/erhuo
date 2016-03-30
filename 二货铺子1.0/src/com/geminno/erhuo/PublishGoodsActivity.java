@@ -524,7 +524,8 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				// Toast.LENGTH_LONG).show();
 				// 将用户输入的信息封装成Goods对象
 				Goods goods = new Goods();
-				final int USERID = 2;// 仅做测试用，正式版应从MyApplication.getCurrentUser().getId()获取
+				//final int USERID = 2;// 仅做测试用，正式版应从MyApplication.getCurrentUser().getId()获取
+				int USERID = MyApplication.getCurrentUser().getId();
 				goods.setUserId(USERID);
 				goods.setName(etName.getText().toString());
 				goods.setImformation(etBrief.getText().toString());

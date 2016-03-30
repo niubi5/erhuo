@@ -5,6 +5,8 @@ import com.geminno.erhuo.R;
 import com.geminno.erhuo.StartActivity;
 import com.geminno.erhuo.fragment.DonateFragment;
 import com.geminno.erhuo.utils.ImageLoader.Type;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +28,9 @@ public class DonationViewHolder {
      * item的positon
      */
     private int mPosition;
+    /**
+     * item的View
+     */
     private View mConvertView;
     
     
@@ -136,7 +141,9 @@ public class DonationViewHolder {
      * @return
      */
     public DonationViewHolder setImageBitmap(int viewId, String url){
-    	ImageLoader.getInstance(3,Type.LIFO).loadImage(url, (ImageView)getView(viewId));
+    	ImageLoader imageLoader = ImageLoader.getInstance();
+    	imageLoader.displayImage(url, (ImageView) getView(viewId));
+//    	ImageLoader.getInstance(3,Type.LIFO).loadImage(url, (ImageView)getView(viewId));
     	return this;
     }
     

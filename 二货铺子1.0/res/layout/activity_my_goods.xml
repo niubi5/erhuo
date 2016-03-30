@@ -4,4 +4,146 @@
     android:layout_height="match_parent"
     tools:context="com.geminno.erhuo.MyGoodsActivity" >
 
+    <FrameLayout
+        android:id="@+id/erhuo_mine_title"
+        style="@style/FrameTitleRed" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical" >
+
+            <ImageView
+                android:id="@+id/iv_mine_return"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/left_arrow_white" />
+
+            <TextView
+                style="@style/FrameTitleRedText"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/mine" />
+        </RelativeLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/userinfo_tabs"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/erhuo_mine_title"
+        android:background="@color/main_white"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/userinfo_selling"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btn_selling"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/mygoods_selling_bg"
+                android:paddingBottom="2dip"
+                android:paddingTop="7dip"
+                android:scaleType="matrix"
+                android:text="在售的"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_tiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/userinfo_sold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btn_sold"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/mygoods_sold_bg"
+                android:paddingBottom="2dip"
+                android:paddingTop="7dip"
+                android:scaleType="matrix"
+                android:text="卖出的"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_tiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/userinfo_bought"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btn_bought"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/mygoods_bought_bg"
+                android:paddingBottom="2dip"
+                android:paddingTop="7dip"
+                android:scaleType="matrix"
+                android:text="已买的"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_tiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/userinfo_favorite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btn_donate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/mygoods_donate_bg"
+                android:paddingBottom="2dip"
+                android:paddingTop="7dip"
+                android:scaleType="matrix"
+                android:text="捐赠的"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_tiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/userinfo_ll_favorite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/btn_collec"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/mygoods_collet_bg"
+                android:paddingBottom="2dip"
+                android:paddingTop="7dip"
+                android:scaleType="matrix"
+                android:text="收藏的"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/font_tiny" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/userinfo_tabs" />
+
 </RelativeLayout>

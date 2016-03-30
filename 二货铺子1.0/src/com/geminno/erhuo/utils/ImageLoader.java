@@ -1,13 +1,21 @@
 package com.geminno.erhuo.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
+import com.mob.tools.network.HttpConnection;
+import com.squareup.okhttp.Response;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -61,6 +69,10 @@ public class ImageLoader {
 	 * ImageLoader实例
 	 */
 	private static ImageLoader mInstance;
+	
+	
+	
+	Task myTask;
 
 	/**
 	 * 队列的调度方式
@@ -153,6 +165,8 @@ public class ImageLoader {
 	 * @param iamgeView
 	 */
 	public void loadImage(final String path, final ImageView imageView) {
+		
+		myTask = (Task) new Task(imageView).execute(path);
 		// 给imageView设置一个tag
 		imageView.setTag(path);
 		// UI线程Handler
@@ -408,5 +422,50 @@ public class ImageLoader {
 	private class ImageSize {
 		int width;
 		int height;
+	}
+	
+	class Task extends AsyncTask<String, Void, Bitmap>{
+		
+		ImageView imageView;
+		
+		public Task(ImageView imageView){
+			this.imageView = imageView;
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap result) {
+			
+			super.onPostExecute(result);
+			imageView.setImageBitmap(result);
+		}
+
+		@Override
+		protected Bitmap doInBackground(String... params) {
+			String imageUrl = params[0];
+			HttpConnection conn;
+			InputStream in = null;
+			Bitmap bitmap = null;
+			try {
+				URL url = new URL(imageUrl);
+				 conn = (HttpConnection) url.openConnection();
+				if(conn.getResponseCode() == 200){
+					 in = conn.getInputStream();
+					 bitmap = BitmapFactory.decodeStream(in);
+				}
+				return bitmap;
+			    
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			return null;
+		}
+		
 	}
 }

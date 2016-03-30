@@ -133,6 +133,13 @@
     <string name="add_address">添加收货地址</string>
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_system_msg">SystemMsg</string>
+    <string name="title_activity_conversationt">ConversationtActivity</string>
+    <string name="title_activity_conversation_list">ConversationListActivity</string>
+    <!-- 我的商品 -->
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+    <string name="mark_sold">标记售出</string>
+    <string name="title_activity_demo">DemoActivity</string>
     <string name="title_activity_release">ReleaseActivity</string>
     <string name="title_activity_specific_address">SpecificAddressActivity</string>
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout 
+        android:id="@+id/ll_donate_help"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+        <Button 
+            android:id="@+id/btn_donate_donation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="我捐赠的"
+            android:textColor="@color/dimgray"
+            android:textSize="@dimen/font_bigmiddle"
+            android:background="@null"
+            android:layout_weight="1"/>
+        <View
+                android:id="@+id/view2"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="3dp"
+                android:background="#C9C9C9" />
+         <Button 
+            android:id="@+id/btn_donate_help"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="我求助的"
+            android:textColor="@color/dimgray"
+            android:textSize="@dimen/font_bigmiddle"
+            android:background="@null"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+   <com.geminno.erhuo.view.RefreshListView
+       android:id="@+id/rlv_donate"
+       android:layout_width="match_parent"
+       android:layout_height="fill_parent"
+       android:background="#E7E7E7"
+       android:layout_below="@+id/ll_donate_help" >
+    </com.geminno.erhuo.view.RefreshListView>
+</RelativeLayout>
