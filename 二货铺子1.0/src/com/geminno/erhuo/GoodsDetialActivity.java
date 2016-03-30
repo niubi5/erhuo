@@ -21,6 +21,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,31 +30,40 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
+import com.baidu.wallet.core.restframework.http.HttpMethod;
 import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
 import com.geminno.erhuo.adapter.RemarkAdapter;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Remark;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.Url;
+import com.geminno.erhuo.view.PullToFreshListView;
 import com.geminno.erhuo.view.PullUpToLoadListView;
+import com.geminno.erhuo.view.PullUpToLoadListView.OnPullUpToLoadCallBack;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -63,7 +73,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class GoodsDetialActivity extends Activity {
+public class GoodsDetialActivity extends Activity implements OnClickListener {
 	public static Activity goodsDetialActivity;
 	private ViewPager viewPager;
 	private ImageView image;
@@ -80,6 +90,15 @@ public class GoodsDetialActivity extends Activity {
 	private Integer goodsId;
 	private PullUpToLoadListView pullUpToLoadListView;
 	private Context context;
+	private ScrollView scroll;
+	private ImageView commentIv;
+	private Users currentUser = MyApplication.getCurrentUser();
+	private RemarkAdapter remarkAdapter;
+	private Handler handler = new Handler();
+	private int curPage = 1;
+	private int pageSize = 5;
+	private List<Map<Remark, Users>> listRemarkUsers = new ArrayList<Map<Remark, Users>>();
+	private List<Map<Remark, Users>> preRemarkUsers = new ArrayList<Map<Remark, Users>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +110,11 @@ public class GoodsDetialActivity extends Activity {
 		context = this;
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		viewPager = (ViewPager) findViewById(R.id.vp_goods_images);
+		commentIv = (ImageView) findViewById(R.id.comment_iv);
+		commentIv.setOnClickListener(this);
 		// 上拉加载的listview
-		pullUpToLoadListView = (PullUpToLoadListView) findViewById(R.id.pull_up_to_load);
 		List<View> list = new ArrayList<View>();
+		scroll = (ScrollView) findViewById(R.id.sc_goods_information);
 		inflater = LayoutInflater.from(this);
 		// 获得当前商品的id
 		Intent intent = getIntent();
@@ -122,7 +143,7 @@ public class GoodsDetialActivity extends Activity {
 		// 绑定动作监听器：如翻页的动画
 		viewPager.setOnPageChangeListener(new MyListener());
 		initData();
-		initComment();// 初始化评论数据
+		initComment();// 初始化评论
 		initIndicator();
 	}
 
@@ -151,10 +172,8 @@ public class GoodsDetialActivity extends Activity {
 		}
 		// 设置收藏的显示状态
 		if (collection.contains(goodsId)) {
-			Log.i("erhuo", "初始化时为true");
 			goodsFavorite.setSelected(true);
 		} else {
-			Log.i("erhuo", "初始化时就为false");
 			goodsFavorite.setSelected(false);
 		}
 		goodsFavorite.setOnClickListener(new OnClickListener() {
@@ -163,10 +182,8 @@ public class GoodsDetialActivity extends Activity {
 			public void onClick(View v) {
 				collection = MyApplication.getCollection();
 				if (collection.contains(goodsId)) {
-					Log.i("erhuo", "调用取消收藏方法");
 					collectGoods(goods, v, false);// 调用取消收藏商品方法
 				} else {
-					Log.i("erhuo", "调用收藏方法");
 					collectGoods(goods, v, true);
 				}
 			}
@@ -233,8 +250,33 @@ public class GoodsDetialActivity extends Activity {
 		}
 	}
 
-	// 初始化评论数据
+	// 初始化评论
 	private void initComment() {
+		pullUpToLoadListView = (PullUpToLoadListView) findViewById(R.id.pull_up_to_load);
+		initCommentData();
+//		pullUpToLoadListView
+//				.setOnPullToLoadCallback(new OnPullUpToLoadCallBack() {
+//
+//					@Override
+//					public void onPull() {
+//						handler.postDelayed(new Runnable() {
+//
+//							@Override
+//							public void run() {
+//								curPage++;
+//								addCommentData();
+//								Log.i("erhuo", "加载进来了！！");
+//								pullUpToLoadListView.completePull();
+//							}
+//
+//						}, 2000);
+//
+//					}
+//				});
+	}
+
+	// 初始化评论数据
+	private void initCommentData() {
 		HttpUtils http = new HttpUtils();
 		String urlHead = Url.getUrlHead();
 		String url = urlHead + "/ListRemarkServlet";
@@ -251,34 +293,109 @@ public class GoodsDetialActivity extends Activity {
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
-						Gson gson = new Gson();
-						List<Map<Remark, Users>> listRemarkUsers = gson
-								.fromJson(
-										result,
-										new TypeToken<List<Map<Remark, Users>>>() {
-										}.getType());
-						// 设置数据源
-						pullUpToLoadListView.setAdapter(new RemarkAdapter(
-								context, listRemarkUsers));
+						Gson gson = new GsonBuilder()
+								.enableComplexMapKeySerialization().create();
+						List<Map<Remark, Users>> newComments = gson.fromJson(
+								result,
+								new TypeToken<List<Map<Remark, Users>>>() {
+								}.getType());
+						if (!listRemarkUsers.isEmpty()) {
+							listRemarkUsers.clear();
+						}
+						listRemarkUsers.addAll(newComments);// 加到总集合中去
+						if (remarkAdapter == null) {
+							remarkAdapter = new RemarkAdapter(context,
+									listRemarkUsers, goods,
+									pullUpToLoadListView);
+							pullUpToLoadListView.setAdapter(remarkAdapter);
+						} else {
+							Log.i("erhuo", "通知数据源改变");
+							remarkAdapter.notifyDataSetChanged();
+						}
 						// 解决scrollview嵌套listview高度问题.
 						// 获得listview对应的adapter
-						ListAdapter listAdapter = pullUpToLoadListView.getAdapter();
+						ListAdapter listAdapter = pullUpToLoadListView
+								.getAdapter();
 						int totalHeight = 0;
-						for(int i = 0, len = listAdapter.getCount();i<len;i++){
-							View listItem = listAdapter.getView(i, null, pullUpToLoadListView);
+						for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
+							View listItem = listAdapter.getView(i, null,
+									pullUpToLoadListView);
 							// 计算子项的宽高
 							listItem.measure(0, 0);
 							// 统计所有子项总高度
-							totalHeight += listItem.getMeasuredHeight(); 
+							totalHeight += listItem.getMeasuredHeight();
 						}
-						ViewGroup.LayoutParams params = pullUpToLoadListView.getLayoutParams();
+						ViewGroup.LayoutParams params = pullUpToLoadListView
+								.getLayoutParams();
 						// 获取子项间分隔符占用的高度 + 到总高度重去
-						params.height = totalHeight + (pullUpToLoadListView.getDividerHeight() * (listAdapter.getCount() - 1));
+						params.height = totalHeight
+								+ (pullUpToLoadListView.getDividerHeight() * (listAdapter
+										.getCount() - 1));
 						// params.height最后得到整个ListView完整显示需要的高度
 						pullUpToLoadListView.setLayoutParams(params);
+						scroll.smoothScrollBy(0, 20);
 					}
 				});
 	}
+
+//	private void addCommentData() {
+//		HttpUtils http = new HttpUtils();
+//		String headUrl = Url.getUrlHead();
+//		String url = headUrl + "/ListRemarkServlet";
+//		RequestParams params = new RequestParams();
+//		params.addQueryStringParameter("goodsId", goods.getId() + "");
+//		http.send(HttpRequest.HttpMethod.GET, url, params,
+//				new RequestCallBack<String>() {
+//
+//					@Override
+//					public void onFailure(HttpException arg0, String arg1) {
+//						Toast.makeText(context, "加载失败", Toast.LENGTH_SHORT)
+//								.show();
+//					}
+//
+//					@Override
+//					public void onSuccess(ResponseInfo<String> arg0) {
+//						String result = arg0.result;
+//						Gson gson = new GsonBuilder()
+//								.enableComplexMapKeySerialization().create();
+//						List<Map<Remark, Users>> newComments = gson.fromJson(
+//								result,
+//								new TypeToken<List<Map<Remark, Users>>>() {
+//								}.getType());
+//						if (!preRemarkUsers.isEmpty()) {
+//							listRemarkUsers.removeAll(preRemarkUsers);
+//							preRemarkUsers.clear();
+//						}
+//						// 判断有没有加到数据
+//						if (newComments == null || newComments.isEmpty()) {
+//							// 没有加载到数据，则弹出提示
+//							Toast.makeText(context, "没有更多了", Toast.LENGTH_SHORT)
+//									.show();
+//							// 页数不变，之前++过，故这里要--
+//							curPage--;
+//						} else {
+//							// 判断有没有加满
+//							if (newComments != null
+//									&& newComments.size() < pageSize) {
+//								preRemarkUsers.addAll(newComments);
+//								// 页数不变
+//								curPage--;
+//							}
+//							listRemarkUsers.addAll(newComments);
+//							if (remarkAdapter == null) {
+//								remarkAdapter = new RemarkAdapter(context,
+//										listRemarkUsers, goods,
+//										pullUpToLoadListView);
+//								pullUpToLoadListView.setAdapter(remarkAdapter);
+//							} else {
+//								Log.i("erhuo", "通知数据源改变");
+//								remarkAdapter.notifyDataSetChanged();
+//							}
+//						}
+//
+//					}
+//				});
+//	}
 
 	//
 	/**
@@ -391,7 +508,6 @@ public class GoodsDetialActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				// Toast.makeText(GoodsDetialActivity.this, "举报",
 				// Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(GoodsDetialActivity.this,
@@ -425,6 +541,90 @@ public class GoodsDetialActivity extends Activity {
 		popupWindow.showAsDropDown(view);
 		// popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
+	}
+
+	private void showCommentPopUp(final Context context) {
+		View contentView = LayoutInflater.from(context).inflate(
+				R.layout.comment_popup, null);
+		final PopupWindow pop = new PopupWindow(contentView,
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+		pop.setContentView(contentView);
+		final EditText commentContent = (EditText) contentView
+				.findViewById(R.id.pop_comment_content);
+		ImageView commentSend = (ImageView) contentView
+				.findViewById(R.id.pop_comment_send);
+		commentContent.setHint("回复 " + user.getName() + ":");
+		// 发送留言
+		commentSend.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// 当前用户已登录
+				// 当评论不为空时 发送留言，存入数据库
+				if (currentUser == null) {
+					Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+				} else {
+					if (commentContent.getText() != null) {
+						HttpUtils http = new HttpUtils();
+						String urlHead = Url.getUrlHead();
+						String url = urlHead + "/AddCommentServlet";
+						RequestParams params = new RequestParams();
+						params.addBodyParameter("goodsId", goods.getId() + "");
+						params.addBodyParameter("userId", currentUser.getId()
+								+ "");
+						params.addBodyParameter("commentContent",
+								commentContent.getText().toString());
+						params.addBodyParameter("fatherId", 0 + "");// 当前为一级评论
+						http.send(HttpRequest.HttpMethod.POST, url, params,
+								new RequestCallBack<String>() {
+
+									@Override
+									public void onFailure(HttpException arg0,
+											String arg1) {
+										Toast.makeText(context, "评论失败",
+												Toast.LENGTH_SHORT).show();
+									}
+
+									@Override
+									public void onSuccess(
+											ResponseInfo<String> arg0) {
+										Toast.makeText(context, "评论成功",
+												Toast.LENGTH_SHORT).show();
+										// 并且隐藏pop
+										pop.dismiss();
+										initCommentData();// 再次调用，更新数据源
+									}
+								});
+					}
+				}
+
+			}
+		});
+		pop.setBackgroundDrawable(new BitmapDrawable());
+		pop.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+		pop.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		pop.setFocusable(true);
+		pop.setOutsideTouchable(true);
+		pop.setTouchable(true);
+		// 显示popupwindow
+		View rootView = LayoutInflater.from(context).inflate(
+				R.layout.activity_goods_detial, null);
+		pop.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
+		popupInputMethodWindow();// 自动弹出键盘
+	}
+
+	// 自动弹出键盘
+	private void popupInputMethodWindow() {
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				InputMethodManager imm = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+		}, 0);
 	}
 
 	/**
@@ -698,6 +898,15 @@ public class GoodsDetialActivity extends Activity {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.comment_iv:
+			showCommentPopUp(context);
+			break;
+		}
 	}
 
 }
