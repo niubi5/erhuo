@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F9F8F4"
     tools:context="com.geminno.erhuo.ReleaseActivity" >
     <FrameLayout
         android:id="@+id/erhuo_title"
@@ -22,21 +23,23 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/erhuo_title"
         >
-        <TextView 
-            android:layout_height="25dp"
+       <Button
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/white"
             android:text="全部"/>
-        <TextView 
-            android:layout_height="25dp"
+     
+        <Button 
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
+            android:background="@color/white"
             android:text="转让"/>
-        <TextView 
-            android:layout_height="25dp"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:text="求购"/>
+        \
+            
         
     </LinearLayout>
     <View 

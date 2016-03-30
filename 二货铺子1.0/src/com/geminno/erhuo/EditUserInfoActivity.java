@@ -206,15 +206,15 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
      		RequestParams params=new RequestParams();
      		params.addQueryStringParameter("userid",userid);
      		// 服务器路径
-//     		String headUrl = Url.getUrlHead();
-//     		String url = headUrl + "/UserAddressServlet";
-     		String url="http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
+     		String headUrl = Url.getUrlHead();
+     		String url = headUrl + "/UserAddressServlet";
+  //   		String url="http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
      		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
      			@Override
      			public void onFailure(HttpException arg0, String arg1) {
      				// TODO Auto-generated method stub
-     				Toast.makeText(EditUserInfoActivity.this,"获取失败", Toast.LENGTH_SHORT).show();
+     				Toast.makeText(EditUserInfoActivity.this,"获取地址失败", Toast.LENGTH_SHORT).show();
      			}
 
      			@Override
