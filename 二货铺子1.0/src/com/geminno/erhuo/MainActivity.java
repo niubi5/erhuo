@@ -276,7 +276,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		// 发布按钮
 		case R.id.iv_publish_goods:
 			nextIndex = currentIndex;
-			startActivity(new Intent(this, PublishGoodsActivity.class));
+			if(MyApplication.getCurrentUser() != null){
+				startActivity(new Intent(this, PublishGoodsActivity.class));				
+			}else{
+				Toast.makeText(this, "请先登陆！", Toast.LENGTH_SHORT).show();
+			}
 			break;
 		}
 		// 取消当前按钮选中状态
@@ -302,13 +306,13 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				transaction.add(R.id.fragment_container,
 						fragments.get(nextIndex));
 			}
+			transaction.show(fragments.get(nextIndex)).commit();
 			if(nextIndex == 3){
 				flMain.setBackgroundResource(R.drawable.img_my_bg);
 				//flMain.setBackground(getResources().getDrawable(R.drawable.img_my_bg));
 			}else{
 				flMain.setBackgroundColor(getResources().getColor(R.color.main_red));
 			}
-			transaction.show(fragments.get(nextIndex)).commit();
 		}
 		// 改变currentIndex值
 		currentIndex = nextIndex;

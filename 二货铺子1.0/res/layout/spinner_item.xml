@@ -10,19 +10,19 @@
         android:id="@+id/iv_type_inco"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:src="@null"/>
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_launcher"/>
 
     <TextView
         android:id="@+id/tv_type_name"
+        style="@style/MyInfoTextView"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_centerInParent="true"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_toRightOf="@+id/iv_type_inco"
+        android:gravity="center"
         android:text="TextView"
-        style="@style/MyInfoTextView"
-        android:textSize="@dimen/font_big"
-        android:gravity="center" />
+        android:textSize="@dimen/font_big" />
 
 </RelativeLayout>

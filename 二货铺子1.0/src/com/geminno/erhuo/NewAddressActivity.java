@@ -103,7 +103,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				ads.setUserId(users.getId());
     				ads.setName(receiptName);
     				ads.setPhone(receiptPhone);
-    				ads.setAddress(receiptdizhi);
+    				ads.setAddress(receiptdiqu+receiptdizhi);
     				ads.setIsdefault(isdefault);
     				if(ads.getIsdefault().equals("yes")){
     					MyApplication.setCurUserDefAddress(ads);

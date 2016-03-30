@@ -264,7 +264,8 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:text="@string/chat"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:onClick="onclick" />
             </LinearLayout>
 
             <LinearLayout

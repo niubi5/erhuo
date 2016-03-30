@@ -82,7 +82,7 @@ public class ShipAddressActivity extends Activity implements OnClickListener{
 					shipName.setText(address.getName());
 					shipPhone.setText(address.getPhone());
 					String shipaddress=address.getAddress().toString();
-//					Log.i("cheshi", "截取地址"+adsString);
+					Log.i("CurAddress", shipaddress);
 //					shipdiqu.setText(adsString+"市");
 					if(shipaddress.indexOf("市") != -1){
 						shipdiqu.setText(shipaddress.substring(0,shipaddress.indexOf("市"))+"市");						

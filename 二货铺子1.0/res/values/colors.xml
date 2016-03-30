@@ -110,6 +110,7 @@
     <color name="main_black">#ff000000</color>
     <color name="main_blackgray">#ff303030</color>
     <color name="main_blue">#ff7ecef4</color>
+    <color name="selling_blue">#67BF97</color>
     <color name="main_brightgray">#ffdcdcdc</color>
     <color name="main_darkwhite">#ffe6e6fa</color>
     <color name="main_deepalpha_lightred">#a0fa8072</color>

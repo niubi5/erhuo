@@ -52,7 +52,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/userinfo_selling"
+                    android:drawableTop="@drawable/userinfo_selling_bg"
+                    
                     android:paddingBottom="2dip"
                     android:paddingTop="7dip"
                     android:scaleType="matrix"
@@ -72,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/userinfo_sold"
+                    android:drawableTop="@drawable/userinfo_sold_bg"
                     android:paddingBottom="2dip"
                     android:paddingTop="7dip"
                     android:scaleType="matrix"
@@ -92,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/userinfo_bought"
+                    android:drawableTop="@drawable/userinfo_bought_bg"
                     android:paddingBottom="2dip"
                     android:paddingTop="7dip"
                     android:scaleType="matrix"
@@ -108,11 +109,11 @@
                 android:layout_weight="1" >
 
                 <Button
-                    android:id="@+id/userinfo_btn_favorite"
+                    android:id="@+id/userinfo_btn_donate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/userinfo_buying"
+                    android:drawableTop="@drawable/userinfo_collet_bg"
                     android:paddingBottom="2dip"
                     android:paddingTop="7dip"
                     android:scaleType="matrix"
@@ -128,11 +129,11 @@
                 android:layout_weight="1" >
 
                 <Button
-                    android:id="@+id/userinfo_btn_donate"
+                    android:id="@+id/userinfo_btn_favorite"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:drawableTop="@drawable/userinfo_favorite"
+                    android:drawableTop="@drawable/userinfo_donate_bg"
                     android:paddingBottom="2dip"
                     android:paddingTop="7dip"
                     android:scaleType="matrix"
