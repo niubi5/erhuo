@@ -54,6 +54,7 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -86,7 +87,9 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-@SuppressLint("HandlerLeak") public class GoodsDetialActivity extends Activity implements UserInfoProvider,OnClickListener {
+@SuppressLint("HandlerLeak")
+public class GoodsDetialActivity extends Activity implements UserInfoProvider,
+		OnClickListener {
 	public static Activity goodsDetialActivity;
 	private ViewPager viewPager;
 	private ImageView image;
@@ -149,9 +152,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 			userIdList = gson.fromJson(friendList, type);
 			Log.i("FriendList", "adapter not null:" + friendList);
 		} else {
-			Log.i("FriendList", "adapter is null:" + friendList);
-			userIdList.add(new Friend(curUser.getId() + "", curUser.getName(),
-					curUser.getPhoto() == null ? "null" : curUser.getPhoto()));
+			if (curUser != null) {
+				Log.i("FriendList", "adapter is null:" + friendList);
+				userIdList.add(new Friend(curUser.getId() + "", curUser
+						.getName(), curUser.getPhoto() == null ? "null"
+						: curUser.getPhoto()));
+			}
 		}
 
 		urls = new String[goodUrl.size()];
@@ -203,11 +209,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 			ImageLoader.getInstance().displayImage(userHeadUrl, ivHead);
 		}
 		// 设置收藏的显示状态
-		if (collection.contains(goodsId)) {
-		if (collection.contains(position)) {
-			goodsFavorite.setSelected(true);
-		} else {
-			goodsFavorite.setSelected(false);
+		if (collection != null) {
+			if (collection.contains(position)) {
+				goodsFavorite.setSelected(true);
+			} else {
+				goodsFavorite.setSelected(false);
+			}
 		}
 		goodsFavorite.setOnClickListener(new OnClickListener() {
 
@@ -243,7 +250,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 		tvGoodName.setText(goods.getName());
 		tvGoodTime.setText((goods.getPubTime().substring(2, 10)));
 		tvGoodBrief.setText(goods.getImformation());
-	}}
+	}
 
 	private void collectGoods(Goods goods, View v, boolean b) {
 		Users user = MyApplication.getCurrentUser();
@@ -297,25 +304,25 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 	private void initComment() {
 		pullUpToLoadListView = (PullUpToLoadListView) findViewById(R.id.pull_up_to_load);
 		initCommentData();
-//		pullUpToLoadListView
-//				.setOnPullToLoadCallback(new OnPullUpToLoadCallBack() {
-//
-//					@Override
-//					public void onPull() {
-//						handler.postDelayed(new Runnable() {
-//
-//							@Override
-//							public void run() {
-//								curPage++;
-//								addCommentData();
-//								Log.i("erhuo", "加载进来了！！");
-//								pullUpToLoadListView.completePull();
-//							}
-//
-//						}, 2000);
-//
-//					}
-//				});
+		// pullUpToLoadListView
+		// .setOnPullToLoadCallback(new OnPullUpToLoadCallBack() {
+		//
+		// @Override
+		// public void onPull() {
+		// handler.postDelayed(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// curPage++;
+		// addCommentData();
+		// Log.i("erhuo", "加载进来了！！");
+		// pullUpToLoadListView.completePull();
+		// }
+		//
+		// }, 2000);
+		//
+		// }
+		// });
 	}
 
 	// 初始化评论数据
@@ -336,6 +343,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
+						Log.i("erhuo", result);
 						Gson gson = new GsonBuilder()
 								.enableComplexMapKeySerialization().create();
 						List<Map<Remark, Users>> newComments = gson.fromJson(
@@ -381,64 +389,64 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 				});
 	}
 
-//	private void addCommentData() {
-//		HttpUtils http = new HttpUtils();
-//		String headUrl = Url.getUrlHead();
-//		String url = headUrl + "/ListRemarkServlet";
-//		RequestParams params = new RequestParams();
-//		params.addQueryStringParameter("goodsId", goods.getId() + "");
-//		http.send(HttpRequest.HttpMethod.GET, url, params,
-//				new RequestCallBack<String>() {
-//
-//					@Override
-//					public void onFailure(HttpException arg0, String arg1) {
-//						Toast.makeText(context, "加载失败", Toast.LENGTH_SHORT)
-//								.show();
-//					}
-//
-//					@Override
-//					public void onSuccess(ResponseInfo<String> arg0) {
-//						String result = arg0.result;
-//						Gson gson = new GsonBuilder()
-//								.enableComplexMapKeySerialization().create();
-//						List<Map<Remark, Users>> newComments = gson.fromJson(
-//								result,
-//								new TypeToken<List<Map<Remark, Users>>>() {
-//								}.getType());
-//						if (!preRemarkUsers.isEmpty()) {
-//							listRemarkUsers.removeAll(preRemarkUsers);
-//							preRemarkUsers.clear();
-//						}
-//						// 判断有没有加到数据
-//						if (newComments == null || newComments.isEmpty()) {
-//							// 没有加载到数据，则弹出提示
-//							Toast.makeText(context, "没有更多了", Toast.LENGTH_SHORT)
-//									.show();
-//							// 页数不变，之前++过，故这里要--
-//							curPage--;
-//						} else {
-//							// 判断有没有加满
-//							if (newComments != null
-//									&& newComments.size() < pageSize) {
-//								preRemarkUsers.addAll(newComments);
-//								// 页数不变
-//								curPage--;
-//							}
-//							listRemarkUsers.addAll(newComments);
-//							if (remarkAdapter == null) {
-//								remarkAdapter = new RemarkAdapter(context,
-//										listRemarkUsers, goods,
-//										pullUpToLoadListView);
-//								pullUpToLoadListView.setAdapter(remarkAdapter);
-//							} else {
-//								Log.i("erhuo", "通知数据源改变");
-//								remarkAdapter.notifyDataSetChanged();
-//							}
-//						}
-//
-//					}
-//				});
-//	}
+	// private void addCommentData() {
+	// HttpUtils http = new HttpUtils();
+	// String headUrl = Url.getUrlHead();
+	// String url = headUrl + "/ListRemarkServlet";
+	// RequestParams params = new RequestParams();
+	// params.addQueryStringParameter("goodsId", goods.getId() + "");
+	// http.send(HttpRequest.HttpMethod.GET, url, params,
+	// new RequestCallBack<String>() {
+	//
+	// @Override
+	// public void onFailure(HttpException arg0, String arg1) {
+	// Toast.makeText(context, "加载失败", Toast.LENGTH_SHORT)
+	// .show();
+	// }
+	//
+	// @Override
+	// public void onSuccess(ResponseInfo<String> arg0) {
+	// String result = arg0.result;
+	// Gson gson = new GsonBuilder()
+	// .enableComplexMapKeySerialization().create();
+	// List<Map<Remark, Users>> newComments = gson.fromJson(
+	// result,
+	// new TypeToken<List<Map<Remark, Users>>>() {
+	// }.getType());
+	// if (!preRemarkUsers.isEmpty()) {
+	// listRemarkUsers.removeAll(preRemarkUsers);
+	// preRemarkUsers.clear();
+	// }
+	// // 判断有没有加到数据
+	// if (newComments == null || newComments.isEmpty()) {
+	// // 没有加载到数据，则弹出提示
+	// Toast.makeText(context, "没有更多了", Toast.LENGTH_SHORT)
+	// .show();
+	// // 页数不变，之前++过，故这里要--
+	// curPage--;
+	// } else {
+	// // 判断有没有加满
+	// if (newComments != null
+	// && newComments.size() < pageSize) {
+	// preRemarkUsers.addAll(newComments);
+	// // 页数不变
+	// curPage--;
+	// }
+	// listRemarkUsers.addAll(newComments);
+	// if (remarkAdapter == null) {
+	// remarkAdapter = new RemarkAdapter(context,
+	// listRemarkUsers, goods,
+	// pullUpToLoadListView);
+	// pullUpToLoadListView.setAdapter(remarkAdapter);
+	// } else {
+	// Log.i("erhuo", "通知数据源改变");
+	// remarkAdapter.notifyDataSetChanged();
+	// }
+	// }
+	//
+	// }
+	// });
+	// }
 
 	//
 	/**
@@ -599,37 +607,39 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 		params.addBodyParameter("userId", userId + "");// 用户id
 		params.addBodyParameter("name", userName);// 用户名
 		params.addBodyParameter("portraitUri", headUrl);// 头像url
-		http.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+		http.send(HttpRequest.HttpMethod.POST, url, params,
+				new RequestCallBack<String>() {
 
-			@Override
-			public void onFailure(HttpException arg0, String arg1) {
-				// TODO Auto-generated method stub
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
+						// TODO Auto-generated method stub
 
-			}
+					}
 
-			@Override
-			public void onSuccess(ResponseInfo<String> arg0) {
-				// TODO Auto-generated method stub
-				Log.i("RongCloudDemo", "--result" + arg0.result);
-				// Toast.makeText(MainActivity.this, arg0.result, 1).show();
-				Log.i("getToken", arg0.result);
-				// 在这里解析json调用connect(token)方法
-				// connect(token);
+					@Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						// TODO Auto-generated method stub
+						Log.i("RongCloudDemo", "--result" + arg0.result);
+						// Toast.makeText(MainActivity.this, arg0.result,
+						// 1).show();
+						Log.i("getToken", arg0.result);
+						// 在这里解析json调用connect(token)方法
+						// connect(token);
 
-				JSONTokener jt = new JSONTokener(arg0.result);
-				try {
-					JSONObject jb = (JSONObject) jt.nextValue();
-					String token = jb.getString("token");
-					Log.i("getToken", "token:" + token);
-					MyApplication.setCurToken(token);
-					connect(token);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+						JSONTokener jt = new JSONTokener(arg0.result);
+						try {
+							JSONObject jb = (JSONObject) jt.nextValue();
+							String token = jb.getString("token");
+							Log.i("getToken", "token:" + token);
+							MyApplication.setCurToken(token);
+							connect(token);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
-			}
-		});
+					}
+				});
 	}
 
 	/**
@@ -794,7 +804,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 				if (currentUser == null) {
 					Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
 				} else {
-					if (commentContent.getText() != null) {
+					// 判断输入框是否为空
+					if (!TextUtils.isEmpty(commentContent.getText())) {
 						HttpUtils http = new HttpUtils();
 						String urlHead = Url.getUrlHead();
 						String url = urlHead + "/AddCommentServlet";
@@ -825,6 +836,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 										initCommentData();// 再次调用，更新数据源
 									}
 								});
+					} else {
+						Toast.makeText(context, "请输入评论内容", Toast.LENGTH_SHORT)
+								.show();
 					}
 				}
 
@@ -1118,19 +1132,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 	}
 
 	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-
-	}
-
-	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-	}
-
-	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.comment_iv:
@@ -1138,7 +1139,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 			break;
 		}
 	}
-	
+
 	public UserInfo getUserInfo(String s) {
 		// TODO Auto-generated method stub
 		Log.i("getUserInfo", userIdList.toString());
@@ -1157,5 +1158,5 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 		// TODO Auto-generated method stub
 		return super.toString();
 	}
-	
+
 }

@@ -12,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -58,7 +59,6 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 	private Users currentUser = MyApplication.getCurrentUser();
 	private PullUpToLoadListView pullUpToLoadListView;
 	private Goods goods;
-	private int currentFloor;
 
 	public RemarkAdapter(Context context,
 			List<Map<Remark, Users>> listRemarkUsers, Goods goods,
@@ -68,15 +68,6 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 		this.goods = goods;
 		this.pullUpToLoadListView = pullUpToLoadListView;
 		pullUpToLoadListView.setOnItemClickListener(this);
-		for (Map<Remark, Users> map : listRemarkUsers) {
-			Set<Entry<Remark, Users>> entry = map.entrySet();
-			for (Map.Entry<Remark, Users> en : entry) {
-				Remark remark = en.getKey();
-				Users user = en.getValue();
-				listRemarks.add(remark);
-				listUsers.add(user);
-			}
-		}
 	}
 
 	@Override
@@ -109,11 +100,18 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 					.findViewById(R.id.comment_content);
 			viewHolder.commentTime = (TextView) convertView
 					.findViewById(R.id.comment_time);
-//			viewHolder.commentFloor = (TextView) convertView
-//					.findViewById(R.id.comment_floor);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
+		}
+		for (Map<Remark, Users> map : listRemarkUsers) {
+			Set<Entry<Remark, Users>> entry = map.entrySet();
+			for (Map.Entry<Remark, Users> en : entry) {
+				Remark remark = en.getKey();
+				Users user = en.getValue();
+				listRemarks.add(remark);
+				listUsers.add(user);
+			}
 		}
 		Remark remark = listRemarks.get(position);
 		Users user = listUsers.get(position);
@@ -125,16 +123,35 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 			// 没有父评论ID 说明是一级评论 只有一个用户名
 			viewHolder.userName.setText(user.getName());
 		} else {
-			for (Users user1 : listUsers) {// 遍历User集合 找出父评论用户的用户名
-				if (remark.getFatherId() == user1.getId()) {
-					Spannable sp = new SpannableString(user.getName() + " 回复 "
-							+ user1.getName());
-					int start = user.getName().length();
-					// 将回复设置为蓝色
-					sp.setSpan(new ForegroundColorSpan(context.getResources()
-							.getColor(R.color.my_blue)), start + 1, start + 3,
-							Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-					viewHolder.userName.setText(sp);
+//			for (Users user1 : listUsers) {// 遍历User集合 找出父评论用户的用户名
+//				if (remark.getFatherId() == user1.getId()) {
+//					Spannable sp = new SpannableString(user.getName() + " 回复 "
+//							+ user1.getName());
+//					int start = user.getName().length();
+//					// 将回复设置为蓝色
+//					sp.setSpan(new ForegroundColorSpan(context.getResources()
+//							.getColor(R.color.my_blue)), start + 1, start + 3,
+//							Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//					viewHolder.userName.setText(sp);
+//				}
+//			}
+			for(Remark remark1 : listRemarks){
+				// 通过父评论Id 找到 父评论
+				if(remark.getFatherId() == remark1.getId()){
+					// 再通过该父评论的userId找到该评论用户的用户名
+					for(Users user1 : listUsers){
+						if(remark1.getUserId() == user1.getId()){
+							// 取出该用户名，进行拼接
+							Spannable sp = new SpannableString(user.getName() + " 回复 "
+									+ user1.getName());
+							int start = user.getName().length();
+							// 将回复设置为蓝色
+							sp.setSpan(new ForegroundColorSpan(context.getResources()
+									.getColor(R.color.my_blue)), start + 1, start + 3,
+									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							viewHolder.userName.setText(sp);
+						}
+					}
 				}
 			}
 		}
@@ -176,7 +193,7 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 				@Override
 				public void onClick(View v) {
 					// 当评论不为空时 发送留言，存入数据库
-					if (commentContent.getText() != null) {
+					if (!TextUtils.isEmpty(commentContent.getText())) {
 						HttpUtils http = new HttpUtils();
 						String urlHead = Url.getUrlHead();
 						String url = urlHead + "/AddCommentServlet";
