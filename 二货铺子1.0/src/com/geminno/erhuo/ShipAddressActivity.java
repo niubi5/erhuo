@@ -58,7 +58,6 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 		if (users!=null) {
 			create();
 		}
-		// showAddress();
 		
 	}
 	
@@ -123,10 +122,6 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 				viewHolder.shipdiqu.setText(shipaddress);
 			}
 			viewHolder.shipdizhi.setText(shipaddress);
-//			name = viewHolder.shipName.getText().toString();
-//			phone = viewHolder.shipPhone.getText().toString();
-//			diqu = viewHolder.shipdiqu.getText().toString();
-//			dizhi = viewHolder.shipdizhi.getText().toString();
 			return convertView;
 		}
 
@@ -189,7 +184,6 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 								.setCurUserDefAddress(listad.get(position));
 							}
 							startActivity(intent);
-							finish();
 						}
 					});
 				}
@@ -197,23 +191,6 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 		});
 	}
 	
-	// private void showAddress() {
-	// Intent intent=getIntent();
-	// String name=intent.getStringExtra("name");
-	// String phone=intent.getStringExtra("phone");
-	// String diqu=intent.getStringExtra("diqu");
-	// String dizhi=intent.getStringExtra("dizhi");
-	// Log.i("cheshi", name+phone+diqu+dizhi);
-	// if
-	// (name!=null&&!name.equals("null")&&phone!=null&&!phone.equals("null")&&diqu!=null&&!diqu.equals("null")&&dizhi!=null&&!dizhi.equals("null"))
-	// {
-	// shipName.setText(name);
-	// shipPhone.setText(phone);
-	// shipdiqu.setText(diqu);
-	// shipdizhi.setText(dizhi);
-	// }
-	//
-	// }
 
 	@Override
 	public void onClick(View v) {
