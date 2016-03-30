@@ -495,7 +495,7 @@ containing a value of this type.
         public static final int ghostwhite=0x7f06009a;
         public static final int gold=0x7f06009b;
         public static final int goldenrod=0x7f06009c;
-        public static final int gray=0x7f060011;
+        public static final int gray=0x7f06001a;
         public static final int green=0x7f06009d;
         public static final int greenyellow=0x7f06009e;
         /**  多图片上传 
@@ -655,15 +655,15 @@ containing a value of this type.
         public static final int slateblue=0x7f06011b;
         public static final int slategray=0x7f06011c;
         public static final int slategrey=0x7f06011d;
-        public static final int smssdk_black=0x7f060019;
-        public static final int smssdk_gray=0x7f06001a;
-        public static final int smssdk_gray_press=0x7f060013;
-        public static final int smssdk_lv_item_divider=0x7f060018;
-        public static final int smssdk_lv_item_selector=0x7f060017;
-        public static final int smssdk_lv_title_color=0x7f060016;
-        public static final int smssdk_lv_tv_color=0x7f060015;
-        public static final int smssdk_transparent=0x7f060014;
-        public static final int smssdk_white=0x7f060012;
+        public static final int smssdk_black=0x7f060017;
+        public static final int smssdk_gray=0x7f060018;
+        public static final int smssdk_gray_press=0x7f060011;
+        public static final int smssdk_lv_item_divider=0x7f060016;
+        public static final int smssdk_lv_item_selector=0x7f060015;
+        public static final int smssdk_lv_title_color=0x7f060014;
+        public static final int smssdk_lv_tv_color=0x7f060013;
+        public static final int smssdk_transparent=0x7f060012;
+        public static final int smssdk_white=0x7f060010;
         public static final int snow=0x7f06011e;
         public static final int springgreen=0x7f06011f;
         public static final int start_top_red=0x7f060120;
@@ -705,7 +705,7 @@ containing a value of this type.
         public static final int wallet_base_text_blue=0x7f06004e;
         public static final int wallet_base_window_bg=0x7f06004b;
         public static final int wheat=0x7f060137;
-        public static final int white=0x7f060010;
+        public static final int white=0x7f060019;
         public static final int whitesmoke=0x7f060138;
         public static final int yellow=0x7f060139;
     }
@@ -4123,27 +4123,27 @@ containing a value of this type.
         public static final int only_choose_num=0x7f0c02a6;
         public static final int pay_way=0x7f0c02dc;
         public static final int photo=0x7f0c02a9;
-        public static final int pingpp_add_new_card=0x7f0c00d8;
-        public static final int pingpp_alipay=0x7f0c00cf;
-        public static final int pingpp_back_activity_pay=0x7f0c00cd;
-        public static final int pingpp_bfb=0x7f0c00d1;
-        public static final int pingpp_continue_buy=0x7f0c00d6;
-        public static final int pingpp_copyright=0x7f0c00ce;
-        public static final int pingpp_create_bill=0x7f0c00c8;
-        public static final int pingpp_jdpay_wap=0x7f0c00d4;
-        public static final int pingpp_label_amount=0x7f0c00ca;
-        public static final int pingpp_label_bill_name=0x7f0c00c9;
-        public static final int pingpp_pay_complete=0x7f0c00d7;
-        public static final int pingpp_pay_failed=0x7f0c00cc;
-        public static final int pingpp_prompt_pay_falied=0x7f0c00d5;
-        public static final int pingpp_title_activity_pay=0x7f0c00c4;
-        public static final int pingpp_title_activity_pay_failed=0x7f0c00cb;
-        public static final int pingpp_title_activity_pay_filed=0x7f0c00c6;
-        public static final int pingpp_title_activity_pay_sucessed=0x7f0c00c5;
-        public static final int pingpp_title_activity_success=0x7f0c00c7;
-        public static final int pingpp_upacp=0x7f0c00d2;
-        public static final int pingpp_wechat=0x7f0c00d0;
-        public static final int pingpp_yeepay_wap=0x7f0c00d3;
+        public static final int pingpp_add_new_card=0x7f0c0107;
+        public static final int pingpp_alipay=0x7f0c00fe;
+        public static final int pingpp_back_activity_pay=0x7f0c00fc;
+        public static final int pingpp_bfb=0x7f0c0100;
+        public static final int pingpp_continue_buy=0x7f0c0105;
+        public static final int pingpp_copyright=0x7f0c00fd;
+        public static final int pingpp_create_bill=0x7f0c00f7;
+        public static final int pingpp_jdpay_wap=0x7f0c0103;
+        public static final int pingpp_label_amount=0x7f0c00f9;
+        public static final int pingpp_label_bill_name=0x7f0c00f8;
+        public static final int pingpp_pay_complete=0x7f0c0106;
+        public static final int pingpp_pay_failed=0x7f0c00fb;
+        public static final int pingpp_prompt_pay_falied=0x7f0c0104;
+        public static final int pingpp_title_activity_pay=0x7f0c00f3;
+        public static final int pingpp_title_activity_pay_failed=0x7f0c00fa;
+        public static final int pingpp_title_activity_pay_filed=0x7f0c00f5;
+        public static final int pingpp_title_activity_pay_sucessed=0x7f0c00f4;
+        public static final int pingpp_title_activity_success=0x7f0c00f6;
+        public static final int pingpp_upacp=0x7f0c0101;
+        public static final int pingpp_wechat=0x7f0c00ff;
+        public static final int pingpp_yeepay_wap=0x7f0c0102;
         public static final int preview=0x7f0c02ab;
         public static final int publish_goods=0x7f0c0293;
         public static final int publish_goods_btn=0x7f0c029b;
@@ -4269,18 +4269,18 @@ containing a value of this type.
         public static final int request_donation_title=0x7f0c02b2;
         public static final int reset=0x7f0c0290;
         public static final int share=0x7f0c02d6;
-        public static final int smssdk_add_contact=0x7f0c0101;
-        public static final int smssdk_back=0x7f0c00d9;
-        public static final int smssdk_cancel=0x7f0c00df;
-        public static final int smssdk_choice_invite_phones=0x7f0c00fd;
-        public static final int smssdk_choose_country=0x7f0c00ed;
-        public static final int smssdk_close_identify_page_dialog=0x7f0c00ff;
-        public static final int smssdk_contacts_detail=0x7f0c00fb;
-        public static final int smssdk_contacts_in_app=0x7f0c00f6;
-        public static final int smssdk_contacts_out_app=0x7f0c00f7;
-        public static final int smssdk_contacts_phones=0x7f0c00fc;
-        public static final int smssdk_country=0x7f0c00dc;
-        public static final int smssdk_country_not_support_currently=0x7f0c00ef;
+        public static final int smssdk_add_contact=0x7f0c00ec;
+        public static final int smssdk_back=0x7f0c00c4;
+        public static final int smssdk_cancel=0x7f0c00ca;
+        public static final int smssdk_choice_invite_phones=0x7f0c00e8;
+        public static final int smssdk_choose_country=0x7f0c00d8;
+        public static final int smssdk_close_identify_page_dialog=0x7f0c00ea;
+        public static final int smssdk_contacts_detail=0x7f0c00e6;
+        public static final int smssdk_contacts_in_app=0x7f0c00e1;
+        public static final int smssdk_contacts_out_app=0x7f0c00e2;
+        public static final int smssdk_contacts_phones=0x7f0c00e7;
+        public static final int smssdk_country=0x7f0c00c7;
+        public static final int smssdk_country_not_support_currently=0x7f0c00da;
         public static final int smssdk_error_desc_400=0x7f0c0068;
         public static final int smssdk_error_desc_401=0x7f0c0069;
         public static final int smssdk_error_desc_402=0x7f0c006a;
@@ -4374,41 +4374,41 @@ containing a value of this type.
         public static final int smssdk_error_detail_602=0x7f0c00c1;
         public static final int smssdk_error_detail_603=0x7f0c00c2;
         public static final int smssdk_error_detail_604=0x7f0c00c3;
-        public static final int smssdk_get_phone_verifycode_today_frequentlly=0x7f0c0103;
-        public static final int smssdk_get_verifycode_frequentlly=0x7f0c0102;
-        public static final int smssdk_identify_code=0x7f0c00ea;
-        public static final int smssdk_invite=0x7f0c00f8;
-        public static final int smssdk_invite_content=0x7f0c00fe;
-        public static final int smssdk_make_sure_country_mobile=0x7f0c00db;
-        public static final int smssdk_make_sure_mobile_detail=0x7f0c00e1;
-        public static final int smssdk_make_sure_mobile_num=0x7f0c00de;
-        public static final int smssdk_make_sure_send_sounds=0x7f0c0105;
-        public static final int smssdk_network_error=0x7f0c00ee;
-        public static final int smssdk_next=0x7f0c00dd;
-        public static final int smssdk_not_invite=0x7f0c00fa;
-        public static final int smssdk_ok=0x7f0c00e0;
-        public static final int smssdk_receive_msg=0x7f0c00eb;
-        public static final int smssdk_regist=0x7f0c00da;
-        public static final int smssdk_resend_identify_code=0x7f0c00ec;
-        public static final int smssdk_search=0x7f0c00f0;
-        public static final int smssdk_search_contact=0x7f0c00f1;
-        public static final int smssdk_send_invitation=0x7f0c00f9;
-        public static final int smssdk_send_mobile_detail=0x7f0c00e5;
-        public static final int smssdk_send_sounds=0x7f0c0106;
-        public static final int smssdk_send_sounds_identify_code=0x7f0c0104;
-        public static final int smssdk_send_sounds_success=0x7f0c0107;
-        public static final int smssdk_smart_verify_already=0x7f0c00e6;
-        public static final int smssdk_smart_verify_tips=0x7f0c00e7;
-        public static final int smssdk_submit=0x7f0c00e9;
-        public static final int smssdk_unreceive_identify_code=0x7f0c00e8;
-        public static final int smssdk_user_info_submited=0x7f0c00f5;
-        public static final int smssdk_virificaition_code_sent=0x7f0c00f2;
-        public static final int smssdk_virificaition_code_wrong=0x7f0c00f3;
-        public static final int smssdk_wait=0x7f0c0100;
-        public static final int smssdk_write_identify_code=0x7f0c00e4;
-        public static final int smssdk_write_mobile_phone=0x7f0c00e2;
-        public static final int smssdk_write_right_mobile_phone=0x7f0c00e3;
-        public static final int smssdk_your_ccount_is_verified=0x7f0c00f4;
+        public static final int smssdk_get_phone_verifycode_today_frequentlly=0x7f0c00ee;
+        public static final int smssdk_get_verifycode_frequentlly=0x7f0c00ed;
+        public static final int smssdk_identify_code=0x7f0c00d5;
+        public static final int smssdk_invite=0x7f0c00e3;
+        public static final int smssdk_invite_content=0x7f0c00e9;
+        public static final int smssdk_make_sure_country_mobile=0x7f0c00c6;
+        public static final int smssdk_make_sure_mobile_detail=0x7f0c00cc;
+        public static final int smssdk_make_sure_mobile_num=0x7f0c00c9;
+        public static final int smssdk_make_sure_send_sounds=0x7f0c00f0;
+        public static final int smssdk_network_error=0x7f0c00d9;
+        public static final int smssdk_next=0x7f0c00c8;
+        public static final int smssdk_not_invite=0x7f0c00e5;
+        public static final int smssdk_ok=0x7f0c00cb;
+        public static final int smssdk_receive_msg=0x7f0c00d6;
+        public static final int smssdk_regist=0x7f0c00c5;
+        public static final int smssdk_resend_identify_code=0x7f0c00d7;
+        public static final int smssdk_search=0x7f0c00db;
+        public static final int smssdk_search_contact=0x7f0c00dc;
+        public static final int smssdk_send_invitation=0x7f0c00e4;
+        public static final int smssdk_send_mobile_detail=0x7f0c00d0;
+        public static final int smssdk_send_sounds=0x7f0c00f1;
+        public static final int smssdk_send_sounds_identify_code=0x7f0c00ef;
+        public static final int smssdk_send_sounds_success=0x7f0c00f2;
+        public static final int smssdk_smart_verify_already=0x7f0c00d1;
+        public static final int smssdk_smart_verify_tips=0x7f0c00d2;
+        public static final int smssdk_submit=0x7f0c00d4;
+        public static final int smssdk_unreceive_identify_code=0x7f0c00d3;
+        public static final int smssdk_user_info_submited=0x7f0c00e0;
+        public static final int smssdk_virificaition_code_sent=0x7f0c00dd;
+        public static final int smssdk_virificaition_code_wrong=0x7f0c00de;
+        public static final int smssdk_wait=0x7f0c00eb;
+        public static final int smssdk_write_identify_code=0x7f0c00cf;
+        public static final int smssdk_write_mobile_phone=0x7f0c00cd;
+        public static final int smssdk_write_right_mobile_phone=0x7f0c00ce;
+        public static final int smssdk_your_ccount_is_verified=0x7f0c00df;
         public static final int ssdk_alipay=0x7f0c026c;
         public static final int ssdk_alipay_client_inavailable=0x7f0c023b;
         public static final int ssdk_baidutieba=0x7f0c0269;
@@ -4596,11 +4596,11 @@ containing a value of this type.
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f0d0011;
+        public static final int AppTheme=0x7f0d000e;
         /**  dialog 
          */
-        public static final int CommonDialog=0x7f0d0012;
-        public static final int CustomPayDialog=0x7f0d000f;
+        public static final int CommonDialog=0x7f0d000f;
+        public static final int CustomPayDialog=0x7f0d0011;
         public static final int DonationDialog=0x7f0d003a;
         /**  <item name="android:taskOpenEnterAnimation">@anim/ebpay_slide_from_left</item> 
  <item name="android:taskOpenExitAnimation">@anim/ebpay_slide_to_right</item> 
@@ -4643,7 +4643,7 @@ containing a value of this type.
         /**  Base application theme. 
  Base application theme. 
          */
-        public static final int OneTheme=0x7f0d000e;
+        public static final int OneTheme=0x7f0d0010;
         /**  多图片上传 
          */
         public static final int PopupAnimation=0x7f0d0038;
@@ -4694,7 +4694,7 @@ containing a value of this type.
         public static final int bd_wallet_plugin_update_progressbar=0x7f0d001d;
         public static final int bd_wallet_title_bar_title=0x7f0d0018;
         public static final int custom_checkbox=0x7f0d0000;
-        public static final int mystyle=0x7f0d0010;
+        public static final int mystyle=0x7f0d0012;
         public static final int preview_checkbox=0x7f0d0001;
     }
     public static final class styleable {

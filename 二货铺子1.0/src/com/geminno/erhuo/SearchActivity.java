@@ -26,11 +26,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -49,6 +53,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 	private String result = null;
 	private String word;
 	private LinearLayout linsearch;
+	private ImageView delete;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +64,44 @@ public class SearchActivity extends Activity implements OnClickListener {
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		keyword = (EditText) findViewById(R.id.search_et_input);
 		linsearch=(LinearLayout) findViewById(R.id.lin_search);
+		delete=(ImageView) findViewById(R.id.search_iv_delete);
 		refreshListView = (RefreshListView) findViewById(R.id.refres_list_search);
 		findViewById(R.id.tv_search).setOnClickListener(this);
 		findViewById(R.id.ib_sousuo).setOnClickListener(this);
+		keyword.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+				if (keyword.getText().toString().length()!=0&&!(keyword.getText().toString()).equals("null")) {
+					Log.i("cheshi", "赵信");
+					delete.setVisibility(delete.VISIBLE);
+				}
+				
+			
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+				// TODO Auto-generated method stub
+				if (keyword.getText().toString().length()==0&&keyword.getText().toString().equals("null")) {
+					delete.setVisibility(delete.GONE);
+					Log.i("cheshi", "洛克萨斯");
+				}
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				// TODO Auto-generated method stub
+				
+				if (keyword.getText().toString().length()==0&&keyword.getText().toString().equals("null")) {
+					delete.setVisibility(delete.GONE);
+					Log.i("cheshi", "德玛");
+				}
+			}
+		});
 		context = this;
 		
 	}
@@ -149,23 +189,27 @@ public class SearchActivity extends Activity implements OnClickListener {
 						public void onSuccess(ResponseInfo<String> arg0) {
 							result = arg0.result;
 							Log.i("cheshi", "initData返回值："+result);
-							Gson gson = new GsonBuilder()
-									.enableComplexMapKeySerialization()
-									.setDateFormat("yyyy-MM-dd HH:mm:ss")
-									.create();
-							Type type = new TypeToken<List<Map<Map<Goods, Users>, List<String>>>>() {
-							}.getType();
-							List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
-									.fromJson(result, type);
-							listAll.addAll(newGoods);
-							// if (adapter == null) {
-							adapter = new HomePageAdapter(context, listAll,
-									refreshListView, isRefersh);
-							refreshListView.setAdapter(adapter);
-							// } else {
-							// adapter.notifyDataSetChanged();
-							// }
-
+							if (!result.equals("null")) {
+								Gson gson = new GsonBuilder()
+								.enableComplexMapKeySerialization()
+								.setDateFormat("yyyy-MM-dd HH:mm:ss")
+								.create();
+								Type type = new TypeToken<List<Map<Map<Goods, Users>, List<String>>>>() {
+								}.getType();
+								List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
+										.fromJson(result, type);
+								listAll.addAll(newGoods);
+								// if (adapter == null) {
+								adapter = new HomePageAdapter(context, listAll,
+										refreshListView, isRefersh);
+								refreshListView.setAdapter(adapter);
+								// } else {
+								// adapter.notifyDataSetChanged();
+								// }
+							}else {
+								Toast.makeText(context, "您查找的商品不存在！", Toast.LENGTH_SHORT).show();
+							}
+							
 						}
 					});
 		}
