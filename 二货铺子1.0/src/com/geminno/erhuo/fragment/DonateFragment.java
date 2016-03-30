@@ -20,8 +20,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import com.geminno.erhuo.DonateRequestActivity;
+import com.geminno.erhuo.DonationDetailActivity;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.adapter.CommonAdapter;
 import com.geminno.erhuo.entity.Donation;
@@ -192,8 +195,12 @@ public class DonateFragment extends BaseFragment {
 									commonAdapter.notifyDataSetChanged();
 								}
 //				
+							
 							}
 						});
+//	}
+//};
+				
 			}
 
 	/**
@@ -226,51 +233,6 @@ public class DonateFragment extends BaseFragment {
 	protected void initView() {
 		mListView = (RefreshListView) view.findViewById(R.id.lv_donations);
 		initData();
-		mListView.setOnScrollListener(new OnScrollListener() {
-
-					@Override
-			    public void onScrollStateChanged(AbsListView view, int scrollState) {
-						switch (scrollState) {
-						case OnScrollListener.SCROLL_STATE_IDLE:
-							scrollFlag = false;
-							if (mListView.getFirstVisiblePosition() == 0) {
-								ivToTop.setVisibility(View.GONE);
-							}
-							if (mListView.getLastVisiblePosition() == (mListView
-									.getCount() - 1)) {
-								ivToTop.setVisibility(View.VISIBLE);
-							}
-							break;
-						case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-							scrollFlag = true;
-							break;
-						case OnScrollListener.SCROLL_STATE_FLING:
-							scrollFlag = true;
-							break;
-						}
-					}
-
-					/**
-					 * firstVisibleItem --> 第一条可见itemId visibleItemCount --> 可见item数量
-					 * totalItemCount --> item总数
-					 */
-					@Override
-					public void onScroll(AbsListView view, int firstVisibleItem,
-							int visibleItemCount, int totalItemCount) {
-						if (scrollFlag) {
-							if (firstVisibleItem > lastVisiblePosition) {
-								ivToTop.setVisibility(View.VISIBLE);
-							} else if (firstVisibleItem < lastVisiblePosition) {
-								ivToTop.setVisibility(View.GONE);
-							} else {
-								return;
-							}
-							lastVisiblePosition = firstVisibleItem;
-						}
-					}
-				});
-
-			
 		
 		mListView.setOnRefreshCallBack(new OnRefreshCallBack() {
 
@@ -313,8 +275,22 @@ public class DonateFragment extends BaseFragment {
 			}
 
 		});
+		
+		// 
+		mListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Donation dona = mDatas.get(position-1);
+				Intent intent = new Intent(getActivity(),DonationDetailActivity.class);
+				intent.putExtra("donation", dona);
+				startActivity(intent);
+			}
+		});
 		ivPublish = (ImageView) view.findViewById(R.id.home_search);
 		ivToTop = (ImageView) view.findViewById(R.id.iv_to_top);
+		
 	}
 	
 	// 加载

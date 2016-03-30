@@ -1,5 +1,7 @@
 package com.geminno.erhuo.entity;
 
+import java.io.Serializable;
+
 
 /**
  * 捐赠信息
@@ -8,7 +10,7 @@ package com.geminno.erhuo.entity;
  * 
  */
 
-public class Donation {
+public class Donation implements Serializable{
 	private int id;
 	private int userId;
 	private String title;
