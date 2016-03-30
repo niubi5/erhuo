@@ -87,8 +87,9 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	private boolean second = false;
 	private boolean third = false;
 	private boolean isRefresh;
+	// private ArrayList<Integer> goodsIds = ;
 	// -------------------
-	private ArrayList<Integer> collection = new ArrayList<Integer>();// 收藏按钮的position集合
+	private ArrayList<Integer> collection;// 收藏按钮的position集合
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	// 广告图片
 	private String[] imageUrls = {
@@ -323,6 +324,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				} else {
 					viewHolder = (ViewHolderGoods) convertView.getTag();
 				}
+				collection = MyApplication.getCollection();// 实时更新
+				// -------------- 用户头像还要改
 				viewHolder.userHead.setImageResource(R.drawable.header_default);
 				viewHolder.userName.setText(user.getName());
 				viewHolder.goodsName.setText(goods.getName());
@@ -339,13 +342,18 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 										position + 1);
 							}
 						});
-				viewHolder.userFavorite.setTag(position);
-				if (collection.contains(position)) {
-					// 如果集合中有，代表收藏过,显示为收藏状态
+				// ------------ 修改为商品ID了
+				viewHolder.userFavorite.setTag(goods.getId());
+				// ------------
+				if(collection != null){
+					if (collection.contains(goods.getId())) {
+					// 精髓：：如果用户收藏的集合中有 或是点过赞的集合中有，则设为收藏状态
 					viewHolder.userFavorite.setSelected(true);
 				} else {
 					viewHolder.userFavorite.setSelected(false);
 				}
+				}
+				
 				viewHolder.userFavorite
 						.setOnClickListener(new OnClickListener() {
 
@@ -353,7 +361,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 							public void onClick(View v) {
 								// 如果在集合里面，说明点过，再次点击则取消收藏，并从集合移除
 								if (collection.contains(v.getTag())) {
-									collectGoods(goods, v, false);// 调用收藏商品方法
+									collectGoods(goods, v, false);// 调用移除商品方法
 								} else {
 									// 否则设为选中状态，并加入集合
 									collectGoods(goods, v, true);
@@ -621,6 +629,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				i = position - 1;
 			}
 			Log.i("erhuo", "当前position：" + position);
+			Goods goods = null;
 			for (int j = i * 3; j < i * 3 + 3; j++) {
 				if (first) {
 					Users user = (Users) userGoodsUrls.get(j);
@@ -628,7 +637,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 					first = false;
 					second = true;
 				} else if (second) {
-					Goods goods = (Goods) userGoodsUrls.get(j);
+					goods = (Goods) userGoodsUrls.get(j);
 					bundle.putSerializable("goods", goods);
 					second = false;
 					third = true;
@@ -640,8 +649,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 					first = true;
 				}
 			}
-			// 传当前item的position和position集合。判断是否点过赞
-			bundle.putInt("position", position);
 			bundle.putIntegerArrayList("collection", collection);
 			intent.putExtras(bundle);
 			context.startActivity(intent);
@@ -670,13 +677,16 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				// 取消收藏
 				v.setSelected(false);// 设为取消状态
 				collection.remove(v.getTag());// 从集合中移除
+				MyApplication.setCollections(collection);
 				params.addBodyParameter("userId", user.getId() + "");
 				params.addBodyParameter("goodsId", goods.getId() + "");
 				url = urlHead + "/DeleteCollectionsServlet";
 			} else {
 				// 收藏
-				v.setSelected(true);// 设为取消状态
+				v.setSelected(true);// 设为选中状态
+				Toast.makeText(context, "收藏成功", Toast.LENGTH_SHORT);
 				collection.add((Integer) v.getTag());// 并加入集合
+				MyApplication.setCollections(collection);
 				params.addBodyParameter("userId", user.getId() + "");
 				params.addBodyParameter("goodsId", goods.getId() + "");
 				url = urlHead + "/AddCollectionsServlet";

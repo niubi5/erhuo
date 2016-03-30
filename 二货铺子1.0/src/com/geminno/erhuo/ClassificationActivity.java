@@ -206,13 +206,9 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 						List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
 								.fromJson(result, type);
 						listAll.addAll(newGoods);
-//						if (adapter == null) {
-							adapter = new HomePageAdapter(context, listAll,
-									refreshListView, isRefersh);
-							refreshListView.setAdapter(adapter);
-//						} else {
-//							adapter.notifyDataSetChanged();
-//						}
+						adapter = new HomePageAdapter(context, listAll,
+								refreshListView, isRefersh);
+						refreshListView.setAdapter(adapter);
 
 					}
 				});

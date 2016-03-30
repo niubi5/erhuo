@@ -13,7 +13,7 @@
 
         <ImageView
             android:id="@+id/iv_donaton_request_back"
-            android:layout_width="15dp"
+            android:layout_width="50dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:src="@drawable/left_arrow_white" />
@@ -69,8 +69,6 @@
                         android:lineSpacingExtra="1dip"
                         android:lines="1"
                         android:textSize="@dimen/font_middlesmall" >
-
-                   
                     </EditText>
                 </LinearLayout>
 
@@ -97,33 +95,19 @@
                         android:background="@null"
                         android:hint="@string/request_donation_content"
                         android:textSize="@dimen/font_middlesmall" >
-
                     </EditText>
                 </LinearLayout>
 
-                <LinearLayout
+                 <LinearLayout
                     android:id="@+id/donation_request_image"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
                     android:layout_marginTop="3dp"
                     android:orientation="horizontal" >
 
-                   <!--  <com.geminno.erhuo.view.AddImageView
-                        android:id="@+id/addImageView"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/add_image_background" >
-                    </com.geminno.erhuo.view.AddImageView>
 
-                    <ImageView
-                        android:id="@+id/imageView1"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="8dp"
-                        android:src="@drawable/comui_face_d11" />
-                        --> 
-                   <GridView
+
+                    <GridView
                         android:id="@+id/doantion_noScrollgridview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -133,8 +117,6 @@
                         android:scrollbars="none"
                         android:verticalSpacing="5dp" >
                     </GridView>
-                      
-                        
                 </LinearLayout>
             </LinearLayout>
 
@@ -232,6 +214,25 @@
                     android:lines="1"
                     android:textSize="@dimen/font_middlesmall" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/container_button_request_donate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btn_request_donate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/red_btntext"
+                    android:text="@string/request_donation_button_donate"
+                    android:textColor="@color/white" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -241,24 +242,5 @@
         android:layout_height="5dp"
         android:layout_marginTop="4dp"
         android:background="@color/separate_line" />
-
-    <LinearLayout
-        android:id="@+id/container_button_request_donate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/btn_request_donate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/red_btntext"
-            android:text="@string/request_donation_button_donate"
-            android:textColor="@color/white" />
-    </LinearLayout>
 
 </LinearLayout>

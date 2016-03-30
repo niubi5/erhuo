@@ -71,7 +71,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"
-                android:background="@color/main_red"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/shape"
                 android:text="使用"
                 android:textSize="@dimen/font_middle"
                 android:textColor="@color/white" />

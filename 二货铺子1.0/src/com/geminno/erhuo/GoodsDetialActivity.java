@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.http.HttpEntity;
@@ -64,10 +65,13 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.geminno.erhuo.adapter.RemarkAdapter;
+import com.geminno.erhuo.entity.Remark;
+import com.geminno.erhuo.view.PullUpToLoadListView;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -95,6 +99,9 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 	private boolean isFavorite = false;// 是否收藏
 	private List<Friend> userIdList;//
 	private Users curUser;
+	private Integer goodsId;
+	private PullUpToLoadListView pullUpToLoadListView;
+	private Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +110,11 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_goods_detial);
 		goodsDetialActivity = this;
+		context = this;
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		viewPager = (ViewPager) findViewById(R.id.vp_goods_images);
+		// 上拉加载的listview
+		pullUpToLoadListView = (PullUpToLoadListView) findViewById(R.id.pull_up_to_load);
 		List<View> list = new ArrayList<View>();
 		inflater = LayoutInflater.from(this);
 		// 获得当前商品的id
@@ -112,8 +122,8 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		Bundle bundle = intent.getExtras();
 		user = (Users) bundle.getSerializable("user");
 		goods = (Goods) bundle.getSerializable("goods");
-		position = bundle.getInt("position");
-		collection = bundle.getIntegerArrayList("collection");
+		goodsId = goods.getId();
+		collection = MyApplication.getCollection();
 		List<String> goodUrl = bundle.getStringArrayList("urls");
 		// 用户好友列表
 		curUser = MyApplication.getCurrentUser();
@@ -152,6 +162,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		// 绑定动作监听器：如翻页的动画
 		viewPager.setOnPageChangeListener(new MyListener());
 		initData();
+		initComment();// 初始化评论数据
 		initIndicator();
 		RongIM.setUserInfoProvider(this, true);
 	}
@@ -184,17 +195,22 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		Log.i("erhuo", "传过来的position" + position);
 		Log.i("erhuo", "包含position吗？" + collection.contains(position));
 		if (collection.contains(position)) {
+			Log.i("erhuo", "初始化时为true");
 			goodsFavorite.setSelected(true);
 		} else {
+			Log.i("erhuo", "初始化时就为false");
 			goodsFavorite.setSelected(false);
 		}
 		goodsFavorite.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (collection.contains(position)) {
-					collectGoods(goods, v, false);// 调用收藏商品方法
+				collection = MyApplication.getCollection();
+				if (collection.contains(goodsId)) {
+					Log.i("erhuo", "调用取消收藏方法");
+					collectGoods(goods, v, false);// 调用取消收藏商品方法
 				} else {
+					Log.i("erhuo", "调用收藏方法");
 					collectGoods(goods, v, true);
 				}
 			}
@@ -210,6 +226,12 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		} else {
 			tvUserLocation.setText("距我:");
 		}
+		int instance = Distance(goods.getLongitude(), goods.getLatitude(),
+				MyApplication.getLocation().getLongitude(), MyApplication
+						.getLocation().getLatitude());
+		tvUserLocation
+				.setText(instance >= 100 ? ("距我:" + instance / 1000 + "km")
+						: ("距我:" + instance + "m"));
 		tvGoodPrice.setText("¥" + goods.getSoldPrice());
 		tvGoodOldPrice.setText("原价:" + goods.getBuyPrice());
 		tvGoodName.setText(goods.getName());
@@ -217,26 +239,31 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		tvGoodBrief.setText(goods.getImformation());
 	}
 
-	protected void collectGoods(Goods goods, View v, boolean b) {
+	private void collectGoods(Goods goods, View v, boolean b) {
 		Users user = MyApplication.getCurrentUser();
 		if (user != null && goods != null) {
 			HttpUtils http = new HttpUtils();
 			RequestParams params = new RequestParams();
 			String urlHead = Url.getUrlHead();
 			String url = null;
-			Log.i("erhuo", "进来了啊");
-			if (!isFavorite) {
+			if (!b) {
 				// 取消收藏
-				Log.i("erhuo", "设为取消了");
 				v.setSelected(false);// 设为取消状态
-				collection.remove(v.getTag());// 从集合中移除
+				// 从集合中移除
+				if (collection.contains(goods.getId())) {
+					collection.remove(Integer.valueOf(goods.getId()));
+					MyApplication.setCollections(collection);// 更新Application里的集合
+				}
 				params.addBodyParameter("userId", user.getId() + "");
 				params.addBodyParameter("goodsId", goods.getId() + "");
 				url = urlHead + "/DeleteCollectionsServlet";
 			} else {
 				// 收藏
-				v.setSelected(true);// 设为取消状态
-				collection.add((Integer) v.getTag());// 并加入集合
+				v.setSelected(true);// 设为收藏状态
+				Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT);
+				// 并加入集合
+				collection.add(goods.getId());
+				MyApplication.setCollections(collection);
 				params.addBodyParameter("userId", user.getId() + "");
 				params.addBodyParameter("goodsId", goods.getId() + "");
 				url = urlHead + "/AddCollectionsServlet";
@@ -258,6 +285,58 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 			Toast.makeText(GoodsDetialActivity.this, "请先登录", Toast.LENGTH_SHORT)
 					.show();
 		}
+	}
+
+	// 初始化评论数据
+	private void initComment() {
+		HttpUtils http = new HttpUtils();
+		String urlHead = Url.getUrlHead();
+		String url = urlHead + "/ListRemarkServlet";
+		RequestParams params = new RequestParams();
+		params.addQueryStringParameter("goodsId", goods.getId() + "");
+		http.send(HttpRequest.HttpMethod.GET, url, params,
+				new RequestCallBack<String>() {
+
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
+
+					}
+
+					@Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						String result = arg0.result;
+						Gson gson = new Gson();
+						List<Map<Remark, Users>> listRemarkUsers = gson
+								.fromJson(
+										result,
+										new TypeToken<List<Map<Remark, Users>>>() {
+										}.getType());
+						// 设置数据源
+						pullUpToLoadListView.setAdapter(new RemarkAdapter(
+								context, listRemarkUsers));
+						// 解决scrollview嵌套listview高度问题.
+						// 获得listview对应的adapter
+						ListAdapter listAdapter = pullUpToLoadListView
+								.getAdapter();
+						int totalHeight = 0;
+						for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
+							View listItem = listAdapter.getView(i, null,
+									pullUpToLoadListView);
+							// 计算子项的宽高
+							listItem.measure(0, 0);
+							// 统计所有子项总高度
+							totalHeight += listItem.getMeasuredHeight();
+						}
+						ViewGroup.LayoutParams params = pullUpToLoadListView
+								.getLayoutParams();
+						// 获取子项间分隔符占用的高度 + 到总高度重去
+						params.height = totalHeight
+								+ (pullUpToLoadListView.getDividerHeight() * (listAdapter
+										.getCount() - 1));
+						// params.height最后得到整个ListView完整显示需要的高度
+						pullUpToLoadListView.setLayoutParams(params);
+					}
+				});
 	}
 
 	//
@@ -335,16 +414,20 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		case R.id.btn_buy:
 			if (MyApplication.getCurrentUser() == null) {
 				Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
-			} else {
 				if (goods.getState() == 2) {
 					Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
 							Toast.LENGTH_SHORT).show();
 				} else {
-					Intent intent = new Intent(this, BuyGoodsActivity.class);
-					intent.putExtra("user", user);
-					intent.putExtra("good", goods);
-					intent.putExtra("url", urls);
-					startActivity(intent);
+					if (goods.getState() == 2) {
+						Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
+								Toast.LENGTH_SHORT).show();
+					} else {
+						Intent intent = new Intent(this, BuyGoodsActivity.class);
+						intent.putExtra("user", user);
+						intent.putExtra("good", goods);
+						intent.putExtra("url", urls);
+						startActivity(intent);
+					}
 				}
 			}
 			break;
@@ -352,20 +435,20 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 			if (curUser == null) {
 				Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
 			} else {
-				//获取聊天对象
+				// 获取聊天对象
 				Friend fri = new Friend(user.getId() + "", user.getName(),
 						user.getPhoto() == null ? "null" : user.getPhoto());
 				boolean flag = true;
-				//判断该聊天对象之前是否聊过
-				for (int i = 0;i<userIdList.size();i++) {
-//					Log.i("FriendList", userIdList.get(i).getUserId());
+				// 判断该聊天对象之前是否聊过
+				for (int i = 0; i < userIdList.size(); i++) {
+					// Log.i("FriendList", userIdList.get(i).getUserId());
 					if ((userIdList.get(i).getUserId()).equals(fri.getUserId())) {
 						flag = false;
-					}		
+					}
 				}
-				Log.i("FriendList", flag+"");
-				if(flag){
-					Log.i("FriendList", flag+"");
+				Log.i("FriendList", flag + "");
+				if (flag) {
+					Log.i("FriendList", flag + "");
 					userIdList.add(fri);
 				}
 				Gson gson = new Gson();
@@ -574,8 +657,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
-				Log.i("mengdd", "onTouch : ");
-
 				return false;
 				// 这里如果返回true的话，touch事件将被拦截
 				// 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
@@ -713,14 +794,12 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 			// TODO Auto-generated method stub
 			if (state == 0) {
 				// new MyAdapter(null).notifyDataSetChanged();
-				Log.i("ViewPagerMyListener", "onPageScrollStateChanged");
 			}
 		}
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
 			// TODO Auto-generated method stub
-			Log.i("ViewPagerMyListener", "onPageScrolled");
 
 		}
 
@@ -729,7 +808,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 
 			// 改变所有导航的背景图片为：未选中
 			for (int i = 0; i < indicator_imgs.length; i++) {
-				Log.i("ViewPagerMyListener", "onPageSelected");
 				indicator_imgs[i]
 						.setBackgroundResource(R.drawable.round_point_normal);
 
@@ -859,7 +937,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		Log.i("popupwindow", "onPause");
 
 	}
 
@@ -867,7 +944,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		Log.i("popupwindow", "onStop");
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.geminno.erhuo;
 
 import io.rong.imkit.RongIM;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActivityManager;
@@ -29,6 +30,7 @@ public class MyApplication extends Application {
 	private static List<Markets> MarketsList;
 	private static com.geminno.erhuo.entity.Address userAdds;
 	private static String curToken;
+	private static ArrayList<Integer> goodsIds;
 
 	@Override
 	public void onCreate() {
@@ -135,4 +137,13 @@ public class MyApplication extends Application {
 		return curToken;
 	}
 
+
+	public static void setCollections(ArrayList<Integer> goodsIdList) {
+		goodsIds = goodsIdList;
+	}
+	
+	public static ArrayList<Integer> getCollection(){
+		return goodsIds;
+	}
+	
 }

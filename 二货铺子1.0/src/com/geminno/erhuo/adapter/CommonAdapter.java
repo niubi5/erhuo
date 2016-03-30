@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 
 public abstract class CommonAdapter<T> extends BaseAdapter {
 	protected LayoutInflater mInflater;
-	// 当前应用对象
+	// 上下文
 	protected Context mContext;
 	// 数据源
 	protected List<T> mDatas;
@@ -62,5 +62,6 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 	private DonationViewHolder getViewHolder(int position,View convertView,ViewGroup parent){
 		return DonationViewHolder.get(mContext, parent, convertView, mItemLayoutId, position);	
 	}
+	
 	
 }

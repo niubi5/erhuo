@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.geminno.erhuo.GoodsDetialActivity" >
 
     <FrameLayout
@@ -49,16 +50,12 @@
         </RelativeLayout>
     </FrameLayout>
 
-    <View
-        android:id="@+id/view1"
-        style="@style/ShadowTitle"
-        android:layout_below="@+id/erhuo_message_title" />
-
     <ScrollView
         android:id="@+id/sc_goods_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view1" >
+        android:layout_above="@+id/ll_buy_chat"
+        android:layout_below="@id/erhuo_message_title" >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -198,6 +195,7 @@
             </RelativeLayout>
             
             <View
+                android:id="@+id/padding"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="5dp"
@@ -206,14 +204,22 @@
                 android:layout_below="@id/rl_goods_brief"
                 android:background="#C1C1C1" />
             
+            <com.geminno.erhuo.view.PullUpToLoadListView
+                android:layout_below="@id/padding"
+                android:id="@+id/pull_up_to_load"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                
+            </com.geminno.erhuo.view.PullUpToLoadListView>
             
         </RelativeLayout>
     </ScrollView>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/ll_buy_chat"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true" >
 
         <View
@@ -223,7 +229,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/view3"
+            android:background="@color/white"
             android:orientation="horizontal" >
 
             <LinearLayout
@@ -284,6 +290,6 @@
                     android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

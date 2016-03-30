@@ -67,6 +67,19 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 		findViewById(R.id.but_baochun).setOnClickListener(this);
 		findViewById(R.id.tv_dingwei).setOnClickListener(this);
 		ivReturn.setOnClickListener(this);
+		Intent intent=getIntent();
+		String name=intent.getStringExtra("name");
+		String phone=intent.getStringExtra("phone");
+		String diqu=intent.getStringExtra("diqu");
+		String dizhi=intent.getStringExtra("dizhi");
+		Log.i("cheshi", "传来的值"+name+phone+diqu+dizhi);
+		if (name!=null && !name.equals("null")&& phone!=null&&  !phone.equals("null") && diqu!=null&& !diqu.equals("null")&& dizhi!=null&&!dizhi.equals("null")) {
+			etname.setText(name);
+			etnewphone.setText(phone);
+			etdiqu.setText(diqu);
+			etdizhi.setText(dizhi);
+		}
+		
 	}
 
 	@Override
@@ -130,10 +143,10 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 							if (result != null && !result.equals("null")) {
 								Toast.makeText(NewAddressActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
 								Intent intent=new Intent(NewAddressActivity.this,ShipAddressActivity.class);
-			    				intent.putExtra("name", receiptName);
-			    				intent.putExtra("phone", receiptPhone);
-			    				intent.putExtra("diqu", receiptdiqu);
-			    				intent.putExtra("dizhi", receiptdizhi);
+//			    				intent.putExtra("name", receiptName);
+//			    				intent.putExtra("phone", receiptPhone);
+//			    				intent.putExtra("diqu", receiptdiqu);
+//			    				intent.putExtra("dizhi", receiptdizhi);
 			    				startActivity(intent);
 			    				ShipAddressActivity.shipAddressActivity.finish();
 			    				finish();
