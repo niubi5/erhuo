@@ -203,12 +203,13 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		 String userid=users.getId()+"";
          if (userid!=null&&!userid.equals("null")) {
         	 HttpUtils http=new HttpUtils();
+        	 Log.i("cheshi", "获取用户id"+userid);
      		RequestParams params=new RequestParams();
-     		params.addQueryStringParameter("userid",userid);
+     		params.addQueryStringParameter("curUserId",userid);
      		// 服务器路径
      		String headUrl = Url.getUrlHead();
      		String url = headUrl + "/UserAddressServlet";
-  //   		String url="http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
+//     		String url="http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
      		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
      			@Override

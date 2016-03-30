@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:background="@color/main_red"
+                android:background="@drawable/shape"
                 android:text="使用"
                 android:textSize="@dimen/font_middle" />
         </LinearLayout>
