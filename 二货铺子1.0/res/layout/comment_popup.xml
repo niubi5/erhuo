@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <View
+        android:id="@+id/view3"
+        style="@style/ShadowTitle2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/pop_comment_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:scrollbars="horizontal"
+            android:ems="5" />
+        
+        <ImageView 
+            android:id="@+id/pop_comment_send"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@drawable/comment_send"/>
+    </LinearLayout>
+
+</LinearLayout>
