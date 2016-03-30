@@ -465,10 +465,6 @@
             android:label="@string/title_activity_system_msg"
             android:screenOrientation="portrait" >
         </activity>
-        <activity
-            android:name=".DemoActivity"
-            android:label="@string/title_activity_demo" >
-         </activity>
         <activity   
             android:name=".ReleaseActivity"
             android:label="@string/title_activity_release" >

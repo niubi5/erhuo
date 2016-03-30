@@ -1,14 +1,10 @@
 package com.geminno.erhuo.fragment;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import android.annotation.SuppressLint;
@@ -19,27 +15,16 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.ListView;
-
-import com.baidu.wallet.core.restframework.http.HttpMethod;
 import com.geminno.erhuo.DonateRequestActivity;
-import com.geminno.erhuo.DonationDetailActivity;
-import com.geminno.erhuo.MainActivity;
 import com.geminno.erhuo.R;
-import com.geminno.erhuo.StartActivity;
 import com.geminno.erhuo.adapter.CommonAdapter;
 import com.geminno.erhuo.entity.Donation;
-import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.DonationViewHolder;
 import com.geminno.erhuo.view.RefreshListView;
@@ -53,7 +38,6 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.lidroid.xutils.view.annotation.event.OnTabChange;
 
 public class DonateFragment extends BaseFragment {
 
