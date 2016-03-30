@@ -7,6 +7,7 @@ import com.geminno.erhuo.EditUserInfoActivity;
 import com.geminno.erhuo.LoginActivity;
 import com.geminno.erhuo.MainActivity;
 import com.geminno.erhuo.MyApplication;
+import com.geminno.erhuo.MyGoodsActivity;
 import com.geminno.erhuo.PostageActivity;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.SheZhiActivity;
@@ -38,11 +39,17 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 	private Users users;
 	private LinearLayout linearfenxiang;
 
+	private Button btnSelling;
+	private Button btnSold;
+	private Button btnBought;
+	private Button btnDonate;
+	private Button btnCollec;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_userinfo_page, null);
-		
+
 		return view;
 	}
 
@@ -59,7 +66,12 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		linearyoufei.setOnClickListener(this);
 		address.setOnClickListener(this);
 		linearfenxiang.setOnClickListener(this);
-		
+
+		btnSelling.setOnClickListener(this);
+		btnSold.setOnClickListener(this);
+		btnBought.setOnClickListener(this);
+		btnDonate.setOnClickListener(this);
+		btnCollec.setOnClickListener(this);
 	}
 
 	@Override
@@ -67,47 +79,62 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		userInfo = (LinearLayout) getView().findViewById(
 				R.id.userinfo_container);
 		btnHead = (Button) getView().findViewById(R.id.userinfo_btn_herder);
-	    linearshezhi=(LinearLayout) getView().findViewById(R.id.setting_container);
-	    linearyoufei=(LinearLayout) getView().findViewById(R.id.postage_container);
-	    address=(LinearLayout) getView().findViewById(R.id.address_container);
-	    linearfenxiang=(LinearLayout) getView().findViewById(R.id.share_container);
-	    shoppingMall = (LinearLayout) getView().findViewById(R.id.shoppingmall_container);
-	    share = (LinearLayout) getView().findViewById(R.id.share_container);
-	    initData();
-	    users = MyApplication.getCurrentUser();
-		    if(users!=null && users.getName()!=null){
-		    	btnHead.setText(users.getName());
-		    }
-//		    else if (users!=null&&users.getName()==null) {
-//		    	btnHead.setText("erhuo_"+users.getIdentity().substring(7,11));
-//			}
-	    }
- 
+		linearshezhi = (LinearLayout) getView().findViewById(
+				R.id.setting_container);
+		linearyoufei = (LinearLayout) getView().findViewById(
+				R.id.postage_container);
+		address = (LinearLayout) getView().findViewById(R.id.address_container);
+		linearfenxiang = (LinearLayout) getView().findViewById(
+				R.id.share_container);
+		shoppingMall = (LinearLayout) getView().findViewById(
+				R.id.shoppingmall_container);
+		share = (LinearLayout) getView().findViewById(R.id.share_container);
+
+		btnSelling = (Button) getView().findViewById(R.id.userinfo_btn_selling);
+		btnSold = (Button) getView().findViewById(R.id.userinfo_btn_sold);
+		btnBought = (Button) getView().findViewById(R.id.userinfo_btn_bought);
+		btnDonate = (Button) getView().findViewById(R.id.userinfo_btn_donate);
+		btnCollec = (Button) getView().findViewById(R.id.userinfo_btn_favorite);
+		initData();
+		users = MyApplication.getCurrentUser();
+		if (users != null && users.getName() != null) {
+			btnHead.setText(users.getName());
+		}
+		// else if (users!=null&&users.getName()==null) {
+		// btnHead.setText("erhuo_"+users.getIdentity().substring(7,11));
+		// }
+	}
+
 	@Override
 	public void onClick(View v) {
+		Intent intent = new Intent(getActivity(), MyGoodsActivity.class);
+		int btnId = -1;
 		switch (v.getId()) {
 		case R.id.userinfo_container:
 			// 跳转到EditUserInfoActivity
 			Log.i("onClick", "userinfo_container");
-			if(users != null){
-				startActivity(new Intent(getActivity(), EditUserInfoActivity.class));				
-			}else{
-				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT).show();
+			if (users != null) {
+				startActivity(new Intent(getActivity(),
+						EditUserInfoActivity.class));
+			} else {
+				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
+						.show();
 			}
 			break;
-			
+
 		case R.id.share_container:
 			showShare();
 			break;
 		case R.id.userinfo_btn_herder:
 			Log.i("onClick", "userinfo_btn_herder");
-//			Users users=MyApplication.getCurrentUser();
-			if(users!=null&&!users.equals("null")){
-				startActivity(new Intent(getActivity(),EditUserInfoActivity.class));
-			}else {
-				   startActivity(new Intent(getActivity(), LoginActivity.class));
+			// Users users=MyApplication.getCurrentUser();
+			if (users != null && !users.equals("null")) {
+				startActivity(new Intent(getActivity(),
+						EditUserInfoActivity.class));
+			} else {
+				startActivity(new Intent(getActivity(), LoginActivity.class));
 			}
-			
+
 			break;
 		case R.id.setting_container:
 			Log.i("onClick", "setting_container");
@@ -116,19 +143,42 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		case R.id.postage_container:
 			Log.i("onClick", "postage_container");
 
-			startActivity(new Intent(getActivity(),PostageActivity.class));
-			break;	
+			startActivity(new Intent(getActivity(), PostageActivity.class));
+			break;
 		case R.id.address_container:
-			if(users != null){
-				startActivity(new Intent(getActivity(),ShipAddressActivity.class));				
-			}else{
-				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT).show();
+			if (users != null) {
+				startActivity(new Intent(getActivity(),
+						ShipAddressActivity.class));
+			} else {
+				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
+						.show();
 			}
 			break;
-//		case R.id.userinfo_btn_selling:
-//			Intent intent = new Intent(getActivity(),);
-//			startActivity(new Intent(getActivity(), PostageActivity.class));
-//			break;
+		case R.id.userinfo_btn_selling:
+			btnId = 0;
+			intent.putExtra("btnId", btnId);
+			startActivity(intent);
+			break;
+		case R.id.userinfo_btn_sold:
+			btnId = 1;
+			intent.putExtra("btnId", btnId);
+			startActivity(intent);
+			break;
+		case R.id.userinfo_btn_bought:
+			btnId = 2;
+			intent.putExtra("btnId", btnId);
+			startActivity(intent);
+			break;
+		case R.id.userinfo_btn_donate:
+			btnId = 3;
+			intent.putExtra("btnId", btnId);
+			startActivity(intent);
+			break;
+		case R.id.userinfo_btn_favorite:
+			btnId = 4;
+			intent.putExtra("btnId", btnId);
+			startActivity(intent);
+			break;
 		}
 	}
 

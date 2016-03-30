@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/ib_sousuo"
             style="@style/FrameTitleButtonLeft"
-            android:src="@drawable/left_arrow_white"></ImageView>
+            android:src="@drawable/left_arrow_white" />
         
         <FrameLayout  
             android:layout_weight="1"  
@@ -58,6 +58,7 @@
             android:textColor="@color/main_white"/>  
     </LinearLayout>  
     
+>>>>>>> branch 'master' of https://github.com/niubi5/erhuo.git
     <LinearLayout
         android:id="@+id/lin_search"
         style="@style/MyInfoLinearLayout"

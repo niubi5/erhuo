@@ -1,9 +1,19 @@
 package com.geminno.erhuo;
 
+import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIM.UserInfoProvider;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.UserInfo;
+
 import java.io.IOException;
 import java.lang.ref.SoftReference;
+import java.lang.reflect.Type;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -16,12 +26,28 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
+import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
+import com.geminno.erhuo.entity.Goods;
+import com.geminno.erhuo.utils.Friend;
+import com.geminno.erhuo.utils.Url;
+import com.geminno.erhuo.entity.Users;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -43,27 +69,19 @@ import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
-
-import com.geminno.erhuo.GoodsDetialActivity.AsyncImageLoader.ImageCallback;
 import com.geminno.erhuo.adapter.RemarkAdapter;
-import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Remark;
-import com.geminno.erhuo.entity.Users;
-import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.view.PullUpToLoadListView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class GoodsDetialActivity extends Activity {
+public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 	public static Activity goodsDetialActivity;
 	private ViewPager viewPager;
 	private ImageView image;
@@ -77,6 +95,10 @@ public class GoodsDetialActivity extends Activity {
 	private TextView tvGoodBrief;
 	private TextView tvGoodName;
 	private ArrayList<Integer> collection;
+	private int position;
+	private boolean isFavorite = false;// 是否收藏
+	private List<Friend> userIdList;//
+	private Users curUser;
 	private Integer goodsId;
 	private PullUpToLoadListView pullUpToLoadListView;
 	private Context context;
@@ -103,6 +125,24 @@ public class GoodsDetialActivity extends Activity {
 		goodsId = goods.getId();
 		collection = MyApplication.getCollection();
 		List<String> goodUrl = bundle.getStringArrayList("urls");
+		// 用户好友列表
+		curUser = MyApplication.getCurrentUser();
+		userIdList = new ArrayList<Friend>();
+		SharedPreferences sp = getSharedPreferences("friendInfo",
+				Context.MODE_PRIVATE);
+		String friendList = sp.getString("friendList", null);
+		Gson gson = new Gson();
+		Type type = new TypeToken<ArrayList<Friend>>() {
+		}.getType();
+		if (friendList != null) {
+			userIdList = gson.fromJson(friendList, type);
+			Log.i("FriendList", "adapter not null:" + friendList);
+		} else {
+			Log.i("FriendList", "adapter is null:" + friendList);
+			userIdList.add(new Friend(curUser.getId() + "", curUser.getName(),
+					curUser.getPhoto() == null ? "null" : curUser.getPhoto()));
+		}
+
 		urls = new String[goodUrl.size()];
 		for (int i = 0; i < goodUrl.size(); i++) {
 			urls[i] = goodUrl.get(i);
@@ -124,9 +164,10 @@ public class GoodsDetialActivity extends Activity {
 		initData();
 		initComment();// 初始化评论数据
 		initIndicator();
+		RongIM.setUserInfoProvider(this, true);
 	}
 
-	private void initData() {
+	public void initData() {
 		ImageView goodsFavorite = (ImageView) findViewById(R.id.goods_favorite);
 		ImageView ivHead = (ImageView) findViewById(R.id.iv_user_head);
 		TextView tvUserName = (TextView) findViewById(R.id.tv_user_name);
@@ -136,6 +177,7 @@ public class GoodsDetialActivity extends Activity {
 		tvGoodName = (TextView) findViewById(R.id.tv_goods_name);
 		TextView tvGoodTime = (TextView) findViewById(R.id.tv_goods_time);
 		tvGoodBrief = (TextView) findViewById(R.id.tv_goods_brief);
+		Log.i("imagelocation", user.getPhoto());
 		if (user.getPhoto() != null && !user.getPhoto().equals("")) {
 			Properties prop = new Properties();
 			String headUrl = null;
@@ -150,7 +192,9 @@ public class GoodsDetialActivity extends Activity {
 			ImageLoader.getInstance().displayImage(userHeadUrl, ivHead);
 		}
 		// 设置收藏的显示状态
-		if (collection.contains(goodsId)) {
+		Log.i("erhuo", "传过来的position" + position);
+		Log.i("erhuo", "包含position吗？" + collection.contains(position));
+		if (collection.contains(position)) {
 			Log.i("erhuo", "初始化时为true");
 			goodsFavorite.setSelected(true);
 		} else {
@@ -172,6 +216,16 @@ public class GoodsDetialActivity extends Activity {
 			}
 		});
 		tvUserName.setText(user.getName());
+		if (MyApplication.getLocation() != null) {
+			int instance = Distance(goods.getLongitude(), goods.getLatitude(),
+					MyApplication.getLocation().getLongitude(), MyApplication
+							.getLocation().getLatitude());
+			tvUserLocation
+					.setText(instance >= 100 ? ("距我:" + instance / 1000 + "km")
+							: ("距我:" + instance + "m"));
+		} else {
+			tvUserLocation.setText("距我:");
+		}
 		int instance = Distance(goods.getLongitude(), goods.getLatitude(),
 				MyApplication.getLocation().getLongitude(), MyApplication
 						.getLocation().getLatitude());
@@ -262,18 +316,23 @@ public class GoodsDetialActivity extends Activity {
 								context, listRemarkUsers));
 						// 解决scrollview嵌套listview高度问题.
 						// 获得listview对应的adapter
-						ListAdapter listAdapter = pullUpToLoadListView.getAdapter();
+						ListAdapter listAdapter = pullUpToLoadListView
+								.getAdapter();
 						int totalHeight = 0;
-						for(int i = 0, len = listAdapter.getCount();i<len;i++){
-							View listItem = listAdapter.getView(i, null, pullUpToLoadListView);
+						for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
+							View listItem = listAdapter.getView(i, null,
+									pullUpToLoadListView);
 							// 计算子项的宽高
 							listItem.measure(0, 0);
 							// 统计所有子项总高度
-							totalHeight += listItem.getMeasuredHeight(); 
+							totalHeight += listItem.getMeasuredHeight();
 						}
-						ViewGroup.LayoutParams params = pullUpToLoadListView.getLayoutParams();
+						ViewGroup.LayoutParams params = pullUpToLoadListView
+								.getLayoutParams();
 						// 获取子项间分隔符占用的高度 + 到总高度重去
-						params.height = totalHeight + (pullUpToLoadListView.getDividerHeight() * (listAdapter.getCount() - 1));
+						params.height = totalHeight
+								+ (pullUpToLoadListView.getDividerHeight() * (listAdapter
+										.getCount() - 1));
 						// params.height最后得到整个ListView完整显示需要的高度
 						pullUpToLoadListView.setLayoutParams(params);
 					}
@@ -353,20 +412,207 @@ public class GoodsDetialActivity extends Activity {
 			finish();
 			break;
 		case R.id.btn_buy:
-			if (goods.getState() == 2) {
-				Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
-						Toast.LENGTH_SHORT).show();
+			if (MyApplication.getCurrentUser() == null) {
+				Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
+				if (goods.getState() == 2) {
+					Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					if (goods.getState() == 2) {
+						Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
+								Toast.LENGTH_SHORT).show();
+					} else {
+						Intent intent = new Intent(this, BuyGoodsActivity.class);
+						intent.putExtra("user", user);
+						intent.putExtra("good", goods);
+						intent.putExtra("url", urls);
+						startActivity(intent);
+					}
+				}
+			}
+			break;
+		case R.id.btn_chat:
+			if (curUser == null) {
+				Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
 			} else {
-				Intent intent = new Intent(this, BuyGoodsActivity.class);
-				intent.putExtra("user", user);
-				intent.putExtra("good", goods);
-				intent.putExtra("url", urls);
-				startActivity(intent);
+				// 获取聊天对象
+				Friend fri = new Friend(user.getId() + "", user.getName(),
+						user.getPhoto() == null ? "null" : user.getPhoto());
+				boolean flag = true;
+				// 判断该聊天对象之前是否聊过
+				for (int i = 0; i < userIdList.size(); i++) {
+					// Log.i("FriendList", userIdList.get(i).getUserId());
+					if ((userIdList.get(i).getUserId()).equals(fri.getUserId())) {
+						flag = false;
+					}
+				}
+				Log.i("FriendList", flag + "");
+				if (flag) {
+					Log.i("FriendList", flag + "");
+					userIdList.add(fri);
+				}
+				Gson gson = new Gson();
+				String friendInfo = gson.toJson(userIdList);
+				SharedPreferences shared = getSharedPreferences("friendInfo",
+						MODE_PRIVATE);
+				shared.edit().putString("friendList", friendInfo).commit();
+				Log.i("FriendList", "activity add:" + friendInfo);
+				if (MyApplication.getCurToken() == null) {
+					// connToast = new Toast(this);
+					// connToast.setDuration(1000);
+					// connToast.setText(new String("正在连接服务器..."));
+					// connToast.show();
+					Toast.makeText(this, "正在连接服务器...", Toast.LENGTH_SHORT)
+							.show();
+					getToken(curUser.getId(), curUser.getName(),
+							curUser.getPhoto());
+				} else {
+					if (RongIM.getInstance() != null)
+						RongIM.getInstance().startPrivateChat(
+								GoodsDetialActivity.this, user.getId() + "",
+								user.getName());// 26594
+				}
 			}
 			break;
 		default:
 			break;
 		}
+	}
+
+	// 获取token
+	// 如果已经有token就不用执行这个方法，直接调用connect（）方法
+	public void getToken(int userId, String userName, String headUrl) {
+		String url = "https://api.cn.ronghub.com/user/getToken.json";
+		HttpUtils http = new HttpUtils();
+		RequestParams params = new RequestParams();
+		// 初始化请求头参数
+		long time = Calendar.getInstance().getTimeInMillis() / 1000;
+		double nonce = Math.random() * 1000;
+		String signa = "DqpxxWb403n" + nonce + time;
+		params.addHeader("App-Key", "z3v5yqkbvttj0");// appkey
+		params.addHeader("Nonce", String.valueOf(nonce));
+		params.addHeader("Timestamp", String.valueOf(time));
+		params.addHeader("Signature", SHA1(signa));
+
+		// 请求参数
+		params.addBodyParameter("userId", userId + "");// 用户id
+		params.addBodyParameter("name", userName);// 用户名
+		params.addBodyParameter("portraitUri", headUrl);// 头像url
+		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
+
+			@Override
+			public void onFailure(HttpException arg0, String arg1) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> arg0) {
+				// TODO Auto-generated method stub
+				Log.i("RongCloudDemo", "--result" + arg0.result);
+				// Toast.makeText(MainActivity.this, arg0.result, 1).show();
+				Log.i("getToken", arg0.result);
+				// 在这里解析json调用connect(token)方法
+				// connect(token);
+
+				JSONTokener jt = new JSONTokener(arg0.result);
+				try {
+					JSONObject jb = (JSONObject) jt.nextValue();
+					String token = jb.getString("token");
+					Log.i("getToken", "token:" + token);
+					MyApplication.setCurToken(token);
+					connect(token);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		});
+	}
+
+	/**
+	 * 融云聊天
+	 * 
+	 * @author Heikki 2016.03.28
+	 * */
+	// 连接融云服务器
+	private void connect(String token) {
+
+		if (getApplicationInfo().packageName.equals(MyApplication
+				.getCurProcessName(getApplicationContext()))) {
+
+			/**
+			 * IMKit SDK调用第二步,建立与服务器的连接
+			 */
+			RongIM.connect(token, new RongIMClient.ConnectCallback() {
+
+				/**
+				 * Token 错误，在线上环境下主要是因为 Token 已经过期，您需要向 App Server 重新请求一个新的
+				 * Token
+				 */
+				@Override
+				public void onTokenIncorrect() {
+
+					Log.d("LoginActivity", "--onTokenIncorrect");
+				}
+
+				/**
+				 * 连接融云成功
+				 * 
+				 * @param userid
+				 *            当前 token
+				 */
+				@Override
+				public void onSuccess(String userid) {
+
+					Log.d("LoginActivity", "--onSuccess" + userid);
+					// connToast.cancel();
+					Toast.makeText(GoodsDetialActivity.this, "连接成功", 1).show();
+					if (RongIM.getInstance() != null)
+						RongIM.getInstance().startPrivateChat(
+								GoodsDetialActivity.this, user.getId() + "",
+								user.getName());// 26594
+				}
+
+				/**
+				 * 连接融云失败
+				 * 
+				 * @param errorCode
+				 *            错误码，可到官网 查看错误码对应的注释
+				 */
+				@Override
+				public void onError(RongIMClient.ErrorCode errorCode) {
+
+					Log.d("LoginActivity", "--onError" + errorCode);
+				}
+			});
+		}
+	}
+
+	// sha1编码
+	public static String SHA1(String decript) {
+		try {
+			MessageDigest digest = java.security.MessageDigest
+					.getInstance("SHA-1");
+			digest.update(decript.getBytes());
+			byte messageDigest[] = digest.digest();
+			// Create Hex String
+			StringBuffer hexString = new StringBuffer();
+			// 字节数组转换为 十六进制 数
+			for (int i = 0; i < messageDigest.length; i++) {
+				String shaHex = Integer.toHexString(messageDigest[i] & 0xFF);
+				if (shaHex.length() < 2) {
+					hexString.append(0);
+				}
+				hexString.append(shaHex);
+			}
+			return hexString.toString();
+
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	// 显示popupwindow
@@ -698,6 +944,26 @@ public class GoodsDetialActivity extends Activity {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
+	}
+
+	@Override
+	public UserInfo getUserInfo(String s) {
+		// TODO Auto-generated method stub
+		Log.i("getUserInfo", userIdList.toString());
+		for (Friend i : userIdList) {
+			if (i.getUserId().equals(s)) {
+				Log.i("getUserInfo", "activity:" + i.getUserName());
+				return new UserInfo(i.getUserId(), i.getUserName(), Uri.parse(i
+						.getPortraitUri()));
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
 	}
 
 }

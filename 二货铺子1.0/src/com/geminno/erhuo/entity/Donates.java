@@ -5,9 +5,28 @@ public class Donates {
 	private int id;
 	private int helpId;
 	private int userId;
+	private String title;
+	private String brief;
 	private String donTime;
 	private String logisticsCom;
 	private String logisticsNum;
+
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getBrief() {
+		return brief;
+	}
+
+	public void setBrief(String brief) {
+		this.brief = brief;
+	}
 
 	public int getId() {
 		return id;

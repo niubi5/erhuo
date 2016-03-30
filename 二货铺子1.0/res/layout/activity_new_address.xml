@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="25dp"
-                android:text="当前定位到"
+                android:text="当前位置:"
                 android:textSize="@dimen/font_middle" />
 
             <View
@@ -58,32 +58,45 @@
             
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/lin_new_address"
             style="@style/MyInfoLinearLayout"
             android:layout_height="55dp"
-            android:gravity="left" >
-
-            <EditText
-                android:id="@+id/et_newaddress_xianshi"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:gravity="center"
-                android:background="@drawable/shape_address"
-                android:ems="10"
-                android:textSize="@dimen/font_middle" 
-                android:hint="当前位置"
-                android:layout_marginLeft="27dp" />
+            android:gravity="center_vertical" >
 
             <Button
                 android:id="@+id/but_shiyong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
                 android:layout_marginLeft="30dp"
                 android:background="@drawable/shape"
                 android:text="使用"
-                android:textSize="@dimen/font_middle" />
-        </LinearLayout>
+                android:textSize="@dimen/font_middle"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/et_newaddress_xianshi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/but_shiyong"
+                android:layout_alignBottom="@+id/but_shiyong"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="24dp"
+                android:layout_toLeftOf="@+id/but_shiyong"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_address"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="当前位置"
+                android:textSize="@dimen/font_big" >
+
+                <requestFocus />
+            </TextView>
+
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
@@ -94,7 +107,7 @@
             
             android:id="@+id/lin_newshouhuo"
             style="@style/MyInfoLinearLayout"
-            android:gravity="center" >
+            android:gravity="center_vertical" >
 
             <TextView
                 android:id="@+id/tv_newaddress_shouhuo"
@@ -107,20 +120,22 @@
 
             <EditText
                 android:id="@+id/et_newaddress_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_gravity="center"
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="15dp"
                 android:background="@drawable/shape_address"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:layout_marginLeft="27dp" />
+                android:textSize="@dimen/font_big" />
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/lin_newphone"
             style="@style/MyInfoLinearLayout"
             
-            android:gravity="center" >
+            android:gravity="center_vertical" >
 
             <TextView
                 android:id="@+id/tv_newphone"
@@ -133,19 +148,21 @@
 
             <EditText
                 android:id="@+id/et_newphone"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@drawable/shape_address"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textSize="@dimen/font_big" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/lin_newaddress_diqu"
             style="@style/MyInfoLinearLayout"
-            android:gravity="center" >
+            android:gravity="center_vertical" >
 
             <TextView
                 android:id="@+id/tv_newaddress_diqu"
@@ -158,38 +175,42 @@
 
             <EditText
                 android:id="@+id/et_newaddress_diqu"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@drawable/shape_address"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textSize="@dimen/font_big" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/lin_xiangxi_dizhi"
             style="@style/MyInfoLinearLayout"
-            android:gravity="center" >
+            android:gravity="center_vertical" >
 
             <TextView
                 android:id="@+id/tv_newaddress_dizhi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="15dp"     
                 android:text="详细地址"
                 android:textSize="@dimen/font_middle" />
 
             <EditText
                 android:id="@+id/et_dizhi"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@drawable/shape_address"
                 android:ems="10"
-                android:inputType="textPersonName"/>
+                android:inputType="textPersonName"
+                android:textSize="@dimen/font_big"/>
         </LinearLayout>
     </LinearLayout>
 

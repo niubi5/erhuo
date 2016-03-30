@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -106,7 +107,25 @@ public class ViewHolder {
 		view.setBackgroundColor(color);
 		return this;
 	}
-
+	
+	public ViewHolder setDrawableLeft(int viewId, Drawable drawable) {
+		Button button = getView(viewId);
+		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+		button.setCompoundDrawables(drawable,null,null,null);
+		return this;
+	}
+	public ViewHolder setVisibility(int viewId, int visibility) {
+		View view = getView(viewId);
+		if(visibility == -1){
+			view.setVisibility(View.GONE);			
+		}else if(visibility == 0){
+			view.setVisibility(View.INVISIBLE);
+		}else{
+			view.setVisibility(View.VISIBLE);
+		}
+		return this;
+	}
+	
 	public ViewHolder setBackgroundRes(int viewId, int backgroundRes) {
 		View view = getView(viewId);
 		view.setBackgroundResource(backgroundRes);
@@ -122,6 +141,11 @@ public class ViewHolder {
 	public ViewHolder setTextColorRes(int viewId, int textColorRes) {
 		TextView view = getView(viewId);
 		view.setTextColor(mContext.getResources().getColor(textColorRes));
+		return this;
+	}
+	public ViewHolder setTextColorColor(int viewId, int textColorRes) {
+		TextView view = getView(viewId);
+		view.setTextColor(textColorRes);
 		return this;
 	}
 
