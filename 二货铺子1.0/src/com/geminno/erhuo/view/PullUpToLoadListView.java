@@ -6,6 +6,7 @@ import com.geminno.erhuo.view.RefreshListView.OnRefreshCallBack;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -21,10 +22,6 @@ public class PullUpToLoadListView extends ListView implements OnScrollListener {
 
 	private View footView;
 	private int footHeight;// 底部高度
-
-	private RotateAnimation upAnimation;
-	private RotateAnimation downAnimation;
-
 	private boolean loading = false;// 正在加载
 
 	private OnPullUpToLoadCallBack pullUpToLoadCallback;
@@ -32,7 +29,6 @@ public class PullUpToLoadListView extends ListView implements OnScrollListener {
 	public PullUpToLoadListView(Context context) {
 		super(context);
 		initFoot(context);
-		initAnimation(context);
 		setOnScrollListener(this);
 
 	}
@@ -40,7 +36,6 @@ public class PullUpToLoadListView extends ListView implements OnScrollListener {
 	public PullUpToLoadListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initFoot(context);
-		initAnimation(context);
 		setOnScrollListener(this);
 	}
 
@@ -48,7 +43,6 @@ public class PullUpToLoadListView extends ListView implements OnScrollListener {
 			int defStyle) {
 		super(context, attrs, defStyle);
 		initFoot(context);
-		initAnimation(context);
 		setOnScrollListener(this);
 	}
 
@@ -63,20 +57,6 @@ public class PullUpToLoadListView extends ListView implements OnScrollListener {
 		footHeight = footView.getMeasuredHeight();
 		// 隐藏底部
 		footView.setPadding(0, -footHeight, 0, 0);
-	}
-
-	// 初始化动画
-	public void initAnimation(Context context) {
-		// 中心点在自身的中心
-		upAnimation = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF,
-				0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-		upAnimation.setFillAfter(true);
-		upAnimation.setDuration(100);
-		downAnimation = new RotateAnimation(-180, 0,
-				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-				0.5f);
-		downAnimation.setFillAfter(true);
-		downAnimation.setDuration(1000);
 	}
 
 	// 传接口的实现类
@@ -94,6 +74,7 @@ public class PullUpToLoadListView extends ListView implements OnScrollListener {
 		footView.setPadding(0, -footHeight, 0, 0);
 		loading = false;
 	}
+	
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
