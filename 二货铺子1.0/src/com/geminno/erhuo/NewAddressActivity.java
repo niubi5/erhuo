@@ -134,11 +134,11 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				params.addBodyParameter("address",adds);
     				String headUrl = Url.getUrlHead();
     				if (flg) {
-//    					url = headUrl + "/SaveAddressServlet";
-        				 url="http://10.201.1.16:8080/secondHandShop/SaveAddressServlet";
+    					url = headUrl + "/SaveAddressServlet";
+//        				 url="http://10.201.1.16:8080/secondHandShop/SaveAddressServlet";
 					}else {
-//					    url = headUrl + "/UpdateAddressServlet";
-	    				 url="http://10.201.1.16:8080/secondHandShop/UpdateAddressServlet";
+					    url = headUrl + "/UpdateAddressServlet";
+//	    				 url="http://10.201.1.16:8080/secondHandShop/UpdateAddressServlet";
 					}
     				
 //    				String url="http://10.201.1.16:8080/secondHandShop/SaveAddressServlet";

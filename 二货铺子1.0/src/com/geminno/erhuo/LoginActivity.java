@@ -93,9 +93,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 				params.addBodyParameter("identity", name);
 				HttpUtils http = new HttpUtils();
 				// 服务器路径
-//				 String headUrl = Url.getUrlHead();
-//				 String url = headUrl + "/LoginServlet";
-				String url = "http://10.201.1.16:8080/secondHandShop/LoginServlet";
+				 String headUrl = Url.getUrlHead();
+				 String url = headUrl + "/LoginServlet";
+			//	String url = "http://10.201.1.16:8080/secondHandShop/LoginServlet";
 				http.send(HttpMethod.POST, url, params,
 						new RequestCallBack<String>() {
 
@@ -159,8 +159,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	public void getCurUserAddress() {
 		Users curUser = MyApplication.getCurrentUser();
 		if (curUser != null) {
-//			 String url = Url.getUrlHead() + "/UserAddressServlet";
-			String url = "http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
+			 String url = Url.getUrlHead() + "/UserAddressServlet";
+//			String url = "http://10.201.1.16:8080/secondHandShop/UserAddressServlet";
 			RequestParams rp = new RequestParams();
 			rp.addBodyParameter("curUserId", curUser.getId() + "");
 			HttpUtils hu = new HttpUtils();
