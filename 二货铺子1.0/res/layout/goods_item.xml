@@ -113,6 +113,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -131,10 +132,11 @@
 
             <ImageView
                 android:id="@+id/user_favorite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_weight="1"
                 android:layout_marginRight="5dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/user_favorite" />
             
         </LinearLayout>

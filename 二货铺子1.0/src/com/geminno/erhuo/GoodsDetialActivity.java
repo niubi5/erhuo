@@ -13,7 +13,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -45,6 +44,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -54,34 +54,43 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.geminno.erhuo.adapter.RemarkAdapter;
 import com.geminno.erhuo.entity.Remark;
 import com.geminno.erhuo.view.PullUpToLoadListView;
+import com.geminno.erhuo.view.PullUpToLoadListView.OnPullUpToLoadCallBack;
+import com.google.gson.GsonBuilder;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
-import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class GoodsDetialActivity extends Activity implements UserInfoProvider {
+@SuppressLint("HandlerLeak")
+public class GoodsDetialActivity extends Activity implements UserInfoProvider,
+		OnClickListener {
 	public static Activity goodsDetialActivity;
 	private ViewPager viewPager;
 	private ImageView image;
@@ -96,12 +105,18 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 	private TextView tvGoodName;
 	private ArrayList<Integer> collection;
 	private int position;
-	private boolean isFavorite = false;// 是否收藏
 	private List<Friend> userIdList;//
 	private Users curUser;
 	private Integer goodsId;
 	private PullUpToLoadListView pullUpToLoadListView;
 	private Context context;
+	private ScrollView scroll;
+	private ImageView commentIv;
+	private Users currentUser = MyApplication.getCurrentUser();
+	private RemarkAdapter remarkAdapter;
+	private List<Map<Remark, Users>> listRemarkUsers = new ArrayList<Map<Remark, Users>>();
+	private Handler handler = new Handler();
+	private float scale;// 屏幕密度
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,10 +128,13 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		context = this;
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		viewPager = (ViewPager) findViewById(R.id.vp_goods_images);
+		commentIv = (ImageView) findViewById(R.id.comment_iv);
+		commentIv.setOnClickListener(this);
 		// 上拉加载的listview
-		pullUpToLoadListView = (PullUpToLoadListView) findViewById(R.id.pull_up_to_load);
 		List<View> list = new ArrayList<View>();
+		scroll = (ScrollView) findViewById(R.id.sc_goods_information);
 		inflater = LayoutInflater.from(this);
+		scale = context.getResources().getDisplayMetrics().density;
 		// 获得当前商品的id
 		Intent intent = getIntent();
 		Bundle bundle = intent.getExtras();
@@ -138,9 +156,12 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 			userIdList = gson.fromJson(friendList, type);
 			Log.i("FriendList", "adapter not null:" + friendList);
 		} else {
-			Log.i("FriendList", "adapter is null:" + friendList);
-			userIdList.add(new Friend(curUser.getId() + "", curUser.getName(),
-					curUser.getPhoto() == null ? "null" : curUser.getPhoto()));
+			if (curUser != null) {
+				Log.i("FriendList", "adapter is null:" + friendList);
+				userIdList.add(new Friend(curUser.getId() + "", curUser
+						.getName(), curUser.getPhoto() == null ? "null"
+						: curUser.getPhoto()));
+			}
 		}
 
 		urls = new String[goodUrl.size()];
@@ -162,7 +183,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		// 绑定动作监听器：如翻页的动画
 		viewPager.setOnPageChangeListener(new MyListener());
 		initData();
-		initComment();// 初始化评论数据
+		initComment();// 初始化评论
 		initIndicator();
 		RongIM.setUserInfoProvider(this, true);
 	}
@@ -177,7 +198,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		tvGoodName = (TextView) findViewById(R.id.tv_goods_name);
 		TextView tvGoodTime = (TextView) findViewById(R.id.tv_goods_time);
 		tvGoodBrief = (TextView) findViewById(R.id.tv_goods_brief);
-		Log.i("imagelocation", user.getPhoto());
 		if (user.getPhoto() != null && !user.getPhoto().equals("")) {
 			Properties prop = new Properties();
 			String headUrl = null;
@@ -192,14 +212,12 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 			ImageLoader.getInstance().displayImage(userHeadUrl, ivHead);
 		}
 		// 设置收藏的显示状态
-		Log.i("erhuo", "传过来的position" + position);
-		Log.i("erhuo", "包含position吗？" + collection.contains(position));
-		if (collection.contains(position)) {
-			Log.i("erhuo", "初始化时为true");
-			goodsFavorite.setSelected(true);
-		} else {
-			Log.i("erhuo", "初始化时就为false");
-			goodsFavorite.setSelected(false);
+		if (collection != null) {
+			if (collection.contains(position)) {
+				goodsFavorite.setSelected(true);
+			} else {
+				goodsFavorite.setSelected(false);
+			}
 		}
 		goodsFavorite.setOnClickListener(new OnClickListener() {
 
@@ -207,10 +225,8 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 			public void onClick(View v) {
 				collection = MyApplication.getCollection();
 				if (collection.contains(goodsId)) {
-					Log.i("erhuo", "调用取消收藏方法");
 					collectGoods(goods, v, false);// 调用取消收藏商品方法
 				} else {
-					Log.i("erhuo", "调用收藏方法");
 					collectGoods(goods, v, true);
 				}
 			}
@@ -287,11 +303,42 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		}
 	}
 
-	// 初始化评论数据
+	// 初始化评论
 	private void initComment() {
+		pullUpToLoadListView = (PullUpToLoadListView) findViewById(R.id.pull_up_to_load);
+		initCommentData();
+		scroll.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+
+				return false;
+			}
+		});
+		pullUpToLoadListView
+				.setOnPullToLoadCallback(new OnPullUpToLoadCallBack() {
+
+					@Override
+					public void onPull() {
+						handler.postDelayed(new Runnable() {
+
+							@Override
+							public void run() {
+								pullUpToLoadListView.completePull();
+							}
+						}, 2000);
+
+					}
+				});
+	}
+
+	// 初始化评论数据
+	private void initCommentData() {
 		HttpUtils http = new HttpUtils();
 		String urlHead = Url.getUrlHead();
 		String url = urlHead + "/ListRemarkServlet";
+		// 设置为不缓存，及时获取数据
+		http.configCurrentHttpCacheExpiry(0);
 		RequestParams params = new RequestParams();
 		params.addQueryStringParameter("goodsId", goods.getId() + "");
 		http.send(HttpRequest.HttpMethod.GET, url, params,
@@ -305,15 +352,24 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
-						Gson gson = new Gson();
-						List<Map<Remark, Users>> listRemarkUsers = gson
-								.fromJson(
-										result,
-										new TypeToken<List<Map<Remark, Users>>>() {
-										}.getType());
-						// 设置数据源
-						pullUpToLoadListView.setAdapter(new RemarkAdapter(
-								context, listRemarkUsers));
+						Gson gson = new GsonBuilder()
+								.enableComplexMapKeySerialization().create();
+						List<Map<Remark, Users>> newComments = gson.fromJson(
+								result,
+								new TypeToken<List<Map<Remark, Users>>>() {
+								}.getType());
+						if (!listRemarkUsers.isEmpty()) {
+							listRemarkUsers.clear();
+						}
+						listRemarkUsers.addAll(newComments);// 加到总集合中去
+						if (remarkAdapter == null) {
+							remarkAdapter = new RemarkAdapter(context,
+									listRemarkUsers, goods,
+									pullUpToLoadListView);
+							pullUpToLoadListView.setAdapter(remarkAdapter);
+						} else {
+							remarkAdapter.notifyDataSetChanged();
+						}
 						// 解决scrollview嵌套listview高度问题.
 						// 获得listview对应的adapter
 						ListAdapter listAdapter = pullUpToLoadListView
@@ -335,9 +391,146 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 										.getCount() - 1));
 						// params.height最后得到整个ListView完整显示需要的高度
 						pullUpToLoadListView.setLayoutParams(params);
+						scroll.smoothScrollBy(0, 20);
 					}
 				});
 	}
+
+	private void showCommentPopUp(final Context context) {
+		View contentView = LayoutInflater.from(context).inflate(
+				R.layout.comment_popup, null);
+		int px = (int) (60 * scale + 0.5f);
+		final PopupWindow pop = new PopupWindow(contentView,
+				LayoutParams.MATCH_PARENT, px, true);
+		pop.setContentView(contentView);
+		final EditText commentContent = (EditText) contentView
+				.findViewById(R.id.pop_comment_content);
+		ImageView commentSend = (ImageView) contentView
+				.findViewById(R.id.pop_comment_send);
+		commentContent.setHint("回复 " + user.getName() + ":");
+		// 发送留言
+		commentSend.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// 当前用户已登录
+				// 当评论不为空时 发送留言，存入数据库
+				if (currentUser == null) {
+					Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+				} else {
+					// 判断输入框是否为空
+					if (!TextUtils.isEmpty(commentContent.getText())) {
+						HttpUtils http = new HttpUtils();
+						String urlHead = Url.getUrlHead();
+						String url = urlHead + "/AddCommentServlet";
+						RequestParams params = new RequestParams();
+						// 设置为不缓存，及时获取数据
+						http.configCurrentHttpCacheExpiry(0);
+						params.addBodyParameter("goodsId", goods.getId() + "");
+						params.addBodyParameter("userId", currentUser.getId()
+								+ "");
+						params.addBodyParameter("commentContent",
+								commentContent.getText().toString());
+						params.addBodyParameter("fatherId", 0 + "");// 当前为一级评论
+						http.send(HttpRequest.HttpMethod.POST, url, params,
+								new RequestCallBack<String>() {
+
+									@Override
+									public void onFailure(HttpException arg0,
+											String arg1) {
+										Toast.makeText(context, "评论失败",
+												Toast.LENGTH_SHORT).show();
+									}
+
+									@Override
+									public void onSuccess(
+											ResponseInfo<String> arg0) {
+										Toast.makeText(context, "评论成功",
+												Toast.LENGTH_SHORT).show();
+										// 并且隐藏pop
+										pop.dismiss();
+										initCommentData();// 再次调用，更新数据源
+									}
+								});
+					} else {
+						Toast.makeText(context, "请输入评论内容", Toast.LENGTH_SHORT)
+								.show();
+					}
+				}
+
+			}
+		});
+		pop.setBackgroundDrawable(new BitmapDrawable());
+		pop.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+		pop.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		pop.setFocusable(true);
+		pop.setOutsideTouchable(true);
+		pop.setTouchable(true);
+		// 显示popupwindow
+		View rootView = LayoutInflater.from(context).inflate(
+				R.layout.activity_goods_detial, null);
+		pop.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
+		popupInputMethodWindow();// 自动弹出键盘
+	}
+
+	// private void addCommentData() {
+	// HttpUtils http = new HttpUtils();
+	// String headUrl = Url.getUrlHead();
+	// String url = headUrl + "/ListRemarkServlet";
+	// RequestParams params = new RequestParams();
+	// params.addQueryStringParameter("goodsId", goods.getId() + "");
+	// http.send(HttpRequest.HttpMethod.GET, url, params,
+	// new RequestCallBack<String>() {
+	//
+	// @Override
+	// public void onFailure(HttpException arg0, String arg1) {
+	// Toast.makeText(context, "加载失败", Toast.LENGTH_SHORT)
+	// .show();
+	// }
+	//
+	// @Override
+	// public void onSuccess(ResponseInfo<String> arg0) {
+	// String result = arg0.result;
+	// Gson gson = new GsonBuilder()
+	// .enableComplexMapKeySerialization().create();
+	// List<Map<Remark, Users>> newComments = gson.fromJson(
+	// result,
+	// new TypeToken<List<Map<Remark, Users>>>() {
+	// }.getType());
+	// if (!preRemarkUsers.isEmpty()) {
+	// listRemarkUsers.removeAll(preRemarkUsers);
+	// preRemarkUsers.clear();
+	// }
+	// // 判断有没有加到数据
+	// if (newComments == null || newComments.isEmpty()) {
+	// // 没有加载到数据，则弹出提示
+	// Toast.makeText(context, "没有更多了", Toast.LENGTH_SHORT)
+	// .show();
+	// // 页数不变，之前++过，故这里要--
+	// curPage--;
+	// } else {
+	// // 判断有没有加满
+	// if (newComments != null
+	// && newComments.size() < pageSize) {
+	// preRemarkUsers.addAll(newComments);
+	// // 页数不变
+	// curPage--;
+	// }
+	// listRemarkUsers.addAll(newComments);
+	// if (remarkAdapter == null) {
+	// remarkAdapter = new RemarkAdapter(context,
+	// listRemarkUsers, goods,
+	// pullUpToLoadListView);
+	// pullUpToLoadListView.setAdapter(remarkAdapter);
+	// } else {
+	// Log.i("erhuo", "通知数据源改变");
+	// remarkAdapter.notifyDataSetChanged();
+	// }
+	// }
+	//
+	// }
+	// });
+	// }
 
 	//
 	/**
@@ -456,7 +649,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 				SharedPreferences shared = getSharedPreferences("friendInfo",
 						MODE_PRIVATE);
 				shared.edit().putString("friendList", friendInfo).commit();
-				Log.i("FriendList", "activity add:" + friendInfo);
 				if (MyApplication.getCurToken() == null) {
 					// connToast = new Toast(this);
 					// connToast.setDuration(1000);
@@ -498,37 +690,36 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		params.addBodyParameter("userId", userId + "");// 用户id
 		params.addBodyParameter("name", userName);// 用户名
 		params.addBodyParameter("portraitUri", headUrl);// 头像url
-		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
+		http.send(HttpRequest.HttpMethod.POST, url, params,
+				new RequestCallBack<String>() {
 
-			@Override
-			public void onFailure(HttpException arg0, String arg1) {
-				// TODO Auto-generated method stub
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
 
-			}
+					}
 
-			@Override
-			public void onSuccess(ResponseInfo<String> arg0) {
-				// TODO Auto-generated method stub
-				Log.i("RongCloudDemo", "--result" + arg0.result);
-				// Toast.makeText(MainActivity.this, arg0.result, 1).show();
-				Log.i("getToken", arg0.result);
-				// 在这里解析json调用connect(token)方法
-				// connect(token);
+					@Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						Log.i("RongCloudDemo", "--result" + arg0.result);
+						// Toast.makeText(MainActivity.this, arg0.result,
+						// 1).show();
+						Log.i("getToken", arg0.result);
+						// 在这里解析json调用connect(token)方法
+						// connect(token);
 
-				JSONTokener jt = new JSONTokener(arg0.result);
-				try {
-					JSONObject jb = (JSONObject) jt.nextValue();
-					String token = jb.getString("token");
-					Log.i("getToken", "token:" + token);
-					MyApplication.setCurToken(token);
-					connect(token);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+						JSONTokener jt = new JSONTokener(arg0.result);
+						try {
+							JSONObject jb = (JSONObject) jt.nextValue();
+							String token = jb.getString("token");
+							Log.i("getToken", "token:" + token);
+							MyApplication.setCurToken(token);
+							connect(token);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
 
-			}
-		});
+					}
+				});
 	}
 
 	/**
@@ -637,7 +828,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				// Toast.makeText(GoodsDetialActivity.this, "举报",
 				// Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(GoodsDetialActivity.this,
@@ -671,6 +861,20 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		popupWindow.showAsDropDown(view);
 		// popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
+	}
+
+	// 自动弹出键盘
+	private void popupInputMethodWindow() {
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				InputMethodManager imm = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+		}, 0);
 	}
 
 	/**
@@ -719,7 +923,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		 */
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return mList.size();
 		}
 
@@ -730,14 +933,12 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 		 */
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
-			// TODO Auto-generated method stub
 			container.removeView(mList.get(position));
 
 		}
 
 		@Override
 		public boolean isViewFromObject(View arg0, Object arg1) {
-			// TODO Auto-generated method stub
 			return arg0 == arg1;
 		}
 
@@ -791,7 +992,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 
 		@Override
 		public void onPageScrollStateChanged(int state) {
-			// TODO Auto-generated method stub
 			if (state == 0) {
 				// new MyAdapter(null).notifyDataSetChanged();
 			}
@@ -799,7 +999,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -934,21 +1133,15 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 	}
 
 	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.comment_iv:
+			showCommentPopUp(context);
+			break;
+		}
 	}
 
-	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-	}
-
-	@Override
 	public UserInfo getUserInfo(String s) {
-		// TODO Auto-generated method stub
 		Log.i("getUserInfo", userIdList.toString());
 		for (Friend i : userIdList) {
 			if (i.getUserId().equals(s)) {
@@ -958,12 +1151,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider {
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
 	}
 
 }
