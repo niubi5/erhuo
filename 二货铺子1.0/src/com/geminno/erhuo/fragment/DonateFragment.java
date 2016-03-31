@@ -160,26 +160,20 @@ public class DonateFragment extends BaseFragment {
 								
 								Set<Map.Entry<Map<Donation,Users>, List<String>>> entry = map.entrySet();
 								for(Map.Entry<Map<Donation,Users>, List<String>> en:entry){
-									// 所有的Donation
+									// 一条记录的Donation,user
 									Map<Donation,Users> donationUser = en.getKey();
-									// 所有图片的url
-								    urls = en.getValue();
-								    
-								    
-								    
+									// 当前记录图片的url
+								    List<String> urls = en.getValue();
+		    
 								    for(int j = 0; j < urls.size();j++){
 								    	Log.i("imageUrls", String.valueOf(urls.size()));
 								    }
 								 
-								    // 取出所有的Donation
+								    // 取出Donation
 								    Set<Map.Entry<Donation, Users>> dus = donationUser.entrySet();
 								    for(Map.Entry<Donation, Users> du : dus){
 								    	// 将要显示的数据封装到Donation对象
 								    	donation = new Donation();
-								    	// 将查询到Donatoin与将其对应的url存入到donationUrls
-								    	Map<Donation,List<String>> m = new HashMap<Donation,List<String>>();
-								    	m.put(donation, urls);
-								    	donationUrls.add(m);
 								    	
 								    	for(int z = 0; z< urls.size(); z++){
 								    		Log.i("donation", donation + urls.get(z));								    		
@@ -194,6 +188,10 @@ public class DonateFragment extends BaseFragment {
 								    	donation.setImageUrl(urls.get(0));
 								    	donation.setAddressImage(R.drawable.icon_city);
 								    	
+								    	// 将查询到Donatoin与将其对应的url存入到donationUrls
+								    	Map<Donation,List<String>> m = new HashMap<Donation,List<String>>();
+								    	m.put(donation, urls);
+								    	donationUrls.add(m);
 								    	Log.i("donation", donation.toString());
 								    	mDatas.add(donation);				    	
 								    }
@@ -308,20 +306,24 @@ public class DonateFragment extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				ArrayList<String> every = new ArrayList<String>();
-				// 每个item对应的Donation对象
-				Donation dona = mDatas.get(position-1);
-				for(int i = 0;i < urls.size(); i ++){
-					Map<Donation,List<String>> dl  = donationUrls.get(position);
-					// 每个对象对应的url
-					every.addAll(dl.get(dona));					
+				// 得到每条记录的Donation及其对应的urls
+				Donation singleDonation = null;
+				ArrayList<String> ls = null;
+				Map<Donation,List<String>>  dl = donationUrls.get(position-1);
+				Set<Map.Entry<Donation,List<String>>> d = dl.entrySet();
+				for(Map.Entry<Donation, List<String>> ds: d){
+					singleDonation = ds.getKey();
+					Log.i("UISingle", singleDonation.getAddress());
+				    ls = (ArrayList<String>) ds.getValue();					
 				}
+				
+				// 给详情页传值
 				Bundle bundle = new Bundle();
-				bundle.putSerializable("donation", dona);
-				bundle.putStringArrayList("urls", every);
+				bundle.putSerializable("SingleDonation", singleDonation);
+				bundle.putStringArrayList("urls", ls);
 				
 				Intent intent = new Intent(getActivity(),DonationDetailActivity.class);
-				intent.putExtra("donationUrl", bundle);
+				intent.putExtra("Record", bundle);
 				startActivity(intent);
 			}
 		});

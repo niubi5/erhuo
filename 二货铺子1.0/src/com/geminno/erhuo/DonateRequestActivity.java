@@ -466,10 +466,8 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 		});
 		// 初始化图片选择框GridView
 		doantion_noScrollgridview = (GridView) findViewById(R.id.doantion_noScrollgridview);
-		// 隐藏输入法
-		InputMethodManager inputMethodManager =(InputMethodManager)getApplicationContext().
-				getSystemService(Context.INPUT_METHOD_SERVICE);
-		inputMethodManager.hideSoftInputFromWindow(doantion_noScrollgridview.getWindowToken(), 0); //隐藏
+		
+		 //隐藏
 		// 设置点击GridView时出现背景
 		doantion_noScrollgridview.setSelector(new ColorDrawable(
 				Color.TRANSPARENT));
@@ -488,6 +486,10 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 						if (arg2 == Bimp.tempSelectBitmap.size()) { // 如果点击的是添加图片按钮
 							Log.i("ddddddd", "----------");
 							// 点击item切换弹出popupwindow时的动画
+							//  隐藏输入法
+							InputMethodManager inputMethodManager =(InputMethodManager)getApplicationContext().
+									getSystemService(Context.INPUT_METHOD_SERVICE);
+							inputMethodManager.hideSoftInputFromWindow(doantion_noScrollgridview.getWindowToken(), 0);
 							ll_popup.startAnimation(AnimationUtils
 									.loadAnimation(DonateRequestActivity.this,
 											R.anim.activity_translate_in));

@@ -607,5 +607,10 @@
             android:name=".SpecificAddressActivity"
             android:label="@string/title_activity_specific_address" >
         </activity>
+        <activity
+            android:name=".ReportDonationActivity"
+            android:label="@string/title_activity_report_donation" >
+        </activity>
     </application>
+
 </manifest>

@@ -142,5 +142,6 @@
     <string name="title_activity_demo">DemoActivity</string>
     <string name="title_activity_release">ReleaseActivity</string>
     <string name="title_activity_specific_address">SpecificAddressActivity</string>
+    <string name="title_activity_report_donation">ReportDonationActivity</string>
 
 </resources>

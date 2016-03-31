@@ -1,11 +1,15 @@
 package com.geminno.erhuo;
 
+import java.util.ArrayList;
+
 import com.geminno.erhuo.entity.Donation;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
@@ -22,16 +26,22 @@ import android.widget.TextView;
 public class DonationDetailActivity extends Activity implements OnClickListener{
 	
 	private ImageView back;
-	private GridView gridView;
+	private GridView mPhotoWall;
 	private ImageView userHead;
 	private TextView userName;
 	private TextView time;
 	private TextView content;
 	private TextView logistics;
 	private TextView address;
-	private Button report;
+	private Button donate;
+	private ImageView toReport;
+	
+	private com.geminno.erhuo.adapter.PhotoWallAdapter mAdapter;
+	private int mImageThumbSize;
+	private int mImageThumbSpacing;
 	
 	Donation donation;
+	ArrayList<String> urls;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +50,31 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 		setContentView(R.layout.activity_donation_detail);
 		initData();
 		initView();
+		
+		mImageThumbSize = getResources().getDimensionPixelSize(
+				R.dimen.image_thumbnail_size);
+		mImageThumbSpacing = getResources().getDimensionPixelSize(
+				R.dimen.image_thumbnail_spacing);
+		mAdapter = new com.geminno.erhuo.adapter.PhotoWallAdapter(this, 0, urls,
+				mPhotoWall);
+		mPhotoWall.setAdapter(mAdapter);
+		mPhotoWall.getViewTreeObserver().addOnGlobalLayoutListener(
+				new ViewTreeObserver.OnGlobalLayoutListener() {
+
+					@Override
+					public void onGlobalLayout() {
+						final int numColumns = (int) Math.floor(mPhotoWall
+								.getWidth()
+								/ (mImageThumbSize + mImageThumbSpacing));
+						if (numColumns > 0) {
+							int cloumnWidth = (mPhotoWall.getWidth() / numColumns)
+									- mImageThumbSpacing;
+							mAdapter.setItemHeight(cloumnWidth);
+							mPhotoWall.getViewTreeObserver()
+									.removeGlobalOnLayoutListener(this);
+						}
+					}
+				});
 	}
 	
 	/**
@@ -48,11 +83,11 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 	public void initView(){
 		back = (ImageView) findViewById(R.id.iv_back);
 		back.setOnClickListener(this);
-		gridView = (GridView) findViewById(R.id.gv_photos);
+		mPhotoWall = (GridView) findViewById(R.id.gv_photos);
 		userHead = (ImageView) findViewById(R.id.iv_detail_head);
 		userHead.setImageResource(R.drawable.header_default);
 		userName = (TextView) findViewById(R.id.tv_donation_detail_user_name);
-		userName.setText(donation.getUserName());
+		userName.setText(donation.getConsignee());
 		time = (TextView) findViewById(R.id.tv_donation_detail_time);
 		time.setText(donation.getPubTime());
 		content = (TextView) findViewById(R.id.tv_donation_ditail_content);
@@ -61,13 +96,22 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 		logistics.setText(donation.getLogistics());
 		address = (TextView) findViewById(R.id.tv_donation_detail_address);
 		address.setText(donation.getAddress());
-		report = (Button) findViewById(R.id.btn_donation_report);
-		report.setOnClickListener(this);
+		donate = (Button) findViewById(R.id.btn_donation_report);
+		donate.setOnClickListener(this);
+		toReport = (ImageView) findViewById(R.id.iv_to_report);
+		toReport.setOnClickListener(this);
 	}
 
 	public void initData(){
 		Intent intent = getIntent();
-		donation = (Donation) intent.getSerializableExtra("donation");
+		Bundle bundle = intent.getBundleExtra("Record");
+		donation = (Donation) bundle.getSerializable("SingleDonation");
+		
+		Log.i("SingleDonation", donation.toString() + donation.getAddress());
+		urls = bundle.getStringArrayList("urls");
+		Log.i("SingleImageUrls", urls.toString());
+		
+//		donation = (Donation) intent.getSerializableExtra("donation");
 	}
 	
 	@Override
@@ -80,6 +124,12 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 	    	Intent intent = new Intent(this,DonationReportActivity.class);
 	    	startActivity(intent);
 	    	break;
+	    case R.id.iv_to_report:
+	    	Intent intent1 = new Intent(this,ReportDonationActivity.class);
+	    	intent1.putExtra("donationId", donation.getId());
+	    	intent1.putExtra("userId", donation.getUserId());
+	    	startActivity(intent1);
+	    	
 	    }
 		
 	}
