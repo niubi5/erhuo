@@ -1,6 +1,7 @@
 package com.geminno.erhuo;
 
 import java.lang.reflect.Type;
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +74,9 @@ public class SearchActivity extends Activity implements OnClickListener {
 			@Override
 			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 				// TODO Auto-generated method stub
-				if (keyword.getText().toString().length()!=0&&!(keyword.getText().toString()).equals("null")) {
+				String edit=keyword.getText().toString();
+				Log.i("cheshi", "赵信edit:"+edit);
+				if (edit.length()!=0&&!edit.equals("null")) {
 					Log.i("cheshi", "赵信");
 					delete.setVisibility(delete.VISIBLE);
 				}
@@ -85,7 +88,9 @@ public class SearchActivity extends Activity implements OnClickListener {
 			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
 					int arg3) {
 				// TODO Auto-generated method stub
-				if (keyword.getText().toString().length()==0&&keyword.getText().toString().equals("null")) {
+				String edit=keyword.getText().toString();
+				Log.i("cheshi", "洛克萨斯edit:"+edit);
+				if (edit.length()==0&&edit.equals("null")) {
 					delete.setVisibility(delete.GONE);
 					Log.i("cheshi", "洛克萨斯");
 				}
@@ -95,8 +100,9 @@ public class SearchActivity extends Activity implements OnClickListener {
 			@Override
 			public void afterTextChanged(Editable arg0) {
 				// TODO Auto-generated method stub
-				
-				if (keyword.getText().toString().length()==0&&keyword.getText().toString().equals("null")) {
+				String edit=keyword.getText().toString();
+				Log.i("cheshi", "德玛edit:"+edit);
+				if (edit.length()==0) {
 					delete.setVisibility(delete.GONE);
 					Log.i("cheshi", "德玛");
 				}
@@ -147,6 +153,10 @@ public class SearchActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
+		case R.id.search_iv_delete:
+			keyword.setText(null);
+			break;
+	
 		case R.id.ib_sousuo:
 			this.finish();
 			break;
