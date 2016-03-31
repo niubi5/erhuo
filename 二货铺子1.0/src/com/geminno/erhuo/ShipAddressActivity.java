@@ -152,8 +152,8 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 		HttpUtils httpUtils=new HttpUtils();
 		RequestParams params=new RequestParams();
 		String headUrl = Url.getUrlHead();
-		String url = headUrl + "/AddressListServlet";
-//		String url="http://10.201.1.16:8080/secondHandShop/AddressListServlet";
+//		String url = headUrl + "/AddressListServlet";
+		String url="http://10.201.1.16:8080/secondHandShop/AddressListServlet";
 		params.addQueryStringParameter("curUserId",userId);
 		httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
@@ -201,6 +201,8 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 							Intent intent=new Intent(ShipAddressActivity.this,NewAddressActivity.class);
 							intent.putExtra("name", listad.get(position).getName());
 							intent.putExtra("phone", listad.get(position).getPhone());
+							intent.putExtra("id", listad.get(position).getId()+"");
+							Log.i("cheshi", "取出id:"+listad.get(position).getId());
 							String shipaddress = listad.get(position).getAddress().toString();
 							String diqu=null;
 							if (shipaddress.indexOf("市") != -1) {
