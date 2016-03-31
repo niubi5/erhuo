@@ -111,17 +111,20 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		for (Map<Remark, Users> map : listRemarkUsers) {
-			Set<Entry<Remark, Users>> entry = map.entrySet();
-			for (Map.Entry<Remark, Users> en : entry) {
-				Remark remark = en.getKey();
-				Users user = en.getValue();
+		Remark remark = null;
+		Users user = null;
+		Map<Remark, Users> map = listRemarkUsers.get(position);
+		Set<Entry<Remark, Users>> entry = map.entrySet();
+		for (Map.Entry<Remark, Users> en : entry) {
+			remark = en.getKey();
+			if (!listRemarks.contains(remark)) {
 				listRemarks.add(remark);
+			}
+			user = en.getValue();
+			if (!listUsers.contains(user)) {
 				listUsers.add(user);
 			}
 		}
-		Remark remark = listRemarks.get(position);
-		Users user = listUsers.get(position);
 		viewHolder.userHead.setImageResource(R.drawable.header_default);
 		viewHolder.commentContent.setText(remark.getComment_content());
 		viewHolder.commentTime.setText(remark.getComment_time()

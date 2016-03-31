@@ -19,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.geminno.erhuo.adapter.HomePageAdapter.ViewHolderType;
 import com.geminno.erhuo.entity.Address;
@@ -37,14 +38,9 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 	private Context context;
 	private Users users;
 	private ListView linship;
-	private ViewHolderType viewHolderType = null;
-	private Address address;
 	private List<Address> listad;	
 	public static Activity shipAddressActivity;
-	private TextView shipName;
-	private TextView shipPhone;
-	private TextView shipdiqu;
-	private TextView shipdizhi;
+	private String jumpActivity = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,6 +50,13 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 		// 调用setColor()方法,实现沉浸式状态栏
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		context = this;
+		Intent intent = getIntent();
+		//Log.i("jumpActivity", getIntent().getStringExtra("jumpActivity"));
+		//Toast.makeText(this, getIntent().getStringExtra("jumpActivity"), 1).show();
+		if(intent.getStringExtra("jumpActivity") != null){
+			
+			jumpActivity = intent.getStringExtra("jumpActivity");			
+		}
 		findViewById(R.id.ib_address_return).setOnClickListener(this);
 		findViewById(R.id.but_address_xin).setOnClickListener(this);
 		users = MyApplication.getCurrentUser();
@@ -179,18 +182,18 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 					listad = gson.fromJson(
 							result,type);
 					Log.i("CurAddress", result);
-					MyApplication.setCurUserDefAddress(address);
-					shipName.setText(address.getName());
-					shipPhone.setText(address.getPhone());
-					String shipaddress=address.getAddress().toString();
-					Log.i("CurAddress", shipaddress);
-//					shipdiqu.setText(adsString+"市");
-					if(shipaddress.indexOf("市") != -1){
-						shipdiqu.setText(shipaddress.substring(0,shipaddress.indexOf("市"))+"市");						
-					}else{
-						shipdiqu.setText(shipaddress);
-					}
-					shipdizhi.setText(shipaddress);
+//					MyApplication.setCurUserDefAddress(address);
+//					shipName.setText(address.getName());
+//					shipPhone.setText(address.getPhone());
+//					String shipaddress=address.getAddress().toString();
+//					Log.i("CurAddress", shipaddress);
+////					shipdiqu.setText(adsString+"市");
+//					if(shipaddress.indexOf("市") != -1){
+//						shipdiqu.setText(shipaddress.substring(0,shipaddress.indexOf("市"))+"市");						
+//					}else{
+//						shipdiqu.setText(shipaddress);
+//					}
+//					shipdizhi.setText(shipaddress);
 					Log.i("cheshi", "地址对象："+listad);
 					//MyApplication.setCurUserDefAddress(address);
 					linship.setAdapter(new MyAdapter(listad, context));
@@ -201,7 +204,9 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 						public void onItemClick(AdapterView<?>parent, View view,
 								int position, long id) {
 							// TODO Auto-generated method stub
-							Log.i("cheshi", "点击事件，跳转");
+							//Toast.makeText(shipAddressActivity, jumpActivity, Toast.LENGTH_SHORT).show();
+							if(jumpActivity == null && !"".equals(jumpActivity)){
+								Log.i("cheshi", "点击事件，跳转");
 							Intent intent=new Intent(ShipAddressActivity.this,NewAddressActivity.class);
 							intent.putExtra("name", listad.get(position).getName());
 							intent.putExtra("phone", listad.get(position).getPhone());
@@ -219,6 +224,11 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 								.setCurUserDefAddress(listad.get(position));
 							}
 							startActivity(intent);
+							}else{
+								MyApplication.setUseAddress(listad.get(position));
+								finish();
+							}
+							
 						}
 					});
 				}

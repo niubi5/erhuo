@@ -117,6 +117,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 	private List<Map<Remark, Users>> listRemarkUsers = new ArrayList<Map<Remark, Users>>();
 	private Handler handler = new Handler();
 	private float scale;// 屏幕密度
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -605,11 +606,8 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 			finish();
 			break;
 		case R.id.btn_buy:
-			if (MyApplication.getCurrentUser() == null) {
+ 			if (MyApplication.getCurrentUser() == null) {
 				Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
-				if (goods.getState() == 2) {
-					Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
-							Toast.LENGTH_SHORT).show();
 				} else {
 					if (goods.getState() == 2) {
 						Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
@@ -620,7 +618,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 						intent.putExtra("good", goods);
 						intent.putExtra("url", urls);
 						startActivity(intent);
-					}
+//					}
 				}
 			}
 			break;

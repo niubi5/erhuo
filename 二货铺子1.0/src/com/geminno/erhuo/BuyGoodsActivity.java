@@ -70,6 +70,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 	private Users user;
 	private Goods good;
 	private String[] goodUrl;
+	private String buyGoods = new String("buy");
 	/**
 	 * @author heikki 2016.03.25 16:00
 	 * */
@@ -133,10 +134,25 @@ public class BuyGoodsActivity extends FragmentActivity implements
 		RelativeLayout rlAddress  = (RelativeLayout) findViewById(R.id.rl_center);
 		RelativeLayout rlNewAddress = (RelativeLayout) findViewById(R.id.rl_no_address);
 		btnPayWay = (Button) findViewById(R.id.btn_pay_way);
-		if(MyApplication.getCurUserDefAddress() != null){
+		if(MyApplication.getUseAddress() != null){
 			rlAddress.setVisibility(View.VISIBLE);
 			rlNewAddress.setVisibility(View.INVISIBLE);
-			Address curUserAddress = MyApplication.getCurUserDefAddress();
+			Address curUserAddress = MyApplication.getUseAddress();
+			tvReceiveName = (TextView) findViewById(R.id.tv_receive_name);
+			tvReceivePhone = (TextView) findViewById(R.id.tv_receive_phone);
+			tvReceiveAddress = (TextView) findViewById(R.id.tv_receive_address);
+			
+			tvReceiveName.setText(curUserAddress.getName());
+			tvReceivePhone.setText(curUserAddress.getPhone());
+			tvReceiveAddress.setText(curUserAddress.getAddress());
+			Log.i("BuyCurAddress", tvReceiveName.getText().toString());
+			btnPayWay.setBackgroundColor(getResources().getColor(R.color.main_red));
+			btnPayWay.setEnabled(true);
+		}else if(MyApplication.getCurUserDefAddress() != null){
+			rlAddress.setVisibility(View.VISIBLE);
+			rlNewAddress.setVisibility(View.INVISIBLE);
+			MyApplication.setUseAddress(MyApplication.getCurUserDefAddress());
+			Address curUserAddress = MyApplication.getUseAddress();
 			tvReceiveName = (TextView) findViewById(R.id.tv_receive_name);
 			tvReceivePhone = (TextView) findViewById(R.id.tv_receive_phone);
 			tvReceiveAddress = (TextView) findViewById(R.id.tv_receive_address);
@@ -261,6 +277,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 			break;
 		case R.id.ll_user_address:
 			Intent intent = new Intent(BuyGoodsActivity.this,ShipAddressActivity.class);
+			intent.putExtra("jumpActivity", buyGoods);
 			startActivity(intent);
 			break;
 		default:

@@ -3017,7 +3017,7 @@ containing a value of this type.
         public static final int iv_rongyunlist_return=0x7f0a006b;
         public static final int iv_selling_time=0x7f0a02c7;
         public static final int iv_share_report=0x7f0a00ab;
-        public static final int iv_sold=0x7f0a02d7;
+        public static final int iv_sold=0x7f0a02d6;
         public static final int iv_to_top=0x7f0a0262;
         public static final int iv_type_inco=0x7f0a035f;
         public static final int iv_user_head=0x7f0a00b3;
@@ -3435,6 +3435,7 @@ containing a value of this type.
         public static final int tv_market=0x7f0a0125;
         public static final int tv_money=0x7f0a010e;
         public static final int tv_mudidi=0x7f0a0104;
+        public static final int tv_mysold_market=0x7f0a02d7;
         public static final int tv_newaddress_diqu=0x7f0a00f6;
         public static final int tv_newaddress_dizhi=0x7f0a00f9;
         public static final int tv_newaddress_shouhuo=0x7f0a00f0;
@@ -3461,7 +3462,6 @@ containing a value of this type.
         public static final int tv_ship_specific=0x7f0a035e;
         public static final int tv_sold_brief=0x7f0a02d4;
         public static final int tv_sold_buyprice=0x7f0a02d3;
-        public static final int tv_sold_market=0x7f0a02d6;
         public static final int tv_sold_name=0x7f0a02d2;
         public static final int tv_sold_price=0x7f0a02d1;
         public static final int tv_sold_type=0x7f0a02d5;

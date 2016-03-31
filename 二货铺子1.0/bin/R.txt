@@ -2724,7 +2724,7 @@ int id iv_rongyun_return 0x7f0a006d
 int id iv_rongyunlist_return 0x7f0a006b
 int id iv_selling_time 0x7f0a02c7
 int id iv_share_report 0x7f0a00ab
-int id iv_sold 0x7f0a02d7
+int id iv_sold 0x7f0a02d6
 int id iv_to_top 0x7f0a0262
 int id iv_type_inco 0x7f0a035f
 int id iv_user_head 0x7f0a00b3
@@ -3142,6 +3142,7 @@ int id tv_logistics 0x7f0a007c
 int id tv_market 0x7f0a0125
 int id tv_money 0x7f0a010e
 int id tv_mudidi 0x7f0a0104
+int id tv_mysold_market 0x7f0a02d7
 int id tv_newaddress_diqu 0x7f0a00f6
 int id tv_newaddress_dizhi 0x7f0a00f9
 int id tv_newaddress_shouhuo 0x7f0a00f0
@@ -3168,7 +3169,6 @@ int id tv_ship_name 0x7f0a0358
 int id tv_ship_specific 0x7f0a035e
 int id tv_sold_brief 0x7f0a02d4
 int id tv_sold_buyprice 0x7f0a02d3
-int id tv_sold_market 0x7f0a02d6
 int id tv_sold_name 0x7f0a02d2
 int id tv_sold_price 0x7f0a02d1
 int id tv_sold_type 0x7f0a02d5

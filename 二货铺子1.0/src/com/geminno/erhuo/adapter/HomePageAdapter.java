@@ -345,27 +345,30 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				// ------------ 修改为商品ID了
 				viewHolder.userFavorite.setTag(goods.getId());
 				// ------------
-				if(collection != null){
+				if (collection != null) {
 					if (collection.contains(goods.getId())) {
-					//如果用户收藏的集合中有 或是点过赞的集合中有，则设为收藏状态
-					viewHolder.userFavorite.setSelected(true);
-				} else {
-					viewHolder.userFavorite.setSelected(false);
+						// 如果用户收藏的集合中有 或是点过赞的集合中有，则设为收藏状态
+						viewHolder.userFavorite.setSelected(true);
+					} else {
+						viewHolder.userFavorite.setSelected(false);
+					}
 				}
-				}
-				
+
 				viewHolder.userFavorite
 						.setOnClickListener(new OnClickListener() {
 
 							@Override
 							public void onClick(View v) {
 								// 如果在集合里面，说明点过，再次点击则取消收藏，并从集合移除
-								if (collection.contains(v.getTag())) {
-									collectGoods(goods, v, false);// 调用移除商品方法
-								} else {
-									// 否则设为选中状态，并加入集合
-									collectGoods(goods, v, true);
+								if (!collection.isEmpty()) {
+									if (collection.contains(v.getTag())) {
+										collectGoods(goods, v, false);// 调用移除商品方法
+									} else {
+										// 否则设为选中状态，并加入集合
+										collectGoods(goods, v, true);
+									}
 								}
+
 							}
 						});
 				// 移除之前的所有商品图片
