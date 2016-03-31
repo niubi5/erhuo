@@ -106,6 +106,7 @@ public class MyGoodsActivity extends FragmentActivity implements
 		// // 默认选中首页按钮
 		// btns.get(0).setSelected(true);
 		vpFragment.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
+		vpFragment.setOffscreenPageLimit(4);
 		vpFragment.setOnPageChangeListener(new OnPageChangeListener() {
 			
 			@Override
@@ -115,6 +116,8 @@ public class MyGoodsActivity extends FragmentActivity implements
 					btn.setSelected(false);
 				}
 				btns.get(arg0).setSelected(true);
+//				fragments.get(arg0).
+				//sellingFragment.
 			}
 			
 			@Override
