@@ -695,13 +695,11 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 
 					@Override
 					public void onFailure(HttpException arg0, String arg1) {
-						// TODO Auto-generated method stub
 
 					}
 
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
-						// TODO Auto-generated method stub
 						Log.i("RongCloudDemo", "--result" + arg0.result);
 						// Toast.makeText(MainActivity.this, arg0.result,
 						// 1).show();
@@ -717,7 +715,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 							MyApplication.setCurToken(token);
 							connect(token);
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
@@ -926,7 +923,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 		 */
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return mList.size();
 		}
 
@@ -937,14 +933,12 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 		 */
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
-			// TODO Auto-generated method stub
 			container.removeView(mList.get(position));
 
 		}
 
 		@Override
 		public boolean isViewFromObject(View arg0, Object arg1) {
-			// TODO Auto-generated method stub
 			return arg0 == arg1;
 		}
 
@@ -998,7 +992,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 
 		@Override
 		public void onPageScrollStateChanged(int state) {
-			// TODO Auto-generated method stub
 			if (state == 0) {
 				// new MyAdapter(null).notifyDataSetChanged();
 			}
@@ -1006,7 +999,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -1150,7 +1142,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 	}
 
 	public UserInfo getUserInfo(String s) {
-		// TODO Auto-generated method stub
 		Log.i("getUserInfo", userIdList.toString());
 		for (Friend i : userIdList) {
 			if (i.getUserId().equals(s)) {
@@ -1160,12 +1151,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
 	}
 
 }
