@@ -288,7 +288,7 @@
             android:label="@string/title_activity_donation_detail" >
         </activity>
         <activity
-            android:name=".DonationReportActivity"
+            android:name=".DonateActivity"
             android:label="@string/title_activity_donation_report" >
         </activity>
         <activity
