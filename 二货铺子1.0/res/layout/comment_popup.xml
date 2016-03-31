@@ -16,6 +16,8 @@
         android:layout_marginBottom="3dp"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="3dp"
+        android:layout_marginRight="3dp"
+        android:background="@color/white"
         android:orientation="horizontal" >
 
         <EditText
@@ -30,8 +32,8 @@
         
         <ImageView 
             android:id="@+id/pop_comment_send"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/comment_send"/>
     </LinearLayout>
 

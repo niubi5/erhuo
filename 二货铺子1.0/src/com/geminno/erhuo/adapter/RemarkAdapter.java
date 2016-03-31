@@ -27,6 +27,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -39,6 +40,9 @@ import com.geminno.erhuo.entity.Remark;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.view.PullUpToLoadListView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -59,6 +63,8 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 	private Users currentUser = MyApplication.getCurrentUser();
 	private PullUpToLoadListView pullUpToLoadListView;
 	private Goods goods;
+	private RemarkAdapter remarkAdapter;
+	private float scale;// 屏幕密度
 
 	public RemarkAdapter(Context context,
 			List<Map<Remark, Users>> listRemarkUsers, Goods goods,
@@ -67,6 +73,7 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 		this.listRemarkUsers = listRemarkUsers;
 		this.goods = goods;
 		this.pullUpToLoadListView = pullUpToLoadListView;
+		scale = context.getResources().getDisplayMetrics().density;
 		pullUpToLoadListView.setOnItemClickListener(this);
 	}
 
@@ -123,31 +130,20 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 			// 没有父评论ID 说明是一级评论 只有一个用户名
 			viewHolder.userName.setText(user.getName());
 		} else {
-//			for (Users user1 : listUsers) {// 遍历User集合 找出父评论用户的用户名
-//				if (remark.getFatherId() == user1.getId()) {
-//					Spannable sp = new SpannableString(user.getName() + " 回复 "
-//							+ user1.getName());
-//					int start = user.getName().length();
-//					// 将回复设置为蓝色
-//					sp.setSpan(new ForegroundColorSpan(context.getResources()
-//							.getColor(R.color.my_blue)), start + 1, start + 3,
-//							Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//					viewHolder.userName.setText(sp);
-//				}
-//			}
-			for(Remark remark1 : listRemarks){
+			for (Remark remark1 : listRemarks) {
 				// 通过父评论Id 找到 父评论
-				if(remark.getFatherId() == remark1.getId()){
+				if (remark.getFatherId() == remark1.getId()) {
 					// 再通过该父评论的userId找到该评论用户的用户名
-					for(Users user1 : listUsers){
-						if(remark1.getUserId() == user1.getId()){
+					for (Users user1 : listUsers) {
+						if (remark1.getUserId() == user1.getId()) {
 							// 取出该用户名，进行拼接
-							Spannable sp = new SpannableString(user.getName() + " 回复 "
-									+ user1.getName());
+							Spannable sp = new SpannableString(user.getName()
+									+ " 回复 " + user1.getName());
 							int start = user.getName().length();
 							// 将回复设置为蓝色
-							sp.setSpan(new ForegroundColorSpan(context.getResources()
-									.getColor(R.color.my_blue)), start + 1, start + 3,
+							sp.setSpan(new ForegroundColorSpan(context
+									.getResources().getColor(R.color.my_blue)),
+									start + 1, start + 3,
 									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 							viewHolder.userName.setText(sp);
 						}
@@ -164,7 +160,7 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 		TextView commentContent;
 		TextView commentTime;
 		ScrollView scroll;
-//		TextView commentFloor;
+		// TextView commentFloor;
 	}
 
 	@Override
@@ -177,8 +173,9 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 			// 弹出Popupwindow
 			View contentView = LayoutInflater.from(context).inflate(
 					R.layout.comment_popup, null);
+			int px = (int) (60 * scale + 0.5f);
 			final PopupWindow pop = new PopupWindow(contentView,
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 			pop.setContentView(contentView);
 			final EditText commentContent = (EditText) contentView
 					.findViewById(R.id.pop_comment_content);
@@ -198,6 +195,8 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 						String urlHead = Url.getUrlHead();
 						String url = urlHead + "/AddCommentServlet";
 						RequestParams params = new RequestParams();
+						// 设置为不缓存，及时获取数据
+						http.configCurrentHttpCacheExpiry(0);
 						params.addBodyParameter("goodsId", goods.getId() + "");
 						params.addBodyParameter("userId", currentUser.getId()
 								+ "");
@@ -222,6 +221,7 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 												Toast.LENGTH_SHORT).show();
 										// 并且隐藏pop
 										pop.dismiss();
+										initCommentData(); // 调用加载数据方法，及时更新数据
 									}
 								});
 					}
@@ -255,6 +255,71 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 				imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 			}
 		}, 0);
+	}
+
+	private void initCommentData() {
+		HttpUtils http = new HttpUtils();
+		String urlHead = Url.getUrlHead();
+		String url = urlHead + "/ListRemarkServlet";
+		// 设置为不缓存，及时获取数据
+		http.configCurrentHttpCacheExpiry(0);
+		RequestParams params = new RequestParams();
+		params.addQueryStringParameter("goodsId", goods.getId() + "");
+		http.send(HttpRequest.HttpMethod.GET, url, params,
+				new RequestCallBack<String>() {
+
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
+
+					}
+
+					@Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						String result = arg0.result;
+						Log.i("erhuo", result);
+						Gson gson = new GsonBuilder()
+								.enableComplexMapKeySerialization().create();
+						List<Map<Remark, Users>> newComments = gson.fromJson(
+								result,
+								new TypeToken<List<Map<Remark, Users>>>() {
+								}.getType());
+						if (!listRemarkUsers.isEmpty()) {
+							listRemarkUsers.clear();
+						}
+						Log.i("erhuo", "查询到集合的长度：" + newComments.size());
+						listRemarkUsers.addAll(newComments);// 加到总集合中去
+						if (remarkAdapter == null) {
+							remarkAdapter = new RemarkAdapter(context,
+									listRemarkUsers, goods,
+									pullUpToLoadListView);
+							pullUpToLoadListView.setAdapter(remarkAdapter);
+						} else {
+							Log.i("erhuo", "通知数据源改变");
+							remarkAdapter.notifyDataSetChanged();
+						}
+						// 解决scrollview嵌套listview高度问题.
+						// 获得listview对应的adapter
+						ListAdapter listAdapter = pullUpToLoadListView
+								.getAdapter();
+						int totalHeight = 0;
+						for (int i = 0, len = listAdapter.getCount(); i < len; i++) {
+							View listItem = listAdapter.getView(i, null,
+									pullUpToLoadListView);
+							// 计算子项的宽高
+							listItem.measure(0, 0);
+							// 统计所有子项总高度
+							totalHeight += listItem.getMeasuredHeight();
+						}
+						ViewGroup.LayoutParams params = pullUpToLoadListView
+								.getLayoutParams();
+						// 获取子项间分隔符占用的高度 + 到总高度重去
+						params.height = totalHeight
+								+ (pullUpToLoadListView.getDividerHeight() * (listAdapter
+										.getCount() - 1));
+						// params.height最后得到整个ListView完整显示需要的高度
+						pullUpToLoadListView.setLayoutParams(params);
+					}
+				});
 	}
 
 }
