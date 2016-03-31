@@ -33,6 +33,7 @@ public class WoMenActivity extends Activity {
 	public void onclick(View v) {
 		Intent intent = new Intent(this, SheZhiActivity.class);
 		startActivity(intent);
+		finish();
 	}
 
 	public void click(View v) {

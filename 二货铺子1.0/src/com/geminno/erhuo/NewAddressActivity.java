@@ -42,6 +42,9 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 	private String receiptPhone;
 	private String receiptdiqu;
 	private String receiptdizhi;
+	private Boolean flg = true;
+	private String id=null;
+	private String url;;
     //private Button butshiyong;//使用按钮
     //private TextView tvdingwei;//定位按钮
     //private Button butbaochun;//保存按钮
@@ -72,8 +75,10 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 		String phone=intent.getStringExtra("phone");
 		String diqu=intent.getStringExtra("diqu");
 		String dizhi=intent.getStringExtra("dizhi");
-		Log.i("cheshi", "传来的值"+name+phone+diqu+dizhi);
+		id = intent.getStringExtra("id");
+		Log.i("cheshi", "传来的值"+name+phone+diqu+dizhi+id);
 		if (name!=null && !name.equals("null")&& phone!=null&&  !phone.equals("null") && diqu!=null&& !diqu.equals("null")&& dizhi!=null&&!dizhi.equals("null")) {
+			flg=false;
 			etname.setText(name);
 			etnewphone.setText(phone);
 			etdiqu.setText(diqu);
@@ -114,6 +119,8 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				Log.i("cheshi","默认"+isdefault);
     				Address ads=new Address();
     				ads.setUserId(users.getId());
+    				Log.i("cheshi", "传来id:"+id);
+    				ads.setId(Integer.parseInt(id));
     				ads.setName(receiptName);
     				ads.setPhone(receiptPhone);
     				ads.setAddress(receiptdiqu+receiptdizhi);
@@ -126,7 +133,14 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				RequestParams params=new RequestParams();
     				params.addBodyParameter("address",adds);
     				String headUrl = Url.getUrlHead();
-    				String url = headUrl + "/SaveAddressServlet";
+    				if (flg) {
+    					url = headUrl + "/SaveAddressServlet";
+//        				 url="http://10.201.1.16:8080/secondHandShop/SaveAddressServlet";
+					}else {
+					    url = headUrl + "/UpdateAddressServlet";
+//	    				 url="http://10.201.1.16:8080/secondHandShop/UpdateAddressServlet";
+					}
+    				
 //    				String url="http://10.201.1.16:8080/secondHandShop/SaveAddressServlet";
     				httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 

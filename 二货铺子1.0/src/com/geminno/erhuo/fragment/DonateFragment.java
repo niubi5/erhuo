@@ -10,6 +10,8 @@ import java.util.Set;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -49,7 +52,12 @@ public class DonateFragment extends BaseFragment {
 	 * 保存Donation
 	 */
 	private List<Donation> mDatas = new ArrayList<Donation>();
+	// 存放没加满的数据
 	private List<Donation> preDatas = new ArrayList<Donation>();
+	
+	
+	// 存放每一个Donation对应的imageUrl
+	private List<Map<Donation,List<String>>> donationUrls = new ArrayList<Map<Donation,List<String>>>();
 	/**
 	 * 閫傞厤鍣�
 	 */
@@ -97,11 +105,9 @@ public class DonateFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_donate_page, null);
-		Log.i("createView", "createView");
-		initData();
+		
+		initData();         
 		initView();
-//		mListView.setAdapter();
-//		commonAdapter.notifyDataSetChanged();
 		initEvent();
 		return view;
 	}
@@ -154,20 +160,38 @@ public class DonateFragment extends BaseFragment {
 								
 								Set<Map.Entry<Map<Donation,Users>, List<String>>> entry = map.entrySet();
 								for(Map.Entry<Map<Donation,Users>, List<String>> en:entry){
+									// 一条记录的Donation,user
 									Map<Donation,Users> donationUser = en.getKey();
-								    urls = en.getValue();
+									// 当前记录图片的url
+								    List<String> urls = en.getValue();
+		    
+								    for(int j = 0; j < urls.size();j++){
+								    	Log.i("imageUrls", String.valueOf(urls.size()));
+								    }
 								 
+								    // 取出Donation
 								    Set<Map.Entry<Donation, Users>> dus = donationUser.entrySet();
 								    for(Map.Entry<Donation, Users> du : dus){
 								    	// 将要显示的数据封装到Donation对象
 								    	donation = new Donation();
+								    	
+								    	for(int z = 0; z< urls.size(); z++){
+								    		Log.i("donation", donation + urls.get(z));								    		
+								    	}
+								    	
 								    	user = new Users();
 								    	donation = du.getKey();
 								    	user = du.getValue();
 								    	donation.setUserName(user.getName());
 								    	donation.setHeadImage(R.drawable.header_default);
+								    	// 取第一张图片显示在首页
 								    	donation.setImageUrl(urls.get(0));
 								    	donation.setAddressImage(R.drawable.icon_city);
+								    	
+								    	// 将查询到Donatoin与将其对应的url存入到donationUrls
+								    	Map<Donation,List<String>> m = new HashMap<Donation,List<String>>();
+								    	m.put(donation, urls);
+								    	donationUrls.add(m);
 								    	Log.i("donation", donation.toString());
 								    	mDatas.add(donation);				    	
 								    }
@@ -282,9 +306,24 @@ public class DonateFragment extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Donation dona = mDatas.get(position-1);
+				// 得到每条记录的Donation及其对应的urls
+				Donation singleDonation = null;
+				ArrayList<String> ls = null;
+				Map<Donation,List<String>>  dl = donationUrls.get(position-1);
+				Set<Map.Entry<Donation,List<String>>> d = dl.entrySet();
+				for(Map.Entry<Donation, List<String>> ds: d){
+					singleDonation = ds.getKey();
+					Log.i("UISingle", singleDonation.getAddress());
+				    ls = (ArrayList<String>) ds.getValue();					
+				}
+				
+				// 给详情页传值
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("SingleDonation", singleDonation);
+				bundle.putStringArrayList("urls", ls);
+				
 				Intent intent = new Intent(getActivity(),DonationDetailActivity.class);
-				intent.putExtra("donation", dona);
+				intent.putExtra("Record", bundle);
 				startActivity(intent);
 			}
 		});
@@ -413,5 +452,28 @@ public class DonateFragment extends BaseFragment {
 			mListView.setSelection(position);
 		}
 	}
+	
+//	/**
+//	 * 判断当前网络连接是否可用
+//	 */
+//    public static boolean isNetWorkAvailable(Context context){
+//		ConnectivityManager conn = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//		if(conn!= null){
+//			NetworkInfo[] network = conn.getAllNetworkInfo();
+//			if(network != null && network.length > 0){
+//				for(int i = 0; i < network.length;i++){
+//					// 判断当前是否有网络连接
+//					if(network[i].getState() == NetworkInfo.State.CONNECTED){
+//						return true;
+//						
+//					}else{
+//						Toast.makeText(context, "网络连接失败，请检查您的网络设置", Toast.LENGTH_SHORT).show();
+//						return false;
+//					}
+//				}
+//			}
+//		}
+//		return false;
+//	}
 
 }

@@ -210,6 +210,8 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 							Intent intent=new Intent(ShipAddressActivity.this,NewAddressActivity.class);
 							intent.putExtra("name", listad.get(position).getName());
 							intent.putExtra("phone", listad.get(position).getPhone());
+							intent.putExtra("id", listad.get(position).getId()+"");
+							Log.i("cheshi", "取出id:"+listad.get(position).getId());
 							String shipaddress = listad.get(position).getAddress().toString();
 							String diqu=null;
 							if (shipaddress.indexOf("市") != -1) {

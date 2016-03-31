@@ -258,6 +258,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				if (arg2 == Bimp.tempSelectBitmap.size()) { // 如果点击的是添加图片按钮
 					Log.i("ddddddd", "----------");
 					// 点击item切换弹出popupwindow时的动画
+					
 					ll_popup.startAnimation(AnimationUtils.loadAnimation(
 							PublishGoodsActivity.this,
 							R.anim.activity_translate_in));

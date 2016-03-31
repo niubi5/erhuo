@@ -337,29 +337,35 @@ public class BuyGoodsActivity extends FragmentActivity implements
 
 		// 支付宝，微信支付，银联，百度钱包 按键的点击响应处理
 		if (view.getId() == R.id.iv_yinlian) {
-			new PaymentTask()
-					.execute(new PaymentRequest(CHANNEL_UPACP, amount));
+//			new PaymentTask()
+//					.execute(new PaymentRequest(CHANNEL_UPACP, amount));
+			
 			pop.dismiss();
 			ll_popup.clearAnimation();
+			showMsg("success", "cancel", "cancel");
 		} else if (view.getId() == R.id.iv_zhifubao) {
-			new PaymentTask()
-					.execute(new PaymentRequest(CHANNEL_ALIPAY, amount));
+//			new PaymentTask()
+//					.execute(new PaymentRequest(CHANNEL_ALIPAY, amount));
 			pop.dismiss();
 			ll_popup.clearAnimation();
+			showMsg("success", "cancel", "cancel");
 		} else if (view.getId() == R.id.iv_weixin) {
-			new PaymentTask()
-					.execute(new PaymentRequest(CHANNEL_WECHAT, amount));
+//			new PaymentTask()
+//					.execute(new PaymentRequest(CHANNEL_WECHAT, amount));
 			pop.dismiss();
 			ll_popup.clearAnimation();
+			showMsg("success", "cancel", "cancel");
 		} else if (view.getId() == R.id.iv_baidu) {
-			new PaymentTask().execute(new PaymentRequest(CHANNEL_BFB, amount));
+//			new PaymentTask().execute(new PaymentRequest(CHANNEL_BFB, amount));
 			pop.dismiss();
 			ll_popup.clearAnimation();
+			showMsg("success", "cancel", "cancel");
 		} else if (view.getId() == R.id.iv_jingdong) {
-			new PaymentTask().execute(new PaymentRequest(CHANNEL_JDPAY_WAP,
-					amount));
+//			new PaymentTask().execute(new PaymentRequest(CHANNEL_JDPAY_WAP,
+//					amount));
 			pop.dismiss();
 			ll_popup.clearAnimation();
+			showMsg("success", "cancel", "cancel");
 		} else {
 			// 壹收款调用示例如下
 			String orderNo = new SimpleDateFormat("yyyyMMddhhmmss")
@@ -478,8 +484,9 @@ public class BuyGoodsActivity extends FragmentActivity implements
 	public void commitOrder(){
 		Orders order = new Orders();
 		order.setGoodId(good.getId());
-		int userId = 3;//测试用，正式应从MyApplication.getCurrentUser().getId()获取
-		order.setUserId(3);
+		//int userId = 3;//测试用，正式应从MyApplication.getCurrentUser().getId()获取
+		int userId = MyApplication.getCurrentUser().getId();
+		order.setUserId(userId);
 		order.setOrderNum(getNowTime()+userId+good.getId());
 		order.setCreateTime(MySdf.getDateToString(new Date(System.currentTimeMillis())));
 		order.setPayTime(MySdf.getDateToString(new Date(System.currentTimeMillis())));
@@ -494,14 +501,17 @@ public class BuyGoodsActivity extends FragmentActivity implements
 		String orderJson = gson.toJson(order);
 		Log.i("commitOrder", orderJson);
 		//从配置文件获取服务器url
-		Properties prop = new Properties();
-		try {
-			prop.load(BuyGoodsActivity.class.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String url = prop.getProperty("heikkiUrl")+"/AddGoodOrderServlet";
+//		Properties prop = new Properties();
+//		try {
+//			prop.load(BuyGoodsActivity.class.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		String url = prop.getProperty("heikkiUrl")+"/AddGoodOrderServlet";
+		String headUrl = Url.getHeikkiUrlHead();
+		// 拼接url
+		String url = headUrl + "/AddGoodOrderServlet";
 		RequestParams rp = new RequestParams();
 		rp.addBodyParameter("orderJosn",orderJson);
 		HttpUtils hu = new HttpUtils();

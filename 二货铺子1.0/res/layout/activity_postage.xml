@@ -26,10 +26,7 @@
         android:background="@color/main_bgcolor"
         android:orientation="vertical" >
 
-        <View
-            android:layout_width="match_parent"
-             android:background="#F9F8F4"
-            android:layout_height="10dp" />
+        
 
         <LinearLayout
             
@@ -90,11 +87,7 @@
             
             
         </LinearLayout>
-        
-         <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp" />
-
+         
         <LinearLayout
             android:id="@+id/lin_jichudi"
             
@@ -166,10 +159,6 @@
             
             
         </LinearLayout>
-        
-         <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp" />
 
         <LinearLayout
             android:id="@+id/lin_mudidi"
@@ -205,7 +194,7 @@
          <View
             android:layout_width="match_parent"
             android:background="#F9F8F4"
-            android:layout_height="15dp" />
+            android:layout_height="3dp" />
        
          
          
@@ -238,9 +227,7 @@
            
         </LinearLayout>
         
-          <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp" />
+        
 
         <LinearLayout
             android:id="@+id/lin_zhongliang"
@@ -283,7 +270,7 @@
         <View
             android:layout_width="match_parent"
             android:background="#F9F8F4"
-            android:layout_height="10dp" />
+            android:layout_height="3dp" />
         
         <LinearLayout
             android:id="@+id/lin_feiyong"

@@ -113,6 +113,8 @@ public class PostageActivity extends Activity implements View.OnClickListener {
 					// }else if (selectedIndex==30&&selectedIndex==32) {
 					//
 					// }
+					String mo=parseInt(item)*8+6+"";
+					tvmoney.setText(mo);
 
 					Log.i("cheshi", "[Dialog]selectedIndex: " + selectedIndex
 							+ ", item: " + item);
