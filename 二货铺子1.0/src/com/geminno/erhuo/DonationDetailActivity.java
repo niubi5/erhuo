@@ -120,8 +120,11 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 	    case R.id.iv_back:
 	    	finish();
 	    	break;
+	    	// 捐赠按钮
 	    case R.id.btn_donation_report:
-	    	Intent intent = new Intent(this,DonationReportActivity.class);
+	    	Intent intent = new Intent(this,DonateActivity.class);
+	    	intent.putExtra("donationId", donation.getId());
+	    	intent.putExtra("userId", donation.getUserId());
 	    	startActivity(intent);
 	    	break;
 	    case R.id.iv_to_report:
