@@ -1,5 +1,7 @@
 package com.geminno.erhuo.utils;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -99,6 +101,13 @@ public class ViewHolder {
 	public ViewHolder setImageDrawable(int viewId, Drawable drawable) {
 		ImageView view = getView(viewId);
 		view.setImageDrawable(drawable);
+		return this;
+	}
+	//设置图片url
+	public ViewHolder setImageUrl(int viewId, String url) {
+		ImageView view = getView(viewId);
+		ImageLoader.getInstance().displayImage(url, view);
+		//view.setImageDrawable(drawable);
 		return this;
 	}
 

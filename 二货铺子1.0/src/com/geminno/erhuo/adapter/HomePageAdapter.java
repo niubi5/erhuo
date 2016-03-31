@@ -347,7 +347,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				// ------------
 				if(collection != null){
 					if (collection.contains(goods.getId())) {
-					// 精髓：：如果用户收藏的集合中有 或是点过赞的集合中有，则设为收藏状态
+					//如果用户收藏的集合中有 或是点过赞的集合中有，则设为收藏状态
 					viewHolder.userFavorite.setSelected(true);
 				} else {
 					viewHolder.userFavorite.setSelected(false);

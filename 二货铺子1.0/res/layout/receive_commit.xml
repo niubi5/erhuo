@@ -11,28 +11,28 @@
         android:layout_marginTop="7dp" >
 
         <LinearLayout
-            android:id="@+id/comment_userinfo"
+            android:id="@+id/receive_userinfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
             <ImageView
-                android:id="@+id/comment_userhead"
+                android:id="@+id/receive_userhead"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/header_default" />
 
             <TextView
-                android:id="@+id/comment_username"
+                android:id="@+id/receive_username"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="7dp"
                 android:textColor="@color/black_overlay" />
             
-            <ImageView
-                android:id="@+id/comment_delete"
+             <ImageView
+                android:id="@+id/receive_delete"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/mm_title_remove" />
@@ -42,13 +42,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/comment_userinfo"
+            android:layout_below="@id/receive_userinfo"
             android:layout_marginLeft="43dp"
             android:layout_marginTop="10dp"
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/comment_content"
+                android:id="@+id/receive_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="7dp"
@@ -65,7 +65,7 @@
                     android:layout_weight="1"/>
                 
                 <TextView
-                    android:id="@+id/comment_time"
+                    android:id="@+id/receive_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="7dp"
