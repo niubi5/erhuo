@@ -237,7 +237,7 @@ public class SoldFragment extends BaseFragment {
 		params.addQueryStringParameter("pageSize", pageSize + "");
 		params.addQueryStringParameter("userId", curUser.getId() + "");
 		http.configCurrentHttpCacheExpiry(0);
-		String headUrl = Url.getHeikkiUrlHead();
+		String headUrl = Url.getUrlHead();
 		// 拼接url
 		String url = headUrl + "/GetMySoldServlet";
 		http.send(HttpRequest.HttpMethod.POST, url, params,

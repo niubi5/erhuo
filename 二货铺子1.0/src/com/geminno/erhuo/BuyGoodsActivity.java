@@ -509,7 +509,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 //			e.printStackTrace();
 //		}
 //		String url = prop.getProperty("heikkiUrl")+"/AddGoodOrderServlet";
-		String headUrl = Url.getHeikkiUrlHead();
+		String headUrl = Url.getUrlHead();
 		// 拼接url
 		String url = headUrl + "/AddGoodOrderServlet";
 		RequestParams rp = new RequestParams();
