@@ -87,7 +87,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	private boolean second = false;
 	private boolean third = false;
 	private boolean isRefresh;
-	// private ArrayList<Integer> goodsIds = ;
 	// -------------------
 	private ArrayList<Integer> collection;// 收藏按钮的position集合
 	private ImageLoader imageLoader = ImageLoader.getInstance();
@@ -345,15 +344,15 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				// ------------ 修改为商品ID了
 				viewHolder.userFavorite.setTag(goods.getId());
 				// ------------
-				if(collection != null){
+				if (collection != null) {
 					if (collection.contains(goods.getId())) {
-					//如果用户收藏的集合中有 或是点过赞的集合中有，则设为收藏状态
-					viewHolder.userFavorite.setSelected(true);
-				} else {
-					viewHolder.userFavorite.setSelected(false);
+						// 如果用户收藏的集合中有 或是点过赞的集合中有，则设为收藏状态
+						viewHolder.userFavorite.setSelected(true);
+					} else {
+						viewHolder.userFavorite.setSelected(false);
+					}
 				}
-				}
-				
+
 				viewHolder.userFavorite
 						.setOnClickListener(new OnClickListener() {
 

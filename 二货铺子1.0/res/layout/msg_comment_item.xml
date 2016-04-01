@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="7dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/msg_comment_user_head"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/header_default" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/msg_comment_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用户名"
+                android:textColor="@color/black_overlay" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/msg_comment_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评论时间"
+                android:textColor="@color/black_overlay" />
+            
+        </LinearLayout>
+        
+        <View android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+        
+        <TextView 
+            android:id="@+id/msg_reply"
+            android:layout_width="35sp"
+            android:layout_height="35sp"
+            android:gravity="center_vertical"
+            android:textColor="@color/my_blue"
+            android:text="回复"/>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/msg_goods_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="7dp" >
+
+        <com.geminno.erhuo.view.RoundCornerImageView
+            android:id="@+id/msg_comment_goods_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/goods_default" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/main_bgcolor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="7dp"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/msg_comment_goods_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="商品名"
+                        android:maxEms="4"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textSize="@dimen/font_huge" />
+
+                    <TextView
+                        android:id="@+id/msg_goods_sold_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="商品价格"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/font_big" />
+
+                    <TextView
+                        android:id="@+id/msg_goods_buy_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="原价"
+                        android:textColor="@color/dimgrey"
+                        android:textSize="@dimen/font_s_tinysmall" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/msg_comment_goods_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="商品信息" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="7dp" >
+
+        <TextView
+            android:id="@+id/msg_comment_userandcontent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发给回复" />
+    </LinearLayout>
+
+</LinearLayout>
