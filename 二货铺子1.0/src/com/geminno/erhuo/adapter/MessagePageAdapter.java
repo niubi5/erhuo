@@ -32,8 +32,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geminno.erhuo.CommentActivity;
-import com.geminno.erhuo.ConversationListActivity;
-import com.geminno.erhuo.GoodsDetialActivity;
 import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.SystemMsgActivity;
@@ -63,7 +61,7 @@ public class MessagePageAdapter extends BaseAdapter implements
 			R.drawable.message_pinglun, R.drawable.message_system };
 	// 消息标题
 	private String[] messageTitles = new String[] { "私聊", "收到的评论", "系统消息" };
-	private String[] messageState = new String[] { "还没有收到私聊哦", "还没有收到评论哦",
+	private String[] messageState = new String[] { "点击查看", "点击查看",
 			"暂无消息" };
 	private List<Messages> message;
 	private PullToFreshListView pullToFreshListView;
@@ -197,17 +195,16 @@ public class MessagePageAdapter extends BaseAdapter implements
 		params.addBodyParameter("userId", userId + "");// 用户id
 		params.addBodyParameter("name", userName);// 用户名
 		params.addBodyParameter("portraitUri", headUrl);// 头像url
+		http.configCurrentHttpCacheExpiry(0);
 		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
 			@Override
 			public void onFailure(HttpException arg0, String arg1) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void onSuccess(ResponseInfo<String> arg0) {
-				// TODO Auto-generated method stub
 				Log.i("RongCloudDemo", "--result" + arg0.result);
 				// Toast.makeText(MainActivity.this, arg0.result, 1).show();
 				Log.i("getToken", arg0.result);
@@ -222,7 +219,6 @@ public class MessagePageAdapter extends BaseAdapter implements
 					MyApplication.setCurToken(token);
 					connect(token);
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 

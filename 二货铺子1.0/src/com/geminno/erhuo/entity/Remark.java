@@ -10,6 +10,13 @@ public class Remark {
 	private int fatherId;
 	private int isEnd;
 	
+	
+	public int getIsEnd(){
+		return isEnd;
+	}
+	public void setIsEnd(int isEnd){
+		this.isEnd = isEnd;
+	}
 	public int getId() {
 		return id;
 	}
@@ -46,13 +53,6 @@ public class Remark {
 	public void setFatherId(int fatherId) {
 		this.fatherId = fatherId;
 	}
-	public int getIsEnd() {
-		return isEnd;
-	}
-	public void setIsEnd(int isEnd) {
-		this.isEnd = isEnd;
-	}
-	
 	
 
 }

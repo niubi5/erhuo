@@ -250,7 +250,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								preGoods.addAll(newGoods);
 								// 页数不变
 								curPage--;
-								Log.i("erhuo", "curPage ：" + curPage);
 							}
 							listAll.addAll(newGoods);// 添加新查到的集合
 							// 改变数据源

@@ -14,7 +14,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,17 +110,20 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		for (Map<Remark, Users> map : listRemarkUsers) {
-			Set<Entry<Remark, Users>> entry = map.entrySet();
-			for (Map.Entry<Remark, Users> en : entry) {
-				Remark remark = en.getKey();
-				Users user = en.getValue();
+		Remark remark = null;
+		Users user = null;
+		Map<Remark, Users> map = listRemarkUsers.get(position);
+		Set<Entry<Remark, Users>> entry = map.entrySet();
+		for (Map.Entry<Remark, Users> en : entry) {
+			remark = en.getKey();
+			if(!listRemarks.contains(remark)){
 				listRemarks.add(remark);
+			}
+			user = en.getValue();
+			if(!listUsers.contains(user)){
 				listUsers.add(user);
 			}
 		}
-		Remark remark = listRemarks.get(position);
-		Users user = listUsers.get(position);
 		viewHolder.userHead.setImageResource(R.drawable.header_default);
 		viewHolder.commentContent.setText(remark.getComment_content());
 		viewHolder.commentTime.setText(remark.getComment_time()
@@ -204,6 +206,7 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 								commentContent.getText().toString());
 						params.addBodyParameter("fatherId",
 								listRemarks.get(position).getId() + "");
+						params.addBodyParameter("id", listRemarks.get(position).getId() + "");// 将父评论设为不是终极评论
 						http.send(HttpRequest.HttpMethod.POST, url, params,
 								new RequestCallBack<String>() {
 
@@ -270,13 +273,12 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 
 					@Override
 					public void onFailure(HttpException arg0, String arg1) {
-
+						
 					}
 
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
-						Log.i("erhuo", result);
 						Gson gson = new GsonBuilder()
 								.enableComplexMapKeySerialization().create();
 						List<Map<Remark, Users>> newComments = gson.fromJson(
@@ -286,7 +288,6 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 						if (!listRemarkUsers.isEmpty()) {
 							listRemarkUsers.clear();
 						}
-						Log.i("erhuo", "查询到集合的长度：" + newComments.size());
 						listRemarkUsers.addAll(newComments);// 加到总集合中去
 						if (remarkAdapter == null) {
 							remarkAdapter = new RemarkAdapter(context,
@@ -294,7 +295,6 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 									pullUpToLoadListView);
 							pullUpToLoadListView.setAdapter(remarkAdapter);
 						} else {
-							Log.i("erhuo", "通知数据源改变");
 							remarkAdapter.notifyDataSetChanged();
 						}
 						// 解决scrollview嵌套listview高度问题.
