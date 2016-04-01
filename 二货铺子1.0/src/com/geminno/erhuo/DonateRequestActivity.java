@@ -227,7 +227,13 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 							 * 获得用户输入的信息,将其封装成Donation对象
 							 */
 							Donation donation = new Donation();
-							donation.setUserId(1);
+							// 获取当前用户id
+							int userID = MyApplication.getCurrentUser().getId();
+//							if(String.valueOf(userID) == null){
+//								Toast.makeText(this, "请登录", Toast.LENGTH_SHORT).show();
+//								break;
+//							}else{
+							donation.setUserId(userID);
 							donation.setTitle(title);
 							donation.setDetail(content);
 							SimpleDateFormat sdf = new SimpleDateFormat(
@@ -273,14 +279,24 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 										public void onFailure(
 												HttpException arg0, String arg1) {
 											Log.i("Request", "请求失败");
-
+											Toast.makeText(
+													getApplicationContext(),
+													"请求失败,请检查您的网络设置",
+													Toast.LENGTH_LONG).show();
 										}
 
 										@Override
 										public void onSuccess(
 												ResponseInfo<String> arg0) {
 											Log.i("Request", "请求成功");
-
+											if (arg0.result != null) {
+												Toast.makeText(
+														getApplicationContext(),
+														"您的请求发送成功",
+														Toast.LENGTH_SHORT)
+														.show();
+												DonateRequestActivity.this.finish();
+											}
 										}
 									});
 						} else {
@@ -289,7 +305,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 									Toast.LENGTH_SHORT).show();
 							break;
 						}
-
+						
 					} else {
 						// toastText.setText("收货人是谁呢？");
 						Toast.makeText(this, "收货人是谁呢？", Toast.LENGTH_SHORT)
@@ -308,9 +324,9 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 				break;
 			}
 		}
-		Intent intent = new Intent(this,MainActivity.class);
-		startActivity(intent);
-		this.finish();
+		// Intent intent = new Intent(this,MainActivity.class);
+		// startActivity(intent);
+
 	}
 
 	/**
@@ -466,8 +482,8 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 		});
 		// 初始化图片选择框GridView
 		doantion_noScrollgridview = (GridView) findViewById(R.id.doantion_noScrollgridview);
-		
-		 //隐藏
+
+		// 隐藏
 		// 设置点击GridView时出现背景
 		doantion_noScrollgridview.setSelector(new ColorDrawable(
 				Color.TRANSPARENT));
@@ -486,10 +502,13 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 						if (arg2 == Bimp.tempSelectBitmap.size()) { // 如果点击的是添加图片按钮
 							Log.i("ddddddd", "----------");
 							// 点击item切换弹出popupwindow时的动画
-							//  隐藏输入法
-							InputMethodManager inputMethodManager =(InputMethodManager)getApplicationContext().
-									getSystemService(Context.INPUT_METHOD_SERVICE);
-							inputMethodManager.hideSoftInputFromWindow(doantion_noScrollgridview.getWindowToken(), 0);
+							// 隐藏输入法
+							InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext()
+									.getSystemService(
+											Context.INPUT_METHOD_SERVICE);
+							inputMethodManager.hideSoftInputFromWindow(
+									doantion_noScrollgridview.getWindowToken(),
+									0);
 							ll_popup.startAnimation(AnimationUtils
 									.loadAnimation(DonateRequestActivity.this,
 											R.anim.activity_translate_in));

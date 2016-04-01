@@ -28,6 +28,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import com.geminno.erhuo.DonateRequestActivity;
 import com.geminno.erhuo.DonationDetailActivity;
+import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.adapter.CommonAdapter;
 import com.geminno.erhuo.entity.Donation;
@@ -67,15 +68,15 @@ public class DonateFragment extends BaseFragment {
 	 */
 	private View view;
 	/**
-	 * 鍙戝竷鍥剧墖
+	 * 发布按钮
 	 */
 	private ImageView ivPublish;
 	/**
-	 * 鍥炲埌椤堕儴鍥剧墖
+	 * 回到顶部按钮
 	 */
 	private ImageView ivToTop;
 	/**
-	 * 鏍囪鏄惁婊戝姩
+	 * 滚动标志位
 	 */
 	private boolean scrollFlag = false;
 	/**
@@ -105,7 +106,6 @@ public class DonateFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_donate_page, null);
-		
 		initData();         
 		initView();
 		initEvent();
@@ -138,7 +138,7 @@ public class DonateFragment extends BaseFragment {
 	                        public void onFailure(HttpException arg0,
 									String arg1) {
 
-					}
+					        }
 
 							@Override
 	                        public void onSuccess(ResponseInfo<String> arg0) {
@@ -150,19 +150,22 @@ public class DonateFragment extends BaseFragment {
 										.create();
 								Type type = new TypeToken<List<Map<Map<Donation, Users>, List<String>>>>() {
 								}.getType();
+								// 分页查询到的记录
 								List<Map<Map<Donation, Users>, List<String>>> newDonation = gson
 										.fromJson(result, type);
+								// 加入总集合
 								listAll.addAll(newDonation);
 								
 								for(int i = 0; i < newDonation.size();i++){
+									// 取出每一条记录
 									map = newDonation.get(i);
 									
 								
 								Set<Map.Entry<Map<Donation,Users>, List<String>>> entry = map.entrySet();
 								for(Map.Entry<Map<Donation,Users>, List<String>> en:entry){
-									// 一条记录的Donation,user
+									// 一条记录的Donation,Users
 									Map<Donation,Users> donationUser = en.getKey();
-									// 当前记录图片的url
+									// 一条记录的urls
 								    List<String> urls = en.getValue();
 		    
 								    for(int j = 0; j < urls.size();j++){
@@ -178,21 +181,24 @@ public class DonateFragment extends BaseFragment {
 								    	for(int z = 0; z< urls.size(); z++){
 								    		Log.i("donation", donation + urls.get(z));								    		
 								    	}
-								    	
+								    	// 取出每条记录的Donation,Users
 								    	user = new Users();
 								    	donation = du.getKey();
 								    	user = du.getValue();
+								    	
 								    	donation.setUserName(user.getName());
 								    	donation.setHeadImage(R.drawable.header_default);
+								    	if(urls!=null&&urls.size()!=0){
 								    	// 取第一张图片显示在首页
 								    	donation.setImageUrl(urls.get(0));
+								    	}
 								    	donation.setAddressImage(R.drawable.icon_city);
 								    	
 								    	// 将查询到Donatoin与将其对应的url存入到donationUrls
 								    	Map<Donation,List<String>> m = new HashMap<Donation,List<String>>();
 								    	m.put(donation, urls);
 								    	donationUrls.add(m);
-								    	Log.i("donation", donation.toString());
+
 								    	mDatas.add(donation);				    	
 								    }
 								}
@@ -235,9 +241,14 @@ public class DonateFragment extends BaseFragment {
 		// 点击跳转到发布捐赠页面
 		ivPublish.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(),
-						DonateRequestActivity.class);
-				startActivity(intent);
+				
+				if(user == null){
+					Intent intent = new Intent(getActivity(),
+							DonateRequestActivity.class);
+					startActivity(intent);
+				}else{
+					Toast.makeText(getActivity(), "请登录", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		// 点击回到捐赠列表顶部
@@ -256,7 +267,7 @@ public class DonateFragment extends BaseFragment {
 	@Override
 	protected void initView() {
 		mListView = (RefreshListView) view.findViewById(R.id.lv_donations);
-		initData();
+//		initData();
 		
 		mListView.setOnRefreshCallBack(new OnRefreshCallBack() {
 
@@ -313,7 +324,7 @@ public class DonateFragment extends BaseFragment {
 				Set<Map.Entry<Donation,List<String>>> d = dl.entrySet();
 				for(Map.Entry<Donation, List<String>> ds: d){
 					singleDonation = ds.getKey();
-					Log.i("UISingle", singleDonation.getAddress());
+				//	Log.i("UISingle", singleDonation.getAddress());
 				    ls = (ArrayList<String>) ds.getValue();					
 				}
 				
@@ -329,7 +340,7 @@ public class DonateFragment extends BaseFragment {
 		});
 		ivPublish = (ImageView) view.findViewById(R.id.home_search);
 		ivToTop = (ImageView) view.findViewById(R.id.iv_to_top);
-		
+		user = MyApplication.getCurrentUser();
 	}
 	
 	// 加载
@@ -387,7 +398,10 @@ public class DonateFragment extends BaseFragment {
 	            		// 将取到的数据封装到Donation对象
 	            		donation.setUserName(user.getName());
 				    	donation.setHeadImage(R.drawable.header_default);
+				    	if(urls!=null&&urls.size()!=0)
+				    	{
 				    	donation.setImageUrl(urls.get(0));
+				    	}
 				    	donation.setAddressImage(R.drawable.icon_city);
 				    	mDatas.add(donation);
 	            	}

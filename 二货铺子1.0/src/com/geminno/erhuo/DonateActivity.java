@@ -5,6 +5,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -65,9 +66,12 @@ public class DonateActivity extends Activity {
 							donates.setBrief(detail);
 							SimpleDateFormat sdf = new SimpleDateFormat(
 									"yyyy-MM-dd HH:mm:ss");
-							donates.setBrief(sdf.format(new Date()));
+							donates.setDonTime(sdf.format(new Date()));
 							donates.setLogisticsCom(logisticsCom);
 							donates.setLogisticsNum(logisticsNum);
+							
+							Log.i("donates", title + detail);
+							
 
 							Gson gson = new GsonBuilder().setDateFormat(
 									"yyyy-MM-dd HH:mm:ss").create();
@@ -77,9 +81,9 @@ public class DonateActivity extends Activity {
 							params.addBodyParameter("donates", donatesGson);
 
 							String url = "http://10.201.1.20:8080/secondHandShop/DonateServlet";
-
+                            					
 							HttpUtils http = new HttpUtils();
-							http.send(HttpRequest.HttpMethod.POST, url,
+							http.send(HttpRequest.HttpMethod.POST, url,params,
 									new RequestCallBack<String>() {
 
 										@Override
