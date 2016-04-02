@@ -326,7 +326,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		String url = Url.getUrlHead() + "/UserMarketServlet";
 		RequestParams params = new RequestParams();
 		params.addBodyParameter("userId", currentUser.getId() + "");
-		params.addBodyParameter("market", market.getId() + "");
+		params.addBodyParameter("marketId", market.getId() + "");
 		params.addBodyParameter("flag", 1 + "");
 		http.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
@@ -350,7 +350,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		String url = Url.getUrlHead() + "/UserMarketServlet";
 		RequestParams params = new RequestParams();
 		params.addBodyParameter("userId", currentUser.getId() + "");
-		params.addBodyParameter("market", market.getId() + "");
+		params.addBodyParameter("marketId", market.getId() + "");
 		params.addBodyParameter("flag", 0 + "");
 		http.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
