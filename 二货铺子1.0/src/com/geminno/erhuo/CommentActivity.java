@@ -7,12 +7,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.geminno.erhuo.adapter.RemarkAdapter;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Remark;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.Url;
-import com.geminno.erhuo.view.PullUpToLoadListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -21,7 +19,6 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 import android.app.Activity;

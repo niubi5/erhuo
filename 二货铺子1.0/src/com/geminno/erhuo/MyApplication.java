@@ -12,11 +12,8 @@ import android.graphics.Bitmap;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.SDKInitializer;
-import com.geminno.erhuo.R;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -31,6 +28,7 @@ public class MyApplication extends Application {
 	private static com.geminno.erhuo.entity.Address userAdds;
 	private static String curToken;
 	private static ArrayList<Integer> goodsIds;
+	private static List<Markets> listMarkets;
 
 	@Override
 	public void onCreate() {
@@ -144,6 +142,14 @@ public class MyApplication extends Application {
 	
 	public static ArrayList<Integer> getCollection(){
 		return goodsIds;
+	}
+
+	public static List<Markets> getMyMarkets() {
+		return listMarkets;
+	}
+	
+	public static void setMyMarkets(List<Markets> myMarkets){
+		listMarkets = myMarkets;
 	}
 	
 }

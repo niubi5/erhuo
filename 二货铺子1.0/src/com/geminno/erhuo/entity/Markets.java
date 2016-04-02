@@ -7,7 +7,14 @@ public class Markets {
 	private int goodsCount;
 	private String url;
 	private String brief;
-
+	private String infoUrl;
+	
+	public void setInfoUrl(String infoUrl){
+		this.infoUrl = infoUrl;
+	}
+	public String getInfoUrl(){
+		return infoUrl;
+	}
 	public int getId() {
 		return id;
 	}

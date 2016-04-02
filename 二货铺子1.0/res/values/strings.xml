@@ -10,6 +10,7 @@
     <string name="home">首页</string>
     <string name="donate">捐赠</string>
     <string name="message">消息</string>
+    <string name="markets">集市</string>
     <string name="circle">圈子</string>
     <string name="mine">我的</string>
     <string name="title_activity_edit_user_info">EditUserInfoActivity</string>
@@ -143,5 +144,6 @@
     <string name="title_activity_release">ReleaseActivity</string>
     <string name="title_activity_specific_address">SpecificAddressActivity</string>
     <string name="title_activity_report_donation">ReportDonationActivity</string>
+    <string name="title_activity_market">MarketActivity</string>
 
 </resources>

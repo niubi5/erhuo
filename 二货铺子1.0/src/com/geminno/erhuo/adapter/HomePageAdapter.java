@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.geminno.erhuo.ClassificationActivity;
 import com.geminno.erhuo.GoodsDetialActivity;
+import com.geminno.erhuo.MarketBookActivity;
 import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.entity.ADInfo;
@@ -50,6 +51,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
@@ -87,7 +89,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	private boolean second = false;
 	private boolean third = false;
 	private boolean isRefresh;
-	// -------------------
 	private ArrayList<Integer> collection;// 收藏按钮的position集合
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	// 广告图片
@@ -97,6 +98,11 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			"http://10.201.1.6:8080/ads/ad2.jpg",
 			"http://pic15.nipic.com/20110722/2912365_092519919000_2.jpg",
 			"http://10.201.1.6:8080/ads/ad1.jpg" };
+	// ------------
+	private Markets market;
+	private Users currentUser;
+	private List<Markets> myMarkets;
+
 	// 实现接口
 	private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
 
@@ -112,9 +118,27 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			imageLoader.displayImage(imageURL, imageView);
 		}
 	};
+	private boolean isCollected;
 
 	public HomePageAdapter(Context context) {
 		this.context = context;
+	}
+
+	public HomePageAdapter(Context context,
+			List<Map<Map<Goods, Users>, List<String>>> listAll,
+			RefreshListView refreshListView, Markets market, boolean isRefresh) {
+		this.context = context;
+		this.listAll = listAll;
+		this.refreshListView = refreshListView;
+		this.isRefresh = isRefresh;
+		this.market = market;
+		typeCount = 2;
+		currentUser = MyApplication.getCurrentUser();
+		myMarkets = MyApplication.getMyMarkets();
+		scale = context.getResources().getDisplayMetrics().density;
+		px1 = (int) (200 * scale + 0.5f);
+		params3 = new LayoutParams(px1, px1);
+		refreshListView.setOnItemClickListener(this);
 	}
 
 	/**
@@ -175,8 +199,11 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	public int getCount() {
 		if (typeCount == 4) {
 			return 3 + listAll.size();
-		} else
+		} else if (typeCount == 1) {
 			return listAll.size();
+		} else
+			// 集市Activity
+			return listAll.size() + 1;
 	}
 
 	@Override
@@ -215,7 +242,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	@SuppressLint("InflateParams")
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		if (typeCount == 4) {
+		switch (typeCount) {
+		case 4:
 			if (position == 0) {
 				return getADViewPager(convertView);
 			} else if (position == 1) {
@@ -224,9 +252,120 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				return getMarketView(convertView);
 			} else
 				return getGoodsView(position, convertView, parent);
-		} else
+		case 1:
 			return getGoodsView(position, convertView, parent);
+		case 2:
+			if (position == 0) {
+				return getMarketInfoItem(convertView);
+			} else
+				return getGoodsView(position, convertView, parent);
+		}
+		return null;
+	}
 
+	// 返回集市Activity的第一个Item
+	private View getMarketInfoItem(View convertView) {
+		ViewHolderMarketInfo holder = null;
+		if (convertView == null) {
+			convertView = LayoutInflater.from(context).inflate(
+					R.layout.market_list_info_item, null);
+			holder = new ViewHolderMarketInfo();
+			holder.marketImage = (ImageView) convertView
+					.findViewById(R.id.market_info_image);
+			holder.marketName = (TextView) convertView
+					.findViewById(R.id.market_info_name);
+			holder.marketUserCount = (TextView) convertView
+					.findViewById(R.id.market_info_user_count);
+			holder.marketGoodsCount = (TextView) convertView
+					.findViewById(R.id.market_info_goods_count);
+			holder.marketBrief = (TextView) convertView
+					.findViewById(R.id.market_info_brief);
+			holder.marketJoin = (Button) convertView
+					.findViewById(R.id.market_join_btn);
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolderMarketInfo) convertView.getTag();
+		}
+		imageLoader.displayImage(market.getInfoUrl(), holder.marketImage);
+		holder.marketName.setText(market.getName());
+		holder.marketUserCount.setText(market.getUserCount());
+		holder.marketGoodsCount.setText(market.getGoodsCount());
+		holder.marketBrief.setText(market.getBrief());
+		if(myMarkets != null && myMarkets.contains(market)){
+			holder.marketJoin.setSelected(true);
+//			holder.marketJoin.setEnabled(false);
+			isCollected = true;
+		}
+		holder.marketJoin.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (currentUser == null) {
+					Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+				} else {
+					if(isCollected){// 取消加入
+						v.setSelected(false);
+//						v.setEnabled(true);
+						isCollected = false;
+						deleteUserFromMarket();
+					} else {// 加入
+						v.setSelected(true);
+//						v.setEnabled(false);
+						isCollected = true;
+						addUserToMarket();
+					}
+				}
+			}
+		});
+		return convertView;
+	}
+	
+
+	protected void deleteUserFromMarket() {
+		HttpUtils http = new HttpUtils();
+		String url = Url.getUrlHead() + "/UserMarketServlet";
+		RequestParams params = new RequestParams();
+		params.addBodyParameter("userId", currentUser.getId() + "");
+		params.addBodyParameter("market", market.getId() + "");
+		params.addBodyParameter("flag", 1 + "");
+		http.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+
+			@Override
+			public void onFailure(HttpException arg0, String arg1) {
+				
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> arg0) {
+				if(myMarkets.contains(market)){
+					myMarkets.remove(market);
+					MyApplication.setMyMarkets(myMarkets);
+				}
+			}
+		});
+	}
+
+	protected void addUserToMarket() {
+		HttpUtils http = new HttpUtils();
+		String url = Url.getUrlHead() + "/UserMarketServlet";
+		RequestParams params = new RequestParams();
+		params.addBodyParameter("userId", currentUser.getId() + "");
+		params.addBodyParameter("market", market.getId() + "");
+		params.addBodyParameter("flag", 0 + "");
+		http.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+
+			@Override
+			public void onFailure(HttpException arg0, String arg1) {
+				
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> arg0) {
+				myMarkets.add(market);
+				MyApplication.setMyMarkets(myMarkets);
+				Toast.makeText(context, "成功加入集市", Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	// 获得类别Item
@@ -325,7 +464,13 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				}
 				collection = MyApplication.getCollection();// 实时更新
 				// -------------- 用户头像还要改
-				viewHolder.userHead.setImageResource(R.drawable.header_default);
+				if (user.getPhoto() != null) {
+					imageLoader.displayImage(user.getPhoto(),
+							viewHolder.userHead);
+				} else {
+					viewHolder.userHead
+							.setImageResource(R.drawable.header_default);
+				}
 				viewHolder.userName.setText(user.getName());
 				viewHolder.goodsName.setText(goods.getName());
 				viewHolder.goodsInfo.setText(goods.getImformation());
@@ -518,6 +663,15 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		Button perfume;
 	}
 
+	class ViewHolderMarketInfo {
+		ImageView marketImage;
+		TextView marketName;
+		TextView marketUserCount;
+		TextView marketGoodsCount;
+		TextView marketBrief;
+		Button marketJoin;
+	}
+
 	public class ViewHolderAD {
 		ImageCycleView mAdView;
 	}
@@ -593,7 +747,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			break;
 		// 集市按钮
 		case R.id.market_book:
-			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
+			context.startActivity(new Intent(context, MarketBookActivity.class));
 			break;
 		case R.id.market_iphone:
 			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();

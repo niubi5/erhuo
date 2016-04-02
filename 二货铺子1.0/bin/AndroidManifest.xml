@@ -611,6 +611,10 @@
             android:name=".ReportDonationActivity"
             android:label="@string/title_activity_report_donation" >
         </activity>
+        <activity
+            android:name=".MarketBookActivity"
+            android:label="@string/title_activity_market" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/market_info_image"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="centerInside" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/market_info_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:maxEms="9"
+            android:singleLine="true"
+            android:text="爱书人的圈子"
+            android:textSize="@dimen/font_big" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="7dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/ic_member" />
+
+            <TextView
+                android:id="@+id/market_info_user_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="452" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/ic_comment" />
+
+            <TextView
+                android:id="@+id/market_info_goods_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="457" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/market_info_brief"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="7dp"
+        android:text="我是闲置图书，我已经厌倦被束之高阁，我在等着你"
+        android:textColor="@color/market_textcolor" />
+    
+    <Button 
+        android:id="@+id/market_join_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="加入集市 "
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:background="@drawable/market_join_btn"
+        android:textColor="@color/white"/>
+
+</LinearLayout>
