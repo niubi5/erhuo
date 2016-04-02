@@ -117,7 +117,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 	private List<Map<Remark, Users>> listRemarkUsers = new ArrayList<Map<Remark, Users>>();
 	private Handler handler = new Handler();
 	private float scale;// 屏幕密度
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -606,19 +605,19 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 			finish();
 			break;
 		case R.id.btn_buy:
- 			if (MyApplication.getCurrentUser() == null) {
+			if (MyApplication.getCurrentUser() == null) {
 				Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
+			} else {
+				if (goods.getState() == 2) {
+					Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
+							Toast.LENGTH_SHORT).show();
 				} else {
-					if (goods.getState() == 2) {
-						Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
-								Toast.LENGTH_SHORT).show();
-					} else {
-						Intent intent = new Intent(this, BuyGoodsActivity.class);
-						intent.putExtra("user", user);
-						intent.putExtra("good", goods);
-						intent.putExtra("url", urls);
-						startActivity(intent);
-//					}
+					Intent intent = new Intent(this, BuyGoodsActivity.class);
+					intent.putExtra("user", user);
+					intent.putExtra("good", goods);
+					intent.putExtra("url", urls);
+					startActivity(intent);
+					// }
 				}
 			}
 			break;
@@ -828,10 +827,15 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 			public void onClick(View v) {
 				// Toast.makeText(GoodsDetialActivity.this, "举报",
 				// Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(GoodsDetialActivity.this,
-						ReportGoodActivity.class);
-				intent.putExtra("goodId", goods.getId());
-				startActivity(intent);
+				if (curUser != null) {
+					Intent intent = new Intent(GoodsDetialActivity.this,
+							ReportGoodActivity.class);
+					intent.putExtra("goodId", goods.getId());
+					startActivity(intent);
+				}else{
+					Toast.makeText(GoodsDetialActivity.this, "请登录!",
+							 Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 

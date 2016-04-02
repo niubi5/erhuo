@@ -90,7 +90,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/tv_sold_price"
-            android:layout_alignTop="@+id/tv_sold_buyprice"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/sold_icon"

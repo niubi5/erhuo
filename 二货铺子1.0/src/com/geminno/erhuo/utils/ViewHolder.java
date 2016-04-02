@@ -1,5 +1,6 @@
 package com.geminno.erhuo.utils;
 
+import com.geminno.erhuo.utils.MyAdapter.MyAdapterListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
@@ -116,13 +117,26 @@ public class ViewHolder {
 		view.setBackgroundColor(color);
 		return this;
 	}
-	
+	//设置按钮图片
 	public ViewHolder setDrawableLeft(int viewId, Drawable drawable) {
 		Button button = getView(viewId);
 		drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
 		button.setCompoundDrawables(drawable,null,null,null);
 		return this;
 	}
+	//设置按钮文字
+	public ViewHolder setButtonText(int viewId, String text) {
+		Button btn = getView(viewId);
+		btn.setText(text);
+		return this;
+	}
+	//设置按钮文字颜色
+	public ViewHolder setButtonTextColor(int viewId, int color) {
+		Button btn = getView(viewId);
+		btn.setTextColor(color);
+		return this;
+	}
+	//设置控件是否可见
 	public ViewHolder setVisibility(int viewId, int visibility) {
 		View view = getView(viewId);
 		if(visibility == -1){
@@ -185,6 +199,11 @@ public class ViewHolder {
 		View view = getView(viewId);
 		view.setOnTouchListener(listener);
 		return this;
+	}
+
+	public void setOnClickListener(int position,MyAdapterListener listener) {
+		
+		
 	}
 
 }

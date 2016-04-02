@@ -34,7 +34,10 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,7 +45,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +61,7 @@ public class SellingFragment extends BaseFragment {
 	private RefreshListView rlvSelling;
 	private Handler handler;
 	private int curPage = 1; // 页数
-	private int pageSize = 2;// 一次加载几条
+	private int pageSize = 3;// 一次加载几条
 	private Users curUser;
 
 	public SellingFragment(Context context) {
@@ -81,7 +86,7 @@ public class SellingFragment extends BaseFragment {
 		params.addQueryStringParameter("pageSize", pageSize + "");
 		params.addQueryStringParameter("userId", curUser.getId() + "");
 		http.configCurrentHttpCacheExpiry(0);
-		String headUrl = Url.getUrlHead();
+		String headUrl = Url.getHeikkiUrlHead();
 		// 拼接url
 		String url = headUrl + "/GetMySellingServlet";
 		http.send(HttpRequest.HttpMethod.POST, url, params,
@@ -114,11 +119,14 @@ public class SellingFragment extends BaseFragment {
 									context, ListGoodsPhoto,
 									R.layout.mygoods_selling_item) {
 
+								private Goods goods;
+
 								@Override
-								public void convert(ViewHolder holder,
+								public void convert(final ViewHolder holder,
 										Map<Goods, List<String>> t) {
+									Gson gs = new Gson();
 									Log.i("SellingFragment", "convert");
-									Goods goods = new Goods();
+									// goods = new Goods();
 									List<String> urls = new ArrayList<String>();
 									// for(Map<Goods, List<String>> map :
 									// ListGoodsPhoto){
@@ -126,6 +134,22 @@ public class SellingFragment extends BaseFragment {
 											.entrySet();
 									for (Map.Entry<Goods, List<String>> e : keySet) {
 										goods = e.getKey();
+										Log.i("holderPosition", "listSelling size:"+listSelling.size());
+										if(listSelling.isEmpty()){
+											listSelling.add(goods);
+											Log.i("holderPosition", "listSelling size:"+listSelling.size());
+										}else{
+											boolean isExist = false;
+											for(Goods g : listSelling){
+												if(g.getId() == goods.getId()){
+													isExist = true;
+												}
+											}
+											if(!isExist){
+												listSelling.add(goods);
+											}
+											Log.i("holderPosition", "listSelling size:"+listSelling.size());
+										}
 										urls = e.getValue();
 										// }
 									}
@@ -144,8 +168,6 @@ public class SellingFragment extends BaseFragment {
 											+ goods.getSoldPrice());
 									holder.setText(R.id.tv_selling_buyprice,
 											"原价¥ " + goods.getBuyPrice());
-									// tv.getPaint().setFlags(Paint.
-									// STRIKE_THRU_TEXT_FLAG );
 									holder.setText(R.id.tv_selling_brief,
 											goods.getImformation());
 									holder.setText(R.id.tv_selling_type,
@@ -155,6 +177,176 @@ public class SellingFragment extends BaseFragment {
 											goods.getMarketId() == 0 ? "无集市信息"
 													: getMarketName(goods
 															.getMarketId()));
+									Log.i("holderPosition",
+											goods.getName()+":+id:"+goods.getId()+","+holder.getPosition());
+									//删除
+									holder.setOnClickListener(
+											R.id.btn_selling_delete,
+											new OnClickListener() {
+
+												@Override
+												public void onClick(View v) {
+													final Goods clickGood = listSelling.get(holder.getPosition());
+													Log.i("holderPosition",
+															"onClickHolderPosition :"
+																	+ (holder.getPosition())+":+id:"+goods.getId()+","+clickGood.getName());
+													AlertDialog.Builder builder = new Builder(
+															context);
+													builder.setTitle("删除");
+													builder.setMessage("确认删除吗?");
+													builder.setPositiveButton(
+															"确认",
+															new DialogInterface.OnClickListener() {
+
+																@Override
+																public void onClick(
+																		DialogInterface dialog,
+																		int which) {
+																	HttpUtils hu = new HttpUtils();
+																	RequestParams rp = new RequestParams();
+																	Gson gs = new Gson();
+
+																	clickGood.setState(0);
+																	String goodJson = gs
+																			.toJson(clickGood);
+																	rp.addBodyParameter(
+																			"newGoods",
+																			goodJson);
+																	hu.configCurrentHttpCacheExpiry(0);
+																	String headUrl = Url
+																			.getHeikkiUrlHead();
+																	// 拼接url
+																	String url = headUrl
+																			+ "/UpdateGoodServlet";
+																	hu.send(HttpRequest.HttpMethod.POST,
+																			url,
+																			rp,
+																			new RequestCallBack<String>() {
+
+																				@Override
+																				public void onFailure(
+																						HttpException arg0,
+																						String arg1) {
+																					Toast.makeText(
+																							context,
+																							"删除失败!",
+																							Toast.LENGTH_SHORT)
+																							.show();
+																				}
+
+																				@Override
+																				public void onSuccess(
+																						ResponseInfo<String> arg0) {
+																					initData();
+																					Toast.makeText(
+																							context,
+																							"删除成功!",
+																							Toast.LENGTH_SHORT)
+																							.show();
+																				}
+																			});
+																	dialog.dismiss();
+																}
+															});
+													builder.setNegativeButton(
+															"取消",
+															new DialogInterface.OnClickListener() {
+
+																@Override
+																public void onClick(
+																		DialogInterface dialog,
+																		int which) {
+																	dialog.dismiss();
+																}
+															});
+													builder.create().show();
+												}
+											});
+									//标记售出
+									holder.setOnClickListener(
+											R.id.btn_selling_marksold,
+											new OnClickListener() {
+
+												@Override
+												public void onClick(View v) {
+													final Goods clickGood = listSelling.get(holder.getPosition());
+													Log.i("holderPosition",
+															"onClickHolderPosition -"
+																	+ holder.getPosition()+clickGood.getName());
+													AlertDialog.Builder builder = new Builder(
+															context);
+													builder.setTitle("标记售出");
+													builder.setMessage("确认将该商品标记为已售出吗?");
+													builder.setPositiveButton(
+															"确认",
+															new DialogInterface.OnClickListener() {
+
+																@Override
+																public void onClick(
+																		DialogInterface dialog,
+																		int which) {
+																	HttpUtils hu = new HttpUtils();
+																	RequestParams rp = new RequestParams();
+																	Gson gs = new Gson();
+
+																	clickGood.setState(4);
+																	String goodJson = gs
+																			.toJson(clickGood);
+																	rp.addBodyParameter(
+																			"newGoods",
+																			goodJson);
+																	hu.configCurrentHttpCacheExpiry(0);
+																	String headUrl = Url
+																			.getHeikkiUrlHead();
+																	// 拼接url
+																	String url = headUrl
+																			+ "/UpdateGoodServlet";
+																	hu.send(HttpRequest.HttpMethod.POST,
+																			url,
+																			rp,
+																			new RequestCallBack<String>() {
+
+																				@Override
+																				public void onFailure(
+																						HttpException arg0,
+																						String arg1) {
+																					Toast.makeText(
+																							context,
+																							"网络错误!",
+																							Toast.LENGTH_SHORT)
+																							.show();
+																				}
+
+																				@Override
+																				public void onSuccess(
+																						ResponseInfo<String> arg0) {
+																					initData();
+																					Toast.makeText(
+																							context,
+																							"标记成功!",
+																							Toast.LENGTH_SHORT)
+																							.show();
+																				}
+																			});
+																	dialog.dismiss();
+																}
+															});
+													builder.setNegativeButton(
+															"取消",
+															new DialogInterface.OnClickListener() {
+
+																@Override
+																public void onClick(
+																		DialogInterface dialog,
+																		int which) {
+																	dialog.dismiss();
+																}
+															});
+													builder.create().show();
+												}
+											});
+									//
+
 								}
 							};
 							rlvSelling.setAdapter(adapter);
@@ -220,7 +412,7 @@ public class SellingFragment extends BaseFragment {
 		params.addQueryStringParameter("pageSize", pageSize + "");
 		params.addQueryStringParameter("userId", curUser.getId() + "");
 		http.configCurrentHttpCacheExpiry(0);
-		String headUrl = Url.getUrlHead();
+		String headUrl = Url.getHeikkiUrlHead();
 		// 拼接url
 		String url = headUrl + "/GetMySellingServlet";
 		http.send(HttpRequest.HttpMethod.POST, url, params,
@@ -263,20 +455,29 @@ public class SellingFragment extends BaseFragment {
 										R.layout.mygoods_selling_item) {
 
 									@Override
-									public void convert(ViewHolder holder,
+									public void convert(final ViewHolder holder,
 											Map<Goods, List<String>> t) {
 										Log.i("SellingFragment", "convert");
 										Goods goods = new Goods();
 										List<String> urls = new ArrayList<String>();
-										// for(Map<Goods, List<String>> map
-										// :
-										// ListGoodsPhoto){
 										Set<Entry<Goods, List<String>>> keySet = t
 												.entrySet();
 										for (Map.Entry<Goods, List<String>> e : keySet) {
 											goods = e.getKey();
+											if(listSelling.isEmpty()){
+												listSelling.add(goods);											
+											}else{
+												boolean isExist = false;
+												for(Goods g : listSelling){
+													if(g.getId() == goods.getId()){
+														isExist = true;
+													}
+												}
+												if(!isExist){
+													listSelling.add(goods);
+												}
+											}
 											urls = e.getValue();
-											// }
 										}
 										Log.i("SellingFragment", urls.get(0));
 										holder.setImageUrl(R.id.rciv_selling,
@@ -305,6 +506,174 @@ public class SellingFragment extends BaseFragment {
 												goods.getMarketId() == 0 ? "无集市信息"
 														: getMarketName(goods
 																.getMarketId()));
+										Log.i("holderPosition",
+												goods.getName()+holder.getPosition());
+										//删除
+										holder.setOnClickListener(
+												R.id.btn_selling_delete,
+												new OnClickListener() {
+
+													@Override
+													public void onClick(View v) {
+														final Goods clickGood = listSelling.get(holder.getPosition());
+														Log.i("holderPosition",
+																"onClickHolderPosition -"
+																		+ (holder.getPosition())+clickGood.getName());
+														AlertDialog.Builder builder = new Builder(
+																context);
+														builder.setTitle("删除");
+														builder.setMessage("确认删除吗?");
+														builder.setPositiveButton(
+																"确认",
+																new DialogInterface.OnClickListener() {
+
+																	@Override
+																	public void onClick(
+																			DialogInterface dialog,
+																			int which) {
+																		HttpUtils hu = new HttpUtils();
+																		RequestParams rp = new RequestParams();
+																		Gson gs = new Gson();
+
+																		clickGood.setState(0);
+																		String goodJson = gs
+																				.toJson(clickGood);
+																		rp.addBodyParameter(
+																				"newGoods",
+																				goodJson);
+																		hu.configCurrentHttpCacheExpiry(0);
+																		String headUrl = Url
+																				.getHeikkiUrlHead();
+																		// 拼接url
+																		String url = headUrl
+																				+ "/UpdateGoodServlet";
+																		hu.send(HttpRequest.HttpMethod.POST,
+																				url,
+																				rp,
+																				new RequestCallBack<String>() {
+
+																					@Override
+																					public void onFailure(
+																							HttpException arg0,
+																							String arg1) {
+																						Toast.makeText(
+																								context,
+																								"删除失败!",
+																								Toast.LENGTH_SHORT)
+																								.show();
+																					}
+
+																					@Override
+																					public void onSuccess(
+																							ResponseInfo<String> arg0) {
+																						initData();
+																						Toast.makeText(
+																								context,
+																								"删除成功!",
+																								Toast.LENGTH_SHORT)
+																								.show();
+																					}
+																				});
+																		dialog.dismiss();
+																	}
+																});
+														builder.setNegativeButton(
+																"取消",
+																new DialogInterface.OnClickListener() {
+
+																	@Override
+																	public void onClick(
+																			DialogInterface dialog,
+																			int which) {
+																		dialog.dismiss();
+																	}
+																});
+														builder.create().show();
+													}
+												});
+										//标记售出
+										holder.setOnClickListener(
+												R.id.btn_selling_marksold,
+												new OnClickListener() {
+
+													@Override
+													public void onClick(View v) {
+														final Goods clickGood = listSelling.get(holder.getPosition());
+														Log.i("holderPosition",
+																"onClickHolderPosition -"
+																		+ holder.getPosition()+clickGood.getName());
+														AlertDialog.Builder builder = new Builder(
+																context);
+														builder.setTitle("标记售出");
+														builder.setMessage("确认将该商品标记为已售出吗?");
+														builder.setPositiveButton(
+																"确认",
+																new DialogInterface.OnClickListener() {
+
+																	@Override
+																	public void onClick(
+																			DialogInterface dialog,
+																			int which) {
+																		HttpUtils hu = new HttpUtils();
+																		RequestParams rp = new RequestParams();
+																		Gson gs = new Gson();
+
+																		clickGood.setState(4);
+																		String goodJson = gs
+																				.toJson(clickGood);
+																		rp.addBodyParameter(
+																				"newGoods",
+																				goodJson);
+																		hu.configCurrentHttpCacheExpiry(0);
+																		String headUrl = Url
+																				.getHeikkiUrlHead();
+																		// 拼接url
+																		String url = headUrl
+																				+ "/UpdateGoodServlet";
+																		hu.send(HttpRequest.HttpMethod.POST,
+																				url,
+																				rp,
+																				new RequestCallBack<String>() {
+
+																					@Override
+																					public void onFailure(
+																							HttpException arg0,
+																							String arg1) {
+																						Toast.makeText(
+																								context,
+																								"网络错误!",
+																								Toast.LENGTH_SHORT)
+																								.show();
+																					}
+
+																					@Override
+																					public void onSuccess(
+																							ResponseInfo<String> arg0) {
+																						Toast.makeText(
+																								context,
+																								"标记成功!",
+																								Toast.LENGTH_SHORT)
+																								.show();
+																						initData();
+																					}
+																				});
+																		dialog.dismiss();
+																	}
+																});
+														builder.setNegativeButton(
+																"取消",
+																new DialogInterface.OnClickListener() {
+
+																	@Override
+																	public void onClick(
+																			DialogInterface dialog,
+																			int which) {
+																		dialog.dismiss();
+																	}
+																});
+														builder.create().show();
+													}
+												});
 									}
 								};
 								rlvSelling.setAdapter(adapter);

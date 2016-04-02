@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -258,7 +259,10 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				if (arg2 == Bimp.tempSelectBitmap.size()) { // 如果点击的是添加图片按钮
 					Log.i("ddddddd", "----------");
 					// 点击item切换弹出popupwindow时的动画
-					
+				//  隐藏输入法
+					InputMethodManager inputMethodManager =(InputMethodManager)getApplicationContext().
+							getSystemService(Context.INPUT_METHOD_SERVICE);
+					inputMethodManager.hideSoftInputFromWindow(noScrollgridview.getWindowToken(), 0);
 					ll_popup.startAnimation(AnimationUtils.loadAnimation(
 							PublishGoodsActivity.this,
 							R.anim.activity_translate_in));

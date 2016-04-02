@@ -288,7 +288,7 @@
             android:label="@string/title_activity_donation_detail" >
         </activity>
         <activity
-            android:name=".DonationReportActivity"
+            android:name=".DonateActivity"
             android:label="@string/title_activity_donation_report" >
         </activity>
         <activity
@@ -610,6 +610,14 @@
         <activity
             android:name=".ReportDonationActivity"
             android:label="@string/title_activity_report_donation" >
+        </activity>
+        <activity
+            android:name=".SendGoodsActivity"
+            android:label="@string/title_activity_send_goods" >
+        </activity>
+        <activity
+            android:name=".OrderDetialActivity"
+            android:label="@string/title_activity_order_detial" >
         </activity>
     </application>
 
