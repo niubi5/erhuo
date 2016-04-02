@@ -65,7 +65,9 @@ public class ReportGoodActivity extends Activity {
 //						goodId + reason + "&" + etReason.getText().toString(),
 //						Toast.LENGTH_SHORT).show();
 			}
-			int USERID = 3;// 测试，正式发布应从MyApplication.getCurrentUser().getId()获取
+			//int USERID = 3;// 测试，正式发布应从MyApplication.getCurrentUser().getId()获取
+			//int 
+			int USERID = MyApplication.getCurrentUser().getId();
 			GoodsReports gr = new GoodsReports();
 			gr.setGoodId(goodId);
 			gr.setUserId(USERID);

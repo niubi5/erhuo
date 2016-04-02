@@ -20,7 +20,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/left_arrow_white" />
+                android:src="@drawable/left_arrow_white"
+                android:onClick="onclick" />
 
             <TextView
                 style="@style/FrameTitleRedText"
