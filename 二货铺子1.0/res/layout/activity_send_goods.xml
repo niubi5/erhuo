@@ -1,0 +1,132 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.geminno.erhuo.SendGoodsActivity" >
+
+    <FrameLayout
+        android:id="@+id/erhuo_send_title"
+        style="@style/FrameTitleRed" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical" >
+
+            <ImageView
+                android:id="@+id/iv_send_return"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:onClick="onclick"
+                android:scaleType="centerInside"
+                android:src="@drawable/left_arrow_white" />
+
+            <TextView
+                style="@style/FrameTitleRedText"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/send_goods" />
+        </RelativeLayout>
+    </FrameLayout>
+    <!--
+    <ScrollView
+        android:id="@+id/sv_kuaidi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/erhuo_send_title"
+        android:layout_above="@+id/btn_send_commit"  >
+    -->
+
+    <RelativeLayout
+        android:id="@+id/rl_kuaidi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_send_commit"
+        android:layout_below="@+id/erhuo_send_title" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/iconfont_kuaidi" />
+
+        <TextView
+            android:id="@+id/tv_exp_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/expressage_com"
+            android:textSize="@dimen/font_big"
+            android:textColor="@color/dimgray" />
+
+        <EditText
+            android:id="@+id/et_expressage_com"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_exp_name"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@+id/tv_exp_name"
+            android:textSize="@dimen/font_big"
+            android:textColor="@color/dimgray"
+            android:singleLine="true"
+            android:ems="10" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_exp_name"
+            android:layout_below="@+id/tv_exp_name"
+            android:layout_marginTop="30dp"
+            android:text="@string/expressage_num"
+            android:textSize="@dimen/font_big"
+            android:textColor="@color/dimgray"/>
+
+        <EditText
+            android:id="@+id/et_expressage_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView1"
+            android:layout_marginRight="15dp"
+            android:layout_alignLeft="@+id/et_expressage_com"
+            android:ems="10"
+            android:inputType="number" 
+            android:textSize="@dimen/font_big"
+            android:textColor="@color/dimgray">
+        </EditText>
+
+        <TextView
+            android:id="@+id/tv_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/send_hint"
+            android:textColor="@color/dimgrey"
+            android:textSize="@dimen/font_middlesmall" />
+
+    </RelativeLayout>
+<!--     </ScrollView> -->
+
+    <Button
+        android:id="@+id/btn_send_commit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/main_red"
+        android:onClick="onclick"
+        android:text="@string/commit"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>
