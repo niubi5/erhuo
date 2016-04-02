@@ -143,5 +143,13 @@
     <string name="title_activity_release">ReleaseActivity</string>
     <string name="title_activity_specific_address">SpecificAddressActivity</string>
     <string name="title_activity_report_donation">ReportDonationActivity</string>
+    <string name="title_activity_send_goods">SendGoodsActivity</string>
+
+    <!-- 发货 -->
+    <string name="send_goods">发货</string>
+    <string name="expressage_com">物流公司:</string>
+    <string name="expressage_num">物流单号:</string>
+    <string name="send_hint">物流公司和单号一定要填写正确哟^_^</string>
+    <string name="title_activity_order_detial">OrderDetialActivity</string>
 
 </resources>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
+        <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C1C1C1"
+        android:layout_alignParentTop="true"/>
+
+        <ImageView
+            android:id="@+id/iv_logis_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/iconfont_yuan_32"
+            android:layout_below="@+id/view1" />
+
+        <TextView
+            android:id="@+id/tv_logis_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@+id/iv_logis_state"
+            android:singleLine="false"
+            android:textSize="@dimen/font_bigmiddle"
+            android:textColor="@color/dimgrey"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/tv_logis_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_logis_detail"
+            android:layout_below="@+id/tv_logis_detail"
+            android:textSize="@dimen/font_small"
+            android:textColor="@color/dimgrey"
+            android:text="TextView"
+            android:layout_marginBottom="10dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

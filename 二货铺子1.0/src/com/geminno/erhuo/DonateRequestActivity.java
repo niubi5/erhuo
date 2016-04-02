@@ -54,6 +54,7 @@ import com.geminno.erhuo.utils.FileUtils;
 import com.geminno.erhuo.utils.ImageItem;
 import com.geminno.erhuo.utils.PublicWay;
 import com.geminno.erhuo.utils.Res;
+import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.view.AddImageView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -250,7 +251,10 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 							String donationGson = gson.toJson(donation);
 
 							// 传参数
-							String url = "http://10.201.1.20:8080/secondHandShop/HelpsServlet";
+							//String url = "http://10.201.1.20:8080/secondHandShop/HelpsServlet";
+							String headUrl = Url.getUrlHead();
+							// 拼接url
+							String url = headUrl + "/HelpsServlet";
 							RequestParams rp = new RequestParams();
 							rp.addBodyParameter("DonationRequest", donationGson);
 

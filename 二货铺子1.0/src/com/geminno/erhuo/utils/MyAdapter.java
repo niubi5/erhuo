@@ -5,14 +5,17 @@ import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 
 /**
  * @author LuoShiHeng
  * @version 创建时间:2016-3-9下午6:48:08
  */
-public abstract class MyAdapter<T> extends BaseAdapter {
+public abstract class MyAdapter<T> extends BaseAdapter{
 
 	protected Context mContext;
 	protected List<T> mDatas;
@@ -51,10 +54,24 @@ public abstract class MyAdapter<T> extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = ViewHolder.get(mContext, convertView, parent,
 				layoutId, position);
+		//holder.setOnClickListener(new MyAdapterListener(position));
 		convert(holder, getItem(position));
 		return holder.getConvertView();
 	}
 
 	public abstract void convert(ViewHolder holder, T t);
-		
+	
+	class MyAdapterListener implements OnClickListener {
+		 
+        private int position;
+ 
+        public MyAdapterListener(int pos) {
+            position = pos;
+        }
+ 
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(mContext, "您点击了-" + mDatas.get(position), Toast.LENGTH_LONG).show();
+        }
+    }
 }
