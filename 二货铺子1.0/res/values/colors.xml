@@ -245,5 +245,5 @@
     <color name="style_divider_color">#C9C7CD</color>
     <color name="buy_background">#F9F8F4</color>
     <color name="report_background">#F8F8F8</color>
-
+	<color name="logis_green">#11cd6e</color>
 </resources>

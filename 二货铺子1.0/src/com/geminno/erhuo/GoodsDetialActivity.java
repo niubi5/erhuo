@@ -179,7 +179,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 		// 创建适配器， 把组装完的组件传递进去
 		adapter = new MyAdapter(list);
 		viewPager.setAdapter(adapter);
-
 		// 绑定动作监听器：如翻页的动画
 		viewPager.setOnPageChangeListener(new MyListener());
 		initData();
@@ -213,7 +212,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 		}
 		// 设置收藏的显示状态
 		if (collection != null) {
-			if (collection.contains(position)) {
+			if (collection.contains(goodsId)) {
 				goodsFavorite.setSelected(true);
 			} else {
 				goodsFavorite.setSelected(false);
@@ -255,7 +254,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 		tvGoodBrief.setText(goods.getImformation());
 	}
 
-	private void collectGoods(Goods goods, View v, boolean b) {
+	private void collectGoods(Goods goods, View v, final boolean b) {
 		Users user = MyApplication.getCurrentUser();
 		if (user != null && goods != null) {
 			HttpUtils http = new HttpUtils();
@@ -276,7 +275,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 			} else {
 				// 收藏
 				v.setSelected(true);// 设为收藏状态
-				Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT);
 				// 并加入集合
 				collection.add(goods.getId());
 				MyApplication.setCollections(collection);
@@ -289,12 +287,14 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 
 						@Override
 						public void onFailure(HttpException arg0, String arg1) {
-
 						}
 
 						@Override
 						public void onSuccess(ResponseInfo<String> arg0) {
-
+							if (b) {
+								Toast.makeText(context, "收藏成功",
+										Toast.LENGTH_SHORT).show();
+							}
 						}
 					});
 		} else {
@@ -369,6 +369,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 							pullUpToLoadListView.setAdapter(remarkAdapter);
 						} else {
 							remarkAdapter.notifyDataSetChanged();
+							Log.i("erhuo", "通知数据源改变");
 						}
 						// 解决scrollview嵌套listview高度问题.
 						// 获得listview对应的adapter
@@ -450,6 +451,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 										// 并且隐藏pop
 										pop.dismiss();
 										initCommentData();// 再次调用，更新数据源
+										// addCommentData();
 									}
 								});
 					} else {
@@ -473,64 +475,43 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 		popupInputMethodWindow();// 自动弹出键盘
 	}
 
-	// private void addCommentData() {
-	// HttpUtils http = new HttpUtils();
-	// String headUrl = Url.getUrlHead();
-	// String url = headUrl + "/ListRemarkServlet";
-	// RequestParams params = new RequestParams();
-	// params.addQueryStringParameter("goodsId", goods.getId() + "");
-	// http.send(HttpRequest.HttpMethod.GET, url, params,
-	// new RequestCallBack<String>() {
-	//
-	// @Override
-	// public void onFailure(HttpException arg0, String arg1) {
-	// Toast.makeText(context, "加载失败", Toast.LENGTH_SHORT)
-	// .show();
-	// }
-	//
-	// @Override
-	// public void onSuccess(ResponseInfo<String> arg0) {
-	// String result = arg0.result;
-	// Gson gson = new GsonBuilder()
-	// .enableComplexMapKeySerialization().create();
-	// List<Map<Remark, Users>> newComments = gson.fromJson(
-	// result,
-	// new TypeToken<List<Map<Remark, Users>>>() {
-	// }.getType());
-	// if (!preRemarkUsers.isEmpty()) {
-	// listRemarkUsers.removeAll(preRemarkUsers);
-	// preRemarkUsers.clear();
-	// }
-	// // 判断有没有加到数据
-	// if (newComments == null || newComments.isEmpty()) {
-	// // 没有加载到数据，则弹出提示
-	// Toast.makeText(context, "没有更多了", Toast.LENGTH_SHORT)
-	// .show();
-	// // 页数不变，之前++过，故这里要--
-	// curPage--;
-	// } else {
-	// // 判断有没有加满
-	// if (newComments != null
-	// && newComments.size() < pageSize) {
-	// preRemarkUsers.addAll(newComments);
-	// // 页数不变
-	// curPage--;
-	// }
-	// listRemarkUsers.addAll(newComments);
-	// if (remarkAdapter == null) {
-	// remarkAdapter = new RemarkAdapter(context,
-	// listRemarkUsers, goods,
-	// pullUpToLoadListView);
-	// pullUpToLoadListView.setAdapter(remarkAdapter);
-	// } else {
-	// Log.i("erhuo", "通知数据源改变");
-	// remarkAdapter.notifyDataSetChanged();
-	// }
-	// }
-	//
-	// }
-	// });
-	// }
+	private void addCommentData() {
+		HttpUtils http = new HttpUtils();
+		String headUrl = Url.getUrlHead();
+		String url = headUrl + "/ListRemarkServlet";
+		RequestParams params = new RequestParams();
+		// 设置为不缓存，及时获取数据
+		http.configCurrentHttpCacheExpiry(0);
+		params.addQueryStringParameter("goodsId", goods.getId() + "");
+		http.send(HttpRequest.HttpMethod.GET, url, params,
+				new RequestCallBack<String>() {
+
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
+					}
+
+					@Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						String result = arg0.result;
+						Gson gson = new GsonBuilder()
+								.enableComplexMapKeySerialization().create();
+						List<Map<Remark, Users>> newComments = gson.fromJson(
+								result,
+								new TypeToken<List<Map<Remark, Users>>>() {
+								}.getType());
+						listRemarkUsers.addAll(newComments);
+						if (remarkAdapter == null) {
+							remarkAdapter = new RemarkAdapter(context,
+									listRemarkUsers, goods,
+									pullUpToLoadListView);
+							pullUpToLoadListView.setAdapter(remarkAdapter);
+						} else {
+							Log.i("erhuo", "通知数据源改变");
+							remarkAdapter.notifyDataSetChanged();
+						}
+					}
+				});
+	}
 
 	//
 	/**
@@ -607,20 +588,17 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 		case R.id.btn_buy:
 			if (MyApplication.getCurrentUser() == null) {
 				Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
+			} else {
 				if (goods.getState() == 2) {
 					Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
 							Toast.LENGTH_SHORT).show();
 				} else {
-					if (goods.getState() == 2) {
-						Toast.makeText(GoodsDetialActivity.this, "该商品已被下单",
-								Toast.LENGTH_SHORT).show();
-					} else {
-						Intent intent = new Intent(this, BuyGoodsActivity.class);
-						intent.putExtra("user", user);
-						intent.putExtra("good", goods);
-						intent.putExtra("url", urls);
-						startActivity(intent);
-					}
+					Intent intent = new Intent(this, BuyGoodsActivity.class);
+					intent.putExtra("user", user);
+					intent.putExtra("good", goods);
+					intent.putExtra("url", urls);
+					startActivity(intent);
+					// }
 				}
 			}
 			break;
@@ -830,10 +808,15 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 			public void onClick(View v) {
 				// Toast.makeText(GoodsDetialActivity.this, "举报",
 				// Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(GoodsDetialActivity.this,
-						ReportGoodActivity.class);
-				intent.putExtra("goodId", goods.getId());
-				startActivity(intent);
+				if (curUser != null) {
+					Intent intent = new Intent(GoodsDetialActivity.this,
+							ReportGoodActivity.class);
+					intent.putExtra("goodId", goods.getId());
+					startActivity(intent);
+				}else{
+					Toast.makeText(GoodsDetialActivity.this, "请登录!",
+							 Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 

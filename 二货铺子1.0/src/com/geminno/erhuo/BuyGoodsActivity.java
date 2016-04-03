@@ -70,6 +70,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 	private Users user;
 	private Goods good;
 	private String[] goodUrl;
+	private String buyGoods = new String("buy");
 	/**
 	 * @author heikki 2016.03.25 16:00
 	 * */
@@ -133,10 +134,25 @@ public class BuyGoodsActivity extends FragmentActivity implements
 		RelativeLayout rlAddress  = (RelativeLayout) findViewById(R.id.rl_center);
 		RelativeLayout rlNewAddress = (RelativeLayout) findViewById(R.id.rl_no_address);
 		btnPayWay = (Button) findViewById(R.id.btn_pay_way);
-		if(MyApplication.getCurUserDefAddress() != null){
+		if(MyApplication.getUseAddress() != null){
 			rlAddress.setVisibility(View.VISIBLE);
 			rlNewAddress.setVisibility(View.INVISIBLE);
-			Address curUserAddress = MyApplication.getCurUserDefAddress();
+			Address curUserAddress = MyApplication.getUseAddress();
+			tvReceiveName = (TextView) findViewById(R.id.tv_receive_name);
+			tvReceivePhone = (TextView) findViewById(R.id.tv_receive_phone);
+			tvReceiveAddress = (TextView) findViewById(R.id.tv_receive_address);
+			
+			tvReceiveName.setText(curUserAddress.getName());
+			tvReceivePhone.setText(curUserAddress.getPhone());
+			tvReceiveAddress.setText(curUserAddress.getAddress());
+			Log.i("BuyCurAddress", tvReceiveName.getText().toString());
+			btnPayWay.setBackgroundColor(getResources().getColor(R.color.main_red));
+			btnPayWay.setEnabled(true);
+		}else if(MyApplication.getCurUserDefAddress() != null){
+			rlAddress.setVisibility(View.VISIBLE);
+			rlNewAddress.setVisibility(View.INVISIBLE);
+			MyApplication.setUseAddress(MyApplication.getCurUserDefAddress());
+			Address curUserAddress = MyApplication.getUseAddress();
 			tvReceiveName = (TextView) findViewById(R.id.tv_receive_name);
 			tvReceivePhone = (TextView) findViewById(R.id.tv_receive_phone);
 			tvReceiveAddress = (TextView) findViewById(R.id.tv_receive_address);
@@ -261,6 +277,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 			break;
 		case R.id.ll_user_address:
 			Intent intent = new Intent(BuyGoodsActivity.this,ShipAddressActivity.class);
+			intent.putExtra("jumpActivity", buyGoods);
 			startActivity(intent);
 			break;
 		default:
@@ -320,29 +337,35 @@ public class BuyGoodsActivity extends FragmentActivity implements
 
 		// 支付宝，微信支付，银联，百度钱包 按键的点击响应处理
 		if (view.getId() == R.id.iv_yinlian) {
-			new PaymentTask()
-					.execute(new PaymentRequest(CHANNEL_UPACP, amount));
+//			new PaymentTask()
+//					.execute(new PaymentRequest(CHANNEL_UPACP, amount));
+			
 			pop.dismiss();
 			ll_popup.clearAnimation();
+			showMsg("success", "cancel", "cancel");
 		} else if (view.getId() == R.id.iv_zhifubao) {
-			new PaymentTask()
-					.execute(new PaymentRequest(CHANNEL_ALIPAY, amount));
+//			new PaymentTask()
+//					.execute(new PaymentRequest(CHANNEL_ALIPAY, amount));
 			pop.dismiss();
 			ll_popup.clearAnimation();
+			showMsg("success", "cancel", "cancel");
 		} else if (view.getId() == R.id.iv_weixin) {
-			new PaymentTask()
-					.execute(new PaymentRequest(CHANNEL_WECHAT, amount));
+//			new PaymentTask()
+//					.execute(new PaymentRequest(CHANNEL_WECHAT, amount));
 			pop.dismiss();
 			ll_popup.clearAnimation();
+			showMsg("success", "cancel", "cancel");
 		} else if (view.getId() == R.id.iv_baidu) {
-			new PaymentTask().execute(new PaymentRequest(CHANNEL_BFB, amount));
+//			new PaymentTask().execute(new PaymentRequest(CHANNEL_BFB, amount));
 			pop.dismiss();
 			ll_popup.clearAnimation();
+			showMsg("success", "cancel", "cancel");
 		} else if (view.getId() == R.id.iv_jingdong) {
-			new PaymentTask().execute(new PaymentRequest(CHANNEL_JDPAY_WAP,
-					amount));
+//			new PaymentTask().execute(new PaymentRequest(CHANNEL_JDPAY_WAP,
+//					amount));
 			pop.dismiss();
 			ll_popup.clearAnimation();
+			showMsg("success", "cancel", "cancel");
 		} else {
 			// 壹收款调用示例如下
 			String orderNo = new SimpleDateFormat("yyyyMMddhhmmss")
@@ -461,8 +484,9 @@ public class BuyGoodsActivity extends FragmentActivity implements
 	public void commitOrder(){
 		Orders order = new Orders();
 		order.setGoodId(good.getId());
-		int userId = 3;//测试用，正式应从MyApplication.getCurrentUser().getId()获取
-		order.setUserId(3);
+		//int userId = 3;//测试用，正式应从MyApplication.getCurrentUser().getId()获取
+		int userId = MyApplication.getCurrentUser().getId();
+		order.setUserId(userId);
 		order.setOrderNum(getNowTime()+userId+good.getId());
 		order.setCreateTime(MySdf.getDateToString(new Date(System.currentTimeMillis())));
 		order.setPayTime(MySdf.getDateToString(new Date(System.currentTimeMillis())));
@@ -477,14 +501,17 @@ public class BuyGoodsActivity extends FragmentActivity implements
 		String orderJson = gson.toJson(order);
 		Log.i("commitOrder", orderJson);
 		//从配置文件获取服务器url
-		Properties prop = new Properties();
-		try {
-			prop.load(BuyGoodsActivity.class.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String url = prop.getProperty("heikkiUrl")+"/AddGoodOrderServlet";
+//		Properties prop = new Properties();
+//		try {
+//			prop.load(BuyGoodsActivity.class.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		String url = prop.getProperty("heikkiUrl")+"/AddGoodOrderServlet";
+		String headUrl = Url.getUrlHead();
+		// 拼接url
+		String url = headUrl + "/AddGoodOrderServlet";
 		RequestParams rp = new RequestParams();
 		rp.addBodyParameter("orderJosn",orderJson);
 		HttpUtils hu = new HttpUtils();

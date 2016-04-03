@@ -45,8 +45,6 @@ public class MyGoodsActivity extends FragmentActivity implements
 	private List<BaseFragment> fragments;
 	private ViewPager vpFragment;
 	private List<Button> btns;
-	private int currentIndex; // 当前fragment索引
-
 	private Button btnSelling;
 	private Button btnSold;
 	private Button btnBought;
@@ -188,5 +186,16 @@ public class MyGoodsActivity extends FragmentActivity implements
 			return fragments.size();
 		}
 
+	}
+	
+	public void onclick(View v){
+		switch (v.getId()) {
+		case R.id.iv_mine_return:
+			finish();
+			break;
+
+		default:
+			break;
+		}
 	}
 }

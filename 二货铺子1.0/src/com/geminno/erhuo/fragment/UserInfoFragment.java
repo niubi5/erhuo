@@ -155,29 +155,54 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 			}
 			break;
 		case R.id.userinfo_btn_selling:
+			if (users != null) {
 			btnId = 0;
 			intent.putExtra("btnId", btnId);
 			startActivity(intent);
+			}else{
+				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
+				.show();
+			}
 			break;
 		case R.id.userinfo_btn_sold:
+			if (users != null) {
 			btnId = 1;
 			intent.putExtra("btnId", btnId);
 			startActivity(intent);
+			}else{
+				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
+				.show();
+			}
 			break;
 		case R.id.userinfo_btn_bought:
+			if (users != null) {
 			btnId = 2;
 			intent.putExtra("btnId", btnId);
 			startActivity(intent);
+			}else{
+				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
+				.show();
+			}
 			break;
 		case R.id.userinfo_btn_donate:
+			if (users != null) {
 			btnId = 3;
 			intent.putExtra("btnId", btnId);
 			startActivity(intent);
+			}else{
+				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
+				.show();
+			}
 			break;
 		case R.id.userinfo_btn_favorite:
+			if (users != null) {
 			btnId = 4;
 			intent.putExtra("btnId", btnId);
 			startActivity(intent);
+			}else{
+				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
+				.show();
+			}
 			break;
 		}
 	}

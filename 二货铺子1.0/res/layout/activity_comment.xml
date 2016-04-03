@@ -13,7 +13,7 @@
         <ImageView
             android:id="@+id/message_back"
             style="@style/FrameTitleButtonLeft"
-            android:onClick="msgComment"
+            android:onClick="msgBack"
             android:src="@drawable/left_arrow_white" />
 
         <TextView
@@ -25,15 +25,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <ListView
-            android:id="@+id/lin_comment"
+        <com.geminno.erhuo.view.RefreshListView
+            android:id="@+id/comment_refresh_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-        </ListView>
+            
+        </com.geminno.erhuo.view.RefreshListView>
 
         <LinearLayout
+            android:id="@+id/no_comment_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             android:layout_gravity="center_horizontal|center_vertical"
             android:orientation="vertical" >
 

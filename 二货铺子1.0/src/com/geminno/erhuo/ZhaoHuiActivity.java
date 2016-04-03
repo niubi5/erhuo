@@ -138,6 +138,7 @@ public class ZhaoHuiActivity extends Activity implements OnClickListener {
 		// 获取验证码
 		case R.id.btn_zhaohui_verify:
 			if (phone != null && isMobileNO(phone) == true) {
+				Toast.makeText(this, "验证码已发送！", Toast.LENGTH_SHORT).show();
 				SMSSDK.getVerificationCode("86", phone);
 			} else {
 				toast("请输入正确的电话号码");

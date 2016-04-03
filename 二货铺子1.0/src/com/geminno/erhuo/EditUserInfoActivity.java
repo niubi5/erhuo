@@ -44,6 +44,7 @@ public class EditUserInfoActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_edit_user_info);
+		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		users = MyApplication.getCurrentUser();
 		initView();
 		if (users!=null&&!users.equals("null")) {

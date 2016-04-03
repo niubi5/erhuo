@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.SDKInitializer;
 import com.geminno.erhuo.R;
+import com.geminno.erhuo.entity.Address;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -31,6 +32,7 @@ public class MyApplication extends Application {
 	private static com.geminno.erhuo.entity.Address userAdds;
 	private static String curToken;
 	private static ArrayList<Integer> goodsIds;
+	private static Address useAddress;
 
 	@Override
 	public void onCreate() {
@@ -129,21 +131,32 @@ public class MyApplication extends Application {
 	public static com.geminno.erhuo.entity.Address getCurUserDefAddress() {
 		return userAdds;
 	}
-	//获取当前用户融云Token
-	public static void setCurToken(String token){
+
+	// 获取当前用户融云Token
+	public static void setCurToken(String token) {
 		curToken = token;
 	}
-	public static String getCurToken(){
+
+	public static String getCurToken() {
 		return curToken;
 	}
 
-
+	// 获取当前用户收藏
 	public static void setCollections(ArrayList<Integer> goodsIdList) {
 		goodsIds = goodsIdList;
 	}
-	
-	public static ArrayList<Integer> getCollection(){
+
+	public static ArrayList<Integer> getCollection() {
 		return goodsIds;
 	}
-	
+
+	// 获取当前用户使用的收货地址
+	public static Address getUseAddress() {
+		return useAddress;
+	}
+
+	public static void setUseAddress(Address useAddress) {
+		MyApplication.useAddress = useAddress;
+	}
+
 }
