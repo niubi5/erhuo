@@ -135,7 +135,7 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		names = bundle.getStringArrayList("names");
 		sb = new StringBuffer();
 		for (int i = 0; i < names.size(); i++) {
-			sb.append(names.get(i) + ",");
+			sb.append(names.get(i) + ((i == (names.size() - 1)) ? "" : ","));
 		}
 
 		// donation = (Donation) intent.getSerializableExtra("donation");
