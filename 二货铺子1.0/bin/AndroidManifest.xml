@@ -640,6 +640,7 @@
         <activity
             android:name=".SendGoodsActivity"
             android:label="@string/title_activity_send_goods"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -675,6 +676,14 @@
         <activity
             android:name=".FeedbackActivity"
             android:label="@string/title_activity_feedback" >
+        </activity>
+        <activity
+            android:name=".DonateDetialActivity"
+            android:label="@string/title_activity_donate_detial" >
+        </activity>
+        <activity
+            android:name=".HelpDetialActivity"
+            android:label="@string/title_activity_help_detial" >
         </activity>
     </application>
 
