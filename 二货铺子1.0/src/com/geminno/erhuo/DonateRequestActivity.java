@@ -270,7 +270,8 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 											+ donation.getPubTime()
 											+ donation.getLogistics()
 											+ donation.getAddress()
-											+ donation.getConsignee());
+											+ donation.getConsignee()
+											+ donation.getPhone());
 							Gson gson = new GsonBuilder().setDateFormat(
 									"yyyy-MM-dd hh:mm:ss").create();
 							String donationGson = gson.toJson(donation);
