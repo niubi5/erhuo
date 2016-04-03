@@ -569,6 +569,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				}
 
 				final String url = headUrl + "/AddGoodServlet";
+				
 				// final String url =
 				// "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
 				RequestParams rp = new RequestParams();

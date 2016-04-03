@@ -60,24 +60,7 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 		}
 	  	
 	}
-//	private void create() {
-//		shipName = (TextView) findViewById(R.id.tv_ship_name);
-//		shipPhone = (TextView) findViewById(R.id.et_ship_phone);
-//		shipdiqu = (TextView) findViewById(R.id.tv_address_qu);
-//		shipdizhi = (TextView) findViewById(R.id.tv_ship_specific);
-//		// 调用setColor()方法,实现沉浸式状态栏
-//		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
-//		context = this;
-//		findViewById(R.id.ib_address_return).setOnClickListener(this);
-//		findViewById(R.id.but_address_xin).setOnClickListener(this);
-//		users = MyApplication.getCurrentUser();
-//		Log.i("cheshi", "用户:" + users.toString());
-//		linship = (ListView) findViewById(R.id.list_ship);
-//		if (users!=null) {
-//			create();
-//		}
-//		
-//	}
+
 	
 	class MyAdapter extends BaseAdapter {
 		 List<Address> listad;
@@ -136,10 +119,12 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 				viewHolder.shipdiqu.setText(shipaddress.substring(0,
 						shipaddress.indexOf("市"))
 						+ "市");
+				viewHolder.shipdizhi.setText(shipaddress.substring(shipaddress.indexOf("市")+1));
 			} else {
 				viewHolder.shipdiqu.setText(shipaddress);
+				viewHolder.shipdizhi.setText(shipaddress);
 			}
-			viewHolder.shipdizhi.setText(shipaddress);
+			
 			return convertView;
 		}
 
@@ -175,18 +160,7 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 					listad = gson.fromJson(
 							result,type);
 					Log.i("CurAddress", result);
-//					MyApplication.setCurUserDefAddress(address);
-//					shipName.setText(address.getName());
-//					shipPhone.setText(address.getPhone());
-//					String shipaddress=address.getAddress().toString();
-//					Log.i("CurAddress", shipaddress);
-////					shipdiqu.setText(adsString+"市");
-//					if(shipaddress.indexOf("市") != -1){
-//						shipdiqu.setText(shipaddress.substring(0,shipaddress.indexOf("市"))+"市");						
-//					}else{
-//						shipdiqu.setText(shipaddress);
-//					}
-//					shipdizhi.setText(shipaddress);
+//					
 					Log.i("cheshi", "地址对象："+listad);
 					//MyApplication.setCurUserDefAddress(address);
 					linship.setAdapter(new MyAdapter(listad, context));
@@ -205,13 +179,17 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 							Log.i("cheshi", "取出id:"+listad.get(position).getId());
 							String shipaddress = listad.get(position).getAddress().toString();
 							String diqu=null;
+							String dizhi=null;
 							if (shipaddress.indexOf("市") != -1) {
 								 diqu=shipaddress.substring(0,shipaddress.indexOf("市"))+ "市";
+							     dizhi=shipaddress.substring(shipaddress.indexOf("市")+1);
 							} else {
 							     diqu=shipaddress;
+							     dizhi=shipaddress;
 							}
+							
 							intent.putExtra("diqu", diqu);
-							intent.putExtra("dizhi", shipaddress);
+							intent.putExtra("dizhi", dizhi);
 							if (listad.get(position).getIsdefault().equals("yes")) {
 								MyApplication
 								.setCurUserDefAddress(listad.get(position));

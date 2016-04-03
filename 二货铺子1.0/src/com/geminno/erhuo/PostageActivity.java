@@ -113,8 +113,7 @@ public class PostageActivity extends Activity implements View.OnClickListener {
 					// }else if (selectedIndex==30&&selectedIndex==32) {
 					//
 					// }
-					String mo=parseInt(item)*8+6+"";
-					tvmoney.setText(mo);
+					tvmoney.setText("¥"+parseInt(item)+"元");
 
 					Log.i("cheshi", "[Dialog]selectedIndex: " + selectedIndex
 							+ ", item: " + item);
@@ -124,7 +123,7 @@ public class PostageActivity extends Activity implements View.OnClickListener {
 
 				private int parseInt(String item) {
 					// TODO Auto-generated method stub
-					return 0;
+					return Integer.parseInt(item)*8+6;
 				};
 
 			});
@@ -142,26 +141,5 @@ public class PostageActivity extends Activity implements View.OnClickListener {
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		// noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
-	}
-
+	
 }

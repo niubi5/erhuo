@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class MyGoodsActivity extends FragmentActivity implements
@@ -52,6 +53,7 @@ public class MyGoodsActivity extends FragmentActivity implements
 	private Button btnBought;
 	private Button btnDonation;
 	private Button btnFavorite;
+	private ImageView ivreturn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class MyGoodsActivity extends FragmentActivity implements
 		donationFragment = new DonationFragment(context);
 		collecFragment = new CollectionFragment(context);
 		vpFragment=(ViewPager) findViewById(R.id.vp_fragment);
-		
+		ivreturn=(ImageView) findViewById(R.id.iv_mine_return);
 		btnSelling = (Button) findViewById(R.id.btn_selling);
 		btnSold = (Button) findViewById(R.id.btn_sold);
 		btnBought = (Button) findViewById(R.id.btn_bought);
@@ -100,6 +102,7 @@ public class MyGoodsActivity extends FragmentActivity implements
 		btnBought.setOnClickListener(this);
 		btnDonation.setOnClickListener(this);
 		btnFavorite.setOnClickListener(this);
+		ivreturn.setOnClickListener(this);
 		// // 默认显示第一个fragment
 		// getSupportFragmentManager().beginTransaction()
 		// .add(R.id.fragment_container, fragments.get(0)).commit();
@@ -138,6 +141,9 @@ public class MyGoodsActivity extends FragmentActivity implements
 	public void onClick(View v) {
 		int item=-1;//记录当前选中的item
 		switch (v.getId()) {
+		case R.id.iv_mine_return:
+			this.finish();
+			break;
 		// 主页按钮
 		case R.id.btn_selling:
 			item = 0;

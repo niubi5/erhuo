@@ -76,7 +76,7 @@ public class StartActivity extends Activity {
 							Log.i("erhuo", result);
 							Gson gson = new Gson();
 							Users users = gson.fromJson(result, Users.class);
-							Log.i("CurrentUser", users.toString());
+							Log.i("cheshi", users.toString());
 							MyApplication.setUsers(users);
 							Log.i("CurrentUser", "StartCurrentUser:"+users.getId());
 							Toast.makeText(StartActivity.this,

@@ -1,9 +1,7 @@
 package com.geminno.erhuo;
 
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import com.geminno.erhuo.utils.Contant;
 import com.geminno.erhuo.utils.Url;
 import com.lidroid.xutils.HttpUtils;
@@ -12,17 +10,13 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
-
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
+import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -76,11 +70,8 @@ public class VerifyActivity extends Activity implements OnClickListener {
 
 				Toast.makeText(VerifyActivity.this, str, Toast.LENGTH_SHORT)
 						.show();
-
 			}
-
 		});
-
 	}
 
 	Button btnVerify;
@@ -91,6 +82,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 	// 输入验证嘛
 	EditText etpwd;
 	String phone = null;
+	private TimeCount time;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +92,10 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		// 调用setColor()方法,实现沉浸式状态栏
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		// 3.17短信验证
+		time=new TimeCount(60000, 1000);
 		btnVerify = (Button) findViewById(R.id.btn_verify);
 		ivBack = (ImageView) findViewById(R.id.iv_verify_return);
+		//获取短信按钮	
 		butmsgverify = (Button) findViewById(R.id.btn_msg_verify);
 
 		etphone = (EditText) findViewById(R.id.et_phone_verify);
@@ -114,6 +108,7 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		SMSSDK.initSDK(this, Contant.APPKEY, Contant.SECRET);
 		// //发送短信，也会回调前面的方法
 		SMSSDK.registerEventHandler(eh);
+		
 
 	}
 
@@ -141,25 +136,25 @@ public class VerifyActivity extends Activity implements OnClickListener {
 
 						@Override
 						public void onFailure(HttpException arg0, String arg1) {
-							Toast.makeText(VerifyActivity.this,
-									"网络异常！", Toast.LENGTH_SHORT)
-									.show();
+							Toast.makeText(VerifyActivity.this, "网络异常！",
+									Toast.LENGTH_SHORT).show();
 						}
 
 						@Override
 						public void onSuccess(ResponseInfo<String> arg0) {
-							if(arg0.result.toString().equals("ok")){
+							if (arg0.result.toString().equals("ok")) {
 								if (phone != null && isMobileNO(phone) == true) {
 									SMSSDK.getVerificationCode("86", phone);
+									time.start();
 								} else {
 									toast("请输入正确的电话号码");
 								}
-							}else{
+							} else {
 								Toast.makeText(VerifyActivity.this,
 										"该手机号码已注册过，请直接登录！", Toast.LENGTH_SHORT)
 										.show();
 							}
-							
+
 						}
 					});
 			break;
@@ -194,7 +189,25 @@ public class VerifyActivity extends Activity implements OnClickListener {
 		Log.i("result", "崩了");
 		super.onDestroy();
 	}
+	
+	class TimeCount extends CountDownTimer {
+		public TimeCount(long millisInFuture, long countDownInterval) {
+			super(millisInFuture, countDownInterval);
+		}
 
-	// ///////////////
+		@Override
+		public void onFinish() {// 计时完毕
+			butmsgverify.setText("获取验证码");
+			butmsgverify.setClickable(true);
+		}
 
+		@Override
+		public void onTick(long millisUntilFinished) {// 计时过程
+			butmsgverify.setClickable(false);// 防止重复点击
+			butmsgverify.setText(millisUntilFinished / 1000 +"");
+		}
+	}
+
+	
 }
+

@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F8F4"
+    android:orientation="vertical"
+    tools:context="com.geminno.erhuo.FeedbackActivity" >
+
+    <FrameLayout
+        android:id="@+id/erhuo_feedback_title"
+        style="@style/FrameTitleRed" >
+
+        <ImageView
+            android:id="@+id/ib_feedback_return"
+            style="@style/FrameTitleButtonLeft"
+            android:src="@drawable/left_arrow_white" />
+
+        <TextView
+            style="@style/FrameTitleRedText"
+            android:text="意见反馈" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <EditText
+                android:id="@+id/et_feed_name"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/shape_address"
+                android:ems="10"
+                android:gravity="top"
+                android:hint="@string/Feedback"
+                android:textSize="@dimen/font_middle" >
+
+                <requestFocus />
+            </EditText>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <LinearLayout
+                android:id="@+id/lin_feedback"
+                style="@style/MyInfoLinearLayout"
+                android:background="#F9F8F4"
+                android:gravity="center" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:text="一共可以输入200字"
+                    android:textSize="@dimen/font_middle" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/but_feedback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/main_red"
+                    android:gravity="center|center_horizontal"
+                    android:text="提交"
+                    android:textSize="@dimen/font_middle" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>
