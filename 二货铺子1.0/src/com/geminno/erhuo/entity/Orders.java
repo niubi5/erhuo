@@ -5,6 +5,7 @@ public class Orders {
 	private int id;
 	private int goodId;
 	private int userId;
+	private int addId;
 	private String orderNum;
 	private String createTime;
 	private String payTime;
@@ -36,6 +37,14 @@ public class Orders {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public int getAddId() {
+		return addId;
+	}
+
+	public void setAddId(int addId) {
+		this.addId = addId;
 	}
 
 	public String getOrderNum() {
