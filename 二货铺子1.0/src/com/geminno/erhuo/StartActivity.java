@@ -72,6 +72,7 @@ public class StartActivity extends Activity {
 							String result = arg0.result;
 							Log.i("erhuo", result);
 							Gson gson = new Gson();
+							
 							final Users users = gson.fromJson(result, Users.class);
 							Log.i("CurrentUser", users.toString());
 							MyApplication.setUsers(users);

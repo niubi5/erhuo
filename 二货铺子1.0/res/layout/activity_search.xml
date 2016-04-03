@@ -58,7 +58,6 @@
             android:textColor="@color/main_white"/>  
     </LinearLayout>  
     
->>>>>>> branch 'master' of https://github.com/niubi5/erhuo.git
     <LinearLayout
         android:id="@+id/lin_search"
         style="@style/MyInfoLinearLayout"

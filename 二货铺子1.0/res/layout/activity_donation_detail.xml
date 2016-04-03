@@ -244,7 +244,7 @@
             />
         
     <TextView 
-        android:id="@+id/tv_get_donation_photo"
+        android:id="@+id/tv_get_donation_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/separate_line_five"
@@ -258,10 +258,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/separate_line_five"
-        android:layout_toRightOf="@+id/tv_get_donation_photo"
+        android:layout_toRightOf="@+id/tv_get_donation_phone"
         android:text="13545292432"
         android:layout_marginTop="6dp"
         android:layout_marginLeft="10dp"
+        />
+    <View 
+          android:layout_below="@+id/tv_get_donation_photo_user"
+            android:id="@+id/separate_line_six"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/separate_line"
+            
+            />
+    
+    <TextView 
+        android:id="@+id/tv_detail_donatorNames"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/separate_line_six"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="10dp"
+        
         />
     
     </RelativeLayout>

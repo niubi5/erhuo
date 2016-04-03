@@ -32,6 +32,7 @@ public class SheZhiActivity extends BaseActivity implements OnClickListener {
 	LinearLayout linqingchuhuancun;
 	ImageView imageshezh;
 	Button button;
+	private Users users;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,16 +63,19 @@ public class SheZhiActivity extends BaseActivity implements OnClickListener {
 		switch (v.getId()) {
 
 		case R.id.lin_xiugai_mima:
-			Intent intent1 = new Intent(this, ZhaoHuiActivity.class);
-			startActivity(intent1);
+			startActivity(new Intent(this, ZhaoHuiActivity.class));
 			break;
 		case R.id.lin_yijian_fankui:
-			Intent intent2 = new Intent(this, LoginActivity.class);
-			startActivity(intent2);
+			users = MyApplication.getCurrentUser();
+			if (users!=null) {
+				startActivity(new Intent(this,FeedbackActivity.class));
+			}else {
+				startActivity(new Intent(this, LoginActivity.class));
+			}
+			
 			break;
 		case R.id.lin_guanyu_women:
-			Intent intent3 = new Intent(this, WoMenActivity.class);
-			startActivity(intent3);
+			startActivity( new Intent(this, WoMenActivity.class));
 			break;
 		case R.id.lin_jiancha_gengxin:
 

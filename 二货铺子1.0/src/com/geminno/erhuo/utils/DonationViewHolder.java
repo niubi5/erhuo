@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -103,6 +104,7 @@ public class DonationViewHolder {
      */
     public DonationViewHolder setText(int viewId, String text){
     	TextView view = getView(viewId);
+//    	view.setLayoutParams(new LayoutParams(120, 80));
     	view.setText(text);
     	return this;
     }
@@ -141,6 +143,13 @@ public class DonationViewHolder {
      * @return
      */
     public DonationViewHolder setImageBitmap(int viewId, String url){
+    	// 给ImageView设置宽和高
+    	ImageView imageView = getView(viewId);
+        LayoutParams params = imageView.getLayoutParams();
+        params.width = 600;
+        params.height = 480;
+        imageView.setLayoutParams(params);
+//    	imageView.setLayoutParams(new LayoutParams(120, 80));
     	ImageLoader imageLoader = ImageLoader.getInstance();
     	imageLoader.displayImage(url, (ImageView) getView(viewId));
 //    	ImageLoader.getInstance(3,Type.LIFO).loadImage(url, (ImageView)getView(viewId));

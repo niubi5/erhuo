@@ -41,7 +41,7 @@ public class ResetActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_reset);
 		// 调用setColor()方法,实现沉浸式状态栏
 		MainActivity.setColor(this,
-				getResources().getColor(R.color.login_background));
+				getResources().getColor(R.color.main_red));
 		etpwd = (EditText) findViewById(R.id.et_pwd_reset);
 		etPwdagain = (EditText) findViewById(R.id.et_pwd_resetagain);
 		butreset = (Button) findViewById(R.id.btn_reset);

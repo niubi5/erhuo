@@ -69,6 +69,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 		refreshListView = (RefreshListView) findViewById(R.id.refres_list_search);
 		findViewById(R.id.tv_search).setOnClickListener(this);
 		findViewById(R.id.ib_sousuo).setOnClickListener(this);
+		delete.setOnClickListener(this);
 		keyword.addTextChangedListener(new TextWatcher() {
 			
 			@Override
@@ -79,6 +80,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 				if (edit.length()!=0&&!edit.equals("null")) {
 					Log.i("cheshi", "赵信");
 					delete.setVisibility(delete.VISIBLE);
+
 				}
 				
 			

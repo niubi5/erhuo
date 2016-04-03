@@ -49,6 +49,7 @@ import android.widget.Toast;
 import com.geminno.erhuo.adapter.LogisticsAdapter;
 import com.geminno.erhuo.entity.Donation;
 import com.geminno.erhuo.entity.Logistics;
+import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.Bimp;
 import com.geminno.erhuo.utils.FileUtils;
 import com.geminno.erhuo.utils.ImageItem;
@@ -122,6 +123,10 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	 */
 	private String logisticsName;
 	/**
+	 *  收货人联系电话
+	 */
+	private EditText etPhone;
+	/**
 	 * 多图片上传
 	 */
 	private GridView doantion_noScrollgridview;
@@ -134,6 +139,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	private String filePath;
 	private String fileName;
 	private Builder builder;
+	private Users user;
 
 	Dialog dialog;
 
@@ -196,6 +202,13 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// Toast toast = new Toast(getApplicationContext());
 		switch (v.getId()) {
+		case R.id.et_donate_title:
+			if(user.getName().equals("")){
+				Toast.makeText(this, "您还没有设置用户名，请先完善资料", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(this,EditUserInfoActivity.class);
+				startActivity(intent);
+			}
+			break;
 		case R.id.btn_request_donate:
 			Log.i("MyToast", "点击了");
 			// View view = getLayoutInflater().inflate(
@@ -209,6 +222,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 			String title = etTitle.getText().toString();
 			String content = etContent.getText().toString();
 			String geterName = consignee.getText().toString();
+			String phone = etPhone.getText().toString();
 			String address = etAddress.getText().toString();
 			String logistics = logisticsName;
 			//
@@ -219,16 +233,26 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 			// // 要显示的view
 			// toast.setView(view);
 			// toast.show();
+			
 			if (!title.equals("")) {
 				if (!content.equals("")) {
 					if (!geterName.equals("")) {
+						if(!phone.equals("")){
+							
+						
 						if (!address.equals("")) {
 							// toastText.setText("务必把收货地址填写上");
 							/**
 							 * 获得用户输入的信息,将其封装成Donation对象
 							 */
 							Donation donation = new Donation();
-							donation.setUserId(1);
+							// 获取当前用户id
+							int userID = MyApplication.getCurrentUser().getId();
+//							if(String.valueOf(userID) == null){
+//								Toast.makeText(this, "请登录", Toast.LENGTH_SHORT).show();
+//								break;
+//							}else{
+							donation.setUserId(userID);
 							donation.setTitle(title);
 							donation.setDetail(content);
 							SimpleDateFormat sdf = new SimpleDateFormat(
@@ -236,6 +260,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 							donation.setPubTime(sdf.format(new Date()));
 							donation.setLogistics(logistics);
 							donation.setConsignee(geterName);
+							donation.setPhone(phone);
 							donation.setAddress(address);
 
 							Log.i("donation",
@@ -245,7 +270,8 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 											+ donation.getPubTime()
 											+ donation.getLogistics()
 											+ donation.getAddress()
-											+ donation.getConsignee());
+											+ donation.getConsignee()
+											+ donation.getPhone());
 							Gson gson = new GsonBuilder().setDateFormat(
 									"yyyy-MM-dd hh:mm:ss").create();
 							String donationGson = gson.toJson(donation);
@@ -277,14 +303,24 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 										public void onFailure(
 												HttpException arg0, String arg1) {
 											Log.i("Request", "请求失败");
-
+											Toast.makeText(
+													getApplicationContext(),
+													"请求失败,请检查您的网络设置",
+													Toast.LENGTH_LONG).show();
 										}
 
 										@Override
 										public void onSuccess(
 												ResponseInfo<String> arg0) {
 											Log.i("Request", "请求成功");
-
+											if (arg0.result != null) {
+												Toast.makeText(
+														getApplicationContext(),
+														"您的请求发送成功",
+														Toast.LENGTH_SHORT)
+														.show();
+												DonateRequestActivity.this.finish();
+											}
 										}
 									});
 						} else {
@@ -293,7 +329,12 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 									Toast.LENGTH_SHORT).show();
 							break;
 						}
-
+						}else{
+							Toast.makeText(this, "联系方式必须要",
+									Toast.LENGTH_SHORT).show();
+							break;
+						}
+						
 					} else {
 						// toastText.setText("收货人是谁呢？");
 						Toast.makeText(this, "收货人是谁呢？", Toast.LENGTH_SHORT)
@@ -312,9 +353,9 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 				break;
 			}
 		}
-		Intent intent = new Intent(this,MainActivity.class);
-		startActivity(intent);
-		this.finish();
+		// Intent intent = new Intent(this,MainActivity.class);
+		// startActivity(intent);
+
 	}
 
 	/**
@@ -332,9 +373,12 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 		});
 		logisticSpinner = (Spinner) findViewById(R.id.sp_logistics);
 		etTitle = (EditText) findViewById(R.id.et_donation_title);
+		etTitle.setOnClickListener(this);
 		etContent = (EditText) findViewById(R.id.et_donation_content);
 		spLogistics = (Spinner) findViewById(R.id.sp_logistics);
+		// 收货人姓名，电话，收货地址
 		consignee = (EditText) findViewById(R.id.et_donation_getername);
+		etPhone = (EditText) findViewById(R.id.et_donation_consignee_phone);
 		etAddress = (EditText) findViewById(R.id.et_donation_address);
 		btnDonate = (Button) findViewById(R.id.btn_request_donate);
 		// 发布捐赠，将信息提交到Servlet
@@ -369,6 +413,8 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 				dialog.show();
 			}
 		});
+		
+		user = MyApplication.getCurrentUser();
 
 	}
 
@@ -470,8 +516,8 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 		});
 		// 初始化图片选择框GridView
 		doantion_noScrollgridview = (GridView) findViewById(R.id.doantion_noScrollgridview);
-		
-		 //隐藏
+
+		// 隐藏
 		// 设置点击GridView时出现背景
 		doantion_noScrollgridview.setSelector(new ColorDrawable(
 				Color.TRANSPARENT));
@@ -490,10 +536,13 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 						if (arg2 == Bimp.tempSelectBitmap.size()) { // 如果点击的是添加图片按钮
 							Log.i("ddddddd", "----------");
 							// 点击item切换弹出popupwindow时的动画
-							//  隐藏输入法
-							InputMethodManager inputMethodManager =(InputMethodManager)getApplicationContext().
-									getSystemService(Context.INPUT_METHOD_SERVICE);
-							inputMethodManager.hideSoftInputFromWindow(doantion_noScrollgridview.getWindowToken(), 0);
+							// 隐藏输入法
+							InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext()
+									.getSystemService(
+											Context.INPUT_METHOD_SERVICE);
+							inputMethodManager.hideSoftInputFromWindow(
+									doantion_noScrollgridview.getWindowToken(),
+									0);
 							ll_popup.startAnimation(AnimationUtils
 									.loadAnimation(DonateRequestActivity.this,
 											R.anim.activity_translate_in));
