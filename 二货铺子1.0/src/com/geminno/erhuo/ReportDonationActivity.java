@@ -73,7 +73,7 @@ public class ReportDonationActivity extends Activity implements OnClickListener 
 				// 封装HelpsReports
 				HelpsReports helpReport = new HelpsReports();
 				helpReport.setHelpId(getIntent().getIntExtra("donationId", 1));
-				helpReport.setUserId(getIntent().getIntExtra("userId", 1));
+//				helpReport.setUserId(getIntent().getIntExtra("userId", 1));
 				helpReport.setBrief(reportContent);
 				SimpleDateFormat sdf = new SimpleDateFormat(
 						"yyyy-MM-dd HH:mm:ss");

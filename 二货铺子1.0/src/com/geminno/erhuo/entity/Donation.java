@@ -23,7 +23,14 @@ public class Donation implements Serializable{
 	private String userName;
 	private int addressImage;
 	private String imageUrl;
+	private String phone;
 	
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	public String getImageUrl() {
 		return imageUrl;
 	}

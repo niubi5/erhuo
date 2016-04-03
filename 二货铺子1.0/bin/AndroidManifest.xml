@@ -209,6 +209,7 @@
         <activity
             android:name=".DonateRequestActivity"
             android:launchMode="singleTask" >
+            
         </activity>
         <activity
             android:name=".DonationActivity"

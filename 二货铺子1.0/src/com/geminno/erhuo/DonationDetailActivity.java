@@ -33,6 +33,10 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 	private TextView content;
 	private TextView logistics;
 	private TextView address;
+	private TextView consignee;
+	private TextView phone;
+	private TextView donatorNames;
+	
 	private Button donate;
 	private ImageView toReport;
 	
@@ -42,6 +46,8 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 	
 	Donation donation;
 	ArrayList<String> urls;
+	ArrayList<String> names;
+	StringBuffer sb;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,7 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 		mPhotoWall.getViewTreeObserver().addOnGlobalLayoutListener(
 				new ViewTreeObserver.OnGlobalLayoutListener() {
 
+					@SuppressWarnings({ "deprecation", "deprecation" })
 					@Override
 					public void onGlobalLayout() {
 						final int numColumns = (int) Math.floor(mPhotoWall
@@ -86,16 +93,30 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 		mPhotoWall = (GridView) findViewById(R.id.gv_photos);
 		userHead = (ImageView) findViewById(R.id.iv_detail_head);
 		userHead.setImageResource(R.drawable.header_default);
+		
 		userName = (TextView) findViewById(R.id.tv_donation_detail_user_name);
-		userName.setText(donation.getConsignee());
+		userName.setText(donation.getUserName());
+		
 		time = (TextView) findViewById(R.id.tv_donation_detail_time);
 		time.setText(donation.getPubTime());
+		
 		content = (TextView) findViewById(R.id.tv_donation_ditail_content);
 		content.setText(donation.getDetail());
 		logistics = (TextView) findViewById(R.id.tv_donation_detail_logistics);
 		logistics.setText(donation.getLogistics());
+		
 		address = (TextView) findViewById(R.id.tv_donation_detail_address);
 		address.setText(donation.getAddress());
+		
+		consignee = (TextView) findViewById(R.id.tv_donation_ditail_geterName);
+		consignee.setText(donation.getConsignee());
+		
+		phone = (TextView) findViewById(R.id.tv_get_donation_phone);
+		phone.setText(donation.getPhone());
+		
+		donatorNames = (TextView) findViewById(R.id.tv_detail_donatorNames);
+		donatorNames.setText(sb + "已捐赠过");
+		
 		donate = (Button) findViewById(R.id.btn_donation_report);
 		donate.setOnClickListener(this);
 		toReport = (ImageView) findViewById(R.id.iv_to_report);
@@ -105,11 +126,17 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 	public void initData(){
 		Intent intent = getIntent();
 		Bundle bundle = intent.getBundleExtra("Record");
-		donation = (Donation) bundle.getSerializable("SingleDonation");
 		
+		donation = (Donation) bundle.getSerializable("SingleDonation");		
 		Log.i("SingleDonation", donation.toString() + donation.getAddress());
 		urls = bundle.getStringArrayList("urls");
 		Log.i("SingleImageUrls", urls.toString());
+		names = bundle.getStringArrayList("names");
+		sb = new StringBuffer();
+		for(int i = 0 ;i < names.size();i++){
+			sb.append(names.get(i) + ",");
+		}
+		
 		
 //		donation = (Donation) intent.getSerializableExtra("donation");
 	}
@@ -135,6 +162,17 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 	    	
 	    }
 		
+	}
+
+	/**
+	 * 获得联系人的电话号码
+	 * 
+	 * @param helpId
+	 * @return
+	 */
+	public String getPhone(int helpId){
+		
+		return null;
 	}
 
 }

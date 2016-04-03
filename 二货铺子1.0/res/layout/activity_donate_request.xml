@@ -160,9 +160,14 @@
                 android:layout_height="120dp"
                 android:orientation="vertical" >
 
+               <LinearLayout 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"  
+                    >
                 <EditText
                     android:id="@+id/et_donation_getername"
-                    android:layout_width="match_parent"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
@@ -170,8 +175,29 @@
                     android:hint="@string/request_donation_getername"
                     android:lines="1"
                     android:textSize="@dimen/font_middlesmall" />
+                
+                   
+                <View 
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/separate_line"
+                    android:layout_marginTop="8dp"
+                    />
+                
+                <EditText 
+                    android:id="@+id/et_donation_consignee_phone"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@null"
+                    android:textSize="@dimen/font_middlesmall"
+                    android:hint="收货人电话"
+                    />
+                </LinearLayout>
+                
 
-                <View
+                 <View
                     android:id="@+id/separate_line_two"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
@@ -195,7 +221,7 @@
                         android:hint="@string/request_donation_address"
                         android:lines="2"
                         android:textSize="@dimen/font_middlesmall" />
-                </LinearLayout>
+                </LinearLayout>   
 
                 <View
                     android:id="@+id/separate_line_three"
@@ -205,7 +231,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@color/separate_line" />
 
-                <EditText
+            <!--     <EditText
                     android:id="@+id/et_donation_getdonation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -214,7 +240,7 @@
                     android:background="@null"
                     android:hint="@string/request_donation_address"
                     android:lines="1"
-                    android:textSize="@dimen/font_middlesmall" />
+                    android:textSize="@dimen/font_middlesmall" />   -->
             </LinearLayout>
 
             <LinearLayout

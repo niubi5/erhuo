@@ -18,6 +18,7 @@ import java.util.Set;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.utils.DiskLruCache;
 import com.geminno.erhuo.utils.DiskLruCache.Snapshot;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -140,22 +141,25 @@ public class PhotoWallAdapter extends ArrayAdapter<String> {
 	 * @param imageUrl
 	 */
 	public void loadBitmaps(ImageView imageView, String imageUrl) {
-		try {
-			// 从缓存获取图片
-			Bitmap bitmap = getBitmapFromMemeoryCache(imageUrl);
-			if (bitmap == null) {
-				BitmapWorkerTask task = new BitmapWorkerTask();
-				taskCollection.add(task);
-				// 执行任务
-				task.execute(imageUrl);
-			} else {
-				if (imageView != null && bitmap != null) {
-					imageView.setImageBitmap(bitmap);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		ImageLoader imageLoader = ImageLoader.getInstance();
+		imageLoader.displayImage(imageUrl, imageView);
+		
+//		try {
+//			// 从缓存获取图片
+//			Bitmap bitmap = getBitmapFromMemeoryCache(imageUrl);
+//			if (bitmap == null) {
+//				BitmapWorkerTask task = new BitmapWorkerTask();
+//				taskCollection.add(task);
+//				// 执行任务
+//				task.execute(imageUrl);
+//			} else {
+//				if (imageView != null && bitmap != null) {
+//					imageView.setImageBitmap(bitmap);
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	/**
