@@ -10,6 +10,7 @@ import java.util.Set;
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -137,6 +138,8 @@ public class CommentListAdapter extends BaseAdapter implements
 					.findViewById(R.id.msg_goods_sold_price);
 			holder.goodsBuyPrice = (TextView) convertView
 					.findViewById(R.id.msg_goods_buy_price);
+			// 删除线
+			holder.goodsBuyPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 			holder.goodsInfo = (TextView) convertView
 					.findViewById(R.id.msg_comment_goods_info);
 			holder.commentContent = (TextView) convertView
@@ -196,7 +199,7 @@ public class CommentListAdapter extends BaseAdapter implements
 		imageLoader.displayImage(urls.get(0), holder.goodsImage);
 		holder.goodsName.setText(goods.getName());
 		holder.goodsPrice.setText("￥" + goods.getSoldPrice());
-		holder.goodsBuyPrice.setText("原价￥" + goods.getBuyPrice());
+		holder.goodsBuyPrice.setText("￥" + goods.getBuyPrice());
 		holder.goodsInfo.setText(goods.getImformation());
 		Spannable sp = new SpannableString(user.getName() + " 回复 你:"
 				+ remark.getComment_content());
