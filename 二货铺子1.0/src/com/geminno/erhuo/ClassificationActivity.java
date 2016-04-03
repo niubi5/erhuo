@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -52,6 +53,7 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 	private String[] classif;
 	private String type = null;
 	private String tag = null;
+	private String sortTag = null;// 排序标签
 	private HomePageAdapter adapter;
 	private String result = null;
 	private Handler handler = new Handler();
@@ -72,6 +74,7 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 		// 获得点击分类按钮传过来的tag值
 		type = intent.getStringExtra("type");
 		tag = intent.getStringExtra("tag");
+		sortTag = "0";
 		context = this;
 		// 返回按钮
 		findViewById(R.id.ib_fenlei).setOnClickListener(this);
@@ -123,8 +126,8 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 	private void setSpinner() {
 		classif = new String[] { type, "苹果手机", "平板电脑", "笔记本", "小米", "数码3c",
 				"书籍文体", "美容美体", "服装箱包", "其他", };
-		String[] sort = new String[] { "排序", "默认排序", "最新发布", "离我最近", "价格最低",
-				"价格最高" };
+		String[] sort = new String[] {"默认排序","价格最低",
+				"价格最高"};
 		classificationSpinner = (Spinner) findViewById(R.id.spinner1);
 		sortSpinner = (Spinner) findViewById(R.id.spinner2);
 		classificationSpinner
@@ -134,7 +137,6 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
 						// 点第一个不做处理
-						Log.i("erhuo", "item点击事件");
 						if (position != 0) {
 							tag = position + "";
 							listAll.clear();
@@ -161,6 +163,23 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 		sortAdapter = new ArrayAdapter<String>(this, R.layout.spinner_search,
 				sort);
 		sortSpinner.setAdapter(sortAdapter);
+		sortSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent,
+					View view, int position, long id) {
+					sortTag = position + "";
+					listAll.clear();
+					isRefersh = true;
+					curPage = 1;
+					initData();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				
+			}
+		});
 		sortAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// 默认第一个
@@ -184,6 +203,7 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 		HttpUtils httpUtils = new HttpUtils();
 		RequestParams params = new RequestParams();
 		params.addQueryStringParameter("tag", tag);// 分类标记
+		params.addQueryStringParameter("sortTag", sortTag);// 排序标记
 		params.addQueryStringParameter("curPage", curPage + "");
 		params.addQueryStringParameter("pageSize", pageSize + "");
 //		String url = Url.getUrlHead() + "/ClassificationServlet";
@@ -222,6 +242,7 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 		// 设置参数
 		RequestParams params = new RequestParams();
 		params.addQueryStringParameter("tag", tag);
+		params.addQueryStringParameter("sortTag", sortTag);// 排序标记
 		params.addQueryStringParameter("curPage", curPage + "");
 		params.addQueryStringParameter("pageSize", pageSize + "");
 		http.configCurrentHttpCacheExpiry(0);

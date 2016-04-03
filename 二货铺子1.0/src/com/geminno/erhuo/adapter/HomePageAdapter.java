@@ -387,7 +387,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 					public void onSuccess(ResponseInfo<String> arg0) {
 						myMarkets.add(market.getId());
 						MyApplication.setMyMarkets(myMarkets);
-						Toast.makeText(context, "成功加入集市", Toast.LENGTH_SHORT)
+						Toast.makeText(context, "成功关注集市", Toast.LENGTH_SHORT)
 								.show();
 					}
 				});
