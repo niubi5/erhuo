@@ -186,7 +186,8 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 		params.addQueryStringParameter("tag", tag);// 分类标记
 		params.addQueryStringParameter("curPage", curPage + "");
 		params.addQueryStringParameter("pageSize", pageSize + "");
-		String url = Url.getUrlHead() + "/ClassificationServlet";
+//		String url = Url.getUrlHead() + "/ClassificationServlet";
+		String url = "http://10.201.1.16:8080/secondHandShop/ClassificationServlet";
 		httpUtils.send(HttpMethod.POST, url, params,
 				new RequestCallBack<String>() {
 
