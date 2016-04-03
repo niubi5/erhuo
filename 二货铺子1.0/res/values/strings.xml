@@ -153,5 +153,10 @@
     <string name="expressage_num">物流单号:</string>
     <string name="send_hint">物流公司和单号一定要填写正确哟^_^</string>
     <string name="title_activity_order_detial">OrderDetialActivity</string>
+    <string name="title_activity_market_one">MarketOneActivity</string>
+    <string name="title_activity_market_two">MarketTwoActivity</string>
+    <string name="title_activity_market_three">MarketThreeActivity</string>
+    <string name="title_activity_market_four">MarketFourActivity</string>
+    <string name="title_activity_market_five">MarketFiveActivity</string>
 
 </resources>

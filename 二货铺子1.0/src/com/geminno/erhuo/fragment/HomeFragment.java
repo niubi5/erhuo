@@ -27,7 +27,6 @@ import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.Url;
-import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.RefreshListView;
 import com.geminno.erhuo.view.RefreshListView.OnRefreshCallBack;
 import com.google.gson.Gson;
@@ -43,7 +42,6 @@ import com.lidroid.xutils.http.client.HttpRequest;
 @SuppressLint("InflateParams")
 public class HomeFragment extends BaseFragment implements OnClickListener {
 
-	private ImageCycleView mAdView;
 	private View convertView;
 	private RefreshListView refreshListView;
 	private List<Markets> listMarkets = null;
@@ -57,6 +55,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private boolean isRefresh = false;
 	private ImageView ivhome;
 	private ImageView toUP;
+	
+	public HomeFragment(){}
 
 	public HomeFragment(Context context) {
 		this.context = context;
@@ -137,7 +137,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 					@Override
 					public void onFailure(HttpException arg0, String arg1) {
-						Log.i("erhuo", "失败");
 						Toast.makeText(context, "网络异常", Toast.LENGTH_SHORT)
 								.show();
 
@@ -267,10 +266,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				});
 	}
 
-	@Override
-	protected void initEvent() {
-
-	}
 
 	@Override
 	public void onClick(View v) {
@@ -285,6 +280,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		default:
 			break;
 		}
+	}
+
+	@Override
+	protected void initEvent() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

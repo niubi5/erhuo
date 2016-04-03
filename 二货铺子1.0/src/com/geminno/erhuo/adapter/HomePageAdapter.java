@@ -34,17 +34,23 @@ import android.widget.Toast;
 
 import com.geminno.erhuo.ClassificationActivity;
 import com.geminno.erhuo.GoodsDetialActivity;
-import com.geminno.erhuo.MarketBookActivity;
 import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.entity.ADInfo;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.market.MarketBaseActivity;
+import com.geminno.erhuo.market.MarketFiveActivity;
+import com.geminno.erhuo.market.MarketFourActivity;
+import com.geminno.erhuo.market.MarketOneActivity;
+import com.geminno.erhuo.market.MarketThreeActivity;
+import com.geminno.erhuo.market.MarketTwoActivity;
 import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.view.ImageCycleView;
 import com.geminno.erhuo.view.ImageCycleView.ImageCycleViewListener;
 import com.geminno.erhuo.view.RefreshListView;
+import com.geminno.erhuo.view.RoundCornerImageView;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -63,10 +69,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		OnItemClickListener {
 
 	private Context context;
-	private final int TYPE_AD = 0;// Item的类型
-	private final int TYPE_TYPES = 1;
-	private final int TYPE_MARKET = 2;
-	private final int TYPE_GOODS = 3;
 	private ArrayList<ADInfo> infos = new ArrayList<ADInfo>();
 	private int typeCount;// item的布局类型的个数
 	private List<Markets> listMarkets = new ArrayList<Markets>();// 集市集合
@@ -101,7 +103,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	// ------------
 	private Markets market;
 	private Users currentUser;
-	private List<Markets> myMarkets;
+	private List<Integer> myMarkets;
 
 	// 实现接口
 	private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
@@ -130,11 +132,14 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		this.context = context;
 		this.listAll = listAll;
 		this.refreshListView = refreshListView;
-		this.isRefresh = isRefresh;
 		this.market = market;
+		this.isRefresh = isRefresh;
 		typeCount = 2;
 		currentUser = MyApplication.getCurrentUser();
 		myMarkets = MyApplication.getMyMarkets();
+		if (myMarkets == null) {
+			myMarkets = new ArrayList<Integer>();
+		}
 		scale = context.getResources().getDisplayMetrics().density;
 		px1 = (int) (200 * scale + 0.5f);
 		params3 = new LayoutParams(px1, px1);
@@ -188,7 +193,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		typeCount = 4;
 		scale = context.getResources().getDisplayMetrics().density;
 		px1 = (int) (200 * scale + 0.5f);
-		px2 = (int) (195 * scale + 0.5f);
+		px2 = (int) (210 * scale + 0.5f);
 		px3 = (int) (112.5 * scale + 0.5f);
 		params3 = new LayoutParams(px1, px1);
 		imageMarket = new LayoutParams(px2, px3);
@@ -202,8 +207,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		} else if (typeCount == 1) {
 			return listAll.size();
 		} else
-			// 集市Activity
-			return listAll.size() + 1;
+			return listAll.size() + 1;// 集市Activity
+
 	}
 
 	@Override
@@ -219,18 +224,30 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	// 每个convertView都会调用此方法，获得当前所需要的view样式
 	@Override
 	public int getItemViewType(int position) {
-		switch (position) {
-		case 0:
-			return TYPE_AD;
-		case 1:
-			return TYPE_TYPES;
-		case 2:
-			return TYPE_MARKET;
-		case 3:
-			return TYPE_GOODS;
-		default:
-			return TYPE_GOODS;
-		}
+		if (typeCount == 4) {
+			switch (position) {
+			case 0:
+				return 0;// 广告
+			case 1:
+				return 1;// 分类
+			case 2:
+				return 2;// 集市
+			case 3:
+				return 3;// 商品
+			default:
+				return 3;// 商品
+			}
+		} else if (typeCount == 1) {
+			return 0;
+		} else
+			switch (position) {
+			case 0:
+				return 0;// 集市详情
+			case 1:
+				return 1;
+			default:
+				return 1;
+			}
 	}
 
 	// 获得不同item类型的总数
@@ -242,29 +259,32 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	@SuppressLint("InflateParams")
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		switch (typeCount) {
-		case 4:
-			if (position == 0) {
+		int type = getItemViewType(position);
+		if (typeCount == 4) {
+			switch (type) {
+			case 0:
 				return getADViewPager(convertView);
-			} else if (position == 1) {
+			case 1:
 				return getTypeItem(convertView);
-			} else if (position == 2) {
+			case 2:
 				return getMarketView(convertView);
-			} else
+			case 3:
 				return getGoodsView(position, convertView, parent);
-		case 1:
+			}
+		} else if (typeCount == 1) {
 			return getGoodsView(position, convertView, parent);
-		case 2:
-			if (position == 0) {
-				return getMarketInfoItem(convertView);
-			} else
+		} else
+			switch (type) {
+			case 0:
+				return getMarketInfoItem(position, convertView);
+			case 1:
 				return getGoodsView(position, convertView, parent);
-		}
+			}
 		return null;
 	}
 
 	// 返回集市Activity的第一个Item
-	private View getMarketInfoItem(View convertView) {
+	private View getMarketInfoItem(int position, View convertView) {
 		ViewHolderMarketInfo holder = null;
 		if (convertView == null) {
 			convertView = LayoutInflater.from(context).inflate(
@@ -288,29 +308,32 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		}
 		imageLoader.displayImage(market.getInfoUrl(), holder.marketImage);
 		holder.marketName.setText(market.getName());
-		holder.marketUserCount.setText(market.getUserCount());
-		holder.marketGoodsCount.setText(market.getGoodsCount());
+		holder.marketUserCount.setText(market.getUserCount() + "");
+		holder.marketGoodsCount.setText(market.getGoodsCount() + "");
 		holder.marketBrief.setText(market.getBrief());
-		if(myMarkets != null && myMarkets.contains(market)){
+		if (myMarkets != null && myMarkets.contains(market.getId())) {
 			holder.marketJoin.setSelected(true);
-//			holder.marketJoin.setEnabled(false);
 			isCollected = true;
+			holder.marketJoin.setText("取消关注");
+		} else {
+			holder.marketJoin.setText("立即关注");
 		}
 		holder.marketJoin.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				Button btn = (Button) v;
 				if (currentUser == null) {
 					Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
 				} else {
-					if(isCollected){// 取消加入
-						v.setSelected(false);
-//						v.setEnabled(true);
+					if (isCollected) {// 取消加入
+						btn.setSelected(false);
+						btn.setText("立即关注");
 						isCollected = false;
 						deleteUserFromMarket();
 					} else {// 加入
-						v.setSelected(true);
-//						v.setEnabled(false);
+						btn.setSelected(true);
+						btn.setText("取消关注");
 						isCollected = true;
 						addUserToMarket();
 					}
@@ -319,7 +342,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		});
 		return convertView;
 	}
-	
 
 	protected void deleteUserFromMarket() {
 		HttpUtils http = new HttpUtils();
@@ -328,21 +350,22 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		params.addBodyParameter("userId", currentUser.getId() + "");
 		params.addBodyParameter("marketId", market.getId() + "");
 		params.addBodyParameter("flag", 1 + "");
-		http.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+		http.send(HttpRequest.HttpMethod.POST, url, params,
+				new RequestCallBack<String>() {
 
-			@Override
-			public void onFailure(HttpException arg0, String arg1) {
-				
-			}
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
 
-			@Override
-			public void onSuccess(ResponseInfo<String> arg0) {
-				if(myMarkets.contains(market)){
-					myMarkets.remove(market);
-					MyApplication.setMyMarkets(myMarkets);
-				}
-			}
-		});
+					}
+
+					@Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						if (myMarkets.contains(market)) {
+							myMarkets.remove(market);
+							MyApplication.setMyMarkets(myMarkets);
+						}
+					}
+				});
 	}
 
 	protected void addUserToMarket() {
@@ -352,20 +375,22 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		params.addBodyParameter("userId", currentUser.getId() + "");
 		params.addBodyParameter("marketId", market.getId() + "");
 		params.addBodyParameter("flag", 0 + "");
-		http.send(HttpRequest.HttpMethod.POST, url, params, new RequestCallBack<String>() {
+		http.send(HttpRequest.HttpMethod.POST, url, params,
+				new RequestCallBack<String>() {
 
-			@Override
-			public void onFailure(HttpException arg0, String arg1) {
-				
-			}
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
 
-			@Override
-			public void onSuccess(ResponseInfo<String> arg0) {
-				myMarkets.add(market);
-				MyApplication.setMyMarkets(myMarkets);
-				Toast.makeText(context, "成功加入集市", Toast.LENGTH_SHORT).show();
-			}
-		});
+					}
+
+					@Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						myMarkets.add(market.getId());
+						MyApplication.setMyMarkets(myMarkets);
+						Toast.makeText(context, "成功加入集市", Toast.LENGTH_SHORT)
+								.show();
+					}
+				});
 	}
 
 	// 获得类别Item
@@ -406,10 +431,15 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	// 获得商品view
 	private View getGoodsView(final int position, View convertView,
 			ViewGroup parent) {
+		Log.i("erhuo", "typeCount:" + typeCount);
 		if (typeCount == 4) {
 			map = listAll.get(position - 3);
-		} else {
+		} else if (typeCount == 1) {
 			map = listAll.get(position);
+		} else {
+			if (position - 1 < listAll.size()) {
+				map = listAll.get(position - 1);
+			}
 		}
 		// 取得当前商品Map
 		// 获得EntrySet，并遍历
@@ -423,7 +453,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				goods = en1.getKey();
 				user = en1.getValue();
 				if (isRefresh) {
-					Log.i("erhuo", "确实清空了");
 					userGoodsUrls.clear();// 如果是刷新操作，清空集合
 					isRefresh = false;
 				}
@@ -518,7 +547,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				// 移除之前的所有商品图片
 				viewHolder.imagesContainer.removeAllViews();
 				for (int i = 0; i < urls.size(); i++) {
-					ImageView imageView = new ImageView(context);
+					RoundCornerImageView imageView = new RoundCornerImageView(
+							context);
 					imageLoader.displayImage(urls.get(i), imageView);
 					imageView.setScaleType(ScaleType.CENTER_CROP);
 					imageView.setLayoutParams(params3);
@@ -538,8 +568,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		if (convertView == null) {
 			// 集市ID
 			int ids[] = new int[] { R.id.market_book, R.id.market_iphone,
-					R.id.market_baby, R.id.market_bao, R.id.market_nb,
-					R.id.market_other };
+					R.id.market_baby, R.id.market_bao, R.id.market_nb};
 			viewHolder = new ViewHolderMarket();
 			convertView = LayoutInflater.from(context).inflate(
 					R.layout.market_list, null);
@@ -750,22 +779,19 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			break;
 		// 集市按钮
 		case R.id.market_book:
-			context.startActivity(new Intent(context, MarketBookActivity.class));
+			context.startActivity(new Intent(context, MarketOneActivity.class));
 			break;
 		case R.id.market_iphone:
-			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
+			context.startActivity(new Intent(context, MarketTwoActivity.class));
 			break;
 		case R.id.market_baby:
-			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
+			context.startActivity(new Intent(context, MarketThreeActivity.class));
 			break;
 		case R.id.market_bao:
-			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
+			context.startActivity(new Intent(context, MarketFourActivity.class));
 			break;
 		case R.id.market_nb:
-			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
-			break;
-		case R.id.market_other:
-			Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
+			context.startActivity(new Intent(context, MarketFiveActivity.class));
 			break;
 		}
 	}
@@ -781,10 +807,11 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			int i = 0;
 			if (typeCount == 4) {
 				i = (position - 4);
-			} else {
+			} else if (typeCount == 1) {
 				i = position - 1;
+			} else {
+				i = position - 2;
 			}
-			Log.i("erhuo", "当前position：" + position);
 			Goods goods = null;
 			for (int j = i * 3; j < i * 3 + 3; j++) {
 				if (first) {

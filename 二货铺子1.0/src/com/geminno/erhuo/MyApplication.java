@@ -30,7 +30,7 @@ public class MyApplication extends Application {
 	private static com.geminno.erhuo.entity.Address userAdds;
 	private static String curToken;
 	private static ArrayList<Integer> goodsIds;
-	private static List<Markets> listMarkets;
+	private static List<Integer> listMarkets;
 	private static Address useAddress;
 
 	@Override
@@ -149,11 +149,11 @@ public class MyApplication extends Application {
 		return goodsIds;
 	}
 
-	public static List<Markets> getMyMarkets() {
+	public static List<Integer> getMyMarkets() {
 		return listMarkets;
 	}
 	
-	public static void setMyMarkets(List<Markets> myMarkets){
+	public static void setMyMarkets(List<Integer> myMarkets){
 		listMarkets = myMarkets;
 	}
 	

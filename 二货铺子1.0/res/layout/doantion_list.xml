@@ -15,8 +15,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="3dp"
-            android:src="@drawable/head_one" />
+            android:layout_marginTop="3dp" />
 
         <LinearLayout 
             android:layout_width="wrap_content"
@@ -54,8 +53,7 @@
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/poverty_two" />
+        android:layout_marginLeft="10dp" />
     
    <TextView 
        android:id="@+id/tv_detail"

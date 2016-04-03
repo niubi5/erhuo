@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.SystemStatusManager;
 import com.geminno.erhuo.utils.Url;
@@ -47,18 +48,14 @@ public class StartActivity extends Activity {
 			finish();
 			return;
 		} 
-		
 		SharedPreferences sharedPreferences = getSharedPreferences("userInfo",
 				MODE_PRIVATE);
-
 		final String userName = sharedPreferences.getString("userName", "");
 		String userPwd = sharedPreferences.getString("userPwd", "");
-		Log.i("cheshi", "userName,userPwd" + userName + userPwd);
 		if (!userName.isEmpty() && !userPwd.isEmpty()) {
 			final HttpUtils httpUtils = new HttpUtils();
 			headUrl = Url.getUrlHead();
 			String url = headUrl + "/LoginServlet";
-//		    String url="http://10.201.1.16:8080/secondHandShop/LoginServlet";
 			RequestParams params = new RequestParams();
 			params.addBodyParameter("identity", userName);
 			params.addBodyParameter("pwd", userPwd);
@@ -75,7 +72,7 @@ public class StartActivity extends Activity {
 							String result = arg0.result;
 							Log.i("erhuo", result);
 							Gson gson = new Gson();
-							Users users = gson.fromJson(result, Users.class);
+							final Users users = gson.fromJson(result, Users.class);
 							Log.i("CurrentUser", users.toString());
 							MyApplication.setUsers(users);
 							Log.i("CurrentUser", "StartCurrentUser:"+users.getId());
@@ -101,6 +98,32 @@ public class StartActivity extends Activity {
 									Type type = new TypeToken<ArrayList<Integer>>(){}.getType();
 									ArrayList<Integer> goodsIdList = gson.fromJson(result, type);
 									MyApplication.setCollections(goodsIdList);
+									// 获得用户收藏的集市列表
+									HttpUtils http = new HttpUtils();
+									String url = Url.getUrlHead() + "/UserMarketServlet";
+									RequestParams params = new RequestParams();
+									params.addQueryStringParameter("userId", users.getId() + "");
+									http.send(HttpMethod.GET, url, params,
+											new RequestCallBack<String>() {
+
+												@Override
+												public void onFailure(HttpException arg0, String arg1) {
+
+												}
+
+												@Override
+												public void onSuccess(ResponseInfo<String> arg0) {
+													String result = arg0.result;
+													Type type = new TypeToken<List<Integer>>(){}.getType();
+													Gson gson = new Gson();
+													List<Integer> myMarkets = gson.fromJson(result, type);
+													MyApplication.setMyMarkets(myMarkets);// 存入我收藏的集市集合
+													
+													
+													
+												}
+											});
+									
 								}
 							}); 
 						}

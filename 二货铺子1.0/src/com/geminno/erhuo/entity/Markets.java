@@ -1,6 +1,8 @@
 package com.geminno.erhuo.entity;
 
-public class Markets {
+import java.io.Serializable;
+
+public class Markets implements Serializable{
 	private int id;
 	private String name;
 	private int userCount;
