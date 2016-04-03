@@ -115,8 +115,9 @@ public class DonationDetailActivity extends Activity implements OnClickListener{
 		phone.setText(donation.getPhone());
 		
 		donatorNames = (TextView) findViewById(R.id.tv_detail_donatorNames);
+		if(!sb.equals("")){
 		donatorNames.setText(sb + "已捐赠过");
-		
+		}
 		donate = (Button) findViewById(R.id.btn_donation_report);
 		donate.setOnClickListener(this);
 		toReport = (ImageView) findViewById(R.id.iv_to_report);
