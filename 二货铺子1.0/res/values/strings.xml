@@ -149,7 +149,9 @@
     <string name="send_goods">发货</string>
     <string name="expressage_com">物流公司:</string>
     <string name="expressage_num">物流单号:</string>
-    <string name="send_hint">物流公司和单号一定要填写正确哟^_^</string>
+    <string name="send_hint">\u3000\u3000按照以上信息去你方便的快递代理点给买家下单的商品打包发货，然后根据快递单填写物流公司名称和物流单号就可以提交啦！PS:物流公司和单号一定要填写正确哟^_^</string>
     <string name="title_activity_order_detial">OrderDetialActivity</string>
+    <string name="title_activity_donate_detial">DonateDetialActivity</string>
+    <string name="title_activity_help_detial">HelpDetialActivity</string>
 
 </resources>

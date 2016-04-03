@@ -613,11 +613,20 @@
         </activity>
         <activity
             android:name=".SendGoodsActivity"
-            android:label="@string/title_activity_send_goods" >
+            android:label="@string/title_activity_send_goods"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".OrderDetialActivity"
             android:label="@string/title_activity_order_detial" >
+        </activity>
+        <activity
+            android:name=".DonateDetialActivity"
+            android:label="@string/title_activity_donate_detial" >
+        </activity>
+        <activity
+            android:name=".HelpDetialActivity"
+            android:label="@string/title_activity_help_detial" >
         </activity>
     </application>
 

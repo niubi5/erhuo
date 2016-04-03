@@ -15,7 +15,7 @@
             android:id="@+id/tv_donate_donation_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
             android:text="TextView"
             android:textColor="@color/dimgray"
@@ -123,8 +123,8 @@
                 android:paddingRight="40dp"
                 android:layout_weight="1"
                 android:background="@null"
-                android:drawableLeft="@drawable/iconfont_wuliu"
-                android:text="运输中"
+                android:drawableLeft="@drawable/iconfont_xiangqing"
+                android:text="查看"
                 android:textSize="@dimen/font_big"
                 android:textColor="@color/dimgray" />
 
