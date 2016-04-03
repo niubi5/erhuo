@@ -82,6 +82,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 			etname.setText(name);
 			etnewphone.setText(phone);
 			etdiqu.setText(diqu);
+			
 			etdizhi.setText(dizhi);
 		}
 		
@@ -102,11 +103,12 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 //			}
 			
 			break;
-		//保存信息
+		
 			
 		case R.id.check_moren:
 			isdefault="yes";
 			break;
+			//保存信息
         case R.id.but_baochun:
         	users = MyApplication.getCurrentUser();
         	if (users!=null&&!users.equals("null")) {
@@ -123,7 +125,11 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				ads.setId(Integer.parseInt(id));
     				ads.setName(receiptName);
     				ads.setPhone(receiptPhone);
-    				ads.setAddress(receiptdiqu+receiptdizhi);
+    				if (receiptdiqu.indexOf("市") != -1) {
+    					ads.setAddress(receiptdiqu+receiptdizhi);
+					}else {
+						ads.setAddress(receiptdiqu);
+					}
     				ads.setIsdefault(isdefault);
     				if(ads.getIsdefault().equals("yes")){
     					MyApplication.setCurUserDefAddress(ads);
@@ -163,7 +169,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 //			    				intent.putExtra("dizhi", receiptdizhi);
 			    				startActivity(intent);
 			    				ShipAddressActivity.shipAddressActivity.finish();
-			    				finish();
+			    				
 							}
 						}
 					});

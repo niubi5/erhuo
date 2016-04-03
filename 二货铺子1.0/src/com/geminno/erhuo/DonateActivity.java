@@ -5,6 +5,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -100,6 +101,13 @@ public class DonateActivity extends Activity {
 											Toast.makeText(DonateActivity.this,
 													"捐赠成功，谢谢您的捐赠！",
 													Toast.LENGTH_SHORT).show();
+											try {
+												Thread.sleep(1000);
+											} catch (InterruptedException e) {
+										
+												e.printStackTrace();
+											}
+											DonateActivity.this.finish();
 
 										}
 									});

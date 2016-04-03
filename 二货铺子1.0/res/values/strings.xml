@@ -28,7 +28,7 @@
     <string name="input_pwd">请输入密码</string>
     <string name="input_pwd_xin">请输入新密码</string>
     <string name="input_pwd_again">请重复密码</string>
-    <string name="msg_verify_code">短信验证码</string>
+    <string name="msg_verify_code">获取验证码</string>
     <string name="verify">验证</string>
     <string name="reset">重置密码</string>
     <string name="agree_rule">同意使用二货铺子APP用户注册和使用协议</string>
@@ -43,6 +43,7 @@
     <string name="goods_price_old_hint">添加原价</string>
     <string name="publish_goods_btn">发布</string>
     <string name="market">主题集市</string>
+    <string name="Feedback">感谢您对二货铺子的支持与关注，您的宝贵意见将帮助我们不断进步！</string>
     <string name="title_activity_start">StartActivity</string>
     <string name="title_activity_she_zhi">SheZhiActivity</string>
     <string name="title_activity_wo_men">WoMenActivity</string>
@@ -144,6 +145,7 @@
     <string name="title_activity_release">ReleaseActivity</string>
     <string name="title_activity_specific_address">SpecificAddressActivity</string>
     <string name="title_activity_report_donation">ReportDonationActivity</string>
+    <string name="title_activity_feedback">FeedbackActivity</string>
     <string name="title_activity_market">MarketActivity</string>
     <string name="title_activity_send_goods">SendGoodsActivity</string>
 
