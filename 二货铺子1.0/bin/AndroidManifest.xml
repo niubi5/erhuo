@@ -286,15 +286,18 @@
         </activity>
         <activity
             android:name=".DonationDetailActivity"
-            android:label="@string/title_activity_donation_detail" >
+            android:label="@string/title_activity_donation_detail"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".DonateActivity"
-            android:label="@string/title_activity_donation_report" >
+            android:label="@string/title_activity_donation_report"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".MyGoodsActivity"
-            android:label="@string/title_activity_my_goods" >
+            android:label="@string/title_activity_my_goods"
+            android:screenOrientation="portrait" >
         </activity>
         <!-- 第三方支付 @heikki -->
         <!-- Ping++ sdk -->
@@ -302,11 +305,13 @@
             android:name="com.pingplusplus.android.PaymentActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 微信支付 sdk ，也是 Ping++ sdk 调用入口 -->
         <activity-alias
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:targetActivity="com.pingplusplus.android.PaymentActivity" />
         <!-- 支付宝 sdk -->
         <activity
@@ -330,11 +335,13 @@
             android:name="com.pingplusplus.libone.PayActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/pingpp_title_activity_pay"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name="com.pingplusplus.libone.PaySucessedActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/pingpp_title_activity_pay_sucessed" />
+            android:label="@string/pingpp_title_activity_pay_sucessed"
+            android:screenOrientation="portrait" />
 
         <!-- 百付宝 sdk -->
         <activity
@@ -342,6 +349,7 @@
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
             android:excludeFromRecents="true"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivityWelcome"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -390,6 +398,7 @@
             android:configChanges="keyboardHidden|navigation|orientation|screenSize"
             android:excludeFromRecents="true"
             android:exported="@bool/bd_wallet_switch_global_debug"
+            android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
             android:windowSoftInputMode="stateVisible" />
         <activity
@@ -474,6 +483,7 @@
             android:excludeFromRecents="true"
             android:exported="@bool/bd_wallet_switch_global_debug"
             android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"
             android:theme="@style/EbpayThemeActivit"
             android:windowSoftInputMode="stateHidden" />
         <activity
@@ -573,7 +583,8 @@
         <!-- 融云会话界面 -->
         <activity
             android:name=".ConversationtActivity"
-            android:label="@string/title_activity_conversationt" >
+            android:label="@string/title_activity_conversationt"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -588,7 +599,8 @@
         <!-- 融云会话列表 -->
         <activity
             android:name=".ConversationListActivity"
-            android:label="@string/title_activity_conversation_list" >
+            android:label="@string/title_activity_conversation_list"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -602,24 +614,61 @@
         </activity>
         <activity
             android:name=".ReleaseActivity"
-            android:label="@string/title_activity_release" >
+            android:label="@string/title_activity_release"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".SpecificAddressActivity"
-            android:label="@string/title_activity_specific_address" >
+            android:label="@string/title_activity_specific_address"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ReportDonationActivity"
-            android:label="@string/title_activity_report_donation" >
+            android:label="@string/title_activity_report_donation"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".market.MarketBookActivity"
+            android:label="@string/title_activity_market"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".SendGoodsActivity"
-            android:label="@string/title_activity_send_goods" >
+            android:label="@string/title_activity_send_goods"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".OrderDetialActivity"
-            android:label="@string/title_activity_order_detial" >
+            android:label="@string/title_activity_order_detial"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.geminno.erhuo.market.MarketOneActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_market_one" >
+        </activity>
+        <activity
+            android:name="com.geminno.erhuo.market.MarketTwoActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_market_two" >
+        </activity>
+        <activity
+            android:name="com.geminno.erhuo.market.MarketThreeActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_market_three" >
+        </activity>
+        <activity
+            android:name="com.geminno.erhuo.market.MarketFourActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_market_four" >
+        </activity>
+        <activity
+            android:name="com.geminno.erhuo.market.MarketFiveActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_market_five" >
         </activity>
     </application>
 
+
 </manifest>
+

@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:titlebar="http://schemas.android.com/apk/res/com.geminno.erhuo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/main_bgcolor"
     android:orientation="vertical" >
-
-    <!--
-    <com.geminno.erhuo.view.MyTitleBar
-        android:id="@+id/myTitleBar1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        titlebar:titleBarBackground="#ff0000"
-        titlebar:titleBarLeftImage="@drawable/ic_launcher"
-        titlebar:titleBarRightImage="@drawable/ic_launcher"
-        titlebar:titleBarTitle="首页" >
-    </com.geminno.erhuo.view.MyTitleBar>
-    -->
 
     <FrameLayout
         android:id="@+id/erhuo_home_title"

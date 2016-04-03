@@ -573,13 +573,9 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				}
 
 				final String url = headUrl + "/AddGoodServlet";
-				// final String url =
-				// "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
 				RequestParams rp = new RequestParams();
 				rp.addBodyParameter("goodJson", goodsJson);
-
 				// 处理商品图片
-				// Log.i("PublishGoodsActivity",imagePathList.get(0));
 				int count = 0;
 				for (ImageItem image : Bimp.tempSelectBitmap) {
 					File file = new File(image.getImagePath());
@@ -618,6 +614,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 								if (result != null
 										&& !"null".equals(result.trim())) {
 									info = "发布成功！" + result;
+									
 									finish();
 								} else {
 									info = "发布失败！";

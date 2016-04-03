@@ -1,13 +1,22 @@
 package com.geminno.erhuo.entity;
 
-public class Markets {
+import java.io.Serializable;
+
+public class Markets implements Serializable{
 	private int id;
 	private String name;
 	private int userCount;
 	private int goodsCount;
 	private String url;
 	private String brief;
-
+	private String infoUrl;
+	
+	public void setInfoUrl(String infoUrl){
+		this.infoUrl = infoUrl;
+	}
+	public String getInfoUrl(){
+		return infoUrl;
+	}
 	public int getId() {
 		return id;
 	}

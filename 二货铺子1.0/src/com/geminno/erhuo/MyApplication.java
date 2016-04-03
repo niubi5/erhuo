@@ -16,8 +16,6 @@ import com.geminno.erhuo.R;
 import com.geminno.erhuo.entity.Address;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -32,6 +30,7 @@ public class MyApplication extends Application {
 	private static com.geminno.erhuo.entity.Address userAdds;
 	private static String curToken;
 	private static ArrayList<Integer> goodsIds;
+	private static List<Integer> listMarkets;
 	private static Address useAddress;
 
 	@Override
@@ -150,6 +149,14 @@ public class MyApplication extends Application {
 		return goodsIds;
 	}
 
+	public static List<Integer> getMyMarkets() {
+		return listMarkets;
+	}
+	
+	public static void setMyMarkets(List<Integer> myMarkets){
+		listMarkets = myMarkets;
+	}
+	
 	// 获取当前用户使用的收货地址
 	public static Address getUseAddress() {
 		return useAddress;
