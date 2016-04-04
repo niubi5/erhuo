@@ -58,11 +58,10 @@ public class MessagePageAdapter extends BaseAdapter implements
 	private Context context;
 	// 消息图标
 	private int[] messageImages = new int[] { R.drawable.message_chat,
-			R.drawable.message_pinglun, R.drawable.message_system };
+			R.drawable.message_pinglun};
 	// 消息标题
-	private String[] messageTitles = new String[] { "私聊", "收到的评论", "系统消息" };
-	private String[] messageState = new String[] { "点击查看", "点击查看",
-			"暂无消息" };
+	private String[] messageTitles = new String[] { "私聊", "收到的评论"};
+	private String[] messageState = new String[] { "点击查看", "点击查看"};
 	private List<Messages> message;
 	private PullToFreshListView pullToFreshListView;
 	private List<Friend> userIdList;//
@@ -82,7 +81,7 @@ public class MessagePageAdapter extends BaseAdapter implements
 
 	@Override
 	public int getCount() {
-		return 3;
+		return 2;
 	}
 
 	@Override

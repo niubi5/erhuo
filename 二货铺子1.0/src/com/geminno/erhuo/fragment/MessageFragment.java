@@ -1,18 +1,15 @@
 package com.geminno.erhuo.fragment;
 
-import io.rong.imkit.RongIM;
-import io.rong.imkit.RongIM.UserInfoProvider;
-import io.rong.imlib.model.UserInfo;
 
 import java.util.List;
 
 import com.geminno.erhuo.R;
 import com.geminno.erhuo.adapter.MessagePageAdapter;
 import com.geminno.erhuo.entity.Messages;
-import com.geminno.erhuo.utils.Friend;
 import com.geminno.erhuo.view.PullToFreshListView;
 import com.geminno.erhuo.view.PullToFreshListView.OnPullTofreshCallBack;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,14 +18,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class MessageFragment extends BaseFragment{
+@SuppressLint("InflateParams") public class MessageFragment extends BaseFragment{
 
 	private View view;
 	private Context context;
 	private List<Messages> message;
 	private PullToFreshListView pullToFreshListView;
 	private Handler handler = new Handler();
-	private List<Friend> userIdList;//
 	
 
 	public MessageFragment(Context context) {

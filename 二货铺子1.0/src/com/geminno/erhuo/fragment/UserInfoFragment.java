@@ -5,7 +5,6 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.geminno.erhuo.EditUserInfoActivity;
 import com.geminno.erhuo.LoginActivity;
-import com.geminno.erhuo.MainActivity;
 import com.geminno.erhuo.MyApplication;
 import com.geminno.erhuo.MyGoodsActivity;
 import com.geminno.erhuo.PostageActivity;
@@ -14,6 +13,7 @@ import com.geminno.erhuo.SheZhiActivity;
 import com.geminno.erhuo.ShipAddressActivity;
 import com.geminno.erhuo.entity.Users;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,19 +22,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class UserInfoFragment extends BaseFragment implements OnClickListener {
+@SuppressLint("CutPasteId") public class UserInfoFragment extends BaseFragment implements OnClickListener {
 
 	private LinearLayout userInfo;
 	private Button btnHead;
 	private LinearLayout linearshezhi;
 	private LinearLayout linearyoufei;
 	private LinearLayout address;
-	private LinearLayout shoppingMall;
 	private LinearLayout share;
 	private Users users;
 	private LinearLayout linearfenxiang;
@@ -86,8 +84,6 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		address = (LinearLayout) getView().findViewById(R.id.address_container);
 		linearfenxiang = (LinearLayout) getView().findViewById(
 				R.id.share_container);
-		shoppingMall = (LinearLayout) getView().findViewById(
-				R.id.shoppingmall_container);
 		share = (LinearLayout) getView().findViewById(R.id.share_container);
 
 		btnSelling = (Button) getView().findViewById(R.id.userinfo_btn_selling);

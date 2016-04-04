@@ -118,7 +118,6 @@ public class BoughtFragment extends BaseFragment {
 								@Override
 								public void convert(final ViewHolder holder,
 										Map<Goods, List<String>> t) {
-									Log.i("BoughtFragment", "convert");
 									Goods goods = new Goods();
 									List<String> urls = new ArrayList<String>();
 									Set<Entry<Goods, List<String>>> keySet = t
@@ -148,7 +147,6 @@ public class BoughtFragment extends BaseFragment {
 											}
 										}
 									}
-									Log.i("BoughtFragment", urls.get(0));
 									holder.setImageUrl(R.id.rciv_bought,
 											urls.get(0));
 									holder.setText(R.id.tv_bought_name,

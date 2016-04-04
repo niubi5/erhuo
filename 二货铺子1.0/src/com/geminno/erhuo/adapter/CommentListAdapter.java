@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
@@ -56,7 +57,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * @author LuoShiHeng
  * @version 创建时间:2016-3-31下午7:23:05
  */
-public class CommentListAdapter extends BaseAdapter implements
+@SuppressLint("InflateParams") public class CommentListAdapter extends BaseAdapter implements
 		OnItemClickListener {
 
 	private Context context;
@@ -72,7 +73,6 @@ public class CommentListAdapter extends BaseAdapter implements
 	private Users user;
 	private Users goodsUser;
 	private Users currentUser;
-	private float scale;// 屏幕密度
 	private boolean isRefresh;// 是否是刷新操作
 	private List<Object> userGoodsUrls = new ArrayList<Object>();
 	private boolean first = true;
@@ -81,7 +81,6 @@ public class CommentListAdapter extends BaseAdapter implements
 	private RefreshListView refreshListView;
 	private ArrayList<Users> listCommentUsers = new ArrayList<Users>();
 	private int action;
-	private final int REPLY = 1;
 	private final int JUMP = 2;
 	private final int NONE = 0;
 
@@ -94,7 +93,6 @@ public class CommentListAdapter extends BaseAdapter implements
 		this.listAll = listAll;
 		this.refreshListView = refreshListView;
 		this.isRefresh = isRefresh;
-		scale = context.getResources().getDisplayMetrics().density;
 		imageLoader = ImageLoader.getInstance();
 		currentUser = MyApplication.getCurrentUser();
 		refreshListView.setOnItemClickListener(this);
@@ -251,6 +249,7 @@ public class CommentListAdapter extends BaseAdapter implements
 		LinearLayout goodsContainer;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view,
 			final int position, long id) {
@@ -288,7 +287,6 @@ public class CommentListAdapter extends BaseAdapter implements
 			// 弹出Popupwindow
 			View contentView = LayoutInflater.from(context).inflate(
 					R.layout.comment_popup, null);
-			int px = (int) (60 * scale + 0.5f);
 			final PopupWindow pop = new PopupWindow(contentView,
 					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 			pop.setContentView(contentView);

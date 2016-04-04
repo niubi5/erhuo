@@ -148,25 +148,6 @@
             android:layout_height="5.0dip" />
 
         <LinearLayout
-            android:id="@+id/shoppingmall_container"
-            style="@style/MyInfoLinearLayout" >
-
-            <ImageView
-                style="@style/MyInfoImage"
-                android:src="@drawable/radish_shop" />
-
-            <TextView
-                style="@style/MyInfoTextView"
-                android:text="积分商城" />
-
-            <ImageView style="@style/MyInfoArrow" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5.0dip" />
-
-        <LinearLayout
             android:id="@+id/userinfo_container"
             style="@style/MyInfoLinearLayout" >
 

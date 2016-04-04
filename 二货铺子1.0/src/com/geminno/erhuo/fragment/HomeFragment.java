@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -245,7 +244,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 						} else {
 							// 有数据，判断是否加载满,即pageSize
 							if (newGoods != null && newGoods.size() < pageSize) {
-								Log.i("erhuo", "有数据但没加满");
 								preGoods.addAll(newGoods);
 								// 页数不变
 								curPage--;
