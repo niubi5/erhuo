@@ -13,7 +13,7 @@
             android:gravity="center_vertical" >
 
             <ImageView
-                android:id="@+id/iv_send_return"
+                android:id="@+id/iv_order_detial_return"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
@@ -177,7 +177,7 @@
         android:layout_alignBottom="@+id/tv_logis_name"
         android:layout_toRightOf="@+id/tv_logis_imformatin"
         android:layout_marginLeft="10dp"
-        android:text="TextView"
+        android:text="物流公司"
         android:textSize="@dimen/font_middle"
         android:textColor="@color/dimgray" />
 
@@ -199,9 +199,20 @@
         android:layout_alignBaseline="@+id/tv_logis_hao"
         android:layout_alignBottom="@+id/tv_logis_hao"
         android:layout_alignLeft="@+id/tv_logis_com"
-        android:text="textView"
+        android:text="物流单号"
         android:textColor="@color/dimgray"
         android:textSize="@dimen/font_middle" />
 
+    <TextView
+        android:id="@+id/tv_no_logis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_logis_hao"
+        android:layout_below="@+id/tv_logis_hao"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/font_big"
+        android:textColor="@color/dimgray"
+        android:text="暂无该物流信息"
+        android:visibility="invisible" />
 
 </RelativeLayout>

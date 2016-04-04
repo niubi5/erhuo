@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,7 +57,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * @author LuoShiHeng
  * @version 创建时间:2016-3-31下午7:23:05
  */
-public class CommentListAdapter extends BaseAdapter implements
+@SuppressLint("InflateParams") public class CommentListAdapter extends BaseAdapter implements
 		OnItemClickListener {
 
 	private Context context;
@@ -71,7 +73,6 @@ public class CommentListAdapter extends BaseAdapter implements
 	private Users user;
 	private Users goodsUser;
 	private Users currentUser;
-	private float scale;// 屏幕密度
 	private boolean isRefresh;// 是否是刷新操作
 	private List<Object> userGoodsUrls = new ArrayList<Object>();
 	private boolean first = true;
@@ -80,7 +81,6 @@ public class CommentListAdapter extends BaseAdapter implements
 	private RefreshListView refreshListView;
 	private ArrayList<Users> listCommentUsers = new ArrayList<Users>();
 	private int action;
-	private final int REPLY = 1;
 	private final int JUMP = 2;
 	private final int NONE = 0;
 
@@ -93,7 +93,6 @@ public class CommentListAdapter extends BaseAdapter implements
 		this.listAll = listAll;
 		this.refreshListView = refreshListView;
 		this.isRefresh = isRefresh;
-		scale = context.getResources().getDisplayMetrics().density;
 		imageLoader = ImageLoader.getInstance();
 		currentUser = MyApplication.getCurrentUser();
 		refreshListView.setOnItemClickListener(this);
@@ -137,6 +136,8 @@ public class CommentListAdapter extends BaseAdapter implements
 					.findViewById(R.id.msg_goods_sold_price);
 			holder.goodsBuyPrice = (TextView) convertView
 					.findViewById(R.id.msg_goods_buy_price);
+			// 删除线
+			holder.goodsBuyPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 			holder.goodsInfo = (TextView) convertView
 					.findViewById(R.id.msg_comment_goods_info);
 			holder.commentContent = (TextView) convertView
@@ -196,7 +197,7 @@ public class CommentListAdapter extends BaseAdapter implements
 		imageLoader.displayImage(urls.get(0), holder.goodsImage);
 		holder.goodsName.setText(goods.getName());
 		holder.goodsPrice.setText("￥" + goods.getSoldPrice());
-		holder.goodsBuyPrice.setText("原价￥" + goods.getBuyPrice());
+		holder.goodsBuyPrice.setText("￥" + goods.getBuyPrice());
 		holder.goodsInfo.setText(goods.getImformation());
 		Spannable sp = new SpannableString(user.getName() + " 回复 你:"
 				+ remark.getComment_content());
@@ -248,6 +249,7 @@ public class CommentListAdapter extends BaseAdapter implements
 		LinearLayout goodsContainer;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view,
 			final int position, long id) {
@@ -285,7 +287,6 @@ public class CommentListAdapter extends BaseAdapter implements
 			// 弹出Popupwindow
 			View contentView = LayoutInflater.from(context).inflate(
 					R.layout.comment_popup, null);
-			int px = (int) (60 * scale + 0.5f);
 			final PopupWindow pop = new PopupWindow(contentView,
 					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 			pop.setContentView(contentView);

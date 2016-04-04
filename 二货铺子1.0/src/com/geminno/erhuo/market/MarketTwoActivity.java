@@ -1,9 +1,7 @@
 package com.geminno.erhuo.market;
 
 import com.geminno.erhuo.R;
-import com.geminno.erhuo.R.layout;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 

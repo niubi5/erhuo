@@ -1,13 +1,44 @@
 package com.geminno.erhuo.entity;
 
+import java.io.Serializable;
 
-public class Helps {
+
+public class Helps implements Serializable{
 	private int id;
 	private int userId;
 	private String title;
 	private String detail;
-	private String pubTime;
+	private String pubtime;
 	private int state;
+	private String logistics;
+	private String consignee;
+	private String address;
+	
+	
+
+	public String getLogistics() {
+		return logistics;
+	}
+
+	public void setLogistics(String logistics) {
+		this.logistics = logistics;
+	}
+
+	public String getConsignee() {
+		return consignee;
+	}
+
+	public void setConsignee(String consignee) {
+		this.consignee = consignee;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public int getId() {
 		return id;
@@ -42,11 +73,11 @@ public class Helps {
 	}
 
 	public String getPubTime() {
-		return pubTime;
+		return pubtime;
 	}
 
 	public void setPubTime(String pubTime) {
-		this.pubTime = pubTime;
+		this.pubtime = pubTime;
 	}
 
 	public int getState() {

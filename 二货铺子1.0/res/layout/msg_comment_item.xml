@@ -104,27 +104,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="商品名"
-                        android:maxEms="4"
+                        android:text="商品名额呵呵"
+                        android:maxEms="3"
                         android:singleLine="true"
                         android:ellipsize="end"
-                        android:textSize="@dimen/font_huge" />
+                        android:textSize="@dimen/font_big" />
 
                     <TextView
                         android:id="@+id/msg_goods_sold_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="商品价格"
+                        android:maxEms="5"
                         android:textColor="@color/red"
-                        android:textSize="@dimen/font_big" />
+                        android:textSize="@dimen/font_middle" />
 
                     <TextView
                         android:id="@+id/msg_goods_buy_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="原价"
+                        android:maxEms="5"
                         android:textColor="@color/dimgrey"
                         android:textSize="@dimen/font_s_tinysmall" />
                 </LinearLayout>

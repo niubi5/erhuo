@@ -2,12 +2,17 @@ package com.geminno.erhuo.fragment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -20,8 +25,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.geminno.erhuo.DonateActivity;
+import com.geminno.erhuo.DonateDetialActivity;
+import com.geminno.erhuo.HelpDetialActivity;
 import com.geminno.erhuo.MyApplication;
+import com.geminno.erhuo.OrderDetialActivity;
 import com.geminno.erhuo.R;
+import com.geminno.erhuo.SendGoodsActivity;
 import com.geminno.erhuo.entity.Donates;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Helps;
@@ -48,6 +57,9 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 	private Handler handler;
 	private Button btnDonate;
 	private Button btnHelp;
+	private List<Donates> ListDonate = new ArrayList<Donates>();
+	private List<Helps> listHelp = new ArrayList<Helps>();
+	private Map<Integer, String> mapHelpUrl= new HashMap<Integer, String>(); 
 
 	private List<Donates> ListDonatePhoto = new ArrayList<Donates>();
 	private List<Donates> preListDonatePhoto = new ArrayList<Donates>();
@@ -78,138 +90,6 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 	@Override
 	protected void initData() {
 		initEvent();
-
-		// HttpUtils httpDonate = new HttpUtils();
-		// HttpUtils httpHelp = new HttpUtils();
-		// // 设置参数
-		// RequestParams params = new RequestParams();
-		// params.addQueryStringParameter("curPage", curPage + "");
-		// params.addQueryStringParameter("pageSize", pageSize + "");
-		// params.addQueryStringParameter("userId", curUser.getId() + "");
-		// // httpDonate.configCurrentHttpCacheExpiry(0);
-		// httpHelp.configCurrentHttpCacheExpiry(0);
-		// headUrl = Url.getHeikkiUrlHead();
-		// // 拼接url
-		// // String urlDonate = headUrl + "/GetMyDonateServlet";
-		// String urlHelp = headUrl + "/GetMyHelpServlet";
-		// // Log.i("DonationFragmentURL", "urlDonate:" + urlDonate);
-		// Log.i("DonationFragmentURL", "urlHelp:" + urlHelp);
-		// //捐赠请求
-		// httpDonate.send(HttpRequest.HttpMethod.POST, urlDonate, params,
-		// new RequestCallBack<String>() {
-		//
-		// @Override
-		// public void onFailure(HttpException arg0, String arg1) {
-		// // TODO Auto-generated method stub
-		// Toast.makeText(context, "网络异常", Toast.LENGTH_SHORT)
-		// .show();
-		// }
-		//
-		// @SuppressWarnings("unchecked")
-		// @Override
-		// public void onSuccess(ResponseInfo<String> arg0) {
-		// Toast.makeText(context, "donate", 1).show();
-		// String result = arg0.result;// 获得响应结果
-		// Gson gson = new Gson();
-		// Type type = new TypeToken<List<Donates>>() {
-		// }.getType();
-		// if (!ListDonatePhoto.isEmpty()) {
-		// ListDonatePhoto.clear();
-		// }
-		//
-		// List<Donates> newGoodsPhoto = (List<Donates>) gson
-		// .fromJson(result, type);
-		// ListDonatePhoto.addAll(newGoodsPhoto);
-		// if (DonatesAdapter == null) {
-		//
-		// DonatesAdapter = new MyAdapter<Donates>(
-		// context, listDonations,
-		// R.layout.mygoods_donate_donation_item) {
-		//
-		// @Override
-		// public void convert(ViewHolder holder,
-		// Donates t) {
-		// holder.setText(R.id.tv_donate_donation_name,
-		// t.getTitle());
-		// holder.setText(R.id.tv_donate_donation_brief,t.getBrief());
-		// holder.setText(R.id.tv_donate_donation_wuliu_name,t.getLogisticsCom());
-		// holder.setText(R.id.tv_donate_donation_wuliu_num,
-		// t.getLogisticsNum());
-		// holder.setText(R.id.tv_donate_donation_time,
-		// t.getDonTime());
-		// }
-		// };
-		// rlvDonate.setAdapter(DonatesAdapter);
-		// } else {
-		// DonatesAdapter.notifyDataSetChanged();
-		// }
-		// Log.i("SoldFragment", result);
-		// }
-		// });
-		// // 求助请求
-		// httpHelp.send(HttpRequest.HttpMethod.POST, urlHelp, params,
-		// new RequestCallBack<String>() {
-		//
-		// @Override
-		// public void onFailure(HttpException arg0, String arg1) {
-		// // TODO Auto-generated method stub
-		// Toast.makeText(context, "网络异常", Toast.LENGTH_SHORT)
-		// .show();
-		// }
-		//
-		// @SuppressWarnings("unchecked")
-		// @Override
-		// public void onSuccess(ResponseInfo<String> arg0) {
-		// String result = arg0.result;// 获得响应结果
-		// Gson gson = new Gson();
-		// Type type = new TypeToken<List<Map<Helps, List<String>>>>() {
-		// }.getType();
-		// if (!ListHelpPhoto.isEmpty()) {
-		// ListHelpPhoto.clear();
-		// }
-		//
-		// List<Map<Helps, List<String>>> newGoodsPhoto = (List<Map<Helps,
-		// List<String>>>) gson
-		// .fromJson(result, type);
-		// ListHelpPhoto.addAll(newGoodsPhoto);
-		// if (HelpsAdapter == null) {
-		//
-		// HelpsAdapter = new MyAdapter<Map<Helps, List<String>>>(
-		// context, ListHelpPhoto,
-		// R.layout.mygoods_donate_help_item) {
-		//
-		// @Override
-		// public void convert(ViewHolder holder,
-		// Map<Helps, List<String>> t) {
-		// Helps helps = new Helps();
-		// List<String> urls = new ArrayList<String>();
-		// Set<Entry<Helps, List<String>>> keySet = t
-		// .entrySet();
-		// for (Map.Entry<Helps, List<String>> e : keySet) {
-		// helps = e.getKey();
-		// urls = e.getValue();
-		// }
-		// if (!urls.isEmpty()) {
-		// holder.setImageUrl(
-		// R.id.rciv_donate_help,
-		// urls.get(0));
-		// }
-		//
-		// holder.setText(R.id.tv_donate_help_name,
-		// helps.getTitle());
-		// holder.setText(R.id.tv_donate_help_time,
-		// helps.getPubTime());
-		// holder.setText(R.id.tv_donate_help_brief,
-		// helps.getDetail());
-		// }
-		// };
-		// // rlvDonate.setAdapter(DonatesAdapter);
-		// } else {
-		// HelpsAdapter.notifyDataSetChanged();
-		// }
-		// Log.i("SoldFragment", result);
-		// }
-		// });
 		donateRequest();
 
 	}
@@ -231,12 +111,10 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 
 			@Override
 			public void onRefresh() {
-				// TODO Auto-generated method stub
 				handler.postDelayed(new Runnable() {
 
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
 						curPage = 1;
 						// initData();
 						if (isDonate) {
@@ -252,12 +130,10 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 
 			@Override
 			public void onPull() {
-				// TODO Auto-generated method stub
 				handler.postDelayed(new Runnable() {
 
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
 						curPage++;
 						// addData();
 						if (isDonate) {
@@ -314,9 +190,25 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 							DonatesAdapter = new MyAdapter<Donates>(context,
 									ListDonatePhoto,
 									R.layout.mygoods_donate_donation_item) {
-
+								private Donates donates;
 								@Override
-								public void convert(ViewHolder holder, Donates t) {
+								public void convert(final ViewHolder holder, Donates t) {
+									
+									if(ListDonate.isEmpty()){
+										ListDonate.add(t);
+										Log.i("holderPosition", "listSelling size:"+ListDonate.size());
+									}else{
+										boolean isExist = false;
+										for(Donates d : ListDonate){
+											if(d.getId() == t.getId()){
+												isExist = true;
+											}
+										}
+										if(!isExist){
+											ListDonate.add(t);
+										}
+										Log.i("holderPosition", "listSelling size:"+ListDonate.size());
+									}
 									holder.setText(
 											R.id.tv_donate_donation_name,
 											t.getTitle());
@@ -332,6 +224,110 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 									holder.setText(
 											R.id.tv_donate_donation_time,
 											t.getDonTime());
+									/**
+									 * item点击事件监听
+									 * 
+									 * 
+									 * 
+									 * */
+									Log.i("holderPosition",
+											t.getTitle()+":+id:"+t.getId()+","+holder.getPosition());
+									//删除
+									holder.setOnClickListener(
+											R.id.btn_donate_donation_delete,
+											new OnClickListener() {
+
+												@Override
+												public void onClick(View v) {
+													final Donates clickDonates = ListDonate.get(holder.getPosition());
+													Log.i("holderPosition",
+															"onClickHolderPosition :"
+																	+ (holder.getPosition())+":+id:"+clickDonates.getId()+","+clickDonates.getTitle());
+													AlertDialog.Builder builder = new Builder(
+															context);
+													builder.setTitle("删除");
+													builder.setMessage("确认删除该记录吗?");
+													builder.setPositiveButton(
+															"确认",
+															new DialogInterface.OnClickListener() {
+
+																@Override
+																public void onClick(
+																		DialogInterface dialog,
+																		int which) {
+																	HttpUtils hu = new HttpUtils();
+																	RequestParams rp = new RequestParams();
+																	rp.addBodyParameter(
+																			"deleteDonatesId",
+																			clickDonates.getId()+"");
+																	hu.configCurrentHttpCacheExpiry(0);
+																	String headUrl = Url
+																			.getHeikkiUrlHead();
+																	// 拼接url
+																	String url = headUrl
+																			+ "/DeleteDonateServlet";
+																	hu.send(HttpRequest.HttpMethod.POST,
+																			url,
+																			rp,
+																			new RequestCallBack<String>() {
+
+																				@Override
+																				public void onFailure(
+																						HttpException arg0,
+																						String arg1) {
+																					Toast.makeText(
+																							context,
+																							"删除失败!",
+																							Toast.LENGTH_SHORT)
+																							.show();
+																				}
+
+																				@Override
+																				public void onSuccess(
+																						ResponseInfo<String> arg0) {
+																					initData();
+																					Toast.makeText(
+																							context,
+																							"删除成功!",
+																							Toast.LENGTH_SHORT)
+																							.show();
+																				}
+																			});
+																	dialog.dismiss();
+																}
+															});
+													builder.setNegativeButton(
+															"取消",
+															new DialogInterface.OnClickListener() {
+
+																@Override
+																public void onClick(
+																		DialogInterface dialog,
+																		int which) {
+																	dialog.dismiss();
+																}
+															});
+													builder.create().show();
+												}
+											});
+									//查看
+									holder.setOnClickListener(
+											R.id.btn_donate_donation_edit,
+											new OnClickListener() {
+
+												@Override
+												public void onClick(View v) {
+													final Donates clickDonate = ListDonate.get(holder.getPosition());
+													Log.i("holderPosition",
+															"onClickHolderPosition :"
+																	+ holder.getPosition()+clickDonate.getTitle());
+														//跳转至捐赠详情界面
+														Intent intent = new Intent(context,DonateDetialActivity.class);
+														intent.putExtra("donate", clickDonate);
+														startActivity(intent);
+												}
+											});
+									
 								}
 							};
 							rlvDonate.setAdapter(DonatesAdapter);
@@ -390,15 +386,45 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 									R.layout.mygoods_donate_help_item) {
 
 								@Override
-								public void convert(ViewHolder holder,
+								public void convert(final ViewHolder holder,
 										Map<Helps, List<String>> t) {
-									Helps helps = new Helps();
+									
+									Helps help = new Helps();
 									List<String> urls = new ArrayList<String>();
 									Set<Entry<Helps, List<String>>> keySet = t
 											.entrySet();
 									for (Map.Entry<Helps, List<String>> e : keySet) {
-										helps = e.getKey();
+										help = e.getKey();
+										if (listHelp.isEmpty()) {
+											listHelp.add(help);
+										} else {
+											boolean isExist = false;
+											for (Helps h : listHelp) {
+												if (h.getId() == help.getId()) {
+													isExist = true;
+												}
+											}
+											if (!isExist) {
+												listHelp.add(help);
+											}
+										}
+										//url
 										urls = e.getValue();
+										if (mapHelpUrl.isEmpty()) {
+											if(urls.isEmpty()){
+												mapHelpUrl.put(help.getId(), "null");	
+											}else{
+												mapHelpUrl.put(help.getId(), urls.get(0));
+											}
+										}else{
+											if(!mapHelpUrl.containsKey(help.getId())){
+												if(urls.isEmpty()){
+													mapHelpUrl.put(help.getId(), "null");	
+												}else{
+													mapHelpUrl.put(help.getId(), urls.get(0));
+												}
+											}
+										}
 									}
 									if (!urls.isEmpty()) {
 										holder.setImageUrl(
@@ -406,11 +432,119 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 												urls.get(0));
 									}
 									holder.setText(R.id.tv_donate_help_name,
-											helps.getTitle());
+											help.getTitle());
 									holder.setText(R.id.tv_donate_help_time,
-											helps.getPubTime());
+											help.getPubTime());
 									holder.setText(R.id.tv_donate_help_brief,
-											helps.getDetail());
+											help.getDetail());
+									/**
+									 * item点击事件监听
+									 * 
+									 * 
+									 * 
+									 * */
+									Log.i("holderPosition",
+											help.getTitle()+":+id:"+help.getId()+","+holder.getPosition());
+									//删除
+									holder.setOnClickListener(
+											R.id.btn_donate_help_delete,
+											new OnClickListener() {
+
+												@Override
+												public void onClick(View v) {
+													final Helps clickHelp = listHelp.get(holder.getPosition());
+													Log.i("holderPosition",
+															"onClickHolderPosition :"
+																	+ (holder.getPosition())+":+id:"+clickHelp.getId()+","+clickHelp.getTitle());
+													AlertDialog.Builder builder = new Builder(
+															context);
+													builder.setTitle("删除");
+													builder.setMessage("确认删除该信息吗?");
+													builder.setPositiveButton(
+															"确认",
+															new DialogInterface.OnClickListener() {
+
+																@Override
+																public void onClick(
+																		DialogInterface dialog,
+																		int which) {
+																	HttpUtils hu = new HttpUtils();
+																	RequestParams rp = new RequestParams();
+																	/////////////////////////////////////////////
+																	rp.addBodyParameter(
+																			"deleteHelpId",
+																			clickHelp.getId()+"");
+																	hu.configCurrentHttpCacheExpiry(0);
+																	String headUrl = Url
+																			.getHeikkiUrlHead();
+																	// 拼接url
+																	String url = headUrl
+																			+ "/DeleteHelpServlet";
+																	hu.send(HttpRequest.HttpMethod.POST,
+																			url,
+																			rp,
+																			new RequestCallBack<String>() {
+
+																				@Override
+																				public void onFailure(
+																						HttpException arg0,
+																						String arg1) {
+																					Toast.makeText(
+																							context,
+																							"删除失败!",
+																							Toast.LENGTH_SHORT)
+																							.show();
+																				}
+
+																				@Override
+																				public void onSuccess(
+																						ResponseInfo<String> arg0) {
+																					initData();
+																					Toast.makeText(
+																							context,
+																							"删除成功!",
+																							Toast.LENGTH_SHORT)
+																							.show();
+																				}
+																			});
+																	dialog.dismiss();
+																}
+															});
+													builder.setNegativeButton(
+															"取消",
+															new DialogInterface.OnClickListener() {
+
+																@Override
+																public void onClick(
+																		DialogInterface dialog,
+																		int which) {
+																	dialog.dismiss();
+																}
+															});
+													builder.create().show();
+												}
+											});
+									//标记售出
+									holder.setOnClickListener(
+											R.id.btn_donate_help_edit,
+											new OnClickListener() {
+
+												@Override
+												public void onClick(View v) {
+													final Helps clickHelp = listHelp.get(holder.getPosition());
+													Log.i("holderPosition",
+															"onClickHolderPosition :"
+																	+ holder.getPosition()+clickHelp.getTitle());
+														//跳转至求助详情
+														Intent intent = new Intent(context,HelpDetialActivity.class);
+														intent.putExtra("help", clickHelp);
+														intent.putExtra("url", mapHelpUrl.get(clickHelp.getId()));
+														startActivity(intent);
+												}
+											});
+									
+									
+									
 								}
 							};
 							 rlvDonate.setAdapter(HelpsAdapter);

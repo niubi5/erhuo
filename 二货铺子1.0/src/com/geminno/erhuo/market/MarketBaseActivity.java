@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
@@ -217,7 +216,6 @@ public class MarketBaseActivity extends Activity {
 						} else {
 							// 有数据，判断是否加载满,即pageSize
 							if (newGoods != null && newGoods.size() < pageSize) {
-								Log.i("erhuo", "有数据但没加满");
 								preGoods.addAll(newGoods);
 								// 页数不变
 								curPage--;

@@ -4,15 +4,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 
-import android.R.integer;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +20,7 @@ import com.geminno.erhuo.R;
 import com.geminno.erhuo.adapter.HomePageAdapter;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Users;
-import com.geminno.erhuo.utils.MyAdapter;
 import com.geminno.erhuo.utils.Url;
-import com.geminno.erhuo.utils.ViewHolder;
 import com.geminno.erhuo.view.RefreshListView;
 import com.geminno.erhuo.view.RefreshListView.OnRefreshCallBack;
 import com.google.gson.Gson;
@@ -38,9 +33,8 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-public class CollectionFragment extends BaseFragment {
+@SuppressLint("InflateParams") public class CollectionFragment extends BaseFragment {
 	private Context context;
-	private List<Goods> listCollec = new ArrayList<Goods>();
 	private RefreshListView rlvCollec;
 	private Handler handler;
 	private List<Integer> listColGoodsId = new ArrayList<Integer>();
@@ -239,11 +233,9 @@ public class CollectionFragment extends BaseFragment {
 							} else {
 								// 有数据，判断是否加载满,即pageSize
 								if (newGoods != null && newGoods.size() < pageSize) {
-									Log.i("erhuo", "有数据但没加满");
 									preGoods.addAll(newGoods);
 									//  页数不变
 									curPage--;
-									Log.i("erhuo", "curPage ：" + curPage);
 								}
 								listAll.addAll(newGoods);// 添加新查到的集合
 								// 改变数据源

@@ -302,10 +302,11 @@ public class SoldFragment extends BaseFragment {
 													if(clickGood.getState() == 2){
 														//跳转至发货界面
 														Intent intent = new Intent(context,SendGoodsActivity.class);
-														intent.putExtra("sendGoodsId", clickGood.getId());
+														intent.putExtra("good", clickGood);
+														intent.putExtra("url", mapGoodUrl.get(clickGood.getId()));
 														startActivity(intent);
 														
-														Toast.makeText(context, clickGood.getId()+","+clickGood.getName()+"去发货", Toast.LENGTH_SHORT).show();
+														//Toast.makeText(context, clickGood.getId()+","+clickGood.getName()+"去发货", Toast.LENGTH_SHORT).show();
 													}else if (clickGood.getState() == 3){
 														//跳转至商品订单详情
 														Intent intent = new Intent(context,OrderDetialActivity.class);
@@ -313,9 +314,13 @@ public class SoldFragment extends BaseFragment {
 														intent.putExtra("url", mapGoodUrl.get(clickGood.getId()));
 														startActivity(intent);
 														
-														Toast.makeText(context, clickGood.getName()+"运输中", Toast.LENGTH_SHORT).show();
+														//Toast.makeText(context, clickGood.getName()+"运输中", Toast.LENGTH_SHORT).show();
 													}else if (clickGood.getState() == 4){
-														Toast.makeText(context, clickGood.getName()+"已完成", Toast.LENGTH_SHORT).show();
+														//Toast.makeText(context, clickGood.getName()+"已完成", Toast.LENGTH_SHORT).show();
+														Intent intent = new Intent(context,OrderDetialActivity.class);
+														intent.putExtra("good", clickGood);
+														intent.putExtra("url", mapGoodUrl.get(clickGood.getId()));
+														startActivity(intent);
 													}
 												}
 											});
@@ -613,14 +618,26 @@ public class SoldFragment extends BaseFragment {
 																"onClickHolderPosition :"
 																		+ holder.getPosition()+clickGood.getName());
 														if(clickGood.getState() == 2){
+															//跳转至发货界面
 															Intent intent = new Intent(context,SendGoodsActivity.class);
 															intent.putExtra("sendGoodsId", clickGood.getId());
 															startActivity(intent);
-															Toast.makeText(context, clickGood.getName()+"去发货", Toast.LENGTH_SHORT).show();
+															
+															//Toast.makeText(context, clickGood.getId()+","+clickGood.getName()+"去发货", Toast.LENGTH_SHORT).show();
 														}else if (clickGood.getState() == 3){
-															Toast.makeText(context, clickGood.getName()+"运输中", Toast.LENGTH_SHORT).show();
+															//跳转至商品订单详情
+															Intent intent = new Intent(context,OrderDetialActivity.class);
+															intent.putExtra("good", clickGood);
+															intent.putExtra("url", mapGoodUrl.get(clickGood.getId()));
+															startActivity(intent);
+															
+															//Toast.makeText(context, clickGood.getName()+"运输中", Toast.LENGTH_SHORT).show();
 														}else if (clickGood.getState() == 4){
-															Toast.makeText(context, clickGood.getName()+"已完成", Toast.LENGTH_SHORT).show();
+															//Toast.makeText(context, clickGood.getName()+"已完成", Toast.LENGTH_SHORT).show();
+															Intent intent = new Intent(context,OrderDetialActivity.class);
+															intent.putExtra("good", clickGood);
+															intent.putExtra("url", mapGoodUrl.get(clickGood.getId()));
+															startActivity(intent);
 														}
 													}
 												});

@@ -1,7 +1,9 @@
 package com.geminno.erhuo.entity;
 
+import java.io.Serializable;
 
-public class Donates {
+
+public class Donates implements Serializable{
 	private int id;
 	private int helpId;
 	private int userId;

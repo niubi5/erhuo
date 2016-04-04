@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.geminno.erhuo.R;
-import com.geminno.erhuo.R.layout;
 
 public class MarketFiveActivity extends MarketBaseActivity {
 

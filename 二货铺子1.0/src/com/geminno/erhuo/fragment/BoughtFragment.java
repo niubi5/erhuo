@@ -2,12 +2,17 @@ package com.geminno.erhuo.fragment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -15,10 +20,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.geminno.erhuo.MyApplication;
+import com.geminno.erhuo.OrderDetialActivity;
 import com.geminno.erhuo.R;
+import com.geminno.erhuo.SendGoodsActivity;
 import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
@@ -39,6 +47,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
 public class BoughtFragment extends BaseFragment {
 	private Context context;
 	private List<Goods> listBought = new ArrayList<Goods>();
+	private Map<Integer,String> mapGoodUrl = new HashMap<Integer,String>();
 	private RefreshListView rlvBought;	
 	
 	private List<Map<Goods, List<String>>> ListGoodsPhoto = new ArrayList<Map<Goods, List<String>>>();
@@ -64,40 +73,8 @@ public class BoughtFragment extends BaseFragment {
 
 	@Override
 	protected void initData() {
-		// state:1未发货，2:运输中，3:已完成
-//		Goods g1 = new Goods();
-//		g1.setName("笔记本4");
-//		g1.setSoldPrice(100);
-//		g1.setBuyPrice(100);
-//		g1.setImformation("惠普(HP)WASD 暗影精灵 15.6英寸游戏笔记本(i5-6300HQ 4G 1TB+128G SSD GTX950M 4G独显 FHD IPS屏 Win10"
-//				+ "【手机端抢4999】搭载第六代skylake处理器！更快更强！开机飞快，让你一开始你就赢了");
-//		g1.setTypeId(1);
-//		g1.setMarketId(1);
-//		g1.setState(1);
-//
-//		Goods g2 = new Goods();
-//		g2.setName("笔记本5");
-//		g2.setSoldPrice(200);
-//		g2.setBuyPrice(200);
-//		g2.setImformation("惠普(HP)WASD 暗影精灵 15.6英寸游戏笔记本(i5-6300HQ 4G 1TB+128G SSD GTX950M 4G独显 FHD IPS屏 Win10"
-//				+ "【手机端抢4999】搭载第六代skylake处理器！更快更强！开机飞快，让你一开始你就赢了");
-//		g2.setTypeId(1);
-//		g2.setMarketId(1);
-//		g2.setState(2);
-//
-//		Goods g3 = new Goods();
-//		g3.setName("笔记本6");
-//		g3.setSoldPrice(300);
-//		g3.setBuyPrice(300);
-//		g3.setImformation("惠普(HP)WASD 暗影精灵 15.6英寸游戏笔记本(i5-6300HQ 4G 1TB+128G SSD GTX950M 4G独显 FHD IPS屏 Win10"
-//				+ "【手机端抢4999】搭载第六代skylake处理器！更快更强！开机飞快，让你一开始你就赢了");
-//		g3.setTypeId(3);
-//		g3.setMarketId(1);
-//		g3.setState(3);
-//
-//		listBought.add(g1);
-//		listBought.add(g2);
-//		listBought.add(g3);
+		// state:2未发货，3:运输中，4:已完成
+
 		HttpUtils http = new HttpUtils();
 		// 设置参数
 		RequestParams params = new RequestParams();
@@ -139,21 +116,37 @@ public class BoughtFragment extends BaseFragment {
 									R.layout.mygoods_bought_item) {
 
 								@Override
-								public void convert(ViewHolder holder,
+								public void convert(final ViewHolder holder,
 										Map<Goods, List<String>> t) {
-									Log.i("BoughtFragment", "convert");
 									Goods goods = new Goods();
 									List<String> urls = new ArrayList<String>();
-									// for(Map<Goods, List<String>> map :
-									// ListGoodsPhoto){
 									Set<Entry<Goods, List<String>>> keySet = t
 											.entrySet();
 									for (Map.Entry<Goods, List<String>> e : keySet) {
 										goods = e.getKey();
+										if (listBought.isEmpty()) {
+											listBought.add(goods);
+										} else {
+											boolean isExist = false;
+											for (Goods g : listBought) {
+												if (g.getId() == goods.getId()) {
+													isExist = true;
+												}
+											}
+											if (!isExist) {
+												listBought.add(goods);
+											}
+										}
+										//url
 										urls = e.getValue();
-										// }
+										if (mapGoodUrl.isEmpty()) {
+											mapGoodUrl.put(goods.getId(), urls.get(0));
+										}else{
+											if(!mapGoodUrl.containsKey(goods.getId())){
+												mapGoodUrl.put(goods.getId(), urls.get(0));
+											}
+										}
 									}
-									Log.i("BoughtFragment", urls.get(0));
 									holder.setImageUrl(R.id.rciv_bought,
 											urls.get(0));
 									holder.setText(R.id.tv_bought_name,
@@ -162,8 +155,6 @@ public class BoughtFragment extends BaseFragment {
 											+ goods.getSoldPrice());
 									holder.setText(R.id.tv_bought_buyprice,
 											"原价¥ " + goods.getBuyPrice());
-									// tv.getPaint().setFlags(Paint.
-									// STRIKE_THRU_TEXT_FLAG );
 									holder.setText(R.id.tv_bought_brief,
 											goods.getImformation());
 									holder.setText(R.id.tv_bought_type,
@@ -173,22 +164,146 @@ public class BoughtFragment extends BaseFragment {
 											goods.getMarketId() == 0 ? "无集市信息"
 													: getMarketName(goods
 															.getMarketId()));
-									if (goods.getState() == 3) {
-										//holder.setImageResource(R.id.iv_sold, R.drawable.sold_icon);
+									Log.i("BoughtFragment", goods.getState()+"");
+									if (goods.getState() == 4) {
 										holder.setVisibility(R.id.iv_bought, 1);
 										holder.setText(R.id.btn_bought_edit, "已完成");
-										//holder.setTextColorColor(R.id.btn_bought_edit, getResources().getColor(R.color.selling_blue));
 										holder.setDrawableLeft(R.id.btn_bought_edit, getResources()
 												.getDrawable(R.drawable.iconfont_gougou_blue));
-									} else if (goods.getState() == 1) {
+									} else if (goods.getState() == 2) {
 										holder.setText(R.id.btn_bought_edit, "提醒发货");
 										holder.setDrawableLeft(R.id.btn_bought_edit, getResources()
 												.getDrawable(R.drawable.iconfont_tixing));
-									} else if (goods.getState() == 2) {
+									} else if (goods.getState() == 3) {
 										holder.setText(R.id.btn_bought_edit, "运输中");
 										holder.setDrawableLeft(R.id.btn_bought_edit, getResources()
 												.getDrawable(R.drawable.iconfont_wuliu));
 									}
+									
+									/**
+									 * item点击事件监听
+									 * 
+									 * 
+									 * 
+									 * */
+									Log.i("holderPosition",
+											goods.getName()+":+id:"+goods.getId()+","+holder.getPosition());
+									//删除
+									holder.setOnClickListener(
+											R.id.btn_bought_delete,
+											new OnClickListener() {
+
+												@Override
+												public void onClick(View v) {
+													final Goods clickGood = listBought.get(holder.getPosition());
+													Log.i("holderPosition",
+															"onClickHolderPosition :"
+																	+ (holder.getPosition())+":+id:"+clickGood.getId()+","+clickGood.getName());
+													AlertDialog.Builder builder = new Builder(
+															context);
+													builder.setTitle("删除");
+													builder.setMessage("确认删除该商品吗?");
+													builder.setPositiveButton(
+															"确认",
+															new DialogInterface.OnClickListener() {
+
+																@Override
+																public void onClick(
+																		DialogInterface dialog,
+																		int which) {
+																	HttpUtils hu = new HttpUtils();
+																	RequestParams rp = new RequestParams();
+																	Gson gs = new Gson();
+
+																	clickGood.setState(0);
+																	String goodJson = gs
+																			.toJson(clickGood);
+																	rp.addBodyParameter(
+																			"newGoods",
+																			goodJson);
+																	hu.configCurrentHttpCacheExpiry(0);
+																	String headUrl = Url
+																			.getHeikkiUrlHead();
+																	// 拼接url
+																	String url = headUrl
+																			+ "/UpdateGoodServlet";
+																	hu.send(HttpRequest.HttpMethod.POST,
+																			url,
+																			rp,
+																			new RequestCallBack<String>() {
+
+																				@Override
+																				public void onFailure(
+																						HttpException arg0,
+																						String arg1) {
+																					Toast.makeText(
+																							context,
+																							"删除失败!",
+																							Toast.LENGTH_SHORT)
+																							.show();
+																				}
+
+																				@Override
+																				public void onSuccess(
+																						ResponseInfo<String> arg0) {
+																					initData();
+																					Toast.makeText(
+																							context,
+																							"删除成功!",
+																							Toast.LENGTH_SHORT)
+																							.show();
+																				}
+																			});
+																	dialog.dismiss();
+																}
+															});
+													builder.setNegativeButton(
+															"取消",
+															new DialogInterface.OnClickListener() {
+
+																@Override
+																public void onClick(
+																		DialogInterface dialog,
+																		int which) {
+																	dialog.dismiss();
+																}
+															});
+													builder.create().show();
+												}
+											});
+									//标记售出
+									holder.setOnClickListener(
+											R.id.btn_bought_edit,
+											new OnClickListener() {
+
+												@Override
+												public void onClick(View v) {
+													final Goods clickGood = listBought.get(holder.getPosition());
+													Log.i("holderPosition",
+															"onClickHolderPosition :"
+																	+ holder.getPosition()+clickGood.getName());
+													if(clickGood.getState() == 2){
+														//提醒发货
+														//
+														Toast.makeText(context, "已提醒卖家发货！", Toast.LENGTH_SHORT).show();
+													}else if (clickGood.getState() == 3){
+														//跳转至商品订单详情
+														Intent intent = new Intent(context,OrderDetialActivity.class);
+														intent.putExtra("good", clickGood);
+														intent.putExtra("url", mapGoodUrl.get(clickGood.getId()));
+														startActivity(intent);
+														
+														//Toast.makeText(context, clickGood.getName()+"运输中", Toast.LENGTH_SHORT).show();
+													}else if (clickGood.getState() == 4){
+														//Toast.makeText(context, clickGood.getName()+"已完成", Toast.LENGTH_SHORT).show();
+														Intent intent = new Intent(context,OrderDetialActivity.class);
+														intent.putExtra("good", clickGood);
+														intent.putExtra("url", mapGoodUrl.get(clickGood.getId()));
+														startActivity(intent);
+													}
+												}
+											});
+									
 								}
 							};
 							rlvBought.setAdapter(adapter);
@@ -242,36 +357,6 @@ public class BoughtFragment extends BaseFragment {
 				}, 2000);
 			}
 		});
-//		adapter = new MyAdapter<Goods>(context, listBought,
-//				R.layout.mygoods_bought_item) {
-//			@Override
-//			public void convert(ViewHolder holder, Goods t) {
-//				holder.setText(R.id.tv_bought_name, t.getName());
-//				holder.setText(R.id.tv_bought_price, "¥ " + t.getSoldPrice());
-//				holder.setText(R.id.tv_bought_buyprice, "原价¥ " + t.getBuyPrice());
-//				// tv.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG );
-//				holder.setText(R.id.tv_bought_brief, t.getImformation());
-//				holder.setText(R.id.tv_bought_type, "手机电脑");
-//				holder.setText(R.id.tv_bought_market, "数码市场");
-//				Log.i("adapterconvert", t.getState() + "," + t.getName());
-//				if (t.getState() == 3) {
-//					//holder.setImageResource(R.id.iv_sold, R.drawable.sold_icon);
-//					holder.setVisibility(R.id.iv_bought, 1);
-//					holder.setText(R.id.btn_bought_edit, "已完成");
-//					//holder.setTextColorColor(R.id.btn_bought_edit, getResources().getColor(R.color.selling_blue));
-//					holder.setDrawableLeft(R.id.btn_bought_edit, getResources()
-//							.getDrawable(R.drawable.iconfont_gougou_blue));
-//				} else if (t.getState() == 1) {
-//					holder.setText(R.id.btn_bought_edit, "提醒发货");
-//					holder.setDrawableLeft(R.id.btn_bought_edit, getResources()
-//							.getDrawable(R.drawable.iconfont_tixing));
-//				} else if (t.getState() == 2) {
-//					holder.setText(R.id.btn_bought_edit, "运输中");
-//					holder.setDrawableLeft(R.id.btn_bought_edit, getResources()
-//							.getDrawable(R.drawable.iconfont_wuliu));
-//				}
-//			}
-//		};
 	}
 	
 	private void addData() {
@@ -284,7 +369,7 @@ public class BoughtFragment extends BaseFragment {
 		http.configCurrentHttpCacheExpiry(0);
 		String headUrl = Url.getHeikkiUrlHead();
 		// 拼接url
-		String url = headUrl + "/GetMySoldServlet";
+		String url = headUrl + "/GetMyboughtServlet";
 		http.send(HttpRequest.HttpMethod.POST, url, params,
 				new RequestCallBack<String>() {
 
@@ -316,7 +401,6 @@ public class BoughtFragment extends BaseFragment {
 								curPage--;
 								preListGoodsPhoto.addAll(newGoodsPhoto);
 							}
-							// else {
 							ListGoodsPhoto.addAll(newGoodsPhoto);
 							if (adapter == null) {
 
@@ -325,19 +409,16 @@ public class BoughtFragment extends BaseFragment {
 										R.layout.mygoods_bought_item) {
 
 									@Override
-									public void convert(ViewHolder holder,
+									public void convert(final ViewHolder holder,
 											Map<Goods, List<String>> t) {
 										Log.i("BoughtFragment", "convert");
 										Goods goods = new Goods();
 										List<String> urls = new ArrayList<String>();
-										// for(Map<Goods, List<String>> map :
-										// ListGoodsPhoto){
 										Set<Entry<Goods, List<String>>> keySet = t
 												.entrySet();
 										for (Map.Entry<Goods, List<String>> e : keySet) {
 											goods = e.getKey();
 											urls = e.getValue();
-											// }
 										}
 										Log.i("BoughtFragment", urls.get(0));
 										holder.setImageUrl(R.id.rciv_bought,
@@ -348,8 +429,6 @@ public class BoughtFragment extends BaseFragment {
 												+ goods.getSoldPrice());
 										holder.setText(R.id.tv_bought_buyprice,
 												"原价¥ " + goods.getBuyPrice());
-										// tv.getPaint().setFlags(Paint.
-										// STRIKE_THRU_TEXT_FLAG );
 										holder.setText(R.id.tv_bought_brief,
 												goods.getImformation());
 										holder.setText(R.id.tv_bought_type,
@@ -360,10 +439,8 @@ public class BoughtFragment extends BaseFragment {
 														: getMarketName(goods
 																.getMarketId()));
 										if (goods.getState() == 3) {
-											//holder.setImageResource(R.id.iv_sold, R.drawable.sold_icon);
 											holder.setVisibility(R.id.iv_bought, 1);
 											holder.setText(R.id.btn_bought_edit, "已完成");
-											//holder.setTextColorColor(R.id.btn_bought_edit, getResources().getColor(R.color.selling_blue));
 											holder.setDrawableLeft(R.id.btn_bought_edit, getResources()
 													.getDrawable(R.drawable.iconfont_gougou_blue));
 										} else if (goods.getState() == 1) {
@@ -375,13 +452,138 @@ public class BoughtFragment extends BaseFragment {
 											holder.setDrawableLeft(R.id.btn_bought_edit, getResources()
 													.getDrawable(R.drawable.iconfont_wuliu));
 										}
+										
+										/**
+										 * item点击事件监听
+										 * 
+										 * 
+										 * 
+										 * */
+										Log.i("holderPosition",
+												goods.getName()+":+id:"+goods.getId()+","+holder.getPosition());
+										//删除
+										holder.setOnClickListener(
+												R.id.btn_bought_delete,
+												new OnClickListener() {
+
+													@Override
+													public void onClick(View v) {
+														final Goods clickGood = listBought.get(holder.getPosition());
+														Log.i("holderPosition",
+																"onClickHolderPosition :"
+																		+ (holder.getPosition())+":+id:"+clickGood.getId()+","+clickGood.getName());
+														AlertDialog.Builder builder = new Builder(
+																context);
+														builder.setTitle("删除");
+														builder.setMessage("确认删除该商品吗?");
+														builder.setPositiveButton(
+																"确认",
+																new DialogInterface.OnClickListener() {
+
+																	@Override
+																	public void onClick(
+																			DialogInterface dialog,
+																			int which) {
+																		HttpUtils hu = new HttpUtils();
+																		RequestParams rp = new RequestParams();
+																		Gson gs = new Gson();
+
+																		clickGood.setState(0);
+																		String goodJson = gs
+																				.toJson(clickGood);
+																		rp.addBodyParameter(
+																				"newGoods",
+																				goodJson);
+																		hu.configCurrentHttpCacheExpiry(0);
+																		String headUrl = Url
+																				.getHeikkiUrlHead();
+																		// 拼接url
+																		String url = headUrl
+																				+ "/UpdateGoodServlet";
+																		hu.send(HttpRequest.HttpMethod.POST,
+																				url,
+																				rp,
+																				new RequestCallBack<String>() {
+
+																					@Override
+																					public void onFailure(
+																							HttpException arg0,
+																							String arg1) {
+																						Toast.makeText(
+																								context,
+																								"删除失败!",
+																								Toast.LENGTH_SHORT)
+																								.show();
+																					}
+
+																					@Override
+																					public void onSuccess(
+																							ResponseInfo<String> arg0) {
+																						initData();
+																						Toast.makeText(
+																								context,
+																								"删除成功!",
+																								Toast.LENGTH_SHORT)
+																								.show();
+																					}
+																				});
+																		dialog.dismiss();
+																	}
+																});
+														builder.setNegativeButton(
+																"取消",
+																new DialogInterface.OnClickListener() {
+
+																	@Override
+																	public void onClick(
+																			DialogInterface dialog,
+																			int which) {
+																		dialog.dismiss();
+																	}
+																});
+														builder.create().show();
+													}
+												});
+										//标记售出
+										holder.setOnClickListener(
+												R.id.btn_bought_edit,
+												new OnClickListener() {
+
+													@Override
+													public void onClick(View v) {
+														final Goods clickGood = listBought.get(holder.getPosition());
+														Log.i("holderPosition",
+																"onClickHolderPosition :"
+																		+ holder.getPosition()+clickGood.getName());
+														if(clickGood.getState() == 2){
+															//提醒发货
+															//
+															Toast.makeText(context, "已提醒卖家发货！", Toast.LENGTH_SHORT).show();
+														}else if (clickGood.getState() == 3){
+															//跳转至商品订单详情
+															Intent intent = new Intent(context,OrderDetialActivity.class);
+															intent.putExtra("good", clickGood);
+															intent.putExtra("url", mapGoodUrl.get(clickGood.getId()));
+															startActivity(intent);
+															
+															//Toast.makeText(context, clickGood.getName()+"运输中", Toast.LENGTH_SHORT).show();
+														}else if (clickGood.getState() == 4){
+															//Toast.makeText(context, clickGood.getName()+"已完成", Toast.LENGTH_SHORT).show();
+															Intent intent = new Intent(context,OrderDetialActivity.class);
+															intent.putExtra("good", clickGood);
+															intent.putExtra("url", mapGoodUrl.get(clickGood.getId()));
+															startActivity(intent);
+														}
+													}
+												});
 									}
 								};
+								
+								
 								rlvBought.setAdapter(adapter);
 							} else {
 								adapter.notifyDataSetChanged();
 							}
-							// }
 						} else {
 							Toast.makeText(context, "没有更多了!",
 									Toast.LENGTH_SHORT).show();
