@@ -10,6 +10,8 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.SDKInitializer;
 import com.geminno.erhuo.R;
@@ -40,6 +42,9 @@ public class MyApplication extends Application {
 		SDKInitializer.initialize(this);
 		// 初始化融云
 		RongIM.init(this);
+		//初始化极光推送
+		JPushInterface.setDebugMode(true);
+		JPushInterface.init(this);
 		// 初始化ImageLoader
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.icon_stub) // 设置图片下载期间显示的图片

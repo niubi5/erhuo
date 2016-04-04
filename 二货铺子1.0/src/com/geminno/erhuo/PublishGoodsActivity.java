@@ -581,7 +581,8 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				// 处理商品图片
 				int count = 0;
 				for (ImageItem image : Bimp.tempSelectBitmap) {
-					File file = new File(image.getImagePath());
+					Bitmap converBitmap = FileUtils.convertToBitmap(image.getImagePath(), 480, 800);
+					File file = new File(FileUtils.saveBitmap(converBitmap, USERID + count + getNowTime()));
 					rp.addBodyParameter(USERID + count + getNowTime(), file);
 					Log.i("uploadimage", USERID + count + getNowTime());
 					count++;

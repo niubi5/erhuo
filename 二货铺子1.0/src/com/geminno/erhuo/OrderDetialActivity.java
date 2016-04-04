@@ -3,6 +3,7 @@ package com.geminno.erhuo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +21,7 @@ import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Orders;
 import com.geminno.erhuo.utils.GetExpressageCom;
 import com.geminno.erhuo.utils.MyAdapter;
+import com.geminno.erhuo.utils.MySdf;
 import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.utils.ViewHolder;
 import com.geminno.erhuo.view.RoundCornerImageView;
@@ -34,6 +36,9 @@ import com.lidroid.xutils.http.client.HttpRequest;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.JsonToken;
 import android.util.Log;
@@ -336,7 +341,38 @@ public class OrderDetialActivity extends Activity {
 		case R.id.iv_order_detial_return:
 			finish();
 			break;
+		case R.id.btn_order_complete:
+			AlertDialog.Builder builder = new Builder(
+					OrderDetialActivity.this);
+			builder.setTitle("确认收货");
+			builder.setMessage("确认已收到宝贝吗?");
+			builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					HttpUtils hu = new HttpUtils();
+					RequestParams rp = new RequestParams();
+					rp.addBodyParameter("goodId",good.getId()+"");
+					rp.addBodyParameter("completeTime",MySdf.getDateToString(new Date(System.currentTimeMillis())));
+					String headUrl = Url.getHeikkiUrlHead();
+					String url = headUrl + "/UpdateOrderServlet";
+					
+					hu.send(HttpRequest.HttpMethod.POST, url, rp, new RequestCallBack<String>() {
 
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+							Toast.makeText(OrderDetialActivity.this, "网络异常！", Toast.LENGTH_SHORT).show();
+						}
+
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+							Toast.makeText(OrderDetialActivity.this, "收货成功!", Toast.LENGTH_SHORT).show();
+							finish();
+						}
+					});
+				}
+			});
+			break;
 		default:
 			break;
 		}

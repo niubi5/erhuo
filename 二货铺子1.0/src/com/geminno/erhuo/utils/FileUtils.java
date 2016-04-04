@@ -36,52 +36,54 @@ public class FileUtils {
 		return SDPATH + picName+".jpg";
 	}
 	
-//	/**
-//     * 根据路径加载bitmap  将缩放后的bitmap返回去
-//     *
-//     * @param path 路径
-//     * @param w    宽
-//     * @param h    长
-//     * @return
-//     */
-//    public static  Bitmap convertToBitmap(String path, int w, int h) {
-//        try {
-//            BitmapFactory.Options opts = new BitmapFactory.Options();
-//            // 设置为ture只获取图片大小
-//            opts.inJustDecodeBounds = true;
-//            opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
-//            // 返回为空
-//            BitmapFactory.decodeFile(path, opts);
-//            int width = opts.outWidth;
-//            int height = opts.outHeight;
-//            float scaleWidth = 0.f, scaleHeight = 0.f;
-//            if (width > w || height > h) {//如果宽度大于 传入的宽度  或者 高度大于 传入的高度大于
-//                // 缩放
-//                scaleWidth = ((float) width) / w;
-//                scaleHeight = ((float) height) / h;
-//            }
-//            opts.inJustDecodeBounds = false;
-//            //缩放后的高度和宽度取最大值
-//            float scale = Math.max(scaleWidth, scaleHeight);
-//            opts.inSampleSize = (int) scale;//此处是最后的宽高值
-////            //WeakReference 弱引用
-////            WeakReference<Bitmap> weak = new WeakReference<Bitmap>actory.decodeFile(path, opts));
-////            Bitmap bMapRotate = Bitmap.createBitmap(weak.get(BitmapF(), 0, 0, weak.get().getWidth(), weak.get().getHeight(), null, true);
-//            Bitmap bMapRotate = BitmapFactory.decodeFile(path, opts);
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            bMapRotate.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-//            ByteArrayInputStream bais=new ByteArrayInputStream(baos.toByteArray());
-//            Bitmap bitmap = BitmapFactory.decodeStream(bais);
-//            System.out.println("质量 压缩---------------width-" + bMapRotate.getWidth() + "---height--" + bMapRotate.getHeight()+"------------------size---"+bMapRotate.getRowBytes());
-//            if (bMapRotate != null) {
-//                return bMapRotate;
-//            }
-//            return null;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+	/**
+     * 根据路径加载bitmap  将缩放后的bitmap返回去
+     *
+     * @param path 路径
+     * @param w    宽
+     * @param h    长
+     * @return
+     */
+    public static  Bitmap convertToBitmap(String path, int w, int h) {
+        try {
+            BitmapFactory.Options opts = new BitmapFactory.Options();
+            // 设置为ture只获取图片大小
+            opts.inJustDecodeBounds = true;
+            opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            // 返回为空
+            BitmapFactory.decodeFile(path, opts);
+            int width = opts.outWidth;
+            int height = opts.outHeight;
+            float scaleWidth = 0.f, scaleHeight = 0.f;
+            if (width > w || height > h) {//如果宽度大于 传入的宽度  或者 高度大于 传入的高度大于
+                // 缩放
+                scaleWidth = ((float) width) / w;
+                scaleHeight = ((float) height) / h;
+            }
+            opts.inJustDecodeBounds = false;
+            //缩放后的高度和宽度取最大值
+            float scale = Math.max(scaleWidth, scaleHeight);
+            opts.inSampleSize = (int) scale;//此处是最后的宽高值
+//            //WeakReference 弱引用
+//            WeakReference<Bitmap> weak = new WeakReference<Bitmap>actory.decodeFile(path, opts));
+//            Bitmap bMapRotate = Bitmap.createBitmap(weak.get(BitmapF(), 0, 0, weak.get().getWidth(), weak.get().getHeight(), null, true);
+            Bitmap bMapRotate = BitmapFactory.decodeFile(path, opts);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bMapRotate.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            ByteArrayInputStream bais=new ByteArrayInputStream(baos.toByteArray());
+            Bitmap bitmap = BitmapFactory.decodeStream(bais);
+            System.out.println("质量 压缩---------------width-" + bMapRotate.getWidth() + "---height--" + bMapRotate.getHeight()+"------------------size---"+bMapRotate.getRowBytes());
+            if (bMapRotate != null) {
+                return bMapRotate;
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
 ///**
 //     * 存储图片，返回路径
 //     * @param bm

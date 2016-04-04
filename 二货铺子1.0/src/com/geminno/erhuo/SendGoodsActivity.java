@@ -57,7 +57,7 @@ public class SendGoodsActivity extends Activity {
 		setContentView(R.layout.activity_send_goods);
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		
-		headUrl = Url.getHeikkiUrlHead();
+		headUrl = Url.getUrlHead();
 		initData();
 		initView();
 	}
@@ -172,7 +172,7 @@ public class SendGoodsActivity extends Activity {
 				rp.addBodyParameter("num", num);
 				rp.addBodyParameter("sendTime", MySdf.getDateToString(new Date(
 						System.currentTimeMillis())));
-				String headUrl = Url.getHeikkiUrlHead();
+				String headUrl = Url.getUrlHead();
 				String url = headUrl + "/UpdateOrderServlet";
 				// 发送请求
 				hu.send(HttpRequest.HttpMethod.POST, url, rp,

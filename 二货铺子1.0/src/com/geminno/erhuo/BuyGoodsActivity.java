@@ -71,6 +71,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 	private Goods good;
 	private String[] goodUrl;
 	private String buyGoods = new String("buy");
+	private int userAddId;
 	/**
 	 * @author heikki 2016.03.25 16:00
 	 * */
@@ -129,7 +130,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 		initData();
 		initPay();
 	}
-	//获取当前用户默认收货地址
+	//获取当前用户使用的收货地址
 	public void getCurUserAddress(){
 		RelativeLayout rlAddress  = (RelativeLayout) findViewById(R.id.rl_center);
 		RelativeLayout rlNewAddress = (RelativeLayout) findViewById(R.id.rl_no_address);
@@ -138,6 +139,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 			rlAddress.setVisibility(View.VISIBLE);
 			rlNewAddress.setVisibility(View.INVISIBLE);
 			Address curUserAddress = MyApplication.getUseAddress();
+			userAddId = curUserAddress.getId();
 			tvReceiveName = (TextView) findViewById(R.id.tv_receive_name);
 			tvReceivePhone = (TextView) findViewById(R.id.tv_receive_phone);
 			tvReceiveAddress = (TextView) findViewById(R.id.tv_receive_address);
@@ -153,6 +155,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 			rlNewAddress.setVisibility(View.INVISIBLE);
 			MyApplication.setUseAddress(MyApplication.getCurUserDefAddress());
 			Address curUserAddress = MyApplication.getUseAddress();
+			userAddId = curUserAddress.getId();
 			tvReceiveName = (TextView) findViewById(R.id.tv_receive_name);
 			tvReceivePhone = (TextView) findViewById(R.id.tv_receive_phone);
 			tvReceiveAddress = (TextView) findViewById(R.id.tv_receive_address);
@@ -361,11 +364,11 @@ public class BuyGoodsActivity extends FragmentActivity implements
 			ll_popup.clearAnimation();
 			showMsg("success", "cancel", "cancel");
 		} else if (view.getId() == R.id.iv_jingdong) {
-//			new PaymentTask().execute(new PaymentRequest(CHANNEL_JDPAY_WAP,
-//					amount));
+			new PaymentTask().execute(new PaymentRequest(CHANNEL_JDPAY_WAP,
+					amount));
 			pop.dismiss();
 			ll_popup.clearAnimation();
-			showMsg("success", "cancel", "cancel");
+//			showMsg("success", "cancel", "cancel");
 		} else {
 			// 壹收款调用示例如下
 			String orderNo = new SimpleDateFormat("yyyyMMddhhmmss")
@@ -492,7 +495,8 @@ public class BuyGoodsActivity extends FragmentActivity implements
 		order.setPayTime(MySdf.getDateToString(new Date(System.currentTimeMillis())));
 		order.setSendTime(null);
 		order.setCompleteTime(null);
-		order.setState(0);
+		order.setState(1);
+		order.setAddId(userAddId);
 		order.setLogisticsCom(null);
 		order.setLogisticsNum(null);
 		//将订单转换为json数据

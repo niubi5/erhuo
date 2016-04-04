@@ -122,7 +122,9 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				Address ads=new Address();
     				ads.setUserId(users.getId());
     				Log.i("cheshi", "传来id:"+id);
-    				ads.setId(Integer.parseInt(id));
+    				if(id != null && !"null".equals(id)){
+    					ads.setId(Integer.parseInt(id));    					
+    				}
     				ads.setName(receiptName);
     				ads.setPhone(receiptPhone);
     				if (receiptdiqu.indexOf("市") != -1) {
