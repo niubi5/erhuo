@@ -94,12 +94,12 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	private ArrayList<Integer> collection;// 收藏按钮的position集合
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	// 广告图片
+	private String url = Url.getUrlHead().substring(0, Url.getUrlHead().lastIndexOf("/"));
 	private String[] imageUrls = {
-			"http://img.taodiantong.cn/v55183/infoimg/2013-07/130720115322ky.jpg",
-			"http://pic30.nipic.com/20130626/8174275_085522448172_2.jpg",
-			"http://10.201.1.6:8080/ads/ad2.jpg",
-			"http://pic15.nipic.com/20110722/2912365_092519919000_2.jpg",
-			"http://10.201.1.6:8080/ads/ad1.jpg" };
+			url + "/ads/ad2.jpg",
+			url + "/ads/ad1.jpg",
+			url + "/ads/ad3.png",
+			url + "/ads/ad4.png"};
 	// ------------
 	private Markets market;
 	private Users currentUser;
@@ -431,12 +431,11 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	// 获得商品view
 	private View getGoodsView(final int position, View convertView,
 			ViewGroup parent) {
-		Log.i("erhuo", "typeCount:" + typeCount);
 		if (typeCount == 4) {
 			map = listAll.get(position - 3);
 		} else if (typeCount == 1) {
 			map = listAll.get(position);
-		} else {
+		} else if (typeCount == 2){
 			if (position - 1 < listAll.size()) {
 				map = listAll.get(position - 1);
 			}
