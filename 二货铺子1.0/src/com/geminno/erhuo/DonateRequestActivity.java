@@ -277,10 +277,10 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 							String donationGson = gson.toJson(donation);
 
 							// 传参数
-							//String url = "http://10.201.1.20:8080/secondHandShop/HelpsServlet";
-							String headUrl = Url.getUrlHead();
+							String url = "http://10.201.1.20:8080/secondHandShop/HelpsServlet";
+//							String headUrl = Url.getUrlHead();
 							// 拼接url
-							String url = headUrl + "/HelpsServlet";
+//							String url = headUrl + "/HelpsServlet";
 							RequestParams rp = new RequestParams();
 							rp.addBodyParameter("DonationRequest", donationGson);
 

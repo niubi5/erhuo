@@ -172,10 +172,10 @@ public class DonateFragment extends BaseFragment {
 									// 一条记录的Donation,Users
 									Map<Donation,Users> donationUser = en.getKey();
 									// 一条记录的urls
-								    List<String> urls = en.getValue();
+								    List<String> singleUrls = en.getValue();
 		    
-								    for(int j = 0; j < urls.size();j++){
-								    	Log.i("imageUrls", String.valueOf(urls.size()));
+								    for(int j = 0; j < singleUrls.size();j++){
+								    	Log.i("imageUrls", String.valueOf(singleUrls.size()));
 								    }
 								 
 								    // 取出Donation
@@ -184,8 +184,8 @@ public class DonateFragment extends BaseFragment {
 								    	// 将要显示的数据封装到Donation对象
 								    	donation = new Donation();
 								    	
-								    	for(int z = 0; z< urls.size(); z++){
-								    		Log.i("donation", donation + urls.get(z));								    		
+								    	for(int z = 0; z< singleUrls.size(); z++){
+								    		Log.i("donation", donation + singleUrls.get(z));								    		
 								    	}
 								    	// 取出每条记录的Donation,Users
 								    	user = new Users();
@@ -195,16 +195,16 @@ public class DonateFragment extends BaseFragment {
 								    	donation.setUserName(user.getName());
 								    	
 								    	donation.setHeadImage(R.drawable.header_default);
-								    	if(urls!=null&&urls.size()!=0){
+								    	if(singleUrls!=null&&singleUrls.size()!=0){
 								    	// 取第一张图片显示在首页
-								    	donation.setImageUrl(urls.get(0));
+								    	donation.setImageUrl(singleUrls.get(0));
 								    	}
 								    	donation.setAddressImage(R.drawable.icon_city);
 								    	
 								    	
 								    	// 将查询到Donatoin与将其对应的url存入到donationUrls
 								    	Map<Donation,List<String>> m = new HashMap<Donation,List<String>>();
-								    	m.put(donation, urls);
+								    	m.put(donation, singleUrls);
 								    	donationUrls.add(m);
                                         
 								    	//获得donationId对应names
@@ -330,14 +330,16 @@ public class DonateFragment extends BaseFragment {
 				// 得到每条记录的Donation及其对应的urls
 				Donation singleDonation = null;
 				ArrayList<String> ls = null;
+				if(position>=1){
 				Map<Donation,List<String>>  dl = donationUrls.get(position-1);
+				
 				Set<Map.Entry<Donation,List<String>>> d = dl.entrySet();
 				for(Map.Entry<Donation, List<String>> ds: d){
 					singleDonation = ds.getKey();
 				//	Log.i("UISingle", singleDonation.getAddress());
 				    ls = (ArrayList<String>) ds.getValue();					
 				}
-				
+				}
 				int helpId = 0;
 				ArrayList<String> names = null;
 				Map<Integer,List<String>> il = donatorsName.get(position-1);
@@ -351,6 +353,9 @@ public class DonateFragment extends BaseFragment {
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("SingleDonation", singleDonation);
 				bundle.putStringArrayList("urls", ls);
+				for(int i = 0;i <ls.size();i++){
+					Log.i("singleImage", ls.get(i));
+				}
 				bundle.putInt("helpId", helpId);
 				bundle.putStringArrayList("names", names);
 				
@@ -385,6 +390,7 @@ public class DonateFragment extends BaseFragment {
 
 			@Override
 			public void onSuccess(ResponseInfo<String> arg0) {
+				int count = 0;
 				Log.i("request", "请求成功");
 				String result = arg0.result;
 				Gson gson = new GsonBuilder()
@@ -405,7 +411,7 @@ public class DonateFragment extends BaseFragment {
 	            Set<Map.Entry<Map<Donation,Users>, List<String>>> entry = map.entrySet();
 	            for(Map.Entry<Map<Donation,Users>, List<String>> en : entry){
 	            	Map<Donation,Users> donationUser = en.getKey();
-	            	urls = en.getValue();
+	            	List<String> singleUrls = en.getValue();
 //	            	for(int i = 0 ; i < urls.size();i++){
 //	            		Log.i("imageUrl", urls.get(i));
 //	            	}
@@ -419,13 +425,23 @@ public class DonateFragment extends BaseFragment {
 	            		// 将取到的数据封装到Donation对象
 	            		donation.setUserName(user.getName());
 				    	donation.setHeadImage(R.drawable.header_default);
-				    	if(urls!=null&&urls.size()!=0)
+				    	if(singleUrls!=null&&singleUrls.size()!=0)
 				    	{
-				    	donation.setImageUrl(urls.get(0));
+				    	donation.setImageUrl(singleUrls.get(0));
 				    	}
 				    	donation.setAddressImage(R.drawable.icon_city);
+				    	
+				    	// 将查询到Donatoin与将其对应的url存入到donationUrls
+				    	Map<Donation,List<String>> m = new HashMap<Donation,List<String>>();
+				    	m.put(donation, singleUrls);
+				    	donationUrls.add(m);
+                        
+				    	//获得donationId对应names
+				    	getName(donation.getId());
 				    	mDatas.add(donation);
+				    	count++;
 	            	}
+	            	
 	            }
 	            }
 				// 判断preHelps是否为空，如果不为空，移除记录
@@ -438,11 +454,12 @@ public class DonateFragment extends BaseFragment {
 				if(newDonation == null || newDonation.isEmpty()){
 					// 页数不变，之前++过
 					curPage --;
+					Toast.makeText(getContext(), "没有更多了", Toast.LENGTH_SHORT).show();
 				}else{
 					// 如果有数据但没有加满，页数仍然不变
 					if(newDonation != null && newDonation.size() < pageSize){
 						preDatas.addAll(mDatas);
-						curPage--;
+						curPage--;					
 					}
 					// 加入新取到的数据
 					listAll.addAll(newDonation);
