@@ -45,7 +45,7 @@ public class HelpDetialActivity extends Activity {
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 
 		tvNoDonate = (TextView) findViewById(R.id.tv_no_donate);
-		headUrl = Url.getHeikkiUrlHead();
+		headUrl = Url.getUrlHead();
 		initData();
 	}
 

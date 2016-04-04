@@ -115,8 +115,10 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		phone.setText(donation.getPhone());
 
 		donatorNames = (TextView) findViewById(R.id.tv_detail_donatorNames);
-		if (!sb.equals("") && sb != null) {
+		if (!sb.equals("") && sb != null && sb.length() != 0) {
 			donatorNames.setText(sb + "已捐赠过");
+		}else{
+			donatorNames.setText("目前还没有人捐赠过，您可以率先捐赠哦");
 		}
 		donate = (Button) findViewById(R.id.btn_donation_report);
 		donate.setOnClickListener(this);

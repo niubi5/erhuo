@@ -2,6 +2,10 @@ package com.geminno.erhuo;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 import com.geminno.erhuo.entity.Address;
 import com.geminno.erhuo.entity.Users;
@@ -131,7 +135,22 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 												.putString("userPwd",
 														users.getPwd())
 												.commit();
+										
+										//设置极光推送别名
+										if(MyApplication.getCurrentUser() != null){
+											JPushInterface.setAlias(LoginActivity.this, MyApplication.getCurrentUser().getId()+"", new TagAliasCallback() {
+
+												@Override
+												public void gotResult(int arg0, String arg1, Set<String> arg2) {
+													// TODO Auto-generated method stub
+													Log.i("Jpush", "返回码:" + arg0 + "别名:" + arg1);
+												}
+											});
+										}
+										
 										Toast.makeText(MainActivity.mainActivity, users.getName()+",欢迎您！", Toast.LENGTH_SHORT).show();
+										
+										
 										ActivityCollector.finishAll();
 									}
 

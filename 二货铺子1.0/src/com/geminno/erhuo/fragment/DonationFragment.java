@@ -83,7 +83,7 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_donation, null);
 		curUser = MyApplication.getCurrentUser();
-		headUrl = Url.getHeikkiUrlHead();
+		headUrl = Url.getUrlHead();
 		return view;
 	}
 
@@ -262,7 +262,7 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 																			clickDonates.getId()+"");
 																	hu.configCurrentHttpCacheExpiry(0);
 																	String headUrl = Url
-																			.getHeikkiUrlHead();
+																			.getUrlHead();
 																	// 拼接url
 																	String url = headUrl
 																			+ "/DeleteDonateServlet";
@@ -476,7 +476,7 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 																			clickHelp.getId()+"");
 																	hu.configCurrentHttpCacheExpiry(0);
 																	String headUrl = Url
-																			.getHeikkiUrlHead();
+																			.getUrlHead();
 																	// 拼接url
 																	String url = headUrl
 																			+ "/DeleteHelpServlet";
