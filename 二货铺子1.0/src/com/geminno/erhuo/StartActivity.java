@@ -3,6 +3,7 @@ package com.geminno.erhuo;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +14,9 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 import com.geminno.erhuo.entity.Markets;
 import com.geminno.erhuo.entity.Users;
@@ -34,6 +38,8 @@ public class StartActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		JPushInterface.setDebugMode(true);
+		JPushInterface.init(this);
 		// 判断是否首次启动
 		SharedPreferences sp = getSharedPreferences("flag", MODE_PRIVATE);
 		boolean flag = sp.getBoolean("flag", true);
@@ -77,6 +83,18 @@ public class StartActivity extends Activity {
 							Log.i("CurrentUser", users.toString());
 							MyApplication.setUsers(users);
 							Log.i("CurrentUser", "StartCurrentUser:"+users.getId());
+							//设置极光推送别名
+							if(MyApplication.getCurrentUser() != null){
+								Log.i("Jpush",MyApplication.getCurrentUser().getId()+"");
+								JPushInterface.setAlias(StartActivity.this, MyApplication.getCurrentUser().getId()+"", new TagAliasCallback() {
+									@Override
+									public void gotResult(int arg0, String arg1, Set<String> arg2) {
+										// TODO Auto-generated method stub
+										Log.i("Jpush", "返回码:" + arg0 + "别名:" + arg1);
+									}
+								});
+							}
+							
 							Toast.makeText(StartActivity.this,
 									users.getName() + ",欢迎回来！ ",
 									Toast.LENGTH_SHORT).show();
@@ -177,5 +195,20 @@ public class StartActivity extends Activity {
 		}.start();
 
 	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		JPushInterface.onResume(StartActivity.this);
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		JPushInterface.onPause(StartActivity.this);
+	}
+	
 
 }

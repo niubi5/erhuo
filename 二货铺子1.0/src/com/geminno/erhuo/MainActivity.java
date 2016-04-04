@@ -2,12 +2,14 @@ package com.geminno.erhuo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -26,6 +28,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -38,6 +43,7 @@ import com.geminno.erhuo.fragment.DonateFragment;
 import com.geminno.erhuo.fragment.HomeFragment;
 import com.geminno.erhuo.fragment.MessageFragment;
 import com.geminno.erhuo.fragment.UserInfoFragment;
+import com.geminno.erhuo.utils.ExampleUtil;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
 	private View flMain;
@@ -55,6 +61,15 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	private List<BaseFragment> fragments;
 	private List<Button> btns;
 	private int currentIndex; // 当前fragment索引
+	// 极光推送
+	public static boolean isForeground = false;
+	// for receive customer msg from jpush server
+	private MessageReceiver mMessageReceiver;
+	public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
+	public static final String KEY_TITLE = "title";
+	public static final String KEY_MESSAGE = "message";
+	public static final String KEY_EXTRAS = "extras";
+
 	// ------------------------
 	// 定位相关
 	public LocationClient mLocationClient = null;
@@ -70,20 +85,20 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		flMain = (FrameLayout) findViewById(R.id.parent_main);
 		mainActivity = this;
 		// 调用setColor()方法
-		//setColor(this, getResources().getColor(R.color.main_red));
+		// setColor(this, getResources().getColor(R.color.main_red));
 		mLocationClient = new LocationClient(getApplicationContext()); // 声明LocationClient类
 		mLocationClient.registerLocationListener(myListener);
 		initView();
 		initLocation();
 		mLocationClient.start();
-		///透明状态栏
+		// /透明状态栏
 		getWindow()
 				.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-		//透明导航栏
+		// 透明导航栏
 		getWindow().addFlags(
 				WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 	}
-
+	
 	// 沉浸式状态栏
 	/** * 设置状态栏颜色 * * @param activity 需要设置的activity * @param color 状态栏颜色值 */
 	public static void setColor(Activity activity, int color) {
@@ -124,13 +139,13 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		statusView.setBackgroundColor(color);
 		return statusView;
 	}
-	
+
 	// 配置定位SDK参数
 	private void initLocation() {
 		LocationClientOption option = new LocationClientOption();
 		option.setLocationMode(LocationMode.Hight_Accuracy);// 可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
 		option.setCoorType("bd09ll");// 可选，默认gcj02，设置返回的定位结果坐标系
-		//int span = 1000;
+		// int span = 1000;
 		option.setScanSpan(0);// 可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
 		option.setIsNeedAddress(true);// 可选，设置是否需要地址信息，默认不需要
 		option.setOpenGps(true);// 可选，默认false,设置是否使用gps
@@ -142,7 +157,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		option.setEnableSimulateGps(false);// 可选，默认false，设置是否需要过滤gps仿真结果，默认需要
 		mLocationClient.setLocOption(option);
 	}
-	
+
 	/**
 	 * 定位SDK监听函数
 	 */
@@ -209,13 +224,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				}
 			}
 			Log.i("BaiduLocationApiDem", sb.toString());
-//			tvLocation.setText("经度:"+location.getLongitude() + ",纬度:"
-//					+ location.getLatitude());
+			// tvLocation.setText("经度:"+location.getLongitude() + ",纬度:"
+			// + location.getLatitude());
 			MyApplication.setLocation(location);
-			LatLng ptCenter = new LatLng(location.getLatitude(),location.getLongitude());
+			LatLng ptCenter = new LatLng(location.getLatitude(),
+					location.getLongitude());
 			// 反Geo搜索
-//			mSearch.reverseGeoCode(new ReverseGeoCodeOption()
-//					.location(ptCenter));
+			// mSearch.reverseGeoCode(new ReverseGeoCodeOption()
+			// .location(ptCenter));
 
 		}
 	}
@@ -276,9 +292,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		// 发布按钮
 		case R.id.iv_publish_goods:
 			nextIndex = currentIndex;
-			if(MyApplication.getCurrentUser() != null){
-				startActivity(new Intent(this, PublishGoodsActivity.class));				
-			}else{
+			if (MyApplication.getCurrentUser() != null) {
+				startActivity(new Intent(this, PublishGoodsActivity.class));
+			} else {
 				Toast.makeText(this, "请先登陆！", Toast.LENGTH_SHORT).show();
 			}
 			break;
@@ -293,7 +309,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	@SuppressWarnings("deprecation")
 	private void changeFragment(int nextIndex) {
-		
+
 		// 判断是否是当前选中的fragment
 		if (currentIndex != nextIndex) {
 			FragmentTransaction transaction = getSupportFragmentManager()
@@ -307,11 +323,12 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 						fragments.get(nextIndex));
 			}
 			transaction.show(fragments.get(nextIndex)).commit();
-			if(nextIndex == 3){
+			if (nextIndex == 3) {
 				flMain.setBackgroundResource(R.drawable.img_my_bg);
-				//flMain.setBackground(getResources().getDrawable(R.drawable.img_my_bg));
-			}else{
-				flMain.setBackgroundColor(getResources().getColor(R.color.main_red));
+				// flMain.setBackground(getResources().getDrawable(R.drawable.img_my_bg));
+			} else {
+				flMain.setBackgroundColor(getResources().getColor(
+						R.color.main_red));
 			}
 		}
 		// 改变currentIndex值
@@ -320,26 +337,27 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
-		
+
 		super.onResume();
 	}
 
 	private boolean isExit = false;// 是否退出
 	Timer tExit = new Timer();// 定时器
 	TimerTask task;// 抽象类，实现了Runnable接口，具备多线程能力
+
 	@Override
 	public void onBackPressed() {
-		if(!isExit){
+		if (!isExit) {
 			isExit = true;
 			// 弹框提示
 			Toast.makeText(context, "再按一次 退出程序", Toast.LENGTH_SHORT).show();
-			task = new TimerTask(){
+			task = new TimerTask() {
 				// 创建一个任务，将状态设为false
 				@Override
 				public void run() {
 					isExit = false;
 				}
-				
+
 			};
 			tExit.schedule(task, 2000);// timer 2s后执行任务
 		} else {
@@ -349,6 +367,20 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 	
-	
+	public class MessageReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+              String messge = intent.getStringExtra(KEY_MESSAGE);
+              String extras = intent.getStringExtra(KEY_EXTRAS);
+              StringBuilder showMsg = new StringBuilder();
+              showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+              if (!ExampleUtil.isEmpty(extras)) {
+            	  showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+              }
+			}
+		}
+	}
 
 }
