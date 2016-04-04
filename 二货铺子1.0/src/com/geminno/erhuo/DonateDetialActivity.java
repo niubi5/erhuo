@@ -57,7 +57,7 @@ public class DonateDetialActivity extends Activity {
 		setContentView(R.layout.activity_donate_detial);
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		
-		headUrl = Url.getHeikkiUrlHead();
+		headUrl = Url.getUrlHead();
 		initData();
 		initView();
 	}

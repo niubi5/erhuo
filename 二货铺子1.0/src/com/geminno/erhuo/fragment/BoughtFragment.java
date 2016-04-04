@@ -82,7 +82,7 @@ public class BoughtFragment extends BaseFragment {
 		params.addQueryStringParameter("pageSize", pageSize + "");
 		params.addQueryStringParameter("userId", curUser.getId() + "");
 		http.configCurrentHttpCacheExpiry(0);
-		String headUrl = Url.getHeikkiUrlHead();
+		String headUrl = Url.getUrlHead();
 		// 拼接url
 		String url = headUrl + "/GetMyBoughtServlet";
 		http.send(HttpRequest.HttpMethod.POST, url, params,
@@ -225,7 +225,7 @@ public class BoughtFragment extends BaseFragment {
 																			goodJson);
 																	hu.configCurrentHttpCacheExpiry(0);
 																	String headUrl = Url
-																			.getHeikkiUrlHead();
+																			.getUrlHead();
 																	// 拼接url
 																	String url = headUrl
 																			+ "/UpdateGoodServlet";
@@ -369,7 +369,7 @@ public class BoughtFragment extends BaseFragment {
 		params.addQueryStringParameter("pageSize", pageSize + "");
 		params.addQueryStringParameter("userId", curUser.getId() + "");
 		http.configCurrentHttpCacheExpiry(0);
-		String headUrl = Url.getHeikkiUrlHead();
+		String headUrl = Url.getUrlHead();
 		// 拼接url
 		String url = headUrl + "/GetMyboughtServlet";
 		http.send(HttpRequest.HttpMethod.POST, url, params,
@@ -498,7 +498,7 @@ public class BoughtFragment extends BaseFragment {
 																				goodJson);
 																		hu.configCurrentHttpCacheExpiry(0);
 																		String headUrl = Url
-																				.getHeikkiUrlHead();
+																				.getUrlHead();
 																		// 拼接url
 																		String url = headUrl
 																				+ "/UpdateGoodServlet";

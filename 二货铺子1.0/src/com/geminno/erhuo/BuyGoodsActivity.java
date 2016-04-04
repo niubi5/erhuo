@@ -364,11 +364,11 @@ public class BuyGoodsActivity extends FragmentActivity implements
 			ll_popup.clearAnimation();
 			showMsg("success", "cancel", "cancel");
 		} else if (view.getId() == R.id.iv_jingdong) {
-//			new PaymentTask().execute(new PaymentRequest(CHANNEL_JDPAY_WAP,
-//					amount));
+			new PaymentTask().execute(new PaymentRequest(CHANNEL_JDPAY_WAP,
+					amount));
 			pop.dismiss();
 			ll_popup.clearAnimation();
-			showMsg("success", "cancel", "cancel");
+//			showMsg("success", "cancel", "cancel");
 		} else {
 			// 壹收款调用示例如下
 			String orderNo = new SimpleDateFormat("yyyyMMddhhmmss")
@@ -513,7 +513,7 @@ public class BuyGoodsActivity extends FragmentActivity implements
 //			e.printStackTrace();
 //		}
 //		String url = prop.getProperty("heikkiUrl")+"/AddGoodOrderServlet";
-		String headUrl = Url.getHeikkiUrlHead();
+		String headUrl = Url.getUrlHead();
 		// 拼接url
 		String url = headUrl + "/AddGoodOrderServlet";
 		RequestParams rp = new RequestParams();
