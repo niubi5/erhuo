@@ -198,17 +198,11 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 		TextView tvGoodTime = (TextView) findViewById(R.id.tv_goods_time);
 		tvGoodBrief = (TextView) findViewById(R.id.tv_goods_brief);
 		if (user.getPhoto() != null && !user.getPhoto().equals("")) {
-			Properties prop = new Properties();
-			String headUrl = null;
-			try {
-				prop.load(PublishGoodsActivity.class
-						.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
-				headUrl = prop.getProperty("headUrl");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			String headUrl = Url.getUrlHead();
 			final String userHeadUrl = headUrl + user.getPhoto();
 			ImageLoader.getInstance().displayImage(userHeadUrl, ivHead);
+		} else {
+			ivHead.setImageResource(R.drawable.header_default);
 		}
 		// 设置收藏的显示状态
 		if (collection != null) {

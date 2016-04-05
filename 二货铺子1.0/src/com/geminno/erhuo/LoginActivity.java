@@ -108,6 +108,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 									String arg1) {
 								// TODO Auto-generated method stub
 								Log.i("cheshi", "失败");
+								Toast.makeText(LoginActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
 							}
 
 							@Override

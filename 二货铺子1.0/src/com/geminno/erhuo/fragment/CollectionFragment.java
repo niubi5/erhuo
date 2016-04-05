@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geminno.erhuo.MyApplication;
@@ -46,6 +47,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
 	private HomePageAdapter adapter;
 	private boolean isRefresh = false;
 	private String listIdJson;
+	private TextView tvNoCollec;
 
 	public CollectionFragment(Context context) {
 		super();
@@ -56,18 +58,21 @@ import com.lidroid.xutils.http.client.HttpRequest;
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_collec, null);
-
+		tvNoCollec = (TextView) view.findViewById(R.id.tv_no_collc);
 		return view;
 	}
 
 	@Override
 	protected void initData() {
 		// // state:1在售中，2:未发货，3:已发货，4:已完成
+		
 		listColGoodsId = MyApplication.getCollection();
 		if(listColGoodsId.isEmpty()){
-			
-		}else{
-				Gson gson = new Gson();
+			tvNoCollec.setVisibility(View.VISIBLE);
+			return;
+		}
+		tvNoCollec.setVisibility(View.INVISIBLE);
+		Gson gson = new Gson();
 		listIdJson = gson.toJson(listColGoodsId);
 		HttpUtils http = new HttpUtils();
 		// 设置参数
@@ -104,8 +109,6 @@ import com.lidroid.xutils.http.client.HttpRequest;
 
 				});
 		}
-	
-	}
 
 	@Override
 	protected void initEvent() {

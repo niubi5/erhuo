@@ -81,7 +81,6 @@ public class DonateActivity extends Activity {
 
 							RequestParams params = new RequestParams();
 							params.addBodyParameter("donates", donatesGson);
-//							String url = "http://10.201.1.20:8080/secondHandShop/DonateServlet";
                             String url = Url.getUrlHead() + "/DonateServlet";				
 							HttpUtils http = new HttpUtils();
 							http.send(HttpRequest.HttpMethod.POST, url,params,

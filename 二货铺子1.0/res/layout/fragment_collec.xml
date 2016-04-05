@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_bgcolor"
     android:orientation="vertical" >
 
    <com.geminno.erhuo.view.RefreshListView
        android:id="@+id/rlv_collec"
        android:layout_width="match_parent"
        android:layout_height="fill_parent"
-       android:background="#E7E7E7">
+       android:background="@color/main_bgcolor">
     </com.geminno.erhuo.view.RefreshListView>
-</LinearLayout>
+    <TextView 
+        android:id="@+id/tv_no_collc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_big"
+        android:textColor="@color/dimgrey"
+        android:layout_centerInParent="true"
+        android:text="还没有收藏商品哦"/>
+</RelativeLayout>
