@@ -34,6 +34,7 @@ import com.geminno.erhuo.adapter.CommonAdapter;
 import com.geminno.erhuo.entity.Donation;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.DonationViewHolder;
+import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.view.RefreshListView;
 import com.geminno.erhuo.view.RefreshListView.OnRefreshCallBack;
 import com.google.gson.Gson;
@@ -130,7 +131,8 @@ public class DonateFragment extends BaseFragment {
 		         * 发送请求，查询要显示在捐赠列表页面上的信息
 		         */
 				HttpUtils http = new HttpUtils();
-				String url = "http://10.201.1.20:8080/secondHandShop/ListHelpsServlet";
+				//String url = "http://10.201.1.20:8080/secondHandShop/ListHelpsServlet";
+				String url = Url.getUrlHead()+"/ListHelpsServlet";
 				// 设置为不缓存
 				http.configCurrentHttpCacheExpiry(0);
 				RequestParams params = new RequestParams();
@@ -373,7 +375,8 @@ public class DonateFragment extends BaseFragment {
 	public void addData(){
 		
 		HttpUtils http = new HttpUtils();
-		String url = "http://10.201.1.20:8080/secondHandShop/ListHelpsServlet";
+//		String url = "http://10.201.1.20:8080/secondHandShop/ListHelpsServlet";
+		String url = Url.getUrlHead()+"/ListHelpsServlet";
         // 设置不缓存
 		http.configCurrentHttpCacheExpiry(0);
 		// 设置参数
@@ -515,7 +518,8 @@ public class DonateFragment extends BaseFragment {
 		RequestParams params = new RequestParams();
 		params.addBodyParameter("helpId", String.valueOf(helpId));
 		
-		String url = "http://10.201.1.20:8080/secondHandShop/GetDonatorServlet";
+//		String url = "http://10.201.1.20:8080/secondHandShop/GetDonatorServlet";
+		String url = Url.getUrlHead()+"/ListHelpsServlet";
 		// 发送请求
 		HttpUtils http = new HttpUtils();
 		http.send(HttpRequest.HttpMethod.POST, url, params,new RequestCallBack<String>() {

@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 捐赠详细信息页面
@@ -151,10 +152,14 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 			break;
 		// 捐赠按钮
 		case R.id.btn_donation_report:
-			Intent intent = new Intent(this, DonateActivity.class);
-			intent.putExtra("donationId", donation.getId());
-			intent.putExtra("userId", donation.getUserId());
-			startActivity(intent);
+			if(MyApplication.getCurrentUser() != null){
+				Intent intent = new Intent(this, DonateActivity.class);
+				intent.putExtra("donationId", donation.getId());
+				intent.putExtra("userId", MyApplication.getCurrentUser().getId()+"");
+				startActivity(intent);
+			}else{
+				Toast.makeText(DonationDetailActivity.this, "请先登录!", Toast.LENGTH_SHORT).show();
+			}
 			break;
 		case R.id.iv_to_report:
 			Intent intent1 = new Intent(this, ReportDonationActivity.class);
