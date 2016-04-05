@@ -210,34 +210,34 @@ public class EditUserInfoActivity extends Activity implements
 			case RESULT_REQUEST_CODE:
 				 if (data != null) {  
 	                   setImageToView(data);  
-//	                   HttpUtils httpUtils=new HttpUtils();
-//	                   RequestParams params=new RequestParams();
-//	                   params.addBodyParameter(file);
-//	                   params.addQueryStringParameter("userid",users.getId()+"");
-//	                   String headUrl = Url.getUrlHead();
-//	                   String url = headUrl + "/AddHeaderImageServlet";
-//	                   httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
-//
-//						@Override
-//						public void onFailure(HttpException arg0, String arg1) {
-//							// TODO Auto-generated method stub
-//							Toast.makeText(EditUserInfoActivity.this,
-//									"请求上传失败", Toast.LENGTH_SHORT).show();
-//						}
-//
-//						@Override
-//						public void onSuccess(ResponseInfo<String> arg0) {
-//							// TODO Auto-generated method stub
-//							String result=arg0.result;
-//							if (!result.equals("null")) {
-//								Toast.makeText(EditUserInfoActivity.this,
-//										"上传成功", Toast.LENGTH_SHORT).show();
-//							}else {
-//								Toast.makeText(EditUserInfoActivity.this,
-//										"上传失败", Toast.LENGTH_SHORT).show();
-//							}
-//						}
-//					});
+	                   HttpUtils httpUtils=new HttpUtils();
+	                   RequestParams params=new RequestParams();
+	                   params.addBodyParameter("file",file);
+	                   params.addQueryStringParameter("userid",users.getId()+"");
+	                   String headUrl = Url.getUrlHead();
+	                   String url = headUrl + "/AddHeaderImageServlet";
+	                   httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
+
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+							// TODO Auto-generated method stub
+							Toast.makeText(EditUserInfoActivity.this,
+									"请求上传失败", Toast.LENGTH_SHORT).show();
+						}
+
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+							// TODO Auto-generated method stub
+							String result=arg0.result;
+							if (!result.equals("null")) {
+								Toast.makeText(EditUserInfoActivity.this,
+										"上传成功", Toast.LENGTH_SHORT).show();
+							}else {
+								Toast.makeText(EditUserInfoActivity.this,
+										"上传失败", Toast.LENGTH_SHORT).show();
+							}
+						}
+					});
 	                }  
 				break;
 
