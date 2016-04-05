@@ -1,5 +1,19 @@
 package com.geminno.erhuo.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -12,29 +26,19 @@ import com.geminno.erhuo.R;
 import com.geminno.erhuo.SheZhiActivity;
 import com.geminno.erhuo.ShipAddressActivity;
 import com.geminno.erhuo.entity.Users;
+import com.geminno.erhuo.utils.ImageLoader;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-@SuppressLint("CutPasteId") public class UserInfoFragment extends BaseFragment implements OnClickListener {
+@SuppressLint("CutPasteId")
+public class UserInfoFragment extends BaseFragment implements OnClickListener {
 
 	private LinearLayout userInfo;
-	private Button btnHead;
+	private ImageView ivHead;
 	private LinearLayout linearshezhi;
 	private LinearLayout linearyoufei;
 	private LinearLayout address;
 	private LinearLayout share;
 	private Users users;
+	private TextView loginState;
 	private LinearLayout linearfenxiang;
 
 	private Button btnSelling;
@@ -59,7 +63,7 @@ import android.widget.Toast;
 	@Override
 	protected void initEvent() {
 		userInfo.setOnClickListener(this);
-		btnHead.setOnClickListener(this);
+		ivHead.setOnClickListener(this);
 		linearshezhi.setOnClickListener(this);
 		linearyoufei.setOnClickListener(this);
 		address.setOnClickListener(this);
@@ -76,7 +80,7 @@ import android.widget.Toast;
 	protected void initView() {
 		userInfo = (LinearLayout) getView().findViewById(
 				R.id.userinfo_container);
-		btnHead = (Button) getView().findViewById(R.id.userinfo_btn_herder);
+		ivHead = (ImageView) getView().findViewById(R.id.userinfo_iv_header);
 		linearshezhi = (LinearLayout) getView().findViewById(
 				R.id.setting_container);
 		linearyoufei = (LinearLayout) getView().findViewById(
@@ -85,7 +89,8 @@ import android.widget.Toast;
 		linearfenxiang = (LinearLayout) getView().findViewById(
 				R.id.share_container);
 		share = (LinearLayout) getView().findViewById(R.id.share_container);
-
+		loginState = (TextView) getView().findViewById(
+				R.id.userinfo_login_state);
 		btnSelling = (Button) getView().findViewById(R.id.userinfo_btn_selling);
 		btnSold = (Button) getView().findViewById(R.id.userinfo_btn_sold);
 		btnBought = (Button) getView().findViewById(R.id.userinfo_btn_bought);
@@ -94,11 +99,13 @@ import android.widget.Toast;
 		initData();
 		users = MyApplication.getCurrentUser();
 		if (users != null && users.getName() != null) {
-			btnHead.setText(users.getName());
+			loginState.setText(users.getName());
+			// 设置头像
+			if (users.getPhoto() != null) {
+				com.nostra13.universalimageloader.core.ImageLoader
+						.getInstance().displayImage(users.getPhoto(), ivHead);
+			}
 		}
-		// else if (users!=null&&users.getName()==null) {
-		// btnHead.setText("erhuo_"+users.getIdentity().substring(7,11));
-		// }
 	}
 
 	@Override
@@ -121,7 +128,7 @@ import android.widget.Toast;
 		case R.id.share_container:
 			showShare();
 			break;
-		case R.id.userinfo_btn_herder:
+		case R.id.userinfo_iv_header:
 			Log.i("onClick", "userinfo_btn_herder");
 			// Users users=MyApplication.getCurrentUser();
 			if (users != null && !users.equals("null")) {
@@ -152,52 +159,52 @@ import android.widget.Toast;
 			break;
 		case R.id.userinfo_btn_selling:
 			if (users != null) {
-			btnId = 0;
-			intent.putExtra("btnId", btnId);
-			startActivity(intent);
-			}else{
+				btnId = 0;
+				intent.putExtra("btnId", btnId);
+				startActivity(intent);
+			} else {
 				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
-				.show();
+						.show();
 			}
 			break;
 		case R.id.userinfo_btn_sold:
 			if (users != null) {
-			btnId = 1;
-			intent.putExtra("btnId", btnId);
-			startActivity(intent);
-			}else{
+				btnId = 1;
+				intent.putExtra("btnId", btnId);
+				startActivity(intent);
+			} else {
 				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
-				.show();
+						.show();
 			}
 			break;
 		case R.id.userinfo_btn_bought:
 			if (users != null) {
-			btnId = 2;
-			intent.putExtra("btnId", btnId);
-			startActivity(intent);
-			}else{
+				btnId = 2;
+				intent.putExtra("btnId", btnId);
+				startActivity(intent);
+			} else {
 				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
-				.show();
+						.show();
 			}
 			break;
 		case R.id.userinfo_btn_donate:
 			if (users != null) {
-			btnId = 3;
-			intent.putExtra("btnId", btnId);
-			startActivity(intent);
-			}else{
+				btnId = 3;
+				intent.putExtra("btnId", btnId);
+				startActivity(intent);
+			} else {
 				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
-				.show();
+						.show();
 			}
 			break;
 		case R.id.userinfo_btn_favorite:
 			if (users != null) {
-			btnId = 4;
-			intent.putExtra("btnId", btnId);
-			startActivity(intent);
-			}else{
+				btnId = 4;
+				intent.putExtra("btnId", btnId);
+				startActivity(intent);
+			} else {
 				Toast.makeText(getActivity(), "请登录！", Toast.LENGTH_SHORT)
-				.show();
+						.show();
 			}
 			break;
 		}

@@ -18,20 +18,22 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@drawable/img_my_bg"
+            android:orientation="vertical"
             android:gravity="center_vertical|center_horizontal" >
-
-            <Button
-                android:id="@+id/userinfo_btn_herder"
+            
+            <com.geminno.erhuo.view.CircleImageView
+                android:id="@+id/userinfo_iv_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:drawableTop="@drawable/header_default"
-                android:paddingBottom="2dip"
-                android:paddingTop="7dip"
-                android:scaleType="matrix"
-                android:text="未登录"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/font_tiny" />
+                android:src="@drawable/header_default" />
+            
+            <TextView 
+                android:id="@+id/userinfo_login_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="未登录"/>
+            
         </LinearLayout>
 
         <LinearLayout

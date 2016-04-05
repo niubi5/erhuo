@@ -27,6 +27,8 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -62,6 +64,7 @@ public class EditUserInfoActivity extends Activity implements
 	private int sex;
 	private Users users;
 	private Context context;
+	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private String[] items = new String[] { "选择相册", "拍照" };
 	/* 头像名称 */
 	private static final String IMAGE_FILE_NAME = "headImage.jpg";
@@ -96,6 +99,12 @@ public class EditUserInfoActivity extends Activity implements
 			nickName.setText(users.getName());
 		}
 		String sex = users.getSex() + "";
+		if (users.getPhoto()!=null) {
+			imageLoader.displayImage(users.getPhoto(), editHeader);
+		}else {
+			editHeader
+			.setImageResource(R.drawable.header_default);
+		}
 		if (sex != null && users.getSex() == 0) {
 			male.setSelected(true);
 		} else if (sex != null) {
@@ -212,10 +221,11 @@ public class EditUserInfoActivity extends Activity implements
 	                   setImageToView(data);  
 	                   HttpUtils httpUtils=new HttpUtils();
 	                   RequestParams params=new RequestParams();
+	                   params.addBodyParameter("userId",users.getId()+"");
 	                   params.addBodyParameter("file",file);
-	                   params.addQueryStringParameter("userid",users.getId()+"");
-	                   String headUrl = Url.getUrlHead();
-	                   String url = headUrl + "/AddHeaderImageServlet";
+                       Log.i("setUserHead", users.getId()+"");
+	                   String url = Url.getUrlHead()+ "/AddHeaderImageServlet";
+//	                   String url = "http://10.201.1.16:8080/secondHandShop" + "/AddHeaderImageServlet";
 	                   httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
 						@Override
@@ -291,9 +301,9 @@ public class EditUserInfoActivity extends Activity implements
     public void saveBitmap(Bitmap photo) {
      Log.e("cheshi", "保存图片");
      SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-     String picName=  sDateFormat.format(new java.util.Date());
+     String picName=  sDateFormat.format(new java.util.Date(System.currentTimeMillis()))+".jpg";
      file = new File( Environment.getExternalStorageDirectory().getPath(), picName);
-     Log.i("cheshi", "图片路径"+file.getAbsolutePath());
+     Log.i("cheshi", "图片路径:"+file.getAbsolutePath());
      if (file.exists()) {
       file.delete();
      }
@@ -317,28 +327,7 @@ public class EditUserInfoActivity extends Activity implements
 		}
 	}
 	
-//	private void SavePicInLocal(Bitmap bitmap) {
-//		FileOutputStream fos = null;
-//		BufferedOutputStream bos = null;
-//		ByteArrayOutputStream baos = null; // 字节数组输出流
-//		try {
-//			baos = new ByteArrayOutputStream();
-//			bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-//			byte[] byteArray = baos.toByteArray();// 字节数组输出流转换成字节数组
-//			SimpleDateFormat formatter = new SimpleDateFormat ("yyyy年MM月dd日 HH:mm:ss "); 
-//			Date curDate = new Date(System.currentTimeMillis());//获取当前时间 
-//			String picName = formatter.format(curDate); 
-//			File file = new File(Environment.getExternalStorageDirectory().getPath(), picName);
-//			// 将字节数组写入到刚创建的图片文件中
-//			fos = new FileOutputStream(file);
-//			bos = new BufferedOutputStream(fos);
-//			bos.write(byteArray);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
+
 
 	@Override
 	public void onClick(View v) {
