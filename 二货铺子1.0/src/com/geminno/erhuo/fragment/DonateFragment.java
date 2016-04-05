@@ -428,6 +428,8 @@ public class DonateFragment extends BaseFragment {
 				    	if(singleUrls!=null&&singleUrls.size()!=0)
 				    	{
 				    	donation.setImageUrl(singleUrls.get(0));
+				    	}else{
+//				    		donation.setImageUrl(R.drawable.delete_white);
 				    	}
 				    	donation.setAddressImage(R.drawable.icon_city);
 				    	
@@ -439,7 +441,6 @@ public class DonateFragment extends BaseFragment {
 				    	//获得donationId对应names
 				    	getName(donation.getId());
 				    	mDatas.add(donation);
-				    	count++;
 	            	}
 	            	
 	            }
