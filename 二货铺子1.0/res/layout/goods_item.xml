@@ -22,7 +22,7 @@
             android:layout_marginTop="5dp"
             android:orientation="horizontal" >
 
-            <ImageView
+            <com.geminno.erhuo.view.CircleImageView
                 android:id="@+id/user_head"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

@@ -14,6 +14,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * @author LuoShiHeng
@@ -124,7 +126,12 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 				listUsers.add(user);
 			}
 		}
-		viewHolder.userHead.setImageResource(R.drawable.header_default);
+		if(listUsers.get(position).getPhoto() != null && !listUsers.get(position).getPhoto().equals("")){
+			Log.i("erhuo:", listUsers.get(position).getPhoto());
+			ImageLoader.getInstance().displayImage(listUsers.get(position).getPhoto(), viewHolder.userHead);
+		} else {
+			viewHolder.userHead.setImageResource(R.drawable.header_default);
+		}
 		viewHolder.commentContent.setText(remark.getComment_content());
 		viewHolder.commentTime.setText(remark.getComment_time()
 				.substring(5, 16));

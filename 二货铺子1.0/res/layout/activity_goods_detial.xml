@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view2" >
 
-                <ImageView
+                <com.geminno.erhuo.view.CircleImageView
                     android:id="@+id/iv_user_head"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
