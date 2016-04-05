@@ -46,6 +46,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class DonateFragment extends BaseFragment {
 
@@ -117,7 +118,12 @@ public class DonateFragment extends BaseFragment {
 	@SuppressLint("SimpleDateFormat")
 	@Override
 	protected void initData() {
-
+		// 开启线程初始化数据
+//		new Thread() {
+//
+//			@Override
+//			public void run() {
+		
 		/**
 		 * 发送请求，查询要显示在捐赠列表页面上的信息
 		 */
@@ -140,7 +146,7 @@ public class DonateFragment extends BaseFragment {
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
-						Log.i("result", result);
+						//Log.i("DonateFragmentResult", "result:s"+result);
 						Gson gson = new GsonBuilder()
 								.enableComplexMapKeySerialization()
 								.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -184,17 +190,19 @@ public class DonateFragment extends BaseFragment {
 									user = new Users();
 									donation = du.getKey();
 									user = du.getValue();
-
 									donation.setUserName(user.getName());
-
-									donation.setHeadImage(R.drawable.header_default);
+									donation.setHeadImage(user.getPhoto());
+									Log.i("DonateFragmentResult", "donatePhoto:"+donation.getPhone());
+									
 									if (singleUrls != null
 											&& singleUrls.size() != 0) {
 										// 取第一张图片显示在首页
 										donation.setImageUrl(singleUrls.get(0));
 									}
 									donation.setAddressImage(R.drawable.icon_city);
-
+//									if(user.getPhoto() != null && !"".equals(user.getPhoto())){
+//										donation.setHeadImage(user.getPhoto());
+//									}
 									// 将查询到Donatoin与将其对应的url存入到donationUrls
 									Map<Donation, List<String>> m = new HashMap<Donation, List<String>>();
 									m.put(donation, singleUrls);
@@ -216,8 +224,11 @@ public class DonateFragment extends BaseFragment {
 								public void convert(
 										DonationViewHolder viewHolder,
 										Donation item) {
-									viewHolder.setImageResource(R.id.iv_head,
-											item.getHeadImage());
+									if(item.getHeadImage() != null && !"".equals(item.getHeadImage())){
+										viewHolder.setHeadImageRes(R.id.iv_head, item.getHeadImage());
+									}else{
+									viewHolder.setImageResource(R.id.iv_head,R.drawable.header_default);
+									}
 									viewHolder.setText(
 											R.id.tv_donation_user_name,
 											item.getUserName());
@@ -382,6 +393,8 @@ public class DonateFragment extends BaseFragment {
 	public void addData() {
 
 		HttpUtils http = new HttpUtils();
+//		String url = "http://10.201.1.20:8080/secondHandShop/ListHelpsServlet";
+        // 设置不缓存
 		// String url =
 		// "http://10.201.1.20:8080/secondHandShop/ListHelpsServlet";
 		String url = Url.getUrlHead() + "/ListHelpsServlet";
@@ -395,81 +408,81 @@ public class DonateFragment extends BaseFragment {
 		http.send(HttpRequest.HttpMethod.GET, url, params,
 				new RequestCallBack<String>() {
 
-			@Override
-			public void onSuccess(ResponseInfo<String> arg0) {
-				int count = 0;
-				Log.i("request", "请求成功");
-				String result = arg0.result;
-				Gson gson = new GsonBuilder()
-				.enableComplexMapKeySerialization()
-				.setDateFormat("yyyy-MM-dd hh-mm-ss")
-				.create();
-				Log.i("gson", gson.toString());
-				Type type = new TypeToken<List<Map<Map<Donation, Users>, List<String>>>>() {
-				}.getType();
-				// 获取的新数据
-				List<Map<Map<Donation, Users>, List<String>>> newDonation = gson.fromJson(result, type);
-	            listAll.addAll(newDonation);
-	            
-	            for(int i = 0; i < newDonation.size() ; i++){
-	            	map = newDonation.get(i);
-	            
-	            
-	            Set<Map.Entry<Map<Donation,Users>, List<String>>> entry = map.entrySet();
-	            for(Map.Entry<Map<Donation,Users>, List<String>> en : entry){
-	            	Map<Donation,Users> donationUser = en.getKey();
-	            	List<String> singleUrls = en.getValue();
-//	            	for(int i = 0 ; i < urls.size();i++){
-//	            		Log.i("imageUrl", urls.get(i));
-//	            	}
-	            	
-	            	Set<Map.Entry<Donation, Users>> dus = donationUser.entrySet();
-	            	for(Map.Entry<Donation, Users> du: dus){
-	            		donation = new Donation();
-				    	user = new Users();
-	            		donation = du.getKey();
-	            		user = du.getValue();
-	            		// 将取到的数据封装到Donation对象
-	            		donation.setUserName(user.getName());
-				    	donation.setHeadImage(R.drawable.header_default);
-				    	if(singleUrls!=null&&singleUrls.size()!=0)
-				    	{
-				    	donation.setImageUrl(singleUrls.get(0));
-				    	}else{
-//				    		donation.setImageUrl(R.drawable.delete_white);
-				    	}
-				    	donation.setAddressImage(R.drawable.icon_city);
-				    	
-				    	// 将查询到Donatoin与将其对应的url存入到donationUrls
-				    	Map<Donation,List<String>> m = new HashMap<Donation,List<String>>();
-				    	m.put(donation, singleUrls);
-				    	donationUrls.add(m);
-                        
-				    	//获得donationId对应names
-				    	getName(donation.getId());
-				    	preDatas.add(donation);
-				    	mDatas.add(donation);
-	            	}
-	            	
-	            }
-	            }
-				// 判断preDatas是否为空，如果不为空，移除记录
-				if(!preDatas.isEmpty()){
-					mDatas.remove(preDatas);
-					preDatas.clear();
-				}
-				
-				// 判断是否加载到了数据
-				if(newDonation == null || newDonation.isEmpty()){
-					// 页数不变，之前++过
-					curPage --;
-					Toast.makeText(getContext(), "没有更多了", Toast.LENGTH_SHORT).show();
-				}else{
-					// 如果有数据但没有加满，页数仍然不变
-					if(newDonation != null && newDonation.size() < pageSize){
-						mDatas.addAll(preDatas);
-						curPage--;					
+					@Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						int count = 0;
+						Log.i("request", "请求成功");
+						String result = arg0.result;
+						Gson gson = new GsonBuilder()
+								.enableComplexMapKeySerialization()
+								.setDateFormat("yyyy-MM-dd hh-mm-ss").create();
+						Log.i("gson", gson.toString());
+						Type type = new TypeToken<List<Map<Map<Donation, Users>, List<String>>>>() {
+						}.getType();
+						// 获取的新数据
+						List<Map<Map<Donation, Users>, List<String>>> newDonation = gson
+								.fromJson(result, type);
+						listAll.addAll(newDonation);
 
+						for (int i = 0; i < newDonation.size(); i++) {
+							map = newDonation.get(i);
+
+							Set<Map.Entry<Map<Donation, Users>, List<String>>> entry = map
+									.entrySet();
+							for (Map.Entry<Map<Donation, Users>, List<String>> en : entry) {
+								Map<Donation, Users> donationUser = en.getKey();
+								List<String> singleUrls = en.getValue();
+								// for(int i = 0 ; i < urls.size();i++){
+								// Log.i("imageUrl", urls.get(i));
+								// }
+
+								Set<Map.Entry<Donation, Users>> dus = donationUser
+										.entrySet();
+								for (Map.Entry<Donation, Users> du : dus) {
+									donation = new Donation();
+									user = new Users();
+									donation = du.getKey();
+									user = du.getValue();
+									// 将取到的数据封装到Donation对象
+									donation.setUserName(user.getName());
+									donation.setHeadImage(user.getPhoto());
+									if (singleUrls != null
+											&& singleUrls.size() != 0) {
+										donation.setImageUrl(singleUrls.get(0));
+									}
+									donation.setAddressImage(R.drawable.icon_city);
+
+									// 将查询到Donatoin与将其对应的url存入到donationUrls
+									Map<Donation, List<String>> m = new HashMap<Donation, List<String>>();
+									m.put(donation, singleUrls);
+									donationUrls.add(m);
+
+									// 获得donationId对应names
+									getName(donation.getId());
+									mDatas.add(donation);
+									count++;
+								}
+
+							}
+						}
+						// 判断preHelps是否为空，如果不为空，移除记录
+						if (!preDatas.isEmpty()) {
+							listAll.remove(preDatas);
+							preDatas.clear();
+						}
+
+						// 判断是否加载到了数据
+						if (newDonation == null || newDonation.isEmpty()) {
+							// 页数不变，之前++过
+							curPage--;
+							Toast.makeText(getContext(), "没有更多了",
+									Toast.LENGTH_SHORT).show();
+						} else {
+							// 如果有数据但没有加满，页数仍然不变
+							if (newDonation != null
+									&& newDonation.size() < pageSize) {
+								preDatas.addAll(mDatas);
+								curPage--;
 							}
 							// 加入新取到的数据
 							listAll.addAll(newDonation);
@@ -485,8 +498,12 @@ public class DonateFragment extends BaseFragment {
 								public void convert(
 										DonationViewHolder viewHolder,
 										Donation item) {
-									viewHolder.setImageResource(R.id.iv_head,
-											item.getHeadImage());
+									if(item.getHeadImage() != null){
+										viewHolder.setImageRes(R.id.iv_head,
+												item.getHeadImage());
+									}else{
+										viewHolder.setImageResource(R.id.iv_head, R.drawable.header_default);
+									}
 									viewHolder.setText(
 											R.id.tv_donation_user_name,
 											item.getUserName());
@@ -546,6 +563,7 @@ public class DonateFragment extends BaseFragment {
 		// 设置请求参数
 		RequestParams params = new RequestParams();
 		params.addBodyParameter("helpId", String.valueOf(helpId));
+		
 		// String url =
 		// "http://10.201.1.20:8080/secondHandShop/GetDonatorServlet";
 		String url = Url.getUrlHead() + "/GetDonatorServlet";

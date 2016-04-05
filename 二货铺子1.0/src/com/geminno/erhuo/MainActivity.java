@@ -45,7 +45,7 @@ import com.geminno.erhuo.fragment.MessageFragment;
 import com.geminno.erhuo.fragment.UserInfoFragment;
 import com.geminno.erhuo.utils.ExampleUtil;
 
-public class MainActivity extends BaseActivity implements OnClickListener {
+public class MainActivity extends FragmentActivity implements OnClickListener {
 	private View flMain;
 	public static Activity mainActivity;
 	private Context context;

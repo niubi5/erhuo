@@ -492,7 +492,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				}
 				collection = MyApplication.getCollection();// 实时更新
 				// -------------- 用户头像还要改
-				if (user.getPhoto() != null) {
+				if (user.getPhoto()!=null && user.getPhoto().equals("")) {
 					imageLoader.displayImage(user.getPhoto(),
 							viewHolder.userHead);
 				} else {

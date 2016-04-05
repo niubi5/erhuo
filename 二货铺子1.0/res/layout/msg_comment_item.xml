@@ -15,7 +15,7 @@
         android:layout_marginTop="7dp"
         android:orientation="horizontal" >
 
-        <ImageView
+        <com.geminno.erhuo.view.CircleImageView
             android:id="@+id/msg_comment_user_head"
             android:layout_width="40dp"
             android:layout_height="40dp"

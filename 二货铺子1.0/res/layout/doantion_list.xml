@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <ImageView
+            <com.geminno.erhuo.view.CircleImageView
                 android:id="@+id/iv_head"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -38,8 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="6dp"
-                    android:text="@string/donation_user_name"
-                    android:textSize="@dimen/font_s_tinysmall" />
+                    android:text="@string/donation_user_name" />
 
                 <TextView
                     android:id="@+id/tv_donation_time"
@@ -47,8 +46,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="4dp"
-                    android:text="@string/donation_time"
-                    android:textSize="@dimen/font_s_tinysmall" />
+                    android:textColor="#B7B7B7"
+                    android:text="@string/donation_time" />
             </LinearLayout>
         </LinearLayout>
 

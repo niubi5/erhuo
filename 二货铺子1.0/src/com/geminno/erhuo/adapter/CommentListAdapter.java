@@ -167,7 +167,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 				listCommentUsers.add(user);
 			}
 		}
-		if (user.getPhoto() != null) {
+		if (user.getPhoto() != null && user.getPhoto().equals("")) {
 			imageLoader.displayImage(user.getPhoto(), holder.userHead);
 		} else {
 			holder.userHead.setImageResource(R.drawable.header_default);
