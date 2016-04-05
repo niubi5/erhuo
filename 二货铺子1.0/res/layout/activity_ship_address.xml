@@ -4,41 +4,42 @@
     android:layout_height="match_parent"
     android:background="#F9F8F4"
     tools:context="com.geminno.erhuo.ShipAddressActivity" >
-<Button
+
+    <Button
         android:id="@+id/but_address_xin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/main_red"
-        android:text="新建收货地址" 
-        android:textColor="@color/main_white"/>
+        android:text="新建收货地址"
+        android:textColor="@color/main_white" />
 
-<FrameLayout
-    android:id="@+id/erhuo_title_address"
-    style="@style/FrameTitleRed"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentTop="true" >
+    <FrameLayout
+        android:id="@+id/erhuo_title_address"
+        style="@style/FrameTitleRed"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
 
-    <ImageView
-        android:id="@+id/ib_address_return"
-        style="@style/FrameTitleButtonLeft"
-        android:onClick="onclick"
-        android:src="@drawable/left_arrow_white" />
+        <ImageView
+            android:id="@+id/ib_address_return"
+            style="@style/FrameTitleButtonLeft"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:onClick="onclick"
+            android:src="@drawable/left_arrow_white" />
 
-    <TextView
-        style="@style/FrameTitleRedText"
-        android:text="请选择收货地址" />
-</FrameLayout>
+        <TextView
+            style="@style/FrameTitleRedText"
+            android:text="请选择收货地址" />
+    </FrameLayout>
 
-<ListView
-    android:id="@+id/list_ship"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_above="@+id/but_address_xin"
-    android:layout_below="@+id/erhuo_title_address"
-    android:layout_centerHorizontal="true" 
-    >
-
-</ListView>
+    <ListView
+        android:id="@+id/list_ship"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/but_address_xin"
+        android:layout_below="@+id/erhuo_title_address"
+        android:layout_centerHorizontal="true" >
+    </ListView>
 
 </RelativeLayout>

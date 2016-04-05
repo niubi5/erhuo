@@ -369,7 +369,7 @@ public class BoughtFragment extends BaseFragment {
 		http.configCurrentHttpCacheExpiry(0);
 		String headUrl = Url.getUrlHead();
 		// 拼接url
-		String url = headUrl + "/GetMyboughtServlet";
+		String url = headUrl + "/GetMyBoughtServlet";
 		http.send(HttpRequest.HttpMethod.POST, url, params,
 				new RequestCallBack<String>() {
 
