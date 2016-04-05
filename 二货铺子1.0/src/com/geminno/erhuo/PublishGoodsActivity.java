@@ -59,6 +59,7 @@ import com.geminno.erhuo.utils.ImageItem;
 import com.geminno.erhuo.utils.MyAdapter;
 import com.geminno.erhuo.utils.PublicWay;
 import com.geminno.erhuo.utils.Res;
+import com.geminno.erhuo.utils.Url;
 import com.geminno.erhuo.utils.ViewHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -563,14 +564,14 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				// 服务器地址(测试，后期从配置文件获取)
 				// String url = null;
 				Properties prop = new Properties();
-				String headUrl = null;
-				try {
-					prop.load(PublishGoodsActivity.class
-							.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
-					headUrl = prop.getProperty("url");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				String headUrl = Url.getUrlHead();
+//				try {
+//					prop.load(PublishGoodsActivity.class
+//							.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
+//					headUrl = prop.getProperty("url");
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
 
 				final String url = headUrl + "/AddGoodServlet";
 				

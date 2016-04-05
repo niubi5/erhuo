@@ -26,13 +26,12 @@ public class WoMenActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_wo_men);
+		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		returnImageView = (ImageView) findViewById(R.id.ib_women_return);
 		xuanze = (ImageView) findViewById(R.id.ib_xuanze);
 	}
 
 	public void onclick(View v) {
-		Intent intent = new Intent(this, SheZhiActivity.class);
-		startActivity(intent);
 		finish();
 	}
 
