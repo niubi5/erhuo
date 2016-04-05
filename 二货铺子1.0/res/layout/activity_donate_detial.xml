@@ -68,7 +68,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/rciv_donate_detial_help"
-            android:text="TextView"
+            android:text="标题:"
             android:textColor="@color/dimgray"
             android:textSize="@dimen/font_huge" />
 
@@ -79,7 +79,7 @@
             android:layout_alignLeft="@+id/tv_donate_detial_help_name"
             android:layout_below="@+id/tv_donate_detial_help_name"
             android:layout_marginTop="5dp"
-            android:text="TextView"
+            android:text="发布时间:"
             android:textColor="@color/dimgray"
             android:textSize="@dimen/font_middle" />
 
@@ -91,7 +91,7 @@
             android:layout_below="@+id/tv_donate_detial_help_time"
             android:layout_marginTop="5dp"
             android:singleLine="false"
-            android:text="TextView"
+            android:text="详情:"
             android:textColor="@color/dimgray"
             android:textSize="@dimen/font_middle" />
 
@@ -102,7 +102,7 @@
             android:layout_alignLeft="@+id/tv_donate_detial_help_name"
             android:layout_below="@+id/tv_donate_detial_help_brief"
             android:layout_marginTop="5dp"
-            android:text="TextView"
+            android:text="收货人:"
             android:textColor="@color/dimgray"
             android:textSize="@dimen/font_middle" />
 
@@ -113,7 +113,7 @@
             android:layout_alignLeft="@+id/tv_donate_detial_help_name"
             android:layout_below="@+id/tv_donate_detial_help_receive_name"
             android:layout_marginTop="5dp"
-            android:text="TextView"
+            android:text="收货地址:"
             android:textColor="@color/dimgray"
             android:textSize="@dimen/font_middle" />
 

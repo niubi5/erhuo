@@ -3,6 +3,7 @@ package com.geminno.erhuo;
 import java.util.ArrayList;
 
 import com.geminno.erhuo.entity.Donation;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -92,7 +93,11 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		back.setOnClickListener(this);
 		mPhotoWall = (GridView) findViewById(R.id.gv_photos);
 		userHead = (ImageView) findViewById(R.id.iv_detail_head);
-		userHead.setImageResource(R.drawable.header_default);
+		if(donation.getHeadImage() !=null){
+			ImageLoader.getInstance().displayImage(donation.getHeadImage(), userHead);
+		}else{
+			userHead.setImageResource(R.drawable.header_default);
+		}
 
 		userName = (TextView) findViewById(R.id.tv_donation_detail_user_name);
 		userName.setText(donation.getUserName());
@@ -111,7 +116,7 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		consignee = (TextView) findViewById(R.id.tv_donation_ditail_geterName);
 		consignee.setText(donation.getConsignee());
 
-		phone = (TextView) findViewById(R.id.tv_get_donation_phone);
+		phone = (TextView) findViewById(R.id.tv_get_donation_photo_user);
 		phone.setText(donation.getPhone());
 
 		donatorNames = (TextView) findViewById(R.id.tv_detail_donatorNames);

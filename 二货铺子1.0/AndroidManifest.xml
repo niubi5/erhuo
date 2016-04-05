@@ -242,7 +242,8 @@
         <activity
             android:name=".GuideActivity"
             android:label="@string/title_activity_guide"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name=".EditUserInfoActivity"

@@ -118,10 +118,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 										Toast.makeText(LoginActivity.this,
 												"登陆失败,您还未注册！", 0).show();
 									} else {
-										Intent intent2 = new Intent(
-												LoginActivity.this,
-												MainActivity.class);
-										startActivity(intent2);
+//										MainActivity.mainActivity.finish();
+//										Intent intent2 = new Intent(
+//												LoginActivity.this,
+//												MainActivity.class);
+//										startActivity(intent2);
 										Gson gson = new Gson();
 										Users users = gson.fromJson(result,
 												Users.class);

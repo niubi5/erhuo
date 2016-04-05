@@ -232,4 +232,13 @@ import android.widget.Toast;
 		// 启动分享GUI
 		oks.show(getActivity());
 	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		initView();
+	}
+	
+	
 }

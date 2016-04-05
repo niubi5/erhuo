@@ -62,8 +62,8 @@ public class DonateActivity extends Activity {
 							// 组装对象
 							donates.setHelpId(getIntent().getIntExtra(
 									"donationId", 1));
-							donates.setUserId(getIntent().getIntExtra("userId",
-									1));
+							donates.setUserId(MyApplication.getCurrentUser().getId());
+							Log.i("DonateFragmentResult", MyApplication.getCurrentUser().getId()+"");
 							donates.setTitle(title);
 							donates.setBrief(detail);
 							SimpleDateFormat sdf = new SimpleDateFormat(

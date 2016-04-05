@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,41 +63,11 @@ import com.lidroid.xutils.http.client.HttpRequest;
 	@Override
 	protected void initData() {
 		// // state:1在售中，2:未发货，3:已发货，4:已完成
-		// Goods g1 = new Goods();
-		// g1.setName("笔记本1");
-		// g1.setSoldPrice(100);
-		// g1.setBuyPrice(100);
-		// g1.setImformation("惠普(HP)WASD 暗影精灵 15.6英寸游戏笔记本(i5-6300HQ 4G 1TB+128G SSD GTX950M 4G独显 FHD IPS屏 Win10"
-		// + "【手机端抢4999】搭载第六代skylake处理器！更快更强！开机飞快，让你一开始你就赢了");
-		// g1.setTypeId(1);
-		// g1.setMarketId(1);
-		// g1.setState(2);
-		//
-		// Goods g2 = new Goods();
-		// g2.setName("笔记本2");
-		// g2.setSoldPrice(200);
-		// g2.setBuyPrice(200);
-		// g2.setImformation("惠普(HP)WASD 暗影精灵 15.6英寸游戏笔记本(i5-6300HQ 4G 1TB+128G SSD GTX950M 4G独显 FHD IPS屏 Win10"
-		// + "【手机端抢4999】搭载第六代skylake处理器！更快更强！开机飞快，让你一开始你就赢了");
-		// g2.setTypeId(1);
-		// g2.setMarketId(1);
-		// g2.setState(3);
-		//
-		// Goods g3 = new Goods();
-		// g3.setName("笔记本3");
-		// g3.setSoldPrice(300);
-		// g3.setBuyPrice(300);
-		// g3.setImformation("惠普(HP)WASD 暗影精灵 15.6英寸游戏笔记本(i5-6300HQ 4G 1TB+128G SSD GTX950M 4G独显 FHD IPS屏 Win10"
-		// + "【手机端抢4999】搭载第六代skylake处理器！更快更强！开机飞快，让你一开始你就赢了");
-		// g3.setTypeId(1);
-		// g3.setMarketId(1);
-		// g3.setState(4);
-		//
-		// listCollec.add(g1);
-		// listCollec.add(g2);
-		// listCollec.add(g3);
 		listColGoodsId = MyApplication.getCollection();
-		Gson gson = new Gson();
+		if(listColGoodsId.isEmpty()){
+			
+		}else{
+				Gson gson = new Gson();
 		listIdJson = gson.toJson(listColGoodsId);
 		HttpUtils http = new HttpUtils();
 		// 设置参数
@@ -132,9 +103,8 @@ import com.lidroid.xutils.http.client.HttpRequest;
 					}
 
 				});
-
-		rlvCollec.setAdapter(adapter);
-
+		}
+	
 	}
 
 	@Override
@@ -194,7 +164,11 @@ import com.lidroid.xutils.http.client.HttpRequest;
 			RequestParams params = new RequestParams();
 			params.addQueryStringParameter("curPage", curPage + "");
 			params.addQueryStringParameter("pageSize", pageSize + "");
-			params.addQueryStringParameter("collecGoodsId",listIdJson);
+			if(listAll.size() < listColGoodsId.size()){
+				Gson g = new Gson();
+				String listid = g.toJson(listColGoodsId.subList(curPage, curPage+pageSize));
+				params.addQueryStringParameter("collecGoodsId",listIdJson);
+				Log.i("CollectionFragment ", "curPage:"+curPage);
 			http.configCurrentHttpCacheExpiry(0);
 			String headUrl = Url.getUrlHead();
 			// 拼接url
@@ -210,6 +184,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
 						@Override
 						public void onSuccess(ResponseInfo<String> arg0) {
 							String result = arg0.result;
+							Log.i("CollectionFragment ", "result:"+ result);
 							Gson gson = new GsonBuilder()
 									.enableComplexMapKeySerialization()
 									.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -243,12 +218,19 @@ import com.lidroid.xutils.http.client.HttpRequest;
 									adapter = new HomePageAdapter(context, listAll, rlvCollec, isRefresh);
 									rlvCollec.setAdapter(adapter);
 								} else {
+									Log.i("CollectionFragment ", "adapter not null");
 									adapter.notifyDataSetChanged();
 								}
 							}
 
 						}
 					});
+			}else{
+				Toast.makeText(context, "没有更多了", Toast.LENGTH_SHORT)
+				.show();
+			}
+			
+			
 		}
 
 }
