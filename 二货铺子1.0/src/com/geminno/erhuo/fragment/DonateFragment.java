@@ -560,7 +560,7 @@ public class DonateFragment extends BaseFragment {
 
 					}
 
-					@Override
+					@SuppressLint("UseSparseArrays") @Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						Log.i("requestName", "请求成功");
 						String result = arg0.result;

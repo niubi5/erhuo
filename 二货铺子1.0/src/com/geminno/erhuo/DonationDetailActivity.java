@@ -110,7 +110,7 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		consignee = (TextView) findViewById(R.id.tv_donation_ditail_geterName);
 		consignee.setText(donation.getConsignee());
 
-		phone = (TextView) findViewById(R.id.tv_get_donation_phone);
+		phone = (TextView) findViewById(R.id.tv_get_donation_photo_user);
 		phone.setText(donation.getPhone());
 
 		donatorNames = (TextView) findViewById(R.id.tv_detail_donatorNames);
