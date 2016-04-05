@@ -101,9 +101,11 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		if (users != null && users.getName() != null) {
 			loginState.setText(users.getName());
 			// 设置头像
-			if (users.getPhoto() != null) {
+			if (users.getPhoto() != null &&!users.getPhoto().equals("")) {
 				com.nostra13.universalimageloader.core.ImageLoader
 						.getInstance().displayImage(users.getPhoto(), ivHead);
+			} else {
+				ivHead.setImageResource(R.drawable.header_default);
 			}
 		}
 	}

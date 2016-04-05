@@ -23,14 +23,15 @@
             
             <com.geminno.erhuo.view.CircleImageView
                 android:id="@+id/userinfo_iv_header"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/header_default" />
             
             <TextView 
                 android:id="@+id/userinfo_login_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/white"
                 android:text="未登录"/>
             

@@ -99,7 +99,7 @@ public class EditUserInfoActivity extends Activity implements
 			nickName.setText(users.getName());
 		}
 		String sex = users.getSex() + "";
-		if (users.getPhoto()!=null) {
+		if (users.getPhoto()!=null && users.getPhoto().equals("")) {
 			imageLoader.displayImage(users.getPhoto(), editHeader);
 		}else {
 			editHeader
