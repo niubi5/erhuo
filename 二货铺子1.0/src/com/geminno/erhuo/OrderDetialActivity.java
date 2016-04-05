@@ -123,7 +123,7 @@ public class OrderDetialActivity extends Activity {
 		HttpUtils hu = new HttpUtils();
 		RequestParams rp = new RequestParams();
 		rp.addBodyParameter("goodId", good.getId() + "");
-		String headUrl = Url.getHeikkiUrlHead();
+		String headUrl = Url.getUrlHead();
 		String url = headUrl + "/GetGoodOrderServlet";
 		/**
 		 * @heikki 04.01 22:34
@@ -354,7 +354,7 @@ public class OrderDetialActivity extends Activity {
 					RequestParams rp = new RequestParams();
 					rp.addBodyParameter("goodId",good.getId()+"");
 					rp.addBodyParameter("completeTime",MySdf.getDateToString(new Date(System.currentTimeMillis())));
-					String headUrl = Url.getHeikkiUrlHead();
+					String headUrl = Url.getUrlHead();
 					String url = headUrl + "/UpdateOrderServlet";
 					
 					hu.send(HttpRequest.HttpMethod.POST, url, rp, new RequestCallBack<String>() {

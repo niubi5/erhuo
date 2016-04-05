@@ -161,6 +161,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			RefreshListView refreshListView, boolean isRefresh) {
 		this.context = context;
 		this.listAll = listAll;
+		Log.i("erhuo", "adapter里面的长度：" + listAll.size());
 		this.refreshListView = refreshListView;
 		this.isRefresh = isRefresh;
 		typeCount = 1;

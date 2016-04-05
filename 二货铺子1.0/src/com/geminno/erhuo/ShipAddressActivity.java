@@ -145,7 +145,6 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 		RequestParams params=new RequestParams();
 		String headUrl = Url.getUrlHead();
 		String url = headUrl + "/AddressListServlet";
-//		String url="http://10.201.1.16:8080/secondHandShop/AddressListServlet";
 		params.addQueryStringParameter("curUserId",userId);
 		httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 

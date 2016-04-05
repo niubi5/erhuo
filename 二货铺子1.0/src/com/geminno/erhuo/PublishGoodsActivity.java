@@ -561,22 +561,9 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 				Gson gson = new GsonBuilder().setDateFormat(
 						"yyyy-MM-dd HH:mm:ss").create();
 				String goodsJson = gson.toJson(goods);
-				// 服务器地址(测试，后期从配置文件获取)
-				// String url = null;
 				Properties prop = new Properties();
 				String headUrl = Url.getUrlHead();
-//				try {
-//					prop.load(PublishGoodsActivity.class
-//							.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
-//					headUrl = prop.getProperty("url");
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-
 				final String url = headUrl + "/AddGoodServlet";
-				
-				// final String url =
-				// "http://10.201.1.23:8080/secondHandShop/AddGoodServlet";
 				RequestParams rp = new RequestParams();
 				rp.addBodyParameter("goodJson", goodsJson);
 				// 处理商品图片

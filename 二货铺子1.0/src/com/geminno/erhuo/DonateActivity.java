@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.geminno.erhuo.entity.Donates;
+import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lidroid.xutils.HttpUtils;
@@ -80,9 +81,8 @@ public class DonateActivity extends Activity {
 
 							RequestParams params = new RequestParams();
 							params.addBodyParameter("donates", donatesGson);
-
-							String url = "http://10.201.1.20:8080/secondHandShop/DonateServlet";
-                            					
+//							String url = "http://10.201.1.20:8080/secondHandShop/DonateServlet";
+                            String url = Url.getUrlHead() + "/DonateServlet";				
 							HttpUtils http = new HttpUtils();
 							http.send(HttpRequest.HttpMethod.POST, url,params,
 									new RequestCallBack<String>() {
