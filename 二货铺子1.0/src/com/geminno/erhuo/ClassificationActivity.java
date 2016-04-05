@@ -52,8 +52,8 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 	// spinner中的分类
 	private String[] classif;
 	private String type = null;
-	private String tag = null;
-	private String sortTag = null;// 排序标签
+	private String tag = null;// 分类标签
+	private String sortTag = "0";// 排序标签
 	private HomePageAdapter adapter;
 	private String result = null;
 	private Handler handler = new Handler();
@@ -62,7 +62,8 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 	private boolean isRefersh = false;
 	private List<Map<Map<Goods, Users>, List<String>>> preGoods = new ArrayList<Map<Map<Goods, Users>, List<String>>>();// 记录上一次不满的记录集合
 	private List<Map<Map<Goods, Users>, List<String>>> listAll = new ArrayList<Map<Map<Goods, Users>, List<String>>>();
-
+	private boolean sortFlag = false;// 是否
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,7 +75,7 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 		// 获得点击分类按钮传过来的tag值
 		type = intent.getStringExtra("type");
 		tag = intent.getStringExtra("tag");
-		sortTag = "0";
+		Log.i("erhuo", "tag:" + tag);
 		context = this;
 		// 返回按钮
 		findViewById(R.id.ib_fenlei).setOnClickListener(this);
@@ -124,8 +125,8 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 	}
 
 	private void setSpinner() {
-		classif = new String[] { type, "苹果手机", "平板电脑", "笔记本", "小米", "数码3c",
-				"书籍文体", "美容美体", "服装箱包", "其他", };
+		classif = new String[] {type, "苹果手机", "平板电脑", "笔记本", "小米", "数码3c",
+				"书籍文体", "服装箱包", "美容美体", "其他", };
 		String[] sort = new String[] {"默认排序","价格最低",
 				"价格最高"};
 		classificationSpinner = (Spinner) findViewById(R.id.spinner1);
@@ -136,8 +137,8 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 					@Override
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
-						// 点第一个不做处理
-						if (position != 0) {
+						if(position != 0){
+							Log.i("erhuo", "进来了 position=" + position);
 							tag = position + "";
 							listAll.clear();
 							isRefersh = true;
@@ -168,11 +169,20 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 			@Override
 			public void onItemSelected(AdapterView<?> parent,
 					View view, int position, long id) {
+				if(position == 0 && sortFlag){
 					sortTag = position + "";
 					listAll.clear();
 					isRefersh = true;
 					curPage = 1;
 					initData();
+				} else if(position != 0){
+					sortTag = position + "";
+					listAll.clear();
+					sortFlag = true;
+					isRefersh = true;
+					curPage = 1;
+					initData();
+				}
 			}
 
 			@Override
@@ -226,6 +236,7 @@ public class ClassificationActivity extends Activity implements OnClickListener 
 						List<Map<Map<Goods, Users>, List<String>>> newGoods = gson
 								.fromJson(result, type);
 						listAll.addAll(newGoods);
+						Log.i("erhuo", "这边的长度：" + listAll.size());
 						adapter = new HomePageAdapter(context, listAll,
 								refreshListView, isRefersh);
 						refreshListView.setAdapter(adapter);

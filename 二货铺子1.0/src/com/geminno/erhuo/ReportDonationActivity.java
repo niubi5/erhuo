@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.geminno.erhuo.entity.Donation;
 import com.geminno.erhuo.entity.HelpsReports;
+import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lidroid.xutils.HttpUtils;
@@ -86,8 +87,8 @@ public class ReportDonationActivity extends Activity implements OnClickListener 
 				String helpReportGson = gson.toJson(helpReport);
 
 				// 请求url
-				String url = "http://10.201.1.20:8080/secondHandShop/HelpsReportServlet";
-
+//				String url = "http://10.201.1.20:8080/secondHandShop/HelpsReportServlet";
+				String url = Url.getUrlHead() + "/HelpsReportServlet";
 				// 设置参数
 				RequestParams params = new RequestParams();
 				params.addBodyParameter("helpReportGson", helpReportGson);

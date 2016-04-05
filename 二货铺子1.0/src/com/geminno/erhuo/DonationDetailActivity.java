@@ -56,7 +56,6 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		setContentView(R.layout.activity_donation_detail);
 		initData();
 		initView();
-
 		mImageThumbSize = getResources().getDimensionPixelSize(
 				R.dimen.image_thumbnail_size);
 		mImageThumbSpacing = getResources().getDimensionPixelSize(
