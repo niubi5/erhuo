@@ -163,13 +163,9 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 							if (result != null && !result.equals("null")) {
 								Toast.makeText(NewAddressActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
 								Intent intent=new Intent(NewAddressActivity.this,ShipAddressActivity.class);
-//			    				intent.putExtra("name", receiptName);
-//			    				intent.putExtra("phone", receiptPhone);
-//			    				intent.putExtra("diqu", receiptdiqu);
-//			    				intent.putExtra("dizhi", receiptdizhi);
 			    				startActivity(intent);
 			    				ShipAddressActivity.shipAddressActivity.finish();
-			    				
+			    				finish();
 							}
 						}
 					});
