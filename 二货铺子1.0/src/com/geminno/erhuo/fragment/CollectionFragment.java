@@ -96,6 +96,9 @@ import com.lidroid.xutils.http.client.HttpRequest;
 		// listCollec.add(g2);
 		// listCollec.add(g3);
 		listColGoodsId = MyApplication.getCollection();
+		if(listColGoodsId.isEmpty()){
+			return;
+		}
 		Gson gson = new Gson();
 		listIdJson = gson.toJson(listColGoodsId);
 		HttpUtils http = new HttpUtils();
