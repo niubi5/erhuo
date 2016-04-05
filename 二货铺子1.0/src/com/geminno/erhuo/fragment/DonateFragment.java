@@ -146,7 +146,7 @@ public class DonateFragment extends BaseFragment {
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
-						Log.i("DonateFragmentResult", "result:s"+result);
+						//Log.i("DonateFragmentResult", "result:s"+result);
 						Gson gson = new GsonBuilder()
 								.enableComplexMapKeySerialization()
 								.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -190,18 +190,19 @@ public class DonateFragment extends BaseFragment {
 									user = new Users();
 									donation = du.getKey();
 									user = du.getValue();
-									Log.i("DonateFragmentResult", "donatePhone:"+donation.getPhone());
 									donation.setUserName(user.getName());
-									if(user.getPhoto() != null){
-										donation.setHeadImage(user.getPhoto());
-									}
+									donation.setHeadImage(user.getPhoto());
+									Log.i("DonateFragmentResult", "donatePhoto:"+donation.getPhone());
+									
 									if (singleUrls != null
 											&& singleUrls.size() != 0) {
 										// 取第一张图片显示在首页
 										donation.setImageUrl(singleUrls.get(0));
 									}
 									donation.setAddressImage(R.drawable.icon_city);
-
+//									if(user.getPhoto() != null && !"".equals(user.getPhoto())){
+//										donation.setHeadImage(user.getPhoto());
+//									}
 									// 将查询到Donatoin与将其对应的url存入到donationUrls
 									Map<Donation, List<String>> m = new HashMap<Donation, List<String>>();
 									m.put(donation, singleUrls);
@@ -223,8 +224,11 @@ public class DonateFragment extends BaseFragment {
 								public void convert(
 										DonationViewHolder viewHolder,
 										Donation item) {
-									viewHolder.setImageRes(R.id.iv_head,
-											item.getHeadImage());
+									if(item.getHeadImage() != null && !"".equals(item.getHeadImage())){
+										viewHolder.setHeadImageRes(R.id.iv_head, item.getHeadImage());
+									}else{
+									viewHolder.setImageResource(R.id.iv_head,R.drawable.header_default);
+									}
 									viewHolder.setText(
 											R.id.tv_donation_user_name,
 											item.getUserName());

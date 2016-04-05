@@ -23,8 +23,8 @@
             
             <com.geminno.erhuo.view.CircleImageView
                 android:id="@+id/userinfo_iv_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/header_default" />
             
             <TextView 

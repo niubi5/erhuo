@@ -53,7 +53,7 @@ public class Donation implements Serializable{
 		return headImageUrl;
 	}
 	public void setHeadImage(String headImageUrl) {
-		headImageUrl = headImageUrl;
+		this.headImageUrl = headImageUrl;
 	}
 	public String getUserName() {
 		return userName;
