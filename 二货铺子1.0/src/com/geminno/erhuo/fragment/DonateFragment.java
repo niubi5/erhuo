@@ -447,14 +447,15 @@ public class DonateFragment extends BaseFragment {
                         
 				    	//获得donationId对应names
 				    	getName(donation.getId());
+				    	preDatas.add(donation);
 				    	mDatas.add(donation);
 	            	}
 	            	
 	            }
 	            }
-				// 判断preHelps是否为空，如果不为空，移除记录
+				// 判断preDatas是否为空，如果不为空，移除记录
 				if(!preDatas.isEmpty()){
-					listAll.remove(preDatas);
+					mDatas.remove(preDatas);
 					preDatas.clear();
 				}
 				
@@ -466,7 +467,7 @@ public class DonateFragment extends BaseFragment {
 				}else{
 					// 如果有数据但没有加满，页数仍然不变
 					if(newDonation != null && newDonation.size() < pageSize){
-						preDatas.addAll(mDatas);
+						mDatas.addAll(preDatas);
 						curPage--;					
 
 							}
