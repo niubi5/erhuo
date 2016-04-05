@@ -43,6 +43,7 @@
             android:layout_toRightOf="@+id/rciv_selling"
             android:text="TextView"
             android:textColor="@color/dimgray"
+            android:ellipsize="end"
             android:textSize="@dimen/font_huge" />
 
         <TextView

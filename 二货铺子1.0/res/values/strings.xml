@@ -52,7 +52,7 @@
     <string name="main_title">二货铺子</string>
     <string name="title_activity_reset">ResetActivity</string>
     <string name="title_activity_zhao_hui">ZhaoHuiActivity</string>
-    <string name="women_jieshao">我们呢，一个nb的组合啦！不多说，就是这么吊</string>
+    <string name="women_jieshao">\u3000\u3000我们呢，一个nb的组合啦！不多说，就是这么吊</string>
     <!-- 多图片上传，图片浏览 -->
     <string name="only_choose_num">超出可选图片张数</string>
     <string name="finish">完成</string>

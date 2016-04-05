@@ -282,7 +282,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	protected void initEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 

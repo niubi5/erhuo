@@ -38,7 +38,8 @@
                     android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="用户名" />
+                    android:text="用户名"
+                    android:textColor="#B7B7B7" />
                 
                 <View android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -48,7 +49,6 @@
                     android:id="@+id/goods_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#B7B7B7"
                     android:text="商品名称" />
             </LinearLayout>
 

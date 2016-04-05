@@ -34,7 +34,7 @@ public class DonationViewHolder {
      */
     private View mConvertView;
     
-    
+    private float scale;// 屏幕密度
     
     /**
      * 构造方法
@@ -47,6 +47,7 @@ public class DonationViewHolder {
     private DonationViewHolder(Context context, ViewGroup parent,int layoutId,int positon){
     	this.mPosition = positon;
     	this.mViews = new SparseArray<View>();
+    	scale = context.getResources().getDisplayMetrics().density;// 屏幕密度
     	// 解析布局文件
     	mConvertView = LayoutInflater.from(context).inflate(layoutId, parent,false);
 
@@ -132,6 +133,21 @@ public class DonationViewHolder {
     public DonationViewHolder setImageBitmap(int viewId , Bitmap bm){
     	ImageView view  = getView(viewId);
     	view.setImageBitmap(bm);
+    	return this;
+    }
+    
+    /**
+     * 给ImageView设置自定义大小的图片
+     * @param viewId
+     * @param url
+     * @return
+     */
+    public DonationViewHolder setImageRes(int viewId, String url){
+    	ImageView view = getView(viewId);
+    	int px1 = (int) (200 * scale + 0.5f);
+    	LayoutParams params = new LayoutParams(px1, px1);
+    	view.setLayoutParams(params);
+    	ImageLoader.getInstance().displayImage(url, view);
     	return this;
     }
     

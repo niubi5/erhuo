@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import com.geminno.erhuo.entity.GoodsReports;
 import com.geminno.erhuo.utils.MySdf;
+import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lidroid.xutils.HttpUtils;
@@ -80,16 +81,9 @@ public class ReportGoodActivity extends Activity {
 					.create();
 			String goodsReportsJson = gson.toJson(gr);
 			// 从配置文件获取服务器url
-			Properties prop = new Properties();
-			try {
-				prop.load(BuyGoodsActivity.class
-						.getResourceAsStream("/com/geminno/erhuo/utils/url.properties"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			String url = prop.getProperty("heikkiUrl")
-					+ "/AddGoodsReportsServlet";
+//			String url = prop.getProperty("heikkiUrl")
+//					+ "";
+			String url = Url.getUrlHead() + "/AddGoodsReportsServlet";
 			RequestParams rp = new RequestParams();
 			// 添加数据
 			rp.addBodyParameter("goodsReportsJson", goodsReportsJson);

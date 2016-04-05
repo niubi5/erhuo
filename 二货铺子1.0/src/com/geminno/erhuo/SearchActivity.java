@@ -187,7 +187,6 @@ public class SearchActivity extends Activity implements OnClickListener {
 			params.addQueryStringParameter("curPage", curPage + "");
 			params.addQueryStringParameter("pageSize", pageSize + "");
 			String url = Url.getUrlHead() + "/SearchGoodsServlet";
-//			String url="http://10.201.1.16:8080/secondHandShop/SearchGoodsServlet";
 			httpUtils.send(HttpMethod.GET, url, params,
 					new RequestCallBack<String>() {
 

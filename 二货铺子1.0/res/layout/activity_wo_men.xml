@@ -16,7 +16,7 @@
 
         <TextView
             style="@style/FrameTitleRedText"
-            android:text="二货铺子" />
+            android:text="关于我们" />
         
          <ImageView
             android:id="@+id/ib_xuanze"
@@ -26,12 +26,91 @@
         
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/erhuo_title_women"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:src="@drawable/erhuo_login" />
+
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/erhuo_title_women"
-        android:text="@string/women_jieshao" />
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginRight="39dp"
+        android:layout_marginTop="34dp"
+        android:text="项目名称:  二货铺子" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="16dp"
+        android:text="开发团队:  niubi5" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="16dp"
+        android:text="团队程猿:  " />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_toRightOf="@+id/textView3"
+        android:textSize="@dimen/font_middle"
+        android:text="程序猿1号: 黄杰" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="15dp"
+        android:text="程序猿2号: 罗世恒"
+        android:textSize="@dimen/font_middle" />
+
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/TextView01"
+        android:layout_below="@+id/TextView01"
+        android:layout_marginTop="18dp"
+        android:text="程序猿3号: 付亮"
+        android:textSize="@dimen/font_middle" />
+
+    <TextView
+        android:id="@+id/TextView03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextView01"
+        android:layout_marginTop="48dp"
+        android:layout_toRightOf="@+id/textView3"
+        android:text="程序猿4号: 程新根"
+        android:textSize="@dimen/font_middle" />
+
+    <TextView
+        android:id="@+id/TextView04"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/TextView03"
+        android:layout_below="@+id/TextView03"
+        android:layout_marginTop="16dp"
+        android:text="程序猿5号: 肖雨晴"
+        android:textSize="@dimen/font_middle" />
     
 </RelativeLayout>
