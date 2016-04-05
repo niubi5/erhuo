@@ -75,7 +75,6 @@ public class ResetActivity extends Activity implements OnClickListener {
 				params.addBodyParameter("pwd", pwd);
 				Properties prop = new Properties();
 				String url = Url.getUrlHead() + "/UpdateUserServlet";
-//				String url = headUrl + "/UpdateUserServlet";
 				HttpUtils httpUtils = new HttpUtils();
 				httpUtils.send(HttpMethod.POST, url, params,new RequestCallBack<String>() {
 

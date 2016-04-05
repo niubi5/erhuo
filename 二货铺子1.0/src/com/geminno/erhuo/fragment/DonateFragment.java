@@ -569,6 +569,9 @@ public class DonateFragment extends BaseFragment {
 						Type type = new TypeToken<List<String>>() {
 						}.getType();
 						List<String> names = gson.fromJson(result, type);
+						for(int i = 0;i < names.size();i++){
+							Log.i("donators", names.get(i) + ",");
+						}
 						Map<Integer, List<String>> is = new HashMap<Integer, List<String>>();
 						is.put(helpId, names);
 						donatorsName.add(is);
