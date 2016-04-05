@@ -275,9 +275,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 							Gson gson = new GsonBuilder().setDateFormat(
 									"yyyy-MM-dd hh:mm:ss").create();
 							String donationGson = gson.toJson(donation);
-
 							// 传参数
-//							String url = "http://10.201.1.20:8080/secondHandShop/HelpsServlet";
 							String url = Url.getUrlHead() + "/HelpsServlet";
 							RequestParams rp = new RequestParams();
 							rp.addBodyParameter("DonationRequest", donationGson);

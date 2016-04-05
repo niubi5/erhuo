@@ -124,7 +124,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	protected void initData() {
 		// 从服务器获取集市，商品集合
 		HttpUtils http = new HttpUtils();
-		// String head = null;// http: 头部
 		String headUrl = Url.getUrlHead();
 		// 拼接url
 		String url = headUrl + "/ListMarketsServlet";
