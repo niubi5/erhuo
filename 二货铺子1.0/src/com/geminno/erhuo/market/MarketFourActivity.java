@@ -3,6 +3,7 @@ package com.geminno.erhuo.market;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.geminno.erhuo.MainActivity;
 import com.geminno.erhuo.R;
 
 public class MarketFourActivity extends MarketBaseActivity {
@@ -13,6 +14,7 @@ public class MarketFourActivity extends MarketBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_base_market);
+		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		context = this;
 		this.initView(4, 3, context);
 	}
