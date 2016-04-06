@@ -132,7 +132,16 @@ public class AlbumActivity extends Activity {
 	private class CancelListener implements OnClickListener {
 		public void onClick(View v) {
 			Bimp.tempSelectBitmap.clear();
-			intent.setClass(mContext, PublishGoodsActivity.class);
+			String activity = intent.getStringExtra("activity");
+			if(activity.equals("publishGoodsActivity")){
+				Log.i("chengxingen", "one"+"," + activity);
+				intent.setClass(mContext, PublishGoodsActivity.class);
+			}else if(activity.equals("donateRequestActivity")){
+				Log.i("chengxingen", "two" + "," + activity);
+				intent.setClass(mContext, DonateRequestActivity.class); 
+//			intent.setClass(mContext, PublishGoodsActivity.class);
+			}
+//			intent.setClass(mContext, PublishGoodsActivity.class);
 			startActivity(intent);
 		}
 	}
