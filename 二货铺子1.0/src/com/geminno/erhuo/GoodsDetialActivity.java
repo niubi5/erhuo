@@ -198,8 +198,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 		TextView tvGoodTime = (TextView) findViewById(R.id.tv_goods_time);
 		tvGoodBrief = (TextView) findViewById(R.id.tv_goods_brief);
 		if (user.getPhoto() != null && !user.getPhoto().equals("")) {
-			String headUrl = Url.getUrlHead();
-			final String userHeadUrl = headUrl + user.getPhoto();
+			final String userHeadUrl = user.getPhoto();
 			ImageLoader.getInstance().displayImage(userHeadUrl, ivHead);
 		} else {
 			ivHead.setImageResource(R.drawable.header_default);

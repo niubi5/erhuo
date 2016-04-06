@@ -285,7 +285,25 @@ public class BoughtFragment extends BaseFragment {
 													if(clickGood.getState() == 2){
 														//提醒发货
 														//
-														Toast.makeText(context, "已提醒卖家发货！", Toast.LENGTH_SHORT).show();
+														HttpUtils hu = new HttpUtils();
+														RequestParams rp = new RequestParams();
+														rp.addBodyParameter("goodId",clickGood.getId()+"");
+														String url = Url.getUrlHead()+"/NotifySendGood";
+														hu.send(HttpRequest.HttpMethod.POST, url, new RequestCallBack<String>() {
+
+															@Override
+															public void onFailure(
+																	HttpException arg0,
+																	String arg1) {
+																Toast.makeText(context, "网络异常！", Toast.LENGTH_SHORT).show();
+															}
+
+															@Override
+															public void onSuccess(
+																	ResponseInfo<String> arg0) {
+																Toast.makeText(context, "已提醒卖家发货！", Toast.LENGTH_SHORT).show();
+															}
+														});
 													}else if (clickGood.getState() == 3){
 														//跳转至商品订单详情
 														Intent intent = new Intent(context,OrderDetialActivity.class);
