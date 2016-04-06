@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geminno.erhuo.MyApplication;
@@ -57,6 +58,7 @@ public class BoughtFragment extends BaseFragment {
 	private int curPage = 1; // 页数
 	private int pageSize = 2;// 一次加载几条
 	private Users curUser;
+	private TextView tvNoBought;
 
 	public BoughtFragment(Context context) {
 		super();
@@ -67,6 +69,7 @@ public class BoughtFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_bought, null);
+		tvNoBought = (TextView) view.findViewById(R.id.tv_no_bought);
 		curUser = MyApplication.getCurrentUser();
 		return view;
 	}
@@ -109,6 +112,11 @@ public class BoughtFragment extends BaseFragment {
 						List<Map<Goods, List<String>>> newGoodsPhoto = (List<Map<Goods, List<String>>>) gson
 								.fromJson(result, type);
 						ListGoodsPhoto.addAll(newGoodsPhoto);
+						if(ListGoodsPhoto.isEmpty()){
+							tvNoBought.setVisibility(View.VISIBLE);
+						}else{
+							tvNoBought.setVisibility(View.INVISIBLE);
+						}
 						if (adapter == null) {
 
 							adapter = new MyAdapter<Map<Goods, List<String>>>(
@@ -285,7 +293,25 @@ public class BoughtFragment extends BaseFragment {
 													if(clickGood.getState() == 2){
 														//提醒发货
 														//
-														Toast.makeText(context, "已提醒卖家发货！", Toast.LENGTH_SHORT).show();
+														HttpUtils hu = new HttpUtils();
+														RequestParams rp = new RequestParams();
+														rp.addBodyParameter("goodId",clickGood.getId()+"");
+														String url = Url.getUrlHead()+"/NotifySendGood";
+														hu.send(HttpRequest.HttpMethod.POST, url, new RequestCallBack<String>() {
+
+															@Override
+															public void onFailure(
+																	HttpException arg0,
+																	String arg1) {
+																Toast.makeText(context, "网络异常！", Toast.LENGTH_SHORT).show();
+															}
+
+															@Override
+															public void onSuccess(
+																	ResponseInfo<String> arg0) {
+																Toast.makeText(context, "已提醒卖家发货！", Toast.LENGTH_SHORT).show();
+															}
+														});
 													}else if (clickGood.getState() == 3){
 														//跳转至商品订单详情
 														Intent intent = new Intent(context,OrderDetialActivity.class);
