@@ -135,10 +135,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		this.isRefresh = isRefresh;
 		typeCount = 2;
 		currentUser = MyApplication.getCurrentUser();
-		myMarkets = MyApplication.getMyMarkets();
-		if (myMarkets == null) {
-			myMarkets = new ArrayList<Integer>();
-		}
 		scale = context.getResources().getDisplayMetrics().density;
 		px1 = (int) (200 * scale + 0.5f);
 		params3 = new LayoutParams(px1, px1);
@@ -311,7 +307,12 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		holder.marketUserCount.setText(market.getUserCount() + "");
 		holder.marketGoodsCount.setText(market.getGoodsCount() + "");
 		holder.marketBrief.setText(market.getBrief());
+		myMarkets = MyApplication.getMyMarkets();
+		if (myMarkets == null) {
+			myMarkets = new ArrayList<Integer>();
+		}
 		if (myMarkets != null && myMarkets.contains(market.getId())) {
+			Log.i("erhuo","当前集市的ID：" +  market.getId());
 			holder.marketJoin.setSelected(true);
 			isCollected = true;
 			holder.marketJoin.setText("取消关注");
@@ -360,9 +361,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
-						if (myMarkets.contains(market)) {
-							myMarkets.remove(market);
+						if (myMarkets.contains(market.getId())) {
+							myMarkets.remove(Integer.valueOf(market.getId()));
 							MyApplication.setMyMarkets(myMarkets);
+							Log.i("erhuo", "取消关注后集市的长度：" + myMarkets.size());
 						}
 					}
 				});
@@ -387,6 +389,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 					public void onSuccess(ResponseInfo<String> arg0) {
 						myMarkets.add(market.getId());
 						MyApplication.setMyMarkets(myMarkets);
+						Log.i("erhuo", "成功关注后集合的长度：" +  myMarkets.size());
 						Toast.makeText(context, "成功关注集市", Toast.LENGTH_SHORT)
 								.show();
 					}

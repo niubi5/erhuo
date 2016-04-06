@@ -409,11 +409,6 @@ public class DonateFragment extends BaseFragment {
 				new RequestCallBack<String>() {
 
 					@Override
-					public void onFailure(HttpException arg0, String arg1) {
-
-					}
-
-					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						int count = 0;
 						Log.i("request", "请求成功");
@@ -536,6 +531,12 @@ public class DonateFragment extends BaseFragment {
 						}
 
 					}
+
+			@Override
+			public void onFailure(HttpException arg0, String arg1) {
+				// TODO Auto-generated method stub
+				
+			}
 				});
 
 	}
@@ -577,7 +578,7 @@ public class DonateFragment extends BaseFragment {
 
 					}
 
-					@Override
+					@SuppressLint("UseSparseArrays") @Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						Log.i("requestName", "请求成功");
 						String result = arg0.result;

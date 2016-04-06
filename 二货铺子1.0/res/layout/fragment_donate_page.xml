@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bgcolor"
@@ -25,21 +26,12 @@
         style="@style/ShadowTitle"
         android:layout_below="@id/erhuo_donate_title" />
 
-     <com.geminno.erhuo.view.RefreshListView
+    <com.geminno.erhuo.view.RefreshListView
         android:id="@+id/lv_donations"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/erhuo_donate_title" >
     </com.geminno.erhuo.view.RefreshListView>
-
-    <!--
-    <ListView
-        android:id="@+id/lv_donations"
-        android:layout_below="@id/erhuo_donate_title"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
-    -->
 
     <ImageView
         android:id="@+id/iv_to_top"
@@ -49,9 +41,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
-        android:src="@drawable/up_icon"
-         />
-
-
+        android:src="@drawable/up_icon" />
 
 </RelativeLayout>

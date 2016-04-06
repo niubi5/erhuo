@@ -74,6 +74,7 @@ public class EditUserInfoActivity extends Activity implements
 	private static final int RESULT_REQUEST_CODE = 2;
 	private File file;
 	private Address usersAddress;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

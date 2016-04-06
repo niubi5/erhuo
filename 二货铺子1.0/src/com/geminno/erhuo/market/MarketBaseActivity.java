@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
@@ -127,7 +128,6 @@ public class MarketBaseActivity extends Activity {
 						listMarkets = (List<Markets>) gson.fromJson(result,
 								type);
 						MyApplication.setMarketsList(listMarkets);
-
 						HttpUtils http = new HttpUtils();
 						String url = Url.getUrlHead() + "/ListGoodsServlet";
 						RequestParams params = new RequestParams();
