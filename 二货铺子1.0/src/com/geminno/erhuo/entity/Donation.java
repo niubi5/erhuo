@@ -19,7 +19,7 @@ public class Donation implements Serializable{
 	private String logistics;
 	private String consignee;
 	private String address;
-	private int HeadImage;
+	private String headImageUrl;
 	private String userName;
 	private int addressImage;
 	private String imageUrl;
@@ -49,11 +49,11 @@ public class Donation implements Serializable{
 	public void setPubtime(String pubtime) {
 		this.pubtime = pubtime;
 	}
-	public int getHeadImage() {
-		return HeadImage;
+	public String getHeadImage() {
+		return headImageUrl;
 	}
-	public void setHeadImage(int headImage) {
-		HeadImage = headImage;
+	public void setHeadImage(String headImageUrl) {
+		this.headImageUrl = headImageUrl;
 	}
 	public String getUserName() {
 		return userName;

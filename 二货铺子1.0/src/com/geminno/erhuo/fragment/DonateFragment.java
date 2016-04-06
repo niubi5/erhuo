@@ -46,6 +46,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class DonateFragment extends BaseFragment {
 
@@ -117,7 +118,12 @@ public class DonateFragment extends BaseFragment {
 	@SuppressLint("SimpleDateFormat")
 	@Override
 	protected void initData() {
-
+		// 开启线程初始化数据
+//		new Thread() {
+//
+//			@Override
+//			public void run() {
+		
 		/**
 		 * 发送请求，查询要显示在捐赠列表页面上的信息
 		 */
@@ -140,7 +146,7 @@ public class DonateFragment extends BaseFragment {
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
-						Log.i("result", result);
+						//Log.i("DonateFragmentResult", "result:s"+result);
 						Gson gson = new GsonBuilder()
 								.enableComplexMapKeySerialization()
 								.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -184,17 +190,19 @@ public class DonateFragment extends BaseFragment {
 									user = new Users();
 									donation = du.getKey();
 									user = du.getValue();
-
 									donation.setUserName(user.getName());
-
-									donation.setHeadImage(R.drawable.header_default);
+									donation.setHeadImage(user.getPhoto());
+									Log.i("DonateFragmentResult", "donatePhoto:"+donation.getPhone());
+									
 									if (singleUrls != null
 											&& singleUrls.size() != 0) {
 										// 取第一张图片显示在首页
 										donation.setImageUrl(singleUrls.get(0));
 									}
 									donation.setAddressImage(R.drawable.icon_city);
-
+//									if(user.getPhoto() != null && !"".equals(user.getPhoto())){
+//										donation.setHeadImage(user.getPhoto());
+//									}
 									// 将查询到Donatoin与将其对应的url存入到donationUrls
 									Map<Donation, List<String>> m = new HashMap<Donation, List<String>>();
 									m.put(donation, singleUrls);
@@ -216,8 +224,11 @@ public class DonateFragment extends BaseFragment {
 								public void convert(
 										DonationViewHolder viewHolder,
 										Donation item) {
-									viewHolder.setImageResource(R.id.iv_head,
-											item.getHeadImage());
+									if(item.getHeadImage() != null && !"".equals(item.getHeadImage())){
+										viewHolder.setHeadImageRes(R.id.iv_head, item.getHeadImage());
+									}else{
+									viewHolder.setImageResource(R.id.iv_head,R.drawable.header_default);
+									}
 									viewHolder.setText(
 											R.id.tv_donation_user_name,
 											item.getUserName());
@@ -382,6 +393,8 @@ public class DonateFragment extends BaseFragment {
 	public void addData() {
 
 		HttpUtils http = new HttpUtils();
+//		String url = "http://10.201.1.20:8080/secondHandShop/ListHelpsServlet";
+        // 设置不缓存
 		// String url =
 		// "http://10.201.1.20:8080/secondHandShop/ListHelpsServlet";
 		String url = Url.getUrlHead() + "/ListHelpsServlet";
@@ -394,11 +407,6 @@ public class DonateFragment extends BaseFragment {
 
 		http.send(HttpRequest.HttpMethod.GET, url, params,
 				new RequestCallBack<String>() {
-
-					@Override
-					public void onFailure(HttpException arg0, String arg1) {
-
-					}
 
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
@@ -437,7 +445,7 @@ public class DonateFragment extends BaseFragment {
 									user = du.getValue();
 									// 将取到的数据封装到Donation对象
 									donation.setUserName(user.getName());
-									donation.setHeadImage(R.drawable.header_default);
+									donation.setHeadImage(user.getPhoto());
 									if (singleUrls != null
 											&& singleUrls.size() != 0) {
 										donation.setImageUrl(singleUrls.get(0));
@@ -490,8 +498,12 @@ public class DonateFragment extends BaseFragment {
 								public void convert(
 										DonationViewHolder viewHolder,
 										Donation item) {
-									viewHolder.setImageResource(R.id.iv_head,
-											item.getHeadImage());
+									if(item.getHeadImage() != null){
+										viewHolder.setImageRes(R.id.iv_head,
+												item.getHeadImage());
+									}else{
+										viewHolder.setImageResource(R.id.iv_head, R.drawable.header_default);
+									}
 									viewHolder.setText(
 											R.id.tv_donation_user_name,
 											item.getUserName());
@@ -519,6 +531,12 @@ public class DonateFragment extends BaseFragment {
 						}
 
 					}
+
+			@Override
+			public void onFailure(HttpException arg0, String arg1) {
+				// TODO Auto-generated method stub
+				
+			}
 				});
 
 	}
@@ -545,6 +563,7 @@ public class DonateFragment extends BaseFragment {
 		// 设置请求参数
 		RequestParams params = new RequestParams();
 		params.addBodyParameter("helpId", String.valueOf(helpId));
+		
 		// String url =
 		// "http://10.201.1.20:8080/secondHandShop/GetDonatorServlet";
 		String url = Url.getUrlHead() + "/GetDonatorServlet";
@@ -559,7 +578,7 @@ public class DonateFragment extends BaseFragment {
 
 					}
 
-					@Override
+					@SuppressLint("UseSparseArrays") @Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						Log.i("requestName", "请求成功");
 						String result = arg0.result;

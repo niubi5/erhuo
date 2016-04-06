@@ -151,6 +151,12 @@ public class DonationViewHolder {
     	return this;
     }
     
+    public DonationViewHolder setHeadImageRes(int viewId, String url){
+    	ImageView view = getView(viewId);
+    	ImageLoader.getInstance().displayImage(url, view);
+    	return this;
+    }
+    
     /**
      * 为imageViwe设置图片
      * 
