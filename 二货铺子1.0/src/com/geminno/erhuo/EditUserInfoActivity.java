@@ -64,7 +64,6 @@ public class EditUserInfoActivity extends Activity implements
 	private int sex;
 	private Users users;
 	private Context context;
-	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private String[] items = new String[] { "选择相册", "拍照" };
 	/* 头像名称 */
 	private static final String IMAGE_FILE_NAME = "headImage.jpg";
@@ -100,9 +99,11 @@ public class EditUserInfoActivity extends Activity implements
 			nickName.setText(users.getName());
 		}
 		String sex = users.getSex() + "";
-		if (users.getPhoto()!=null && users.getPhoto().equals("")) {
-			imageLoader.displayImage(users.getPhoto(), editHeader);
+		if (users.getPhoto()!=null && !users.getPhoto().equals("")) {
+			Log.i("cheshi", "图片："+users.getPhoto());
+			ImageLoader.getInstance().displayImage(users.getPhoto(), editHeader);
 		}else {
+			Log.i("cheshi", "默认图片："+users.getPhoto());
 			editHeader
 			.setImageResource(R.drawable.header_default);
 		}
