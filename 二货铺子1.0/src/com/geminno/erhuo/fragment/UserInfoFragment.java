@@ -68,6 +68,7 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		linearyoufei.setOnClickListener(this);
 		address.setOnClickListener(this);
 		linearfenxiang.setOnClickListener(this);
+		loginState.setOnClickListener(this);
 
 		btnSelling.setOnClickListener(this);
 		btnSold.setOnClickListener(this);
@@ -131,6 +132,7 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		case R.id.share_container:
 			showShare();
 			break;
+		case R.id.userinfo_login_state:
 		case R.id.userinfo_iv_header:
 			Log.i("onClick", "userinfo_btn_herder");
 			// Users users=MyApplication.getCurrentUser();

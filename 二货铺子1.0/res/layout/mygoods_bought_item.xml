@@ -111,9 +111,8 @@
             android:id="@+id/iv_bought"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_bought_price"
-            android:layout_alignTop="@+id/tv_bought_buyprice"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/icon_bought"
             android:visibility="invisible" />

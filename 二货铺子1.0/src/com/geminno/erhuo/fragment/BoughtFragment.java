@@ -297,7 +297,7 @@ public class BoughtFragment extends BaseFragment {
 														RequestParams rp = new RequestParams();
 														rp.addBodyParameter("goodId",clickGood.getId()+"");
 														String url = Url.getUrlHead()+"/NotifySendGood";
-														hu.send(HttpRequest.HttpMethod.POST, url, new RequestCallBack<String>() {
+														hu.send(HttpRequest.HttpMethod.POST, url,rp, new RequestCallBack<String>() {
 
 															@Override
 															public void onFailure(

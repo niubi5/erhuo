@@ -37,6 +37,7 @@ public class DonateActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_donation_report);
+		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		initView();
 	}
 

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PostageActivity extends Activity implements View.OnClickListener {
 
@@ -134,7 +135,8 @@ public class PostageActivity extends Activity implements View.OnClickListener {
 		case R.id.ib_shezhi:
 			this.finish();
 			break;
-
+		case R.id.lianxikuaidi:
+			Toast.makeText(PostageActivity.this, "很抱歉，暂时还没有与快递公司合作，您需自行联系快递！", Toast.LENGTH_LONG).show();
 		default:
 			break;
 		}

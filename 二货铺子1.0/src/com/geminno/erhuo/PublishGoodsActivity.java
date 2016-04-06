@@ -93,6 +93,8 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	private EditText etPrice;
 	private EditText etOldPrice;
 	private String typeName;
+	
+	private static Toast mToast = null;
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -518,7 +520,8 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		case R.id.btn_publish_goods:
 			// 发布商品，判断用户输入信息
 			if (TextUtils.isEmpty(etName.getText())) {
-				Toast.makeText(this, "给宝贝取个名字吧！", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(this, "给宝贝取个名字吧！", Toast.LENGTH_SHORT).show();
+				showToast(PublishGoodsActivity.this, "给宝贝取个名字吧！", Toast.LENGTH_SHORT);
 			} else if (TextUtils.isEmpty(etBrief.getText())) {
 				Toast.makeText(this, "描述一下你的宝贝吧！", Toast.LENGTH_SHORT).show();
 			} else if (TextUtils.isEmpty(etPrice.getText())) {
@@ -706,5 +709,17 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 			Bimp.tempSelectBitmap.clear();
 		}
 	}
+	
+	
+	  public static void showToast(Context context, String text, int duration) {  
+	        if (mToast == null) {  
+	            mToast = Toast.makeText(context, text, duration);  
+	        } else {  
+	            mToast.setText(text);  
+	            mToast.setDuration(duration);  
+	        }  
+	  
+	        mToast.show();  
+	    }
 
 }

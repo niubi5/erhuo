@@ -162,5 +162,11 @@
     <string name="title_activity_market_three">MarketThreeActivity</string>
     <string name="title_activity_market_four">MarketFourActivity</string>
     <string name="title_activity_market_five">MarketFiveActivity</string>
+    
+    <!--  -->
+    <drawable name="btn_normal">#ffff3f40</drawable>
+ 	<drawable name="btn_pressed">#ffaa0808</drawable>
+ 	<drawable name="btn_normal_yellow">#F7AD3D</drawable>
+ 	<drawable name="btn_pressed_yellow">#ea8010</drawable>
 
 </resources>

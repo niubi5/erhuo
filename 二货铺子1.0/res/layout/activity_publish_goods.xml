@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:background="@color/main_red"
+        android:background="@drawable/btn_red_bg"
         android:onClick="onClick"
         android:text="@string/publish_goods_btn"
         android:textColor="#ffffff" />

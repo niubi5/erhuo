@@ -136,6 +136,7 @@
     <color name="main_orange_yellow">#fff7ad3d</color>
     <color name="main_radish_record">#fff6b37f</color>
     <color name="main_red">#ffff3f40</color>
+    <color name="main_red_dark">#ffaa0808</color>
     <color name="btn_no_click">#808080</color>
     <color name="main_red_price">#ffff0000</color>
     <color name="main_shallowalpha_red">#40ff3f40</color>
