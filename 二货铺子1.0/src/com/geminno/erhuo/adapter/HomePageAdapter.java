@@ -364,7 +364,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 						if (myMarkets.contains(market.getId())) {
 							myMarkets.remove(Integer.valueOf(market.getId()));
 							MyApplication.setMyMarkets(myMarkets);
-							Log.i("erhuo", "取消关注后集市的长度：" + myMarkets.size());
 						}
 					}
 				});
