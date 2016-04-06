@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geminno.erhuo.MyApplication;
@@ -57,6 +58,7 @@ public class BoughtFragment extends BaseFragment {
 	private int curPage = 1; // 页数
 	private int pageSize = 2;// 一次加载几条
 	private Users curUser;
+	private TextView tvNoBought;
 
 	public BoughtFragment(Context context) {
 		super();
@@ -67,6 +69,7 @@ public class BoughtFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_bought, null);
+		tvNoBought = (TextView) view.findViewById(R.id.tv_no_bought);
 		curUser = MyApplication.getCurrentUser();
 		return view;
 	}
@@ -109,6 +112,11 @@ public class BoughtFragment extends BaseFragment {
 						List<Map<Goods, List<String>>> newGoodsPhoto = (List<Map<Goods, List<String>>>) gson
 								.fromJson(result, type);
 						ListGoodsPhoto.addAll(newGoodsPhoto);
+						if(ListGoodsPhoto.isEmpty()){
+							tvNoBought.setVisibility(View.VISIBLE);
+						}else{
+							tvNoBought.setVisibility(View.INVISIBLE);
+						}
 						if (adapter == null) {
 
 							adapter = new MyAdapter<Map<Goods, List<String>>>(
