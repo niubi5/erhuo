@@ -29,6 +29,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class RegisterActivity extends Activity implements OnClickListener {
@@ -36,7 +37,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 	CheckBox chkAgree;
 	// 账号对象
 
-	EditText etphone;
+	TextView etphone;
 	// 输入的密码
 
 	EditText etpwd;
@@ -54,7 +55,7 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_register);
 		ivRegBack = (ImageView) findViewById(R.id.iv_register_return);
 		chkAgree = (CheckBox) findViewById(R.id.chk_agree_rule);
-		etphone = (EditText) findViewById(R.id.et_phone_register);
+		etphone = (TextView) findViewById(R.id.et_phone_register);
 		etpwd = (EditText) findViewById(R.id.et_pwd_register);
 		etpwdagain = (EditText) findViewById(R.id.et_pwd_again);
 		// 将传过来的账号显示在账号栏
@@ -134,8 +135,10 @@ public class RegisterActivity extends Activity implements OnClickListener {
 							Log.i("result", "最后" + result);
 							if (result != null && !result.equals("null")) {
 								Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+								intent.putExtra("phone", name);
 								startActivity(intent);
 								Toast.makeText(RegisterActivity.this, "注册成功！",1).show();
+								finish();
 							} else {
 								Toast.makeText(RegisterActivity.this, "注册失败！",1).show();
 							}

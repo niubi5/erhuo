@@ -1,5 +1,8 @@
 package com.geminno.erhuo;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.geminno.erhuo.entity.Address;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.Url;
@@ -34,6 +37,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     private EditText etnewphone;//收货人电话
     private EditText etdiqu;//地区
     private EditText etdizhi;//详细地址
+    private TextView tvtitle;
     private ImageView ivReturn;
 	private String address;
 	private String isdefault="no";
@@ -65,6 +69,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 		etdiqu=(EditText) findViewById(R.id.et_newaddress_diqu);
 		etdizhi=(EditText) findViewById(R.id.et_dizhi);
 		ivReturn = (ImageView) findViewById(R.id.ib_newaddress_return);
+		tvtitle=(TextView) findViewById(R.id.tv_new_title);
 		findViewById(R.id.check_moren).setOnClickListener(this);
 		findViewById(R.id.but_shiyong).setOnClickListener(this);
 		findViewById(R.id.but_baochun).setOnClickListener(this);
@@ -73,21 +78,39 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 		Intent intent=getIntent();
 		String name=intent.getStringExtra("name");
 		String phone=intent.getStringExtra("phone");
-		String diqu=intent.getStringExtra("diqu");
-		String dizhi=intent.getStringExtra("dizhi");
+		String dizhi=intent.getStringExtra("Address");
 		id = intent.getStringExtra("id");
-		Log.i("cheshi", "传来的值"+name+phone+diqu+dizhi+id);
-		if (name!=null && !name.equals("null")&& phone!=null&&  !phone.equals("null") && diqu!=null&& !diqu.equals("null")&& dizhi!=null&&!dizhi.equals("null")) {
+		Log.i("cheshi", "传来的值"+name+phone+dizhi+id);
+		if (name!=null && !name.equals("null")&& phone!=null&&  !phone.equals("null") && dizhi!=null&&!dizhi.equals("null")) {
 			flg=false;
 			etname.setText(name);
 			etnewphone.setText(phone);
+			tvtitle.setText("修改地址");
+			String diqu=null;
+			if (dizhi.indexOf("市") != -1) {
+				diqu=dizhi.substring(0,dizhi.indexOf("市"))+"市";
+				dizhi=dizhi.substring(dizhi.indexOf("市")+1);
+			}else {
+				diqu=dizhi;
+			}
 			etdiqu.setText(diqu);
-			
+			if ("".equals(dizhi)) {
+				
+				dizhi=diqu+"市";
+			}
 			etdizhi.setText(dizhi);
 		}
 		
 	}
 
+	// 判断输入的的是否为正确的手机号码
+	public static boolean isMobileNO(String mobiles) {
+		Pattern p = Pattern
+				.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+		Matcher m = p.matcher(mobiles);
+		System.out.println(m.matches() + "---");
+		return m.matches();
+	}
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -119,6 +142,10 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     			Log.i("cheshi","收货"+receiptName+ receiptPhone+receiptdiqu+receiptdizhi);
     			if (receiptName.length()!=0 && !receiptName.equals("null") && receiptPhone.length()!=0 && !receiptPhone.equals("null") && receiptdiqu.length()!=0 && !receiptdiqu.equals("null") && receiptdizhi.length()!=0 && !receiptdizhi.equals("null")) {
     				Log.i("cheshi","默认"+isdefault);
+    				if (isMobileNO(receiptPhone)==false) {
+						Toast.makeText(NewAddressActivity.this, "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
+					    break;
+    				}
     				Address ads=new Address();
     				ads.setUserId(users.getId());
     				Log.i("cheshi", "传来id:"+id);
