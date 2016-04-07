@@ -1,8 +1,21 @@
 package com.geminno.erhuo;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.geminno.erhuo.entity.Donation;
+import com.geminno.erhuo.utils.Url;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
@@ -18,6 +31,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.lidroid.xutils.http.client.HttpRequest;
+
 
 /**
  * 捐赠详细信息页面
@@ -46,9 +61,12 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 	private int mImageThumbSize;
 	private int mImageThumbSpacing;
 
+	
+	// 用来存放所有的求助及其对应的捐赠者的名字
+	List<Map<Integer, List<String>>> donatorsName = new ArrayList<Map<Integer, List<String>>>();
 	Donation donation;
 	ArrayList<String> urls;
-	ArrayList<String> names;
+	ArrayList<String> singleNames;
 	StringBuffer sb;
 
 	@Override
@@ -136,13 +154,17 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		Bundle bundle = intent.getBundleExtra("Record");
 
 		donation = (Donation) bundle.getSerializable("SingleDonation");
-		Log.i("SingleDonation", donation.toString() + donation.getAddress());
+		getName(donation.getId());
+		Log.i("SingleDonation", "id= " + donation.getId());
 		urls = bundle.getStringArrayList("urls");
 		Log.i("SingleImageUrls", urls.toString());
-		names = bundle.getStringArrayList("names");
+		
+		
+		
+//		names = bundle.getStringArrayList("names");
 		sb = new StringBuffer();
-		for (int i = 0; i < names.size(); i++) {
-			sb.append(names.get(i) + ((i == (names.size() - 1)) ? "" : ","));
+		for (int i = 0; i < singleNames.size(); i++) {
+			sb.append(singleNames.get(i) + ((i == (singleNames.size() - 1)) ? "" : ","));
 		}
 
 		// donation = (Donation) intent.getSerializableExtra("donation");
@@ -165,6 +187,7 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 				Toast.makeText(DonationDetailActivity.this, "请先登录!", Toast.LENGTH_SHORT).show();
 			}
 			break;
+		// 举报按钮
 		case R.id.iv_to_report:
 			Intent intent1 = new Intent(this, ReportDonationActivity.class);
 			intent1.putExtra("donationId", donation.getId());
@@ -184,6 +207,54 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 	public String getPhone(int helpId) {
 
 		return null;
+	}
+	
+	/**
+	 * 获得对每一个求助发出捐赠的用户名的集合
+	 * 
+	 * @param helpId
+	 */
+	public void getName(final int helpId) {
+		// 设置请求参数
+		RequestParams params = new RequestParams();
+		params.addBodyParameter("helpId", String.valueOf(helpId));
+		
+		// String url =
+		// "http://10.201.1.20:8080/secondHandShop/GetDonatorServlet";
+		String url = Url.getUrlHead() + "/GetDonatorServlet";
+		// 发送请求
+		HttpUtils http = new HttpUtils();
+		http.send(HttpRequest.HttpMethod.POST, url, params,
+				new RequestCallBack<String>() {
+
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
+						Log.i("requestName", "请求失败");
+
+					}
+
+					 @Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						Log.i("requestName", "请求成功");
+						String result = arg0.result;
+						Gson gson = new GsonBuilder()
+								.enableComplexMapKeySerialization()
+								.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+						Type type = new TypeToken<ArrayList<String>>() {
+						}.getType();
+						ArrayList<String> names = gson.fromJson(result, type);
+						for(int i = 0;i < names.size();i++){
+							Log.i("donators", names.get(i) + ",");
+							singleNames.add(names.get(i));
+						}
+						
+//						Map<Integer, List<String>> is = new HashMap<Integer, List<String>>();
+//						is.put(helpId, names);
+//						donatorsName.add(is);
+						
+					}
+
+				});
 	}
 
 }
