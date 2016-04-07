@@ -37,7 +37,7 @@ public class WoMenActivity extends Activity {
 
 	public void click(View v) {
 		AlertDialog.Builder builder = new Builder(this);
-		final String[] items = new String[] { "分享", "在浏览器中打开",
+		final String[] items = new String[] { "分享"
 
 		};
 		builder.setSingleChoiceItems(items, -1, new OnClickListener() {

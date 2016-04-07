@@ -1,16 +1,10 @@
 package com.geminno.erhuo;
 
-import io.rong.imkit.widget.AlterDialogFragment;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -145,8 +139,10 @@ public class EditUserInfoActivity extends Activity implements
 		userreturn.setOnClickListener(this);
 		address.setOnClickListener(this);
 		// phone.setOnClickListener(this);
+		
 	}
-
+    
+    
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -195,9 +191,6 @@ public class EditUserInfoActivity extends Activity implements
 				} ).show();
 	}
 	
-	
-	
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
@@ -241,9 +234,10 @@ public class EditUserInfoActivity extends Activity implements
 						public void onSuccess(ResponseInfo<String> arg0) {
 							// TODO Auto-generated method stub
 							String result=arg0.result;
+							Log.i("cheshi", "头像返回值："+result);
 							if (!result.equals("null")) {
 								Toast.makeText(EditUserInfoActivity.this,
-										"上传成功", Toast.LENGTH_SHORT).show();
+										"设置成功，请保存！", Toast.LENGTH_SHORT).show();
 							}else {
 								Toast.makeText(EditUserInfoActivity.this,
 										"上传失败", Toast.LENGTH_SHORT).show();
@@ -391,13 +385,11 @@ public class EditUserInfoActivity extends Activity implements
 								    address.setText(userAddress.getAddress());
 									MyApplication.setUsers(usersInfo);
 									nickName.setText(usersInfo.getName());
-									phone.setText(usersInfo.getIdentity());
-									if (usersInfo.getSex() == 1) {
-										male.setSelected(true);
-									} else {
-										female.setSelected(true);
-									}
+									
+									
 									ActivityCollector.finishAll();
+									startActivity(new Intent(EditUserInfoActivity.this,MainActivity.class));
+								    finish();
 								} else {
 									Toast.makeText(EditUserInfoActivity.this,
 											"保存失败", Toast.LENGTH_SHORT).show();
@@ -481,9 +473,7 @@ public class EditUserInfoActivity extends Activity implements
 								usersAddress = gson.fromJson(result,
 										Address.class);
 								address.setText(usersAddress.getAddress());
-							} else {
-								address.setText("未设置地址");
-							}
+							} 
 						}
 					});
 		}

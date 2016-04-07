@@ -40,14 +40,14 @@ public class ResetActivity extends Activity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_reset);
 		// 调用setColor()方法,实现沉浸式状态栏
-		MainActivity.setColor(this,
-				getResources().getColor(R.color.main_red));
+		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		etpwd = (EditText) findViewById(R.id.et_pwd_reset);
 		etPwdagain = (EditText) findViewById(R.id.et_pwd_resetagain);
 		butreset = (Button) findViewById(R.id.btn_reset);
 		ivreset = (ImageView) findViewById(R.id.iv_return_reset);
 		ivreset.setOnClickListener(this);
 		butreset.setOnClickListener(this);
+
 	}
 
 	@Override
@@ -68,38 +68,47 @@ public class ResetActivity extends Activity implements OnClickListener {
 				toast("两次输入密码不一样,请输入正确密码");
 				return;
 			} else {
-				RequestParams params = new RequestParams();
 				Intent intent = getIntent();
 				String phone = intent.getStringExtra("phone");
-				params.addBodyParameter("identity", phone);
-				params.addBodyParameter("pwd", pwd);
-				Properties prop = new Properties();
-				String url = Url.getUrlHead() + "/UpdateUserServlet";
 				HttpUtils httpUtils = new HttpUtils();
-				httpUtils.send(HttpMethod.POST, url, params,new RequestCallBack<String>() {
+				httpUtils.configCurrentHttpCacheExpiry(0);
+				RequestParams params = new RequestParams();
+				params.addQueryStringParameter("identity", phone);
+				params.addQueryStringParameter("pwd", pwd);
+				Log.i("cheshi", "修改密码：" + phone + pwd);
+				String headUrl = Url.getUrlHead();
+				String url = headUrl + "/UpdateUserServlet";
+				Log.i("cheshi", "修改密码路劲：" + url);
+				httpUtils.send(HttpMethod.POST, url, params,
+						new RequestCallBack<String>() {
 
-					
-					@Override
-					public void onFailure(HttpException arg0, String arg1) {
-						// TODO Auto-generated method stub
-						Log.i("cheshi", "fuck");
-					}
-				           @Override
+							@Override
+							public void onFailure(HttpException arg0,
+									String arg1) {
+								// TODO Auto-generated method stub
+								Toast.makeText(ResetActivity.this, "网络异常", 0)
+										.show();
+							}
+
+							@Override
 							public void onSuccess(ResponseInfo<String> arg0) {
 								// TODO Auto-generated method stub
 								String result = arg0.result;
 								Log.i("cheshi", result);
 								if (result != null && !result.equals("null")) {
-									Intent intent2 = new Intent(ResetActivity.this,LoginActivity.class);
+									Intent intent2 = new Intent(
+											ResetActivity.this,
+											LoginActivity.class);
 									startActivity(intent2);
 									Gson gson = new Gson();
 									MyApplication.setUsers((Users) gson
 											.fromJson(result, Users.class));
 									// Toast.makeText(LoginActivity.this,
 									// "登陆成功", 0).show();
+									finish();
 								} else {
 									Toast.makeText(ResetActivity.this,
-											"登陆失败,您还未注册", 0).show();
+											"修改失败,您还未注册", 0).show();
 								}
 
 							}
