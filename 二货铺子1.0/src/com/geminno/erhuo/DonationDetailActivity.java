@@ -155,8 +155,10 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		Bundle bundle = intent.getBundleExtra("Record");
 
 		donation = (Donation) bundle.getSerializable("SingleDonation");
+		// 传递helpId
 		getName(donation.getId());
 		Log.i("SingleDonation", "id= " + donation.getId());
+		
 		urls = bundle.getStringArrayList("urls");
 		Log.i("SingleImageUrls", urls.toString());
 		
@@ -198,34 +200,23 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		}
 
 	}
-
-	/**
-	 * 获得联系人的电话号码
-	 * 
-	 * @param helpId
-	 * @return
-	 */
-	public String getPhone(int helpId) {
-
-		return null;
-	}
 	
 	/**
 	 * 获得对每一个求助发出捐赠的用户名的集合
 	 * 
 	 * @param helpId
 	 */
-	public void getName(final int helpId) {
+	public void getName(int helpId) {
 		// 设置请求参数
 		RequestParams params = new RequestParams();
 		params.addBodyParameter("helpId", String.valueOf(helpId));
-		
+		Log.i("help", helpId+"");
 		// String url =
 		// "http://10.201.1.20:8080/secondHandShop/GetDonatorServlet";
 		String url = Url.getUrlHead() + "/GetDonatorServlet";
 		// 发送请求
 		HttpUtils http = new HttpUtils();
-		http.send(HttpRequest.HttpMethod.POST, url, params,
+		http.send(HttpRequest.HttpMethod.GET, url, params,
 				new RequestCallBack<String>() {
 
 					@Override
