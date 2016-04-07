@@ -2,6 +2,7 @@ package com.geminno.erhuo.fragment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +60,8 @@ import com.lidroid.xutils.http.client.HttpRequest;
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_collec, null);
 		tvNoCollec = (TextView) view.findViewById(R.id.tv_no_collc);
+		listColGoodsId = MyApplication.getCollection();
+		Collections.reverse(listColGoodsId);
 		return view;
 	}
 
@@ -66,7 +69,8 @@ import com.lidroid.xutils.http.client.HttpRequest;
 	protected void initData() {
 		// // state:1在售中，2:未发货，3:已发货，4:已完成
 		
-		listColGoodsId = MyApplication.getCollection();
+//		listColGoodsId = MyApplication.getCollection();
+//		Collections.reverse(listColGoodsId);
 		if(listColGoodsId.isEmpty()){
 			tvNoCollec.setVisibility(View.VISIBLE);
 			return;

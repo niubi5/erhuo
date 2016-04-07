@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geminno.erhuo.DonateActivity;
@@ -57,6 +58,7 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 	private Handler handler;
 	private Button btnDonate;
 	private Button btnHelp;
+	private TextView tvNoDonate;
 	private List<Donates> ListDonate = new ArrayList<Donates>();
 	private List<Helps> listHelp = new ArrayList<Helps>();
 	private Map<Integer, String> mapHelpUrl= new HashMap<Integer, String>(); 
@@ -82,6 +84,7 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_donation, null);
+		tvNoDonate = (TextView) view.findViewById(R.id.tv_no_donate);
 		curUser = MyApplication.getCurrentUser();
 		headUrl = Url.getUrlHead();
 		return view;
@@ -185,6 +188,12 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 								.fromJson(result, type);
 						Log.i("DonationFragmentURL", newGoodsPhoto.size()+"");
 						ListDonatePhoto.addAll(newGoodsPhoto);
+						if(ListDonatePhoto.isEmpty()){
+							tvNoDonate.setText("还没有帮助过别人哦");
+							tvNoDonate.setVisibility(View.VISIBLE);
+						}else{
+							tvNoDonate.setVisibility(View.INVISIBLE);
+						}
 						if (DonatesAdapter == null) {
 
 							DonatesAdapter = new MyAdapter<Donates>(context,
@@ -285,7 +294,11 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 																				@Override
 																				public void onSuccess(
 																						ResponseInfo<String> arg0) {
-																					initData();
+																					//rlvDonate.setAdapter(null);
+																					ListDonatePhoto.clear();
+																					ListDonate.clear();
+																					//initData();
+																					donateRequest();
 																					Toast.makeText(
 																							context,
 																							"删除成功!",
@@ -378,6 +391,12 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 						List<Map<Helps, List<String>>> newGoodsPhoto = (List<Map<Helps, List<String>>>) gson
 								.fromJson(result, type);
 						ListHelpPhoto.addAll(newGoodsPhoto);
+						if(ListDonatePhoto.isEmpty()){
+							tvNoDonate.setVisibility(View.VISIBLE);
+							tvNoDonate.setText("还没有求助过哦");
+						}else{
+							tvNoDonate.setVisibility(View.INVISIBLE);
+						}
 						Log.i("DonationFragmentURL", "ListHelpPhoto:"+ListHelpPhoto.size());
 						if (HelpsAdapter == null) {
 
@@ -499,6 +518,7 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 																				@Override
 																				public void onSuccess(
 																						ResponseInfo<String> arg0) {
+																					
 																					initData();
 																					Toast.makeText(
 																							context,

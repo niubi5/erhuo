@@ -80,6 +80,7 @@
                     android:background="@color/main_red"
                     android:gravity="center|center_horizontal"
                     android:text="提交"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/font_middle" />
             </LinearLayout>
         </LinearLayout>

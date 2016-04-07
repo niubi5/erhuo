@@ -16,14 +16,13 @@
             android:text="我捐赠的"
             android:textColor="@color/dimgray"
             android:textSize="@dimen/font_bigmiddle"
-            android:background="@null"
+            android:background="@drawable/btn_white_bg"
             android:layout_weight="1"/>
         <View
                 android:id="@+id/view2"
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginTop="3dp"
                 android:background="#C9C9C9" />
          <Button 
@@ -33,15 +32,23 @@
             android:text="我求助的"
             android:textColor="@color/dimgray"
             android:textSize="@dimen/font_bigmiddle"
-            android:background="@null"
+            android:background="@drawable/btn_white_bg"
             android:layout_weight="1"/>
     </LinearLayout>
 
    <com.geminno.erhuo.view.RefreshListView
        android:id="@+id/rlv_donate"
        android:layout_width="match_parent"
-       android:layout_height="fill_parent"
+       android:layout_height="match_parent"
        android:background="@color/main_bgcolor"
        android:layout_below="@+id/ll_donate_help" >
     </com.geminno.erhuo.view.RefreshListView>
+     <TextView 
+        android:id="@+id/tv_no_donate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_big"
+        android:textColor="@color/dimgrey"
+        android:layout_centerInParent="true"
+        android:text="还没有帮助过别人哦"/>
 </RelativeLayout>

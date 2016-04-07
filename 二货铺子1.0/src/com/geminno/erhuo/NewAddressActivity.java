@@ -48,7 +48,8 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 	private String receiptdizhi;
 	private Boolean flg = true;
 	private String id=null;
-	private String url;;
+	private String url;
+	private String dizhi;;
     //private Button butshiyong;//使用按钮
     //private TextView tvdingwei;//定位按钮
     //private Button butbaochun;//保存按钮
@@ -78,7 +79,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 		Intent intent=getIntent();
 		String name=intent.getStringExtra("name");
 		String phone=intent.getStringExtra("phone");
-		String dizhi=intent.getStringExtra("Address");
+		dizhi = intent.getStringExtra("Address");
 		id = intent.getStringExtra("id");
 		Log.i("cheshi", "传来的值"+name+phone+dizhi+id);
 		if (name!=null && !name.equals("null")&& phone!=null&&  !phone.equals("null") && dizhi!=null&&!dizhi.equals("null")) {
@@ -96,7 +97,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 			etdiqu.setText(diqu);
 			if ("".equals(dizhi)) {
 				
-				dizhi=diqu+"市";
+				dizhi=diqu;
 			}
 			etdizhi.setText(dizhi);
 		}
@@ -154,7 +155,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				}
     				ads.setName(receiptName);
     				ads.setPhone(receiptPhone);
-    				if (receiptdiqu.indexOf("市") != -1) {
+    				if (receiptdiqu.indexOf("市") != -1 && !receiptdiqu.equals(receiptdizhi)) {
     					ads.setAddress(receiptdiqu+receiptdizhi);
 					}else {
 						ads.setAddress(receiptdiqu);

@@ -13,10 +13,10 @@
         android:gravity="center_vertical"
         >
         <Button
-            android:textSize="14sp"
             android:textColor="#fff"
             android:id="@+id/gallery_back"
             android:text="@string/album"
+            android:textSize="@dimen/font_middle"
             android:background="@drawable/plugin_camera_title_btn_back"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
@@ -51,6 +51,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="@string/finish"
+            android:textSize="@dimen/font_middle"
             android:background="@drawable/plugin_camera_ok_btn_state"
             />
 

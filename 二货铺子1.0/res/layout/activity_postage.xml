@@ -350,7 +350,8 @@
      <RelativeLayout
         android:id="@+id/lianxikuaidi"
         style="@style/FrameTitleRed" 
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:onClick="onClick">
 
         <ImageView
             android:layout_toLeftOf="@+id/kuaidi"
