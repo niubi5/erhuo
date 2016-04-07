@@ -31,15 +31,15 @@ public class PullToFreshListView extends ListView implements OnScrollListener {
 	private int headHeight;// 头部高度
 	private float startY;// 开始坐标
 	private float moveY;// 移动坐标
-	
+
 	private RotateAnimation upAnimation;
 	private RotateAnimation downAnimation;
-	
+
 	private int headState;// 头部状态（INIT,REPAREREFRESH ISREFRESH）
 	public final int INIT = 0;// 初始状态
 	public final int PREPAREREFRESH = 1;// 准备刷新
 	public final int ISREFRESHING = 2;// 正在刷新
-	
+
 	private int firstVisibleItem;// 第一条可见的位置
 	private boolean loading = false;// 正在加载
 
@@ -76,8 +76,10 @@ public class PullToFreshListView extends ListView implements OnScrollListener {
 		// 隐藏头部
 		headView.setPadding(0, -headHeight, 0, 0);
 		// 初始化头部控件
-		imageView = (ImageView) headView.findViewById(R.id.iv_refresher);// 箭头
-		progressBar = (ProgressBar) headView.findViewById(R.id.refresher);// progressBar
+		imageView = (ImageView) headView.findViewById(R.id.iv_refresher);
+		// 箭头
+		progressBar = (ProgressBar) headView.findViewById(R.id.refresher);
+		// progressBar
 		tvRefreshState = (TextView) headView
 				.findViewById(R.id.tv_refreshertext);
 	}
@@ -189,7 +191,6 @@ public class PullToFreshListView extends ListView implements OnScrollListener {
 //			headState = INIT;
 //			changeState();
 //		}
-
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 

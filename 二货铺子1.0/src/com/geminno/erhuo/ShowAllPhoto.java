@@ -128,6 +128,8 @@ public class ShowAllPhoto extends Activity {
 				Log.i("chengxingen", "two" + "," + activity);
 				intent.setClass(mContext, DonateRequestActivity.class); 	
 			}
+//			intent.setClass(mContext, PublishGoodsActivity.class);
+//			intent.setClass(mContext, ImageFile.class);
 			startActivity(intent);
 		}
 	}

@@ -71,7 +71,8 @@
 
         <EditText
             android:id="@+id/et_infodata_nickname"
-            style="@style/InfodataRowEdit" />
+            style="@style/InfodataRowEdit" 
+            android:maxLength="10"/>
     </LinearLayout>
 
     <LinearLayout style="@style/InfodataRowItem" >
@@ -142,7 +143,8 @@
 
         <EditText
             android:id="@+id/et_infodata_address"
-            style="@style/InfodataRowEdit" />
+            style="@style/InfodataRowEdit"
+            android:hint="未设置地址" />
     </LinearLayout>
 
     <LinearLayout

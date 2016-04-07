@@ -66,7 +66,7 @@ public class ImageFile extends Activity {
 			}
 			/**@heikki 16.08
 			 * */
-			intent.setClass(mContext, AlbumActivity.class);
+//			intent.setClass(mContext, AlbumActivity.class);
 			ImageFile.this.finish();
 			startActivity(intent);
 		}

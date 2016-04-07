@@ -1,6 +1,7 @@
 package com.geminno.erhuo.view;
 
 import com.geminno.erhuo.R;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	private ImageView imageView;
 	private ProgressBar progressBar;
 	private TextView tvRefreshState;
+	
 	private OnRefreshCallBack refreshCallBack;
 	private int headHeight;// 头部高度
 	private int footHeight;// 底部高度

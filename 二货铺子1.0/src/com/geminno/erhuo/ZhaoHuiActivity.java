@@ -3,6 +3,7 @@ package com.geminno.erhuo;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.geminno.erhuo.VerifyActivity.TimeCount;
 import com.geminno.erhuo.utils.Contant;
 
 import cn.smssdk.EventHandler;
@@ -11,6 +12,7 @@ import cn.smssdk.SMSSDK;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +45,7 @@ public class ZhaoHuiActivity extends Activity implements OnClickListener {
 							ResetActivity.class);
 					intent.putExtra("phone", phone);
 					startActivity(intent);
+					finish();
 				} else {
 
 					toast("请输入正确的验证码");
@@ -95,6 +98,7 @@ public class ZhaoHuiActivity extends Activity implements OnClickListener {
 	ImageView ivzhaohui;
 	Button butverify;
 	String phone = null;
+	private TimeCount time;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +108,7 @@ public class ZhaoHuiActivity extends Activity implements OnClickListener {
 		// 调用setColor()方法,实现沉浸式状态栏
 		MainActivity.setColor(this,
 				getResources().getColor(R.color.main_red));
+		time=new TimeCount(60000, 1000);
 		button = (Button) findViewById(R.id.btn_verify_zhaohui);
 		butverify = (Button) findViewById(R.id.btn_zhaohui_verify);
 		etphone = (EditText) findViewById(R.id.et_phone_number_zhaohui);
@@ -140,6 +145,7 @@ public class ZhaoHuiActivity extends Activity implements OnClickListener {
 			if (phone != null && isMobileNO(phone) == true) {
 				Toast.makeText(this, "验证码已发送！", Toast.LENGTH_SHORT).show();
 				SMSSDK.getVerificationCode("86", phone);
+				time.start();
 			} else {
 				toast("请输入正确的电话号码");
 			}
@@ -160,5 +166,23 @@ public class ZhaoHuiActivity extends Activity implements OnClickListener {
 		System.out.println(m.matches() + "---");
 		return m.matches();
 	}
+	class TimeCount extends CountDownTimer {
+		public TimeCount(long millisInFuture, long countDownInterval) {
+			super(millisInFuture, countDownInterval);
+		}
+
+		@Override
+		public void onFinish() {// 计时完毕
+			butverify.setText("获取验证码");
+			butverify.setClickable(true);
+		}
+
+		@Override
+		public void onTick(long millisUntilFinished) {// 计时过程
+			butverify.setClickable(false);// 防止重复点击
+			butverify.setText(millisUntilFinished / 1000 +"");
+		}
+	}
+
 
 }
