@@ -27,7 +27,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	private ImageView imageView;
 	private ProgressBar progressBar;
 	private TextView tvRefreshState;
-	
+
 	private OnRefreshCallBack refreshCallBack;
 	private int headHeight;// 头部高度
 	private int footHeight;// 底部高度
@@ -148,6 +148,19 @@ public class RefreshListView extends ListView implements OnScrollListener {
 				}
 				headView.setPadding(0, paddingHeight, 0, 0);
 				return false;
+			} else if (!loading && getLastVisiblePosition() == getCount() - 1 && (moveY < startY)) {
+				// 滚动装态// 最后一条记录可见，并且手在上面 || 手拿掉 ==》 加载操作&当前不在加载
+				// if (scrollState == SCROLL_STATE_IDLE
+				// || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+				// foot显示
+				footView.setPadding(0, 0, 0, 0);
+				loading = true;
+				// 调用onpull方法
+				if (refreshCallBack != null) {
+					refreshCallBack.onPull();
+				}
+				// }
+
 			}
 			break;
 		case MotionEvent.ACTION_UP:
@@ -221,21 +234,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
-		// 最后一条记录可见，并且手在上面 || 手拿掉 ==》 加载操作&当前不在加载
-		if (!loading && getLastVisiblePosition() == getCount() - 1) {
-			// 滚动装态
-			if (scrollState == SCROLL_STATE_IDLE
-					|| scrollState == SCROLL_STATE_TOUCH_SCROLL) {
-				// foot显示
-				footView.setPadding(0, 0, 0, 0);
-				loading = true;
-				// 调用onpull方法
-				if (refreshCallBack != null) {
-					refreshCallBack.onPull();
-				}
-			}
-
-		}
+		
 	}
 
 	@Override
