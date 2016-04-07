@@ -62,6 +62,8 @@ public class GalleryActivity extends Activity {
 	private Object object;
 
 	RelativeLayout photo_relativeLayout;
+	
+	private String activity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class GalleryActivity extends Activity {
 		setContentView(Res.getLayoutID("plugin_camera_gallery"));// 切屏到主界面
 		PublicWay.activityList.add(this);
 		mContext = this;
-		back_bt = (Button) findViewById(Res.getWidgetID("gallery_back"));
+		back_bt = (Button) findViewById(Res.getWidgetID("gallery_back"));//返回相册
 		send_bt = (Button) findViewById(Res.getWidgetID("send_button"));
 		del_bt = (Button) findViewById(Res.getWidgetID("gallery_del"));
 		back_bt.setOnClickListener(new BackListener());
@@ -78,7 +80,9 @@ public class GalleryActivity extends Activity {
 		del_bt.setOnClickListener(new DelListener());
 		intent = getIntent();
 		
-		
+		activity = intent.getStringExtra("activity");
+		Log.i("GalleryActivity", "jumpActivity:"+activity);
+		Log.i("GalleryActivity", "tempSelectBitmap size:"+Bimp.tempSelectBitmap.size()+"");
 		Bundle bundle = intent.getExtras();
 		object = bundle.getSerializable("activity");
 		
@@ -126,10 +130,12 @@ public class GalleryActivity extends Activity {
 		listViews.add(img);
 	}
 
-	// 返回按钮添加的监听器
+	// 返回按钮添加的监听器(进入相册)
 	private class BackListener implements OnClickListener {
 
 		public void onClick(View v) {
+			Log.i("GalleryActivity", "相册点击tempSelectBitmap size:"+Bimp.tempSelectBitmap.size()+"");
+			intent.putExtra("activity", activity);
 			intent.setClass(GalleryActivity.this, ImageFile.class);
 			startActivity(intent);
 		}
@@ -165,7 +171,7 @@ public class GalleryActivity extends Activity {
 	// 完成按钮的监听
 	private class GallerySendListener implements OnClickListener {
 		public void onClick(View v) {
-			String activity = intent.getStringExtra("activity");
+			Log.i("GalleryActivity", "完成按钮jumpActivity:"+activity);
 			if(activity.equals("publishGoodsActivity")){
 				Log.i("chengxingen", "one"+"," + activity);
 				intent.setClass(mContext, PublishGoodsActivity.class);

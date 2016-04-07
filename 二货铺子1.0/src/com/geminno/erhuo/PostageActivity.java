@@ -7,6 +7,7 @@ import com.geminno.erhuo.view.WheelView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,10 +29,11 @@ public class PostageActivity extends Activity implements View.OnClickListener {
 	private static final String[] KG = new String[] { "1", "2", "3", "4", "5",
 			"6", "7", "8", "9", "10" };
 
-	TextView tvjichu;
-	TextView tvmudi;
-	TextView tvkg;
-	TextView tvmoney;
+	private TextView tvjichu;
+	private TextView tvmudi;
+	private TextView tvkg;
+	private TextView tvmoney;
+	private static Toast mToast = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -136,12 +138,23 @@ public class PostageActivity extends Activity implements View.OnClickListener {
 			this.finish();
 			break;
 		case R.id.lianxikuaidi:
-			Toast.makeText(PostageActivity.this, "很抱歉，暂时还没有与快递公司合作，您需自行联系快递！", Toast.LENGTH_LONG).show();
+			showToast(PostageActivity.this, "很抱歉，暂时还没有与快递公司合作，您需自行联系快递！", Toast.LENGTH_LONG);
 		default:
 			break;
 		}
 
 	}
+	
+	public static void showToast(Context context, String text, int duration) {  
+        if (mToast == null) {  
+            mToast = Toast.makeText(context, text, duration);  
+        } else {  
+            mToast.setText(text);  
+            mToast.setDuration(duration);  
+        }  
+  
+        mToast.show();  
+    }
 
 	
 }

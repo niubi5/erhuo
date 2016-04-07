@@ -320,6 +320,7 @@ public class SoldFragment extends BaseFragment {
 														Intent intent = new Intent(context,OrderDetialActivity.class);
 														intent.putExtra("good", clickGood);
 														intent.putExtra("url", mapGoodUrl.get(clickGood.getId()));
+														intent.putExtra("jumpFragment", "soldFragment");
 														startActivity(intent);
 														
 														//Toast.makeText(context, clickGood.getName()+"运输中", Toast.LENGTH_SHORT).show();

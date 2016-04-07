@@ -46,21 +46,21 @@ public class PullToFreshListView extends ListView implements OnScrollListener {
 	public PullToFreshListView(Context context) {
 		super(context);
 		initHead(context);
-		initAnimation(context);
+//		initAnimation(context);
 		setOnScrollListener(this);
 	}
 
 	public PullToFreshListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initHead(context);
-		initAnimation(context);
+//		initAnimation(context);
 		setOnScrollListener(this);
 	}
 
 	public PullToFreshListView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initHead(context);
-		initAnimation(context);
+//		initAnimation(context);
 		setOnScrollListener(this);
 	}
 
@@ -104,91 +104,91 @@ public class PullToFreshListView extends ListView implements OnScrollListener {
 		void onRefresh();// 刷新
 	}
 
-	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
-		switch (ev.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			startY = ev.getY();
-			break;
-		case MotionEvent.ACTION_MOVE:
-			if (headState == ISREFRESHING) {
-				// 如果是正在刷新 不做任何操作
-				return false;
-			}
-			moveY = ev.getY();
-			// 如果第一条可见并且是向下拉
-			if (firstVisibleItem == 0 && (moveY > startY)) {
-				int paddingHeight = (int) (-headHeight + (moveY - startY));
-				// 如果拉出来的距离》=头部高度，状态改变
-				// 拉出来的瞬间，状态改变
-				if (paddingHeight >= 0 && headState == INIT) {
-					// 状态改变 ==> 准备刷新
-					headState = PREPAREREFRESH;
-					changeState();// 改变控件相关属性
-				} else if (headState == PREPAREREFRESH && paddingHeight < 0) {
-					// 准备刷新==》初始状态
-					headState = INIT;
-					changeState();
-				}
-				headView.setPadding(0, paddingHeight, 0, 0);
-				return false;
-			}
-			break;
-		case MotionEvent.ACTION_UP:
-			// 如果当前距离 < 头部高度 ， 则缩回去
-			if (headState == INIT) {
-				headView.setPadding(0, -headHeight, 0, 0);
-			} else if (headState == PREPAREREFRESH) {
-				// 如果距离 >= 头部高度 ，则准备刷新 ==》 正在刷新
-				headState = ISREFRESHING;
-				changeState();
-				headView.setPadding(0, 0, 0, 0);
-				// 开始刷新操作：回调
-				if (OnPullTofreshCallBack != null) {
-					OnPullTofreshCallBack.onRefresh();
-					return true;
-				}
-			}
-			break;
-		default:
-			break;
-		}
-		return super.onTouchEvent(ev);
-	}
+//	@Override
+//	public boolean onTouchEvent(MotionEvent ev) {
+//		switch (ev.getAction()) {
+//		case MotionEvent.ACTION_DOWN:
+//			startY = ev.getY();
+//			break;
+//		case MotionEvent.ACTION_MOVE:
+//			if (headState == ISREFRESHING) {
+//				// 如果是正在刷新 不做任何操作
+//				return false;
+//			}
+//			moveY = ev.getY();
+//			// 如果第一条可见并且是向下拉
+//			if (firstVisibleItem == 0 && (moveY > startY)) {
+//				int paddingHeight = (int) (-headHeight + (moveY - startY));
+//				// 如果拉出来的距离》=头部高度，状态改变
+//				// 拉出来的瞬间，状态改变
+//				if (paddingHeight >= 0 && headState == INIT) {
+//					// 状态改变 ==> 准备刷新
+//					headState = PREPAREREFRESH;
+////					changeState();// 改变控件相关属性
+//				} else if (headState == PREPAREREFRESH && paddingHeight < 0) {
+//					// 准备刷新==》初始状态
+//					headState = INIT;
+////					changeState();
+//				}
+//				headView.setPadding(0, paddingHeight, 0, 0);
+//				return false;
+//			}
+//			break;
+//		case MotionEvent.ACTION_UP:
+//			// 如果当前距离 < 头部高度 ， 则缩回去
+//			if (headState == INIT) {
+//				headView.setPadding(0, -headHeight, 0, 0);
+//			} else if (headState == PREPAREREFRESH) {
+//				// 如果距离 >= 头部高度 ，则准备刷新 ==》 正在刷新
+//				headState = ISREFRESHING;
+////				changeState();
+//				headView.setPadding(0, 0, 0, 0);
+//				// 开始刷新操作：回调
+//				if (OnPullTofreshCallBack != null) {
+//					OnPullTofreshCallBack.onRefresh();
+//					return true;
+//				}
+//			}
+//			break;
+//		default:
+//			break;
+//		}
+//		return super.onTouchEvent(ev);
+//	}
 	
 	// 改变状态，界面显示内容跟着改变
-		private void changeState() {
-			switch (headState) {
-			case INIT:
-				progressBar.setVisibility(View.INVISIBLE);
-				imageView.setVisibility(View.VISIBLE);
-				// 给imageView设置动画
-				imageView.startAnimation(downAnimation);// 设置箭头朝上
-				tvRefreshState.setText("下拉刷新");
-				break;
-			case PREPAREREFRESH:
-				progressBar.setVisibility(View.INVISIBLE);
-				imageView.setVisibility(View.VISIBLE);
-				imageView.startAnimation(upAnimation);// 设置箭头朝下
-				tvRefreshState.setText("释放刷新");
-				break;
-			case ISREFRESHING:
-				progressBar.setVisibility(View.VISIBLE);
-				imageView.setVisibility(View.INVISIBLE);
-				imageView.clearAnimation();// 清除动画
-				tvRefreshState.setText("正在刷新");
-				break;
-			}
-		}
-		
-		// 完成刷新后
-		public void completeRefresh() {
-			// 改变padding值
-			headView.setPadding(0, -headHeight, 0, 0);
-			// 改变成初始状态
-			headState = INIT;
-			changeState();
-		}
+//		private void changeState() {
+//			switch (headState) {
+//			case INIT:
+//				progressBar.setVisibility(View.INVISIBLE);
+//				imageView.setVisibility(View.VISIBLE);
+//				// 给imageView设置动画
+//				imageView.startAnimation(downAnimation);// 设置箭头朝上
+//				tvRefreshState.setText("下拉刷新");
+//				break;
+//			case PREPAREREFRESH:
+//				progressBar.setVisibility(View.INVISIBLE);
+//				imageView.setVisibility(View.VISIBLE);
+//				imageView.startAnimation(upAnimation);// 设置箭头朝下
+//				tvRefreshState.setText("释放刷新");
+//				break;
+//			case ISREFRESHING:
+//				progressBar.setVisibility(View.VISIBLE);
+//				imageView.setVisibility(View.INVISIBLE);
+//				imageView.clearAnimation();// 清除动画
+//				tvRefreshState.setText("正在刷新");
+//				break;
+//			}
+//		}
+//		
+//		// 完成刷新后
+//		public void completeRefresh() {
+//			// 改变padding值
+//			headView.setPadding(0, -headHeight, 0, 0);
+//			// 改变成初始状态
+//			headState = INIT;
+//			changeState();
+//		}
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {

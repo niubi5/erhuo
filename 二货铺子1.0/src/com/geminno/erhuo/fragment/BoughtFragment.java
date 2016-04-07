@@ -464,16 +464,16 @@ public class BoughtFragment extends BaseFragment {
 												goods.getMarketId() == 0 ? "无集市信息"
 														: getMarketName(goods
 																.getMarketId()));
-										if (goods.getState() == 3) {
+										if (goods.getState() == 4) {
 											holder.setVisibility(R.id.iv_bought, 1);
 											holder.setText(R.id.btn_bought_edit, "已完成");
 											holder.setDrawableLeft(R.id.btn_bought_edit, getResources()
 													.getDrawable(R.drawable.iconfont_gougou_blue));
-										} else if (goods.getState() == 1) {
+										} else if (goods.getState() == 2) {
 											holder.setText(R.id.btn_bought_edit, "提醒发货");
 											holder.setDrawableLeft(R.id.btn_bought_edit, getResources()
 													.getDrawable(R.drawable.iconfont_tixing));
-										} else if (goods.getState() == 2) {
+										} else if (goods.getState() == 3) {
 											holder.setText(R.id.btn_bought_edit, "运输中");
 											holder.setDrawableLeft(R.id.btn_bought_edit, getResources()
 													.getDrawable(R.drawable.iconfont_wuliu));
@@ -584,7 +584,25 @@ public class BoughtFragment extends BaseFragment {
 														if(clickGood.getState() == 2){
 															//提醒发货
 															//
-															Toast.makeText(context, "已提醒卖家发货！", Toast.LENGTH_SHORT).show();
+															HttpUtils hu = new HttpUtils();
+															RequestParams rp = new RequestParams();
+															rp.addBodyParameter("goodId",clickGood.getId()+"");
+															String url = Url.getUrlHead()+"/NotifySendGood";
+															hu.send(HttpRequest.HttpMethod.POST, url,rp, new RequestCallBack<String>() {
+
+																@Override
+																public void onFailure(
+																		HttpException arg0,
+																		String arg1) {
+																	Toast.makeText(context, "网络异常！", Toast.LENGTH_SHORT).show();
+																}
+
+																@Override
+																public void onSuccess(
+																		ResponseInfo<String> arg0) {
+																	Toast.makeText(context, "已提醒卖家发货！", Toast.LENGTH_SHORT).show();
+																}
+															});
 														}else if (clickGood.getState() == 3){
 															//跳转至商品订单详情
 															Intent intent = new Intent(context,OrderDetialActivity.class);

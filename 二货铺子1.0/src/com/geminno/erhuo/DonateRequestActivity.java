@@ -168,6 +168,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 		parentView = getLayoutInflater().inflate(
 				R.layout.activity_donate_request, null);
 		setContentView(parentView);
+		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		Init();
 
 		initView();
@@ -550,6 +551,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 									DonateRequestActivity.this,
 									GalleryActivity.class);
 							intent.putExtra("position", "1");
+							intent.putExtra("activity","donateRequestActivity");
 							intent.putExtra("ID", arg2);
 							startActivity(intent);
 						}

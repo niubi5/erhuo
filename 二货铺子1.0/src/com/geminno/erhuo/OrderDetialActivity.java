@@ -46,6 +46,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ public class OrderDetialActivity extends Activity {
 	private Goods good;
 	private String goodUrl;
 	private Orders order;
+	private String jumpFragment = "null";
 	private final List<Map<String, String>> listLogis = new ArrayList<Map<String, String>>();
 	private MyAdapter<Map<String, String>> myAdapter;
 
@@ -71,6 +73,7 @@ public class OrderDetialActivity extends Activity {
 	private TextView tvlogisHao;
 	private ListView lvlogisBrief;
 	private TextView tvNoLogis;
+	private Button btnOrderComplete;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +102,12 @@ public class OrderDetialActivity extends Activity {
 		tvLogisName = (TextView) findViewById(R.id.tv_logis_name);
 		tvlogisHao = (TextView) findViewById(R.id.tv_logis_hao);
 		tvNoLogis = (TextView) findViewById(R.id.tv_no_logis);
-		
+		btnOrderComplete = (Button) findViewById(R.id.btn_order_complete);
+		Log.i("OrderDetialActivity", "jumpFragment:"+jumpFragment);
+		Log.i("OrderDetialActivity", "good State:"+good.getState());
+		if("soldFragment".equals(jumpFragment) || good.getState() == 4){
+			btnOrderComplete.setVisibility(View.INVISIBLE);
+		}
 		//17.41
 		
 		lvlogisBrief = (ListView) findViewById(R.id.lv_logis_imformatin);
@@ -118,6 +126,7 @@ public class OrderDetialActivity extends Activity {
 	public void initData() {
 		good = (Goods) getIntent().getSerializableExtra("good");
 		goodUrl = getIntent().getStringExtra("url");
+		jumpFragment = getIntent().getStringExtra("jumpFragment");
 
 		// 发送请求获取订单详情
 		HttpUtils hu = new HttpUtils();

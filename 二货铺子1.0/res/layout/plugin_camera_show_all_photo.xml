@@ -19,7 +19,7 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textSize="14sp"
+            android:textSize="@dimen/font_middle"
             android:textColor="#fff"
             android:id="@+id/showallphoto_back"
             android:text="@string/album"
@@ -31,7 +31,7 @@
        		android:text="@string/photo"
        		android:layout_centerInParent="true"
        		android:singleLine="true"
-       		android:textSize="20sp"		
+       		android:textSize="@dimen/font_big"		
 			android:textColor="#ffffff"
             />
         
@@ -44,7 +44,7 @@
             android:id="@+id/showallphoto_cancel"
             android:text="@string/camera_cancel"
             android:textColor="#fff"
-        	android:textSize="15dp"
+        	android:textSize="@dimen/font_middle"
 			android:background="@drawable/plugin_camera_title_btn_cancel"
             />
     </RelativeLayout>
@@ -64,6 +64,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:text="@string/preview"
+            android:textSize="@dimen/font_middle"
             android:background="@drawable/plugin_camera_title_btn_preview"
             />
         <Button
@@ -76,6 +77,7 @@
             android:text="@string/unfinished"
             android:background="@drawable/plugin_camera_ok_btn_state"
             android:gravity="center"
+            android:textSize="@dimen/font_middle"
             />
     </RelativeLayout>
 

@@ -77,17 +77,17 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:layout_below="@+id/view1" >
 
             <Button
                 android:id="@+id/btn_donate_help_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:paddingLeft="40dp"
                 android:paddingRight="40dp"
                 android:layout_weight="1"
-                android:background="@null"
+                android:background="@drawable/btn_white_bg"
                 android:drawableLeft="@drawable/icon_delete"
                 android:text="@string/delete"
                 android:textSize="@dimen/font_big"
@@ -98,7 +98,6 @@
                 android:layout_width="1dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginTop="3dp"
                 android:background="#C9C9C9" />
 
@@ -106,24 +105,15 @@
                 android:id="@+id/btn_donate_help_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_white_bg"
+                android:drawableLeft="@drawable/iconfont_aixin_red"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:drawableLeft="@drawable/iconfont_aixin_red"
                 android:text="收到的帮助"
-                android:textSize="@dimen/font_big"
-                android:textColor="@color/dimgray" />
+                android:textColor="@color/dimgray"
+                android:textSize="@dimen/font_big" />
 
-            <View
-                android:id="@+id/view3"
-                android:layout_width="1dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="3dp"
-                android:background="#C9C9C9" />
         </LinearLayout>
 
         <View

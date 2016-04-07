@@ -166,7 +166,9 @@
     <!--  -->
     <drawable name="btn_normal">#ffff3f40</drawable>
  	<drawable name="btn_pressed">#ffaa0808</drawable>
- 	<drawable name="btn_normal_yellow">#F7AD3D</drawable>
- 	<drawable name="btn_pressed_yellow">#ea8010</drawable>
+ 	<drawable name="btn_normal_yellow">#ffF7AD3D</drawable>
+ 	<drawable name="btn_pressed_yellow">#ffea8010</drawable>
+ 	<drawable name="btn_normal_white">#ffffff</drawable>
+ 	<drawable name="btn_pressed_white">#ffBEBEBE</drawable>
 
 </resources>
