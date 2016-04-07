@@ -42,7 +42,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	TextView tvRegister;
 	TextView tvforget;
 	ImageView ivBack;
-	@ViewInject(R.id.et_name)
+	
 	EditText etName;
 	@ViewInject(R.id.et_pwd)
 	EditText etPwd;
@@ -54,11 +54,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_login);
+		Log.i("cheshi", "进入登录");
 		ViewUtils.inject(this);
-		etName.setFocusable(true);
-		etName.setFocusableInTouchMode(true);
-		etName.requestFocus();
 		tvRegister = (TextView) findViewById(R.id.tv_register);
+		etName=(EditText) findViewById(R.id.et_name);
 		ivBack = (ImageView) findViewById(R.id.iv_login_return);
 		Button button;
 		tvforget = (TextView) findViewById(R.id.tv_forget_mima);
@@ -67,10 +66,20 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		tvforget.setOnClickListener(this);
 		ivBack.setOnClickListener(this);
 		button.setOnClickListener(this);
-		ViewUtils.inject(this);
 		// 调用setColor()方法,实现沉浸式状态栏
 		MainActivity.setColor(this,
 				getResources().getColor(R.color.login_background));
+		Log.i("cheshi", "到这里？");
+		etName.setFocusable(true);
+		etName.setFocusableInTouchMode(true);
+		etName.requestFocus();
+//		Intent intent=getIntent();
+//		String phone=intent.getStringExtra("phone");
+//		if (!phone.equals("null") && phone.length()!=0) {
+//			Log.i("穿过来的phone：", phone);
+//			etName.setText(phone);
+//		}
+		
 	}
 
 	@Override
@@ -119,11 +128,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 										Toast.makeText(LoginActivity.this,
 												"登陆失败,您还未注册！", 0).show();
 									} else {
-//										MainActivity.mainActivity.finish();
-//										Intent intent2 = new Intent(
-//												LoginActivity.this,
-//												MainActivity.class);
-//										startActivity(intent2);
+										MainActivity.mainActivity.finish();
+										Intent intent2 = new Intent(
+												LoginActivity.this,
+												MainActivity.class);
+										startActivity(intent2);
 										Gson gson = new Gson();
 										Users users = gson.fromJson(result,
 												Users.class);

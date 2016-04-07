@@ -16,6 +16,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -72,6 +73,11 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 	class MyAdapter extends BaseAdapter {
 		 List<Address> listad;
 		 Context context;
+		private String addressid=null;
+		private String listgetname;
+		private String listgetphone;
+		private String listgetid;
+		private String listgetaddress;
 		
 		 public MyAdapter(List<Address> listad,Context context) {
 			this.listad=listad;
@@ -104,44 +110,84 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 						.inflate(R.layout.ship_address_layout, null);
 				viewHolder.shipName = (TextView) convertView.findViewById(R.id.tv_ship_name);
 				viewHolder.shipPhone = (TextView) convertView.findViewById(R.id.et_ship_phone);
-				viewHolder.shipdiqu = (TextView) convertView.findViewById(R.id.tv_address_qu);
-				viewHolder.shipdizhi = (TextView) convertView.findViewById(R.id.tv_ship_specific);
+				viewHolder.shipdizhi = (TextView) convertView.findViewById(R.id.tv_address_qu);
 				viewHolder.shipmoren=(ImageView) convertView.findViewById(R.id.iv_moren);
+				viewHolder.shipbianji=(Button)convertView.findViewById(R.id.ship_bianji);
+				viewHolder.shipdelete=(Button) convertView.findViewById(R.id.btn_ship_delete);
 				convertView.setTag(viewHolder);
 				Log.i("cheshi", "集合"+listad);
 			} else {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
 			Log.i("cheshi", "昵称"+listad.get(position));
-			viewHolder.shipName.setText(listad.get(position).getName());
-			viewHolder.shipPhone.setText(listad.get(position).getPhone());
+			addressid = listad.get(position).getId()+"";
+			listgetname = listad.get(position).getName();
+			listgetphone = listad.get(position).getPhone();
+			listgetaddress = listad.get(position).getAddress().toString();
+			viewHolder.shipName.setText(listgetname);
+			viewHolder.shipPhone.setText(listgetphone);
+			viewHolder.shipbianji.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent=new Intent(ShipAddressActivity.this,NewAddressActivity.class);
+					intent.putExtra("name", listgetname);
+					intent.putExtra("phone", listgetphone);
+					intent.putExtra("id", addressid);
+					intent.putExtra("Address", listgetaddress);
+					Log.i("cheshi", "取出id:"+listgetid);
+					startActivity(intent);
+					
+				}
+			});
+			viewHolder.shipdelete.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					HttpUtils httpUtils=new HttpUtils();
+					httpUtils.configCurrentHttpCacheExpiry(0);
+					RequestParams params=new RequestParams();
+				    String headUrl = Url.getUrlHead();
+				    String url = headUrl + "/DeleteAddressServlet";
+					params.addQueryStringParameter("addressid",addressid);
+					httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
+
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+							// TODO Auto-generated method stub
+							Toast.makeText(context, "网络异常", Toast.LENGTH_SHORT).show();
+						}
+
+						@Override
+						public void onSuccess(ResponseInfo<String> arg0) {
+							// TODO Auto-generated method stub
+							String result=arg0.result;
+							if (result.equals("ok")) {
+								Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+							    create();
+							}
+						}
+					});
+				}
+			});
 			String moren=listad.get(position).getIsdefault().toString();
 			if (moren.equals("yes")) {
 				viewHolder.shipmoren.setVisibility(viewHolder.shipmoren.VISIBLE);
 			}else {
 				viewHolder.shipmoren.setVisibility(viewHolder.shipmoren.INVISIBLE);
 			}
-			String shipaddress = listad.get(position).getAddress().toString();
-			if (shipaddress.indexOf("市") != -1) {
-				viewHolder.shipdiqu.setText(shipaddress.substring(0,
-						shipaddress.indexOf("市"))
-						+ "市");
-				viewHolder.shipdizhi.setText(shipaddress.substring(shipaddress.indexOf("市")+1));
-			} else {
-				viewHolder.shipdiqu.setText(shipaddress);
-				viewHolder.shipdizhi.setText(shipaddress);
-			}
-			
+			viewHolder.shipdizhi.setText(listgetaddress);
 			return convertView;
 		}
 
 	}
 
 	private void create() {
-		
-		Log.i("cheshi", "进来的users"+users.toString());
 		String userId=users.getId()+"";
 		HttpUtils httpUtils=new HttpUtils();
+		httpUtils.configCurrentHttpCacheExpiry(0);
 		RequestParams params=new RequestParams();
 		String headUrl = Url.getUrlHead();
 		String url = headUrl + "/AddressListServlet";
@@ -180,29 +226,11 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 							//Toast.makeText(shipAddressActivity, jumpActivity, Toast.LENGTH_SHORT).show();
 							if(jumpActivity == null && !"".equals(jumpActivity)){
 								Log.i("cheshi", "点击事件，跳转");
-							Intent intent=new Intent(ShipAddressActivity.this,NewAddressActivity.class);
-							intent.putExtra("name", listad.get(position).getName());
-							intent.putExtra("phone", listad.get(position).getPhone());
-							intent.putExtra("id", listad.get(position).getId()+"");
-							Log.i("cheshi", "取出id:"+listad.get(position).getId());
-							String shipaddress = listad.get(position).getAddress().toString();
-							String diqu=null;
-							String dizhi=null;
-							if (shipaddress.indexOf("市") != -1) {
-								 diqu=shipaddress.substring(0,shipaddress.indexOf("市"))+ "市";
-							     dizhi=shipaddress.substring(shipaddress.indexOf("市")+1);
-							} else {
-							     diqu=shipaddress;
-							     dizhi=shipaddress;
-							}
-							
-							intent.putExtra("diqu", diqu);
-							intent.putExtra("dizhi", dizhi);
 							if (listad.get(position).getIsdefault().equals("yes")) {
 								MyApplication
 								.setCurUserDefAddress(listad.get(position));
 							}
-							startActivity(intent);
+//							startActivity(intent);
 							}else{
 								MyApplication.setUseAddress(listad.get(position));
 								finish();
@@ -235,9 +263,11 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 	public class ViewHolder {
 		TextView shipName;
 		TextView shipPhone;
-		TextView shipdiqu;
 		TextView shipdizhi;
 		ImageView shipmoren;
+		Button shipdelete;
+		Button shipbianji;
+		
 	}
 
 }
