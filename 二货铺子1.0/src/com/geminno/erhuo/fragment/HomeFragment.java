@@ -8,14 +8,19 @@ import java.util.Map;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.geminno.erhuo.MyApplication;
@@ -54,6 +59,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private boolean isRefresh = false;
 	private ImageView ivhome;
 	private ImageView toUP;
+	private ImageView relinkIv;
+	private FrameLayout relinkContainer;
+	private Button relinkBtn;
+	private AnimationDrawable relinkAnimation;
+	private Toast toast;
 	
 	public HomeFragment(){}
 
@@ -67,12 +77,18 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		convertView = inflater.inflate(R.layout.fragment_main_page, null);
 		ivhome = (ImageView) convertView.findViewById(R.id.home_search);
 		toUP = (ImageView) convertView.findViewById(R.id.to_up);
+		relinkIv = (ImageView) convertView.findViewById(R.id.net_relink);
+		relinkIv.setBackgroundResource(R.anim.net_relink);// 设置动画背景
+		relinkAnimation = (AnimationDrawable) relinkIv.getBackground();// 获得动画对象
+		relinkAnimation.setOneShot(false);// 是否仅启动一次
+		relinkContainer = (FrameLayout) convertView.findViewById(R.id.relink_container);
+		relinkBtn = (Button) convertView.findViewById(R.id.click_to_relink);
+		relinkBtn.setOnClickListener(this);
 		toUP.setOnClickListener(this);
 		ivhome.setOnClickListener(this);
-
 		return convertView;
 	}
-
+	
 	@Override
 	protected void initView() {
 		// 获得listview
@@ -135,14 +151,17 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 					@Override
 					public void onFailure(HttpException arg0, String arg1) {
-						Toast.makeText(context, "网络异常", Toast.LENGTH_SHORT)
-								.show();
-
+						relinkContainer.setVisibility(View.VISIBLE);
+						refreshListView.setVisibility(View.INVISIBLE);
 					}
 
 					@SuppressWarnings("unchecked")
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
+						if(relinkContainer.getVisibility() == View.VISIBLE && refreshListView.getVisibility() == View.INVISIBLE){
+							refreshListView.setVisibility(View.VISIBLE);// 显示listview
+							relinkContainer.setVisibility(View.INVISIBLE);// 隐藏重新加载
+						}
 						String result = arg0.result;// 获得响应结果
 						Gson gson = new Gson();
 						Type type = new TypeToken<List<Markets>>() {
@@ -236,8 +255,13 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 						// 判断有没有加载到数据
 						if (newGoods == null || newGoods.isEmpty()) {
 							// 没有加载到数据，则弹出提示
-							Toast.makeText(context, "没有更多了", Toast.LENGTH_SHORT)
-									.show();
+							if(toast == null){
+								toast = Toast.makeText(context, "没有更多了", Toast.LENGTH_SHORT);
+							} else {
+								toast.cancel();
+								toast = Toast.makeText(context, "没有更多了", Toast.LENGTH_SHORT);
+							}
+							toast.show();
 							// 页数不变，之前++过，故这里要--
 							curPage--;
 						} else {
@@ -265,7 +289,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 
 	@Override
-	public void onClick(View v) {
+	public void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.home_search:
 			startActivity(new Intent(context, SearchActivity.class));
@@ -273,6 +297,27 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		case R.id.to_up:
 			// 移动到顶部
 			refreshListView.smoothScrollToPosition(0);
+			break;
+		case R.id.click_to_relink:
+			Log.i("erhuo", "进来了");
+			v.setVisibility(View.INVISIBLE);// 隐藏点击重试
+			relinkIv.setVisibility(View.VISIBLE); // 显示动画
+			relinkAnimation.start(); // 启动动画
+			Handler handler = new Handler();
+			handler.postDelayed(new Runnable(){
+
+				@Override
+				public void run() {
+					initView();// 重新加载数据
+					if(relinkAnimation.isRunning()){
+						// 停止动画
+						relinkAnimation.stop();
+						relinkIv.setVisibility(View.INVISIBLE);// 隐藏动画
+						v.setVisibility(View.VISIBLE);// 显示按钮
+					}
+				}
+				
+			}, 3500);
 			break;
 		default:
 			break;
