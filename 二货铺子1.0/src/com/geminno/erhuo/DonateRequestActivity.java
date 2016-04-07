@@ -143,7 +143,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	private Builder builder;
 	private Users user;
 
-	Dialog dialog;
+	private Dialog dialog;
 
 	private AddImageView addImageView;
 	private Spinner logisticSpinner;
@@ -153,6 +153,9 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	List<Integer> imageIds;
 	// 存放物流类别
 	List<String> verifys;
+	
+	//toast
+	private static Toast mToast = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -292,8 +295,10 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 
 									int count = 0;
 									for (ImageItem image : Bimp.tempSelectBitmap) {
-										File file = new File(
-												image.getImagePath());
+//										File file = new File(
+//												image.getImagePath());
+										Bitmap converBitmap = FileUtils.convertToBitmap(image.getImagePath(), 480, 800);
+										File file = new File(FileUtils.saveBitmap(converBitmap, userID + count + getNowTime()));
 										rp.addBodyParameter(1 + count
 												+ getNowTime(), file);
 										Log.i("uploadimage", 1 + count
@@ -335,36 +340,41 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 												}
 											});
 								} else {
-
-									Toast.makeText(this, "务必把收货地址填写上",
-											Toast.LENGTH_SHORT).show();
+									showToast(this, "务必把收货地址填写上", Toast.LENGTH_SHORT);
+//									Toast.makeText(this, "务必把收货地址填写上",
+//											Toast.LENGTH_SHORT).show();
 									break;
 								}
 							} else {
-								Toast.makeText(this, "联系方式必须要,请填写正确的手机号码",
-										Toast.LENGTH_SHORT).show();
+//								Toast.makeText(this, "联系方式必须要,请填写正确的手机号码",
+//										Toast.LENGTH_SHORT).show();
+								showToast(this, "联系方式必须要,请填写正确的手机号码", Toast.LENGTH_SHORT);
 								break;
 							}
 
 						} else {
 							// toastText.setText("收货人是谁呢？");
-							Toast.makeText(this, "收货人是谁呢？", Toast.LENGTH_SHORT)
-									.show();
+//							Toast.makeText(this, "收货人是谁呢？", Toast.LENGTH_SHORT)
+//									.show();
+							showToast(this, "收货人是谁呢？", Toast.LENGTH_SHORT);
 							break;
 						}
 					} else {
 						// toastText.setText("别忘了描述一下您的需要哦！");
-						Toast.makeText(this, "别忘了详细描述一下您的需要哦！",
-								Toast.LENGTH_SHORT).show();
+//						Toast.makeText(this, "别忘了详细描述一下您的需要哦！",
+//								Toast.LENGTH_SHORT).show();
+						showToast(this, "别忘了详细描述一下您的需要哦！", Toast.LENGTH_SHORT);
 						break;
 					}
 				} else {
-					Toast.makeText(this, "取个标题吧", Toast.LENGTH_SHORT).show();
+//					Toast.makeText(this, "取个标题吧", Toast.LENGTH_SHORT).show();
+					showToast(this, "取个标题吧", Toast.LENGTH_SHORT);
 					// toastText.setText("取个标题吧");
 					break;
 				}
 			} else {
-				Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+				showToast(this, "请先登录", Toast.LENGTH_SHORT);
 			}
 
 		}
@@ -761,12 +771,17 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	 * @return
 	 */
 	public boolean judgeNumber(String text){
-		Pattern pattern = Pattern.compile("[0-9]*");
-		Matcher matcher = pattern.matcher(text);
-		if(matcher.matches()){
-			return true;
-		}
-		return false;
+//		Pattern pattern = Pattern.compile("[0-9]*");
+//		Matcher matcher = pattern.matcher(text);
+//		if(matcher.matches()){
+//			return true;
+//		}
+//		return false;
+		Pattern p = Pattern
+				.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+		Matcher m = p.matcher(text);
+		System.out.println(m.matches() + "---");
+		return m.matches();
 	}
 	
 	/**
@@ -796,5 +811,17 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 		}
 		return false;
 	}
+	
+	//弹出toast
+	 public static void showToast(Context context, String text, int duration) {  
+	        if (mToast == null) {  
+	            mToast = Toast.makeText(context, text, duration);  
+	        } else {  
+	            mToast.setText(text);  
+	            mToast.setDuration(duration);  
+	        }  
+	  
+	        mToast.show();  
+	    }
 
 }
