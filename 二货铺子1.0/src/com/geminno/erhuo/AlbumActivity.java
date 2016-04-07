@@ -144,6 +144,17 @@ public class AlbumActivity extends Activity {
 				intent.setClass(mContext, DonateRequestActivity.class);
 				// intent.setClass(mContext, PublishGoodsActivity.class);
 			}
+//			//Bimp.tempSelectBitmap.clear();
+//			String activity = intent.getStringExtra("activity");
+//			if(activity.equals("publishGoodsActivity")){
+//				Log.i("chengxingen", "one"+"," + activity);
+//				intent.setClass(mContext, PublishGoodsActivity.class);
+//			}else if(activity.equals("donateRequestActivity")){
+//				Log.i("chengxingen", "two" + "," + activity);
+//				intent.setClass(mContext, DonateRequestActivity.class); 
+////			intent.setClass(mContext, PublishGoodsActivity.class);
+//			}
+//			intent.setClass(mContext, PublishGoodsActivity.class);
 			startActivity(intent);
 		}
 	}
@@ -251,6 +262,7 @@ public class AlbumActivity extends Activity {
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			intent.putExtra("activity", activity);
 			intent.setClass(AlbumActivity.this, ImageFile.class);
 			startActivity(intent);
 		}

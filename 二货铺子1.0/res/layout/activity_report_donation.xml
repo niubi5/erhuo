@@ -4,38 +4,33 @@
     android:layout_height="match_parent"
     tools:context="com.geminno.erhuo.ReportDonationActivity" >
 
-    <RelativeLayout
-        android:id="@+id/erhuo_donate_title"
-        style="@style/FrameTitleRed"
-        android:layout_width="match_parent" >
-
-        <LinearLayout
-            android:id="@+id/ll_back"
-            android:layout_width="50dp"
-            android:layout_height="40dp" >
+    
+    
+    <FrameLayout
+        android:id="@+id/erhuo_donate_detial_title"
+        style="@style/FrameTitleRed" >
 
             <ImageView
                 android:id="@+id/iv_back_report"
-                android:layout_width="30dp"
+                android:layout_width="40dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/left_arrow_white" />
-        </LinearLayout>
 
-        <TextView
-            style="@style/FrameTitleRedText"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="举报捐赠" />
-    </RelativeLayout>
+            <TextView
+                style="@style/FrameTitleRedText"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="@string/donation_report" />
+    </FrameLayout>
 
     <EditText
         android:id="@+id/et_report_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/erhuo_donate_title"
+        android:layout_below="@+id/erhuo_donate_detial_title"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="30dp"

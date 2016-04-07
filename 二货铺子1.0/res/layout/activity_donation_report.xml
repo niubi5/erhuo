@@ -10,13 +10,11 @@
         style="@style/FrameTitleRed"
         android:layout_width="match_parent" >
 
+
         <ImageView
             android:id="@+id/iv_donation_report_back"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:onClick="click"
-            android:layout_gravity="center_vertical"
+            style="@style/FrameTitleButtonLeft"
+            android:onClick="back"
             android:src="@drawable/left_arrow_white" />
 
         <TextView
@@ -37,7 +35,7 @@
      <EditText 
          android:id="@+id/et_donate_title"
          android:layout_width="match_parent"
-         android:layout_height="wrap_content"
+         android:layout_height="35dp"
          android:background="@null"
          android:hint="标题"
          android:textSize="@dimen/font_middlesmall"
@@ -53,13 +51,13 @@
      
      <EditText 
          android:id="@+id/et_donate_detail"
-         android:layout_marginTop="15dp"
+         android:layout_marginTop="10dp"
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:background="@null"
          android:hint="详情"
-         android:lines="3"
-         android:textSize="@dimen/font_middlesmall"
+         android:lines="5"
+         android:textSize="@dimen/font_middle"
          />
      
      <View 
@@ -74,11 +72,11 @@
          android:id="@+id/et_donate_logisticsCom"
          android:layout_marginTop="15dp"
          android:layout_width="match_parent"
-         android:layout_height="wrap_content"
+         android:layout_height="35dp"
          android:background="@null"
          android:hint="物流"
          
-         android:textSize="@dimen/font_middlesmall"
+         android:textSize="@dimen/font_middle"
          />
      
      <View 
@@ -93,11 +91,11 @@
          android:id="@+id/et_donate_logisticsNum"
          android:layout_marginTop="15dp"
          android:layout_width="match_parent"
-         android:layout_height="wrap_content"
+         android:layout_height="35dp"
          android:background="@null"
          android:hint="物流编号"
          
-         android:textSize="@dimen/font_middlesmall"
+         android:textSize="@dimen/font_middle"
          />
     
     </LinearLayout>

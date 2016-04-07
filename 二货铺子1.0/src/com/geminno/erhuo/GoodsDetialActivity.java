@@ -104,7 +104,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 	private TextView tvGoodBrief;
 	private TextView tvGoodName;
 	private ArrayList<Integer> collection;
-	private int position;
 	private List<Friend> userIdList;//
 	private Users curUser;
 	private Integer goodsId;
@@ -112,7 +111,6 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 	private Context context;
 	private ScrollView scroll;
 	private ImageView commentIv;
-	private Users currentUser = MyApplication.getCurrentUser();
 	private RemarkAdapter remarkAdapter;
 	private List<Map<Remark, Users>> listRemarkUsers = new ArrayList<Map<Remark, Users>>();
 	private Handler handler = new Handler();
@@ -142,6 +140,9 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 		goods = (Goods) bundle.getSerializable("goods");
 		goodsId = goods.getId();
 		collection = MyApplication.getCollection();
+		if(collection == null){
+			collection = new ArrayList<Integer>();
+		}
 		List<String> goodUrl = bundle.getStringArrayList("urls");
 		// 用户好友列表
 		curUser = MyApplication.getCurrentUser();
@@ -248,8 +249,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 	}
 
 	private void collectGoods(Goods goods, View v, final boolean b) {
-		Users user = MyApplication.getCurrentUser();
-		if (user != null && goods != null) {
+		if (curUser != null && goods != null) {
 			HttpUtils http = new HttpUtils();
 			RequestParams params = new RequestParams();
 			String urlHead = Url.getUrlHead();
@@ -262,7 +262,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 					collection.remove(Integer.valueOf(goods.getId()));
 					MyApplication.setCollections(collection);// 更新Application里的集合
 				}
-				params.addBodyParameter("userId", user.getId() + "");
+				params.addBodyParameter("userId", curUser.getId() + "");
 				params.addBodyParameter("goodsId", goods.getId() + "");
 				url = urlHead + "/DeleteCollectionsServlet";
 			} else {
@@ -271,7 +271,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 				// 并加入集合
 				collection.add(goods.getId());
 				MyApplication.setCollections(collection);
-				params.addBodyParameter("userId", user.getId() + "");
+				params.addBodyParameter("userId", curUser.getId() + "");
 				params.addBodyParameter("goodsId", goods.getId() + "");
 				url = urlHead + "/AddCollectionsServlet";
 			}
@@ -409,7 +409,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 			public void onClick(View v) {
 				// 当前用户已登录
 				// 当评论不为空时 发送留言，存入数据库
-				if (currentUser == null) {
+				if (curUser == null) {
 					Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
 				} else {
 					// 判断输入框是否为空
@@ -421,7 +421,7 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 						// 设置为不缓存，及时获取数据
 						http.configCurrentHttpCacheExpiry(0);
 						params.addBodyParameter("goodsId", goods.getId() + "");
-						params.addBodyParameter("userId", currentUser.getId()
+						params.addBodyParameter("userId", curUser.getId()
 								+ "");
 						params.addBodyParameter("commentContent",
 								commentContent.getText().toString());

@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -123,7 +125,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	 */
 	private String logisticsName;
 	/**
-	 *  收货人联系电话
+	 * 收货人联系电话
 	 */
 	private EditText etPhone;
 	/**
@@ -203,13 +205,14 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// Toast toast = new Toast(getApplicationContext());
 		switch (v.getId()) {
-		case R.id.et_donate_title:
-			if(user.getName().equals("")){
-				Toast.makeText(this, "您还没有设置用户名，请先完善资料", Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(this,EditUserInfoActivity.class);
-				startActivity(intent);
-			}
-			break;
+//		case R.id.et_donate_title:
+//			if (user.getName().equals("")) {
+//				Toast.makeText(this, "您还没有设置用户名，请先完善资料", Toast.LENGTH_SHORT)
+//						.show();
+//				Intent intent = new Intent(this, EditUserInfoActivity.class);
+//				startActivity(intent);
+//			}
+//			break;
 		case R.id.btn_request_donate:
 			Log.i("MyToast", "点击了");
 			// View view = getLayoutInflater().inflate(
@@ -234,121 +237,136 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 			// // 要显示的view
 			// toast.setView(view);
 			// toast.show();
-			
-			if (!title.equals("")) {
-				if (!content.equals("")) {
-					if (!geterName.equals("")) {
-						if(!phone.equals("")){
-							
-						
-						if (!address.equals("")) {
-							// toastText.setText("务必把收货地址填写上");
-							/**
-							 * 获得用户输入的信息,将其封装成Donation对象
-							 */
-							Donation donation = new Donation();
-							// 获取当前用户id
-							int userID = MyApplication.getCurrentUser().getId();
-//							if(String.valueOf(userID) == null){
-//								Toast.makeText(this, "请登录", Toast.LENGTH_SHORT).show();
-//								break;
-//							}else{
-							donation.setUserId(userID);
-							donation.setTitle(title);
-							donation.setDetail(content);
-							SimpleDateFormat sdf = new SimpleDateFormat(
-									"yyyy-MM-dd hh:mm:ss");
-							donation.setPubTime(sdf.format(new Date()));
-							donation.setLogistics(logistics);
-							donation.setConsignee(geterName);
-							donation.setPhone(phone);
-							donation.setAddress(address);
+			if (MyApplication.getCurrentUser() != null) {
 
-							Log.i("donation",
-									"" + donation.getUserId()
-											+ donation.getTitle()
-											+ donation.getDetail()
-											+ donation.getPubTime()
-											+ donation.getLogistics()
-											+ donation.getAddress()
-											+ donation.getConsignee()
-											+ donation.getPhone());
-							Gson gson = new GsonBuilder().setDateFormat(
-									"yyyy-MM-dd hh:mm:ss").create();
-							String donationGson = gson.toJson(donation);
-							// 传参数
-							String url = Url.getUrlHead() + "/HelpsServlet";
-							RequestParams rp = new RequestParams();
-							rp.addBodyParameter("DonationRequest", donationGson);
+				if (!title.equals("")) {
+					if (!content.equals("")) {
+						if (!geterName.equals("")) {
+							if (!phone.equals("") && judgeNumber(phone)) {
 
-							int count = 0;
-							for (ImageItem image : Bimp.tempSelectBitmap) {
-								File file = new File(image.getImagePath());
-								rp.addBodyParameter(1 + count + getNowTime(),
-										file);
-								Log.i("uploadimage", 1 + count + getNowTime());
-								count++;
-								Log.i("donation", String.valueOf(count));
+								if (!address.equals("")) {
+									// toastText.setText("务必把收货地址填写上");
+									/**
+									 * 获得用户输入的信息,将其封装成Donation对象
+									 */
+									Donation donation = new Donation();
+									// 获取当前用户id
+									int userID = MyApplication.getCurrentUser()
+											.getId();
+									// if(String.valueOf(userID) == null){
+									// Toast.makeText(this, "请登录",
+									// Toast.LENGTH_SHORT).show();
+									// break;
+									// }else{
+									donation.setUserId(userID);
+									donation.setTitle(title);
+									donation.setDetail(content);
+									SimpleDateFormat sdf = new SimpleDateFormat(
+											"yyyy-MM-dd hh:mm:ss");
+									donation.setPubTime(sdf.format(new Date()));
+									donation.setLogistics(logistics);
+									donation.setConsignee(geterName);
+									donation.setPhone(phone);
+									donation.setAddress(address);
+
+									Log.i("donation",
+											"" + donation.getUserId()
+													+ donation.getTitle()
+													+ donation.getDetail()
+													+ donation.getPubTime()
+													+ donation.getLogistics()
+													+ donation.getAddress()
+													+ donation.getConsignee()
+													+ donation.getPhone());
+									Gson gson = new GsonBuilder()
+											.setDateFormat(
+													"yyyy-MM-dd hh:mm:ss")
+											.create();
+									String donationGson = gson.toJson(donation);
+									// 传参数
+									String url = Url.getUrlHead()
+											+ "/HelpsServlet";
+									RequestParams rp = new RequestParams();
+									rp.addBodyParameter("DonationRequest",
+											donationGson);
+
+									int count = 0;
+									for (ImageItem image : Bimp.tempSelectBitmap) {
+										File file = new File(
+												image.getImagePath());
+										rp.addBodyParameter(1 + count
+												+ getNowTime(), file);
+										Log.i("uploadimage", 1 + count
+												+ getNowTime());
+										count++;
+										Log.i("donation", String.valueOf(count));
+									}
+									Log.i("params", rp.toString());
+									// 连接服务器
+									HttpUtils hu = new HttpUtils();
+									hu.send(HttpMethod.POST, url, rp,
+											new RequestCallBack<String>() {
+
+												@Override
+												public void onFailure(
+														HttpException arg0,
+														String arg1) {
+													Log.i("Request", "请求失败");
+													Toast.makeText(
+															getApplicationContext(),
+															"请求失败,请检查您的网络设置",
+															Toast.LENGTH_LONG)
+															.show();
+												}
+
+												@Override
+												public void onSuccess(
+														ResponseInfo<String> arg0) {
+													Log.i("Request", "请求成功");
+													if (arg0.result != null) {
+														Toast.makeText(
+																getApplicationContext(),
+																"您的请求发送成功",
+																Toast.LENGTH_SHORT)
+																.show();
+														DonateRequestActivity.this
+																.finish();
+													}
+												}
+											});
+								} else {
+
+									Toast.makeText(this, "务必把收货地址填写上",
+											Toast.LENGTH_SHORT).show();
+									break;
+								}
+							} else {
+								Toast.makeText(this, "联系方式必须要,请填写正确的手机号码",
+										Toast.LENGTH_SHORT).show();
+								break;
 							}
-							Log.i("params", rp.toString());
-							// 连接服务器
-							HttpUtils hu = new HttpUtils();
-							hu.send(HttpMethod.POST, url, rp,
-									new RequestCallBack<String>() {
 
-										@Override
-										public void onFailure(
-												HttpException arg0, String arg1) {
-											Log.i("Request", "请求失败");
-											Toast.makeText(
-													getApplicationContext(),
-													"请求失败,请检查您的网络设置",
-													Toast.LENGTH_LONG).show();
-										}
-
-										@Override
-										public void onSuccess(
-												ResponseInfo<String> arg0) {
-											Log.i("Request", "请求成功");
-											if (arg0.result != null) {
-												Toast.makeText(
-														getApplicationContext(),
-														"您的请求发送成功",
-														Toast.LENGTH_SHORT)
-														.show();
-												DonateRequestActivity.this.finish();
-											}
-										}
-									});
 						} else {
-
-							Toast.makeText(this, "务必把收货地址填写上",
-									Toast.LENGTH_SHORT).show();
+							// toastText.setText("收货人是谁呢？");
+							Toast.makeText(this, "收货人是谁呢？", Toast.LENGTH_SHORT)
+									.show();
 							break;
 						}
-						}else{
-							Toast.makeText(this, "联系方式必须要",
-									Toast.LENGTH_SHORT).show();
-							break;
-						}
-						
 					} else {
-						// toastText.setText("收货人是谁呢？");
-						Toast.makeText(this, "收货人是谁呢？", Toast.LENGTH_SHORT)
-								.show();
+						// toastText.setText("别忘了描述一下您的需要哦！");
+						Toast.makeText(this, "别忘了详细描述一下您的需要哦！",
+								Toast.LENGTH_SHORT).show();
 						break;
 					}
 				} else {
-					// toastText.setText("别忘了描述一下您的需要哦！");
-					Toast.makeText(this, "别忘了详细描述一下您的需要哦！", Toast.LENGTH_SHORT)
-							.show();
+					Toast.makeText(this, "取个标题吧", Toast.LENGTH_SHORT).show();
+					// toastText.setText("取个标题吧");
 					break;
 				}
 			} else {
-				Toast.makeText(this, "取个标题吧", Toast.LENGTH_SHORT).show();
-				// toastText.setText("取个标题吧");
-				break;
+				Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
 			}
+
 		}
 		// Intent intent = new Intent(this,MainActivity.class);
 		// startActivity(intent);
@@ -410,7 +428,7 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 				dialog.show();
 			}
 		});
-		
+
 		user = MyApplication.getCurrentUser();
 
 	}
@@ -734,6 +752,49 @@ public class DonateRequestActivity extends Activity implements OnClickListener {
 	// 获取系统当前时间
 	public String getNowTime() {
 		return System.currentTimeMillis() + "";
+	}
+	
+	/**
+	 * 判断输入框的的值是否是数字
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public boolean judgeNumber(String text){
+		Pattern pattern = Pattern.compile("[0-9]*");
+		Matcher matcher = pattern.matcher(text);
+		if(matcher.matches()){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 判断输入框输入值是否字母
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public boolean judgeChar(String text){
+		Matcher matcher = Pattern.compile("[a-zA-Z]").matcher(text);
+		if(matcher.matches()){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 判断输入框输入值是否是中文
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public boolean judgerChinese(String text){
+		Matcher matcher = Pattern.compile("[\u4e00-\u9fa5]").matcher(text);
+		if(matcher.matches()){
+			return true;
+		}
+		return false;
 	}
 
 }

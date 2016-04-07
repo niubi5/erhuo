@@ -64,6 +64,10 @@ public class ImageFile extends Activity {
 				Log.i("chengxingen", "two" + "," + activity);
 				intent.setClass(mContext, DonateRequestActivity.class); 	
 			}
+			/**@heikki 16.08
+			 * */
+			intent.setClass(mContext, AlbumActivity.class);
+			ImageFile.this.finish();
 			startActivity(intent);
 		}
 	}
@@ -78,6 +82,8 @@ public class ImageFile extends Activity {
 				Log.i("chengxingen", "two" + "," + activity);
 				intent.setClass(mContext, DonateRequestActivity.class); 	
 			}
+//			intent.setClass(mContext, AlbumActivity.class);
+////			ImageFile.this.finish();
 			startActivity(intent);
 		}
 

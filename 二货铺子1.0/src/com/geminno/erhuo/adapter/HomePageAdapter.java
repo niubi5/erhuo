@@ -93,12 +93,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	private ArrayList<Integer> collection;// 收藏按钮的position集合
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	// 广告图片
-	private String url = Url.getUrlHead().substring(0, Url.getUrlHead().lastIndexOf("/"));
-	private String[] imageUrls = {
-			url + "/ads/ad2.jpg",
-			url + "/ads/ad1.jpg",
-			url + "/ads/ad3.png",
-			url + "/ads/ad4.png"};
+	private String url = Url.getUrlHead().substring(0,
+			Url.getUrlHead().lastIndexOf("/"));
+	private String[] imageUrls = { url + "/ads/ad2.jpg", url + "/ads/ad1.jpg",
+			url + "/ads/ad3.png", url + "/ads/ad4.png" };
 	// ------------
 	private Markets market;
 	private Users currentUser;
@@ -133,6 +131,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		this.refreshListView = refreshListView;
 		this.market = market;
 		this.isRefresh = isRefresh;
+		myMarkets = MyApplication.getMyMarkets();
+		if (myMarkets == null) {
+			myMarkets = new ArrayList<Integer>();
+		}
 		typeCount = 2;
 		currentUser = MyApplication.getCurrentUser();
 		scale = context.getResources().getDisplayMetrics().density;
@@ -156,10 +158,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			RefreshListView refreshListView, boolean isRefresh) {
 		this.context = context;
 		this.listAll = listAll;
-		Log.i("erhuo", "adapter里面的长度：" + listAll.size());
 		this.refreshListView = refreshListView;
 		this.isRefresh = isRefresh;
 		typeCount = 1;
+		currentUser = MyApplication.getCurrentUser();
 		scale = context.getResources().getDisplayMetrics().density;
 		px1 = (int) (200 * scale + 0.5f);
 		params3 = new LayoutParams(px1, px1);
@@ -187,6 +189,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		this.refreshListView = refreshListView;
 		this.isRefresh = isRefresh;
 		typeCount = 4;
+		currentUser = MyApplication.getCurrentUser();
 		scale = context.getResources().getDisplayMetrics().density;
 		px1 = (int) (200 * scale + 0.5f);
 		px2 = (int) (210 * scale + 0.5f);
@@ -307,12 +310,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		holder.marketUserCount.setText(market.getUserCount() + "");
 		holder.marketGoodsCount.setText(market.getGoodsCount() + "");
 		holder.marketBrief.setText(market.getBrief());
-		myMarkets = MyApplication.getMyMarkets();
-		if (myMarkets == null) {
-			myMarkets = new ArrayList<Integer>();
-		}
 		if (myMarkets != null && myMarkets.contains(market.getId())) {
-			Log.i("erhuo","当前集市的ID：" +  market.getId());
 			holder.marketJoin.setSelected(true);
 			isCollected = true;
 			holder.marketJoin.setText("取消关注");
@@ -364,7 +362,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 						if (myMarkets.contains(market.getId())) {
 							myMarkets.remove(Integer.valueOf(market.getId()));
 							MyApplication.setMyMarkets(myMarkets);
-							Log.i("erhuo", "取消关注后集市的长度：" + myMarkets.size());
 						}
 					}
 				});
@@ -389,7 +386,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 					public void onSuccess(ResponseInfo<String> arg0) {
 						myMarkets.add(market.getId());
 						MyApplication.setMyMarkets(myMarkets);
-						Log.i("erhuo", "成功关注后集合的长度：" +  myMarkets.size());
 						Toast.makeText(context, "成功关注集市", Toast.LENGTH_SHORT)
 								.show();
 					}
@@ -438,7 +434,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			map = listAll.get(position - 3);
 		} else if (typeCount == 1) {
 			map = listAll.get(position);
-		} else if (typeCount == 2){
+		} else if (typeCount == 2) {
 			if (position - 1 < listAll.size()) {
 				map = listAll.get(position - 1);
 			}
@@ -494,13 +490,13 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 					viewHolder = (ViewHolderGoods) convertView.getTag();
 				}
 				collection = MyApplication.getCollection();// 实时更新
+				if (collection == null) {
+					collection = new ArrayList<Integer>();
+				}
 				// -------------- 用户头像还要改
-				if (user.getPhoto()!=null && user.getPhoto().equals("")) {
+				if (user.getPhoto() != null) {
 					imageLoader.displayImage(user.getPhoto(),
 							viewHolder.userHead);
-				} else {
-					viewHolder.userHead
-							.setImageResource(R.drawable.header_default);
 				}
 				viewHolder.userName.setText(user.getName());
 				viewHolder.goodsName.setText(goods.getName());
@@ -518,32 +514,33 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 							}
 						});
 				// ------------ 修改为商品ID了
-				viewHolder.userFavorite.setTag(goods.getId());
+				viewHolder.userFavorite.setTag(Integer.valueOf(goods.getId()));
 				// ------------
-				if (collection != null) {
-					if (collection.contains(goods.getId())) {
-						// 如果用户收藏的集合中有 或是点过赞的集合中有，则设为收藏状态
-						viewHolder.userFavorite.setSelected(true);
-					} else {
-						viewHolder.userFavorite.setSelected(false);
-					}
+				for (Integer i : collection) {
+					Log.i("erhuo", "收藏集合里面的:" + i);
 				}
-
+				if (collection.contains(goods.getId())) {
+					// 如果用户收藏的集合中有 或是点过赞的集合中有，则设为收藏状态
+					viewHolder.userFavorite.setSelected(true);
+				} else {
+					viewHolder.userFavorite.setSelected(false);
+				}
 				viewHolder.userFavorite
 						.setOnClickListener(new OnClickListener() {
 
 							@Override
 							public void onClick(View v) {
 								// 如果在集合里面，说明点过，再次点击则取消收藏，并从集合移除
-								if (!collection.isEmpty()) {
-									if (collection.contains(v.getTag())) {
-										collectGoods(goods, v, false);// 调用移除商品方法
-									} else {
-										// 否则设为选中状态，并加入集合
-										collectGoods(goods, v, true);
-									}
+								// if (!collection.isEmpty()) {
+								if (collection.contains(v.getTag())) {
+									Log.i("erhuo", "移除收藏");
+									collectGoods(goods, v, false);// 调用移除商品方法
+								} else {
+									// 否则设为选中状态，并加入集合
+									Log.i("erhuo", "加入收藏");
+									collectGoods(goods, v, true);
 								}
-
+								// }
 							}
 						});
 				// 移除之前的所有商品图片
@@ -570,7 +567,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 		if (convertView == null) {
 			// 集市ID
 			int ids[] = new int[] { R.id.market_book, R.id.market_iphone,
-					R.id.market_baby, R.id.market_bao, R.id.market_nb};
+					R.id.market_baby, R.id.market_bao, R.id.market_nb };
 			viewHolder = new ViewHolderMarket();
 			convertView = LayoutInflater.from(context).inflate(
 					R.layout.market_list, null);
@@ -852,8 +849,8 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	 */
 	private void collectGoods(Goods goods, View v, boolean isFavorite) {
 		// 当前用户登录过则发请求，否则弹框提示
-		Users user = MyApplication.getCurrentUser();
-		if (user != null && goods != null) {
+		if (currentUser != null && goods != null) {
+			Log.i("erhuo", "当前用户：" + currentUser.getName());
 			HttpUtils http = new HttpUtils();
 			RequestParams params = new RequestParams();
 			String urlHead = Url.getUrlHead();
@@ -863,7 +860,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				v.setSelected(false);// 设为取消状态
 				collection.remove(v.getTag());// 从集合中移除
 				MyApplication.setCollections(collection);
-				params.addBodyParameter("userId", user.getId() + "");
+				params.addBodyParameter("userId", currentUser.getId() + "");
 				params.addBodyParameter("goodsId", goods.getId() + "");
 				url = urlHead + "/DeleteCollectionsServlet";
 			} else {
@@ -872,7 +869,7 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 				Toast.makeText(context, "收藏成功", Toast.LENGTH_SHORT);
 				collection.add((Integer) v.getTag());// 并加入集合
 				MyApplication.setCollections(collection);
-				params.addBodyParameter("userId", user.getId() + "");
+				params.addBodyParameter("userId", currentUser.getId() + "");
 				params.addBodyParameter("goodsId", goods.getId() + "");
 				url = urlHead + "/AddCollectionsServlet";
 			}
