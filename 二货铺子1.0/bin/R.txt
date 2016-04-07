@@ -71,6 +71,7 @@ int attr matProg_progressIndeterminate 0x7f010000
 int attr matProg_rimColor 0x7f010002
 int attr matProg_rimWidth 0x7f010003
 int attr matProg_spinSpeed 0x7f010004
+int attr reflectionColor 0x7f010022
 int attr titleBarBackground 0x7f01001c
 int attr titleBarLeftImage 0x7f01001a
 int attr titleBarRightImage 0x7f01001b
@@ -4415,6 +4416,8 @@ int styleable RCCircleFlowIndicator_RCSnap 8
 int styleable RCCircleFlowIndicator_RCSpacing 3
 int[] styleable RCViewFlow { 0x7f01000f }
 int styleable RCViewFlow_RCSideBuffer 0
+int[] styleable ShimmerView { 0x7f010022 }
+int styleable ShimmerView_reflectionColor 0
 int[] styleable mytitlebar { 0x7f010019, 0x7f01001a, 0x7f01001b, 0x7f01001c, 0x7f01001d }
 int styleable mytitlebar_titleBarBackground 3
 int styleable mytitlebar_titleBarLeftImage 1

@@ -1,48 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:baselineAligned="false"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/main_bgcolor"
+    android:baselineAligned="false"
     android:clickable="false"
+    android:gravity="center_horizontal"
     android:orientation="horizontal" >
-    
-    <FrameLayout 
+
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
-        
-        <ImageView 
+        android:layout_weight="1" >
+
+        <ImageView
             android:id="@+id/iv_refresher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/arrow"/>
-        
-        <ProgressBar 
+            android:src="@drawable/arrow" />
+
+        <ProgressBar
             android:id="@+id/refresher"
             style="@android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="invisible"/>
-        
+            android:visibility="invisible" />
     </FrameLayout>
-    
-    <LinearLayout 
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginTop="20dp"
         android:layout_weight="1"
-        android:layout_marginTop="20dp">
-        
-        <TextView 
+        android:orientation="vertical" >
+
+        <TextView
             android:id="@+id/tv_refreshertext"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:text="下拉刷新"
-            android:layout_gravity="center_vertical"/>
-        
+            android:text="下拉刷新" />
     </LinearLayout>
+
+    <!--
+ 	<com.geminno.erhuo.shimmer.ShimmerTextView
+ 	    android:id="@+id/shimmer_tv"
+ 	    android:text="Loading..."
+ 	    android:layout_width="wrap_content"
+ 	    android:layout_height="wrap_content"
+ 	    android:textColor="#444"
+ 	    android:textSize="50sp" />
+    -->
 
 </LinearLayout>

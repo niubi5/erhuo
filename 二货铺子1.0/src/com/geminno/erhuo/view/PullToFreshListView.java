@@ -31,15 +31,15 @@ public class PullToFreshListView extends ListView implements OnScrollListener {
 	private int headHeight;// 头部高度
 	private float startY;// 开始坐标
 	private float moveY;// 移动坐标
-	
+
 	private RotateAnimation upAnimation;
 	private RotateAnimation downAnimation;
-	
+
 	private int headState;// 头部状态（INIT,REPAREREFRESH ISREFRESH）
 	public final int INIT = 0;// 初始状态
 	public final int PREPAREREFRESH = 1;// 准备刷新
 	public final int ISREFRESHING = 2;// 正在刷新
-	
+
 	private int firstVisibleItem;// 第一条可见的位置
 	private boolean loading = false;// 正在加载
 
@@ -76,8 +76,10 @@ public class PullToFreshListView extends ListView implements OnScrollListener {
 		// 隐藏头部
 		headView.setPadding(0, -headHeight, 0, 0);
 		// 初始化头部控件
-		imageView = (ImageView) headView.findViewById(R.id.iv_refresher);// 箭头
-		progressBar = (ProgressBar) headView.findViewById(R.id.refresher);// progressBar
+		imageView = (ImageView) headView.findViewById(R.id.iv_refresher);
+		// 箭头
+		progressBar = (ProgressBar) headView.findViewById(R.id.refresher);
+		// progressBar
 		tvRefreshState = (TextView) headView
 				.findViewById(R.id.tv_refreshertext);
 	}
@@ -155,40 +157,40 @@ public class PullToFreshListView extends ListView implements OnScrollListener {
 		}
 		return super.onTouchEvent(ev);
 	}
-	
+
 	// 改变状态，界面显示内容跟着改变
-		private void changeState() {
-			switch (headState) {
-			case INIT:
-				progressBar.setVisibility(View.INVISIBLE);
-				imageView.setVisibility(View.VISIBLE);
-				// 给imageView设置动画
-				imageView.startAnimation(downAnimation);// 设置箭头朝上
-				tvRefreshState.setText("下拉刷新");
-				break;
-			case PREPAREREFRESH:
-				progressBar.setVisibility(View.INVISIBLE);
-				imageView.setVisibility(View.VISIBLE);
-				imageView.startAnimation(upAnimation);// 设置箭头朝下
-				tvRefreshState.setText("释放刷新");
-				break;
-			case ISREFRESHING:
-				progressBar.setVisibility(View.VISIBLE);
-				imageView.setVisibility(View.INVISIBLE);
-				imageView.clearAnimation();// 清除动画
-				tvRefreshState.setText("正在刷新");
-				break;
-			}
+	private void changeState() {
+		switch (headState) {
+		case INIT:
+			progressBar.setVisibility(View.INVISIBLE);
+			imageView.setVisibility(View.VISIBLE);
+			// 给imageView设置动画
+			imageView.startAnimation(downAnimation);// 设置箭头朝上
+			tvRefreshState.setText("下拉刷新");
+			break;
+		case PREPAREREFRESH:
+			progressBar.setVisibility(View.INVISIBLE);
+			imageView.setVisibility(View.VISIBLE);
+			imageView.startAnimation(upAnimation);// 设置箭头朝下
+			tvRefreshState.setText("释放刷新");
+			break;
+		case ISREFRESHING:
+			progressBar.setVisibility(View.VISIBLE);
+			imageView.setVisibility(View.INVISIBLE);
+			imageView.clearAnimation();// 清除动画
+			tvRefreshState.setText("正在刷新");
+			break;
 		}
-		
-		// 完成刷新后
-		public void completeRefresh() {
-			// 改变padding值
-			headView.setPadding(0, -headHeight, 0, 0);
-			// 改变成初始状态
-			headState = INIT;
-			changeState();
-		}
+	}
+
+	// 完成刷新后
+	public void completeRefresh() {
+		// 改变padding值
+		headView.setPadding(0, -headHeight, 0, 0);
+		// 改变成初始状态
+		headState = INIT;
+		changeState();
+	}
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
