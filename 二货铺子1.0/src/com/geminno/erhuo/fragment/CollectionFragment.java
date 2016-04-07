@@ -2,6 +2,7 @@ package com.geminno.erhuo.fragment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +73,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
 			return;
 		}
 		tvNoCollec.setVisibility(View.INVISIBLE);
+		Collections.reverse(listColGoodsId);
 		Gson gson = new Gson();
 		listIdJson = gson.toJson(listColGoodsId);
 		HttpUtils http = new HttpUtils();
