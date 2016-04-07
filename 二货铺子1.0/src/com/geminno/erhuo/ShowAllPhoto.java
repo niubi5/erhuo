@@ -117,7 +117,8 @@ public class ShowAllPhoto extends Activity {
 		public void onClick(View v) {
 			// 清空选择的图片
 			Bimp.tempSelectBitmap.clear();
-			intent.setClass(mContext, PublishGoodsActivity.class);
+//			intent.setClass(mContext, PublishGoodsActivity.class);
+			intent.setClass(mContext, ImageFile.class);
 			startActivity(intent);
 		}
 	}
