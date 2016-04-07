@@ -53,6 +53,8 @@ public class ImageFile extends Activity {
 			Bimp.tempSelectBitmap.clear();
 			Intent intent = new Intent();
 			intent.setClass(mContext, PublishGoodsActivity.class);
+////			intent.setClass(mContext, AlbumActivity.class);
+//			ImageFile.this.finish();
 			startActivity(intent);
 		}
 	}
@@ -61,6 +63,8 @@ public class ImageFile extends Activity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Intent intent = new Intent();
 			intent.setClass(mContext, PublishGoodsActivity.class);
+//			intent.setClass(mContext, AlbumActivity.class);
+////			ImageFile.this.finish();
 			startActivity(intent);
 		}
 

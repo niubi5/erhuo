@@ -269,12 +269,12 @@ public class DonateFragment extends BaseFragment {
 		ivPublish.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 
-				if (user != null) {
+				if (MyApplication.getCurrentUser() != null) {
 					Intent intent = new Intent(getActivity(),
 							DonateRequestActivity.class);
 					startActivity(intent);
 				} else {
-					Toast.makeText(getActivity(), "请登录", Toast.LENGTH_SHORT)
+					Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT)
 							.show();
 				}
 			}

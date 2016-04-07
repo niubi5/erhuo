@@ -2,6 +2,8 @@ package com.geminno.erhuo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -54,88 +56,145 @@ public class DonateActivity extends Activity {
 			String detail = etDetail.getText().toString();
 			String logisticsCom = etLogisticsCom.getText().toString();
 			String logisticsNum = etLogisticsNum.getText().toString();
+			if (MyApplication.getCurrentUser() != null) {
+				if (!title.equals("")) {
+					if (!detail.equals("")) {
+						if (!logisticsCom.equals("")) {
+							if (!logisticsNum.equals("") && judgeNumber(logisticsNum)) {
+								// 组装对象
+								donates.setHelpId(getIntent().getIntExtra(
+										"donationId", 1));
+								donates.setUserId(MyApplication
+										.getCurrentUser().getId());
+								Log.i("DonateFragmentResult", MyApplication
+										.getCurrentUser().getId() + "");
+								donates.setTitle(title);
+								donates.setBrief(detail);
+								SimpleDateFormat sdf = new SimpleDateFormat(
+										"yyyy-MM-dd HH:mm:ss");
+								donates.setDonTime(sdf.format(new Date()));
+								donates.setLogisticsCom(logisticsCom);
+								donates.setLogisticsNum(logisticsNum);
 
-			if (!title.equals("")) {
-				if (!detail.equals("")) {
-					if (!logisticsCom.equals("")) {
-						if (!logisticsNum.equals("")) {
-							// 组装对象
-							donates.setHelpId(getIntent().getIntExtra(
-									"donationId", 1));
-							donates.setUserId(MyApplication.getCurrentUser().getId());
-							Log.i("DonateFragmentResult", MyApplication.getCurrentUser().getId()+"");
-							donates.setTitle(title);
-							donates.setBrief(detail);
-							SimpleDateFormat sdf = new SimpleDateFormat(
-									"yyyy-MM-dd HH:mm:ss");
-							donates.setDonTime(sdf.format(new Date()));
-							donates.setLogisticsCom(logisticsCom);
-							donates.setLogisticsNum(logisticsNum);
-							
-							Log.i("donates", title + detail);
-							
+								Log.i("donates", title + detail);
 
-							Gson gson = new GsonBuilder().setDateFormat(
-									"yyyy-MM-dd HH:mm:ss").create();
-							String donatesGson = gson.toJson(donates);
+								Gson gson = new GsonBuilder().setDateFormat(
+										"yyyy-MM-dd HH:mm:ss").create();
+								String donatesGson = gson.toJson(donates);
 
-							RequestParams params = new RequestParams();
-							params.addBodyParameter("donates", donatesGson);
-                            String url = Url.getUrlHead() + "/DonateServlet";				
-							HttpUtils http = new HttpUtils();
-							http.send(HttpRequest.HttpMethod.POST, url,params,
-									new RequestCallBack<String>() {
+								RequestParams params = new RequestParams();
+								params.addBodyParameter("donates", donatesGson);
+								String url = Url.getUrlHead()
+										+ "/DonateServlet";
+								HttpUtils http = new HttpUtils();
+								http.send(HttpRequest.HttpMethod.POST, url,
+										params, new RequestCallBack<String>() {
 
-										@Override
-										public void onFailure(
-												HttpException arg0, String arg1) {
-											Toast.makeText(DonateActivity.this,
-													"捐赠失败，请检查您的网络设置！",
-													Toast.LENGTH_SHORT).show();
-										}
-
-										@Override
-										public void onSuccess(
-												ResponseInfo<String> arg0) {
-											Toast.makeText(DonateActivity.this,
-													"捐赠成功，谢谢您的捐赠！",
-													Toast.LENGTH_SHORT).show();
-											try {
-												Thread.sleep(1000);
-											} catch (InterruptedException e) {
-										
-												e.printStackTrace();
+											@Override
+											public void onFailure(
+													HttpException arg0,
+													String arg1) {
+												Toast.makeText(
+														DonateActivity.this,
+														"捐赠失败，请检查您的网络设置！",
+														Toast.LENGTH_SHORT)
+														.show();
 											}
-											DonateActivity.this.finish();
 
-										}
-									});
+											@Override
+											public void onSuccess(
+													ResponseInfo<String> arg0) {
+												Toast.makeText(
+														DonateActivity.this,
+														"捐赠成功，谢谢您的捐赠！",
+														Toast.LENGTH_SHORT)
+														.show();
+												try {
+													Thread.sleep(1000);
+												} catch (InterruptedException e) {
+
+													e.printStackTrace();
+												}
+												DonateActivity.this.finish();
+
+											}
+										});
+							} else {
+								Toast.makeText(this, "没有编号别人找不到东西的哦",
+										Toast.LENGTH_SHORT).show();
+								break;
+							}
 						} else {
-							Toast.makeText(this, "没有编号别人找不到东西的哦",
+							Toast.makeText(this, "填写一下物流吧，收您捐赠的人也知道去哪里去快递",
 									Toast.LENGTH_SHORT).show();
 							break;
 						}
 					} else {
-						Toast.makeText(this, "填写一下物流吧，收您捐赠的人也知道去哪里去快递",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(this, "您捐赠了哪些东西呢", Toast.LENGTH_SHORT)
+								.show();
 						break;
 					}
 				} else {
-					Toast.makeText(this, "您捐赠了哪些东西呢", Toast.LENGTH_SHORT)
+					Toast.makeText(this, "给您的爱心取个标题吧", Toast.LENGTH_SHORT)
 							.show();
 					break;
 				}
 			} else {
-				Toast.makeText(this, "给您的爱心取个标题吧", Toast.LENGTH_SHORT).show();
-				break;
+				Toast.makeText(this, "请先登陆", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
 
+	/**
+	 * 初始化控件
+	 */
 	public void initView() {
 		etTitle = (EditText) findViewById(R.id.et_donate_title);
 		etDetail = (EditText) findViewById(R.id.et_donate_detail);
 		etLogisticsCom = (EditText) findViewById(R.id.et_donate_logisticsCom);
 		etLogisticsNum = (EditText) findViewById(R.id.et_donate_logisticsNum);
+	}
+	
+	/**
+	 * 判断输入框的的值是否是数字
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public boolean judgeNumber(String text){
+		Pattern pattern = Pattern.compile("[0-9]*");
+		Matcher matcher = pattern.matcher(text);
+		if(matcher.matches()){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 判断输入框输入值是否字母
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public boolean judgeChar(String text){
+		Matcher matcher = Pattern.compile("[a-zA-Z]").matcher(text);
+		if(matcher.matches()){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 判断输入框输入值是否是中文
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public boolean judgerChinese(String text){
+		Matcher matcher = Pattern.compile("[\u4e00-\u9fa5]").matcher(text);
+		if(matcher.matches()){
+			return true;
+		}
+		return false;
 	}
 }

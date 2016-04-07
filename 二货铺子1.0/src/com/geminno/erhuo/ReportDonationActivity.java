@@ -69,63 +69,71 @@ public class ReportDonationActivity extends Activity implements OnClickListener 
 		case R.id.btn_donation_report:
 			// 获得用户输入值
 			String reportContent = content.getText().toString();
+			if (MyApplication.getCurrentUser() != null) {
 
-			if (!reportContent.equals("")) {
-				// 封装HelpsReports
-				HelpsReports helpReport = new HelpsReports();
-				helpReport.setHelpId(getIntent().getIntExtra("donationId", 1));
-//				helpReport.setUserId(getIntent().getIntExtra("userId", 1));
-				helpReport.setBrief(reportContent);
-				SimpleDateFormat sdf = new SimpleDateFormat(
-						"yyyy-MM-dd HH:mm:ss");
-				helpReport.setRepTime(sdf.format(new Date()));
-				helpReport.setState(1);
+				if (!reportContent.equals("")) {
+					// 封装HelpsReports
+					HelpsReports helpReport = new HelpsReports();
+					helpReport.setHelpId(getIntent().getIntExtra("donationId",
+							1));
+					// helpReport.setUserId(getIntent().getIntExtra("userId",
+					// 1));
+					helpReport.setBrief(reportContent);
+					SimpleDateFormat sdf = new SimpleDateFormat(
+							"yyyy-MM-dd HH:mm:ss");
+					helpReport.setRepTime(sdf.format(new Date()));
+					helpReport.setState(1);
 
-				// 转化成Json
-				Gson gson = new GsonBuilder().setDateFormat(
-						"yyyy-MM-dd HH:mm:ss").create();
-				String helpReportGson = gson.toJson(helpReport);
+					// 转化成Json
+					Gson gson = new GsonBuilder().setDateFormat(
+							"yyyy-MM-dd HH:mm:ss").create();
+					String helpReportGson = gson.toJson(helpReport);
 
-				// 请求url
-//				String url = "http://10.201.1.20:8080/secondHandShop/HelpsReportServlet";
-				String url = Url.getUrlHead() + "/HelpsReportServlet";
-				// 设置参数
-				RequestParams params = new RequestParams();
-				params.addBodyParameter("helpReportGson", helpReportGson);
+					// 请求url
+					// String url =
+					// "http://10.201.1.20:8080/secondHandShop/HelpsReportServlet";
+					String url = Url.getUrlHead() + "/HelpsReportServlet";
+					// 设置参数
+					RequestParams params = new RequestParams();
+					params.addBodyParameter("helpReportGson", helpReportGson);
 
-				// 发送请求
-				HttpUtils http = new HttpUtils();
-				http.send(HttpRequest.HttpMethod.POST, url, params,
-						new RequestCallBack<String>() {
+					// 发送请求
+					HttpUtils http = new HttpUtils();
+					http.send(HttpRequest.HttpMethod.POST, url, params,
+							new RequestCallBack<String>() {
 
-							@SuppressWarnings("static-access")
-							@Override
-							public void onFailure(HttpException arg0,
-									String arg1) {
-								Toast toast = new Toast(
-										ReportDonationActivity.this);
-								toast.setGravity(Gravity.CENTER, 0, 0);
-								toast.makeText(ReportDonationActivity.this,
-										"发送失败，请检查您的网络设置", Toast.LENGTH_SHORT)
-										.show();
+								@SuppressWarnings("static-access")
+								@Override
+								public void onFailure(HttpException arg0,
+										String arg1) {
+									Toast toast = new Toast(
+											ReportDonationActivity.this);
+									toast.setGravity(Gravity.CENTER, 0, 0);
+									toast.makeText(ReportDonationActivity.this,
+											"发送失败，请检查您的网络设置",
+											Toast.LENGTH_SHORT).show();
 
-							}
+								}
 
-							@SuppressWarnings("static-access")
-							@Override
-							public void onSuccess(ResponseInfo<String> arg0) {
-								Toast toast = new Toast(
-										ReportDonationActivity.this);
-								toast.setGravity(Gravity.CENTER, 0, 0);
-								toast.makeText(ReportDonationActivity.this,
-										"您的举报信息已成功发送,我们会对您的信息进行处理,谢谢您的配合！",
-										Toast.LENGTH_SHORT).show();
-							}
-						});
+								@SuppressWarnings("static-access")
+								@Override
+								public void onSuccess(ResponseInfo<String> arg0) {
+									Toast toast = new Toast(
+											ReportDonationActivity.this);
+									toast.setGravity(Gravity.CENTER, 0, 0);
+									toast.makeText(ReportDonationActivity.this,
+											"您的举报信息已成功发送,我们会对您的信息进行处理,谢谢您的配合！",
+											Toast.LENGTH_SHORT).show();
+									ReportDonationActivity.this.finish();
+								}
+							});
 
+				} else {
+					Toast.makeText(this, "内容很重要", Toast.LENGTH_SHORT).show();
+					break;
+				}
 			} else {
-				Toast.makeText(this, "内容很重要", Toast.LENGTH_SHORT).show();
-				break;
+				Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
 			}
 
 		}
