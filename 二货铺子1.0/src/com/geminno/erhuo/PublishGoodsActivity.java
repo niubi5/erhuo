@@ -48,6 +48,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -93,6 +94,9 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 	private EditText etPrice;
 	private EditText etOldPrice;
 	private String typeName;
+	private RelativeLayout rl;
+	
+	private static Toast mToast = null;
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -122,6 +126,8 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		etBrief = (EditText) findViewById(R.id.et_goods_brief);
 		etPrice = (EditText) findViewById(R.id.et_goods_price);
 		etOldPrice = (EditText) findViewById(R.id.et_goods_old_price);
+		rl = (RelativeLayout) findViewById(R.id.rl_publish_goods);
+		rl.setOnClickListener(this);
 		// 获取分类及集市下拉列表的数据
 		typeList = getSpinnerTypeData();
 		marketList = getSpinnerMarketData();
@@ -273,6 +279,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 					// 跳转到进行图片浏览时的界面
 					Intent intent = new Intent(PublishGoodsActivity.this,
 							GalleryActivity.class);
+					intent.putExtra("activity","publishGoodsActivity");
 					intent.putExtra("position", "1");
 					intent.putExtra("ID", arg2);
 					startActivity(intent);
@@ -515,15 +522,21 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 		case R.id.iv_pub_return:
 			finish();
 			break;
+		case R.id.rl_publish_goods:
+			showToast(PublishGoodsActivity.this, "scrollView1", 1);
+			 InputMethodManager imm = (InputMethodManager)  
+	         getSystemService(Context.INPUT_METHOD_SERVICE);  
+	         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+			break;
 		case R.id.btn_publish_goods:
 			// 发布商品，判断用户输入信息
 			if (TextUtils.isEmpty(etName.getText())) {
-				Toast.makeText(this, "给宝贝取个名字吧！", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(this, "给宝贝取个名字吧！", Toast.LENGTH_SHORT).show();
+				showToast(PublishGoodsActivity.this, "给宝贝取个名字吧！", Toast.LENGTH_SHORT);
 			} else if (TextUtils.isEmpty(etBrief.getText())) {
-				Toast.makeText(this, "描述一下你的宝贝吧！", Toast.LENGTH_SHORT).show();
+				showToast(this, "描述一下你的宝贝吧！", Toast.LENGTH_SHORT);
 			} else if (TextUtils.isEmpty(etPrice.getText())) {
-				Toast.makeText(this, "说说你的宝贝想卖多少钱吧！", Toast.LENGTH_SHORT)
-						.show();
+				showToast(this, "说说你的宝贝想卖多少钱吧！", Toast.LENGTH_SHORT);
 			} else {
 				// Toast.makeText(this,
 				// typeSpinner.getSelectedItem().toString(),
@@ -706,5 +719,17 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 			Bimp.tempSelectBitmap.clear();
 		}
 	}
+	
+	
+	  public static void showToast(Context context, String text, int duration) {  
+	        if (mToast == null) {  
+	            mToast = Toast.makeText(context, text, duration);  
+	        } else {  
+	            mToast.setText(text);  
+	            mToast.setDuration(duration);  
+	        }  
+	  
+	        mToast.show();  
+	    }
 
 }

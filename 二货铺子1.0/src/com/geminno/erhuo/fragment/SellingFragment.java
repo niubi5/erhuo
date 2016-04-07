@@ -63,6 +63,7 @@ public class SellingFragment extends BaseFragment {
 	private int curPage = 1; // 页数
 	private int pageSize = 3;// 一次加载几条
 	private Users curUser;
+	private TextView tvNoSell;
 
 	public SellingFragment(Context context) {
 		this.context = context;
@@ -72,6 +73,7 @@ public class SellingFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_selling, null);
+		tvNoSell = (TextView) view.findViewById(R.id.tv_no_sell);
 		curUser = MyApplication.getCurrentUser();
 		return view;
 	}
@@ -109,10 +111,14 @@ public class SellingFragment extends BaseFragment {
 						if (!ListGoodsPhoto.isEmpty()) {
 							ListGoodsPhoto.clear();
 						}
-
 						List<Map<Goods, List<String>>> newGoodsPhoto = (List<Map<Goods, List<String>>>) gson
 								.fromJson(result, type);
 						ListGoodsPhoto.addAll(newGoodsPhoto);
+						if(ListGoodsPhoto.isEmpty()){
+							tvNoSell.setVisibility(View.VISIBLE);
+						}else{
+							tvNoSell.setVisibility(View.INVISIBLE);
+						}
 						if (adapter == null) {
 
 							adapter = new MyAdapter<Map<Goods, List<String>>>(

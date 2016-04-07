@@ -35,11 +35,13 @@ public class FolderAdapter extends BaseAdapter {
 	private Context mContext;
 	private Intent mIntent;
 	private DisplayMetrics dm;
+	private String activity;
 	BitmapCache cache;
 	final String TAG = getClass().getSimpleName();
 
-	public FolderAdapter(Context c) {
+	public FolderAdapter(Context c,String activity) {
 		cache = new BitmapCache();
+		this.activity = activity;
 		init(c);
 	}
 
@@ -155,7 +157,7 @@ public class FolderAdapter extends BaseAdapter {
 		}
 		// 为封面添加监听
 		holder.imageView.setOnClickListener(new ImageViewClickListener(
-				position, mIntent, holder.choose_back));
+				position, mIntent, holder.choose_back,activity));
 
 		return convertView;
 	}
@@ -165,12 +167,14 @@ public class FolderAdapter extends BaseAdapter {
 		private int position;
 		private Intent intent;
 		private ImageView choose_back;
+		private String activity;
 
 		public ImageViewClickListener(int position, Intent intent,
-				ImageView choose_back) {
+				ImageView choose_back ,String activity) {
 			this.position = position;
 			this.intent = intent;
 			this.choose_back = choose_back;
+			this.activity = activity;
 		}
 
 		public void onClick(View v) {
@@ -179,6 +183,7 @@ public class FolderAdapter extends BaseAdapter {
 			Intent intent = new Intent();
 			String folderName = AlbumActivity.contentList.get(position).bucketName;
 			intent.putExtra("folderName", folderName);
+			intent.putExtra("activity", activity);
 			intent.setClass(mContext, ShowAllPhoto.class);
 			mContext.startActivity(intent);
 			choose_back.setVisibility(v.VISIBLE);

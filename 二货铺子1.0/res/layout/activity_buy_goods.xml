@@ -49,12 +49,13 @@
         android:background="@color/white"
         android:orientation="horizontal" >
 
-        <ImageView
+        <com.geminno.erhuo.view.RoundCornerImageView
             android:id="@+id/iv_buy_good"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_vertical"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
+            android:layout_marginLeft="5dp"
             android:src="@drawable/goods_default" />
 
         <RelativeLayout
@@ -69,6 +70,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/tv_goods_price"
                 android:singleLine="true"
                 android:text="TextView"
                 android:textSize="@dimen/font_big" />
@@ -110,7 +113,7 @@
     <LinearLayout
         android:id="@+id/ll_user_address"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:layout_below="@id/imageView2"
         android:background="@color/white"
         android:gravity="center_vertical"
@@ -271,7 +274,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/view3"
-            android:background="@color/main_red"
+            android:background="@drawable/btn_red_bg"
             android:onClick="onclick"
             android:text="@string/pay_way"
             android:textColor="#ffffff" />

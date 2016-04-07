@@ -60,6 +60,7 @@ public class AlbumActivity extends Activity {
 	private AlbumHelper helper;
 	public static List<ImageBucket> contentList;
 	public static Bitmap bitmap;
+	String activity;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,6 +74,7 @@ public class AlbumActivity extends Activity {
 		bitmap = BitmapFactory.decodeResource(getResources(),
 				Res.getDrawableID("plugin_camera_no_pictures"));
 		init();
+		activity = intent.getStringExtra("activity");
 		initListener();
 		// 这个函数主要用来控制预览和完成按钮的状态
 		isShowOkBt();
@@ -82,7 +84,7 @@ public class AlbumActivity extends Activity {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// mContext.unregisterReceiver(this);
+			 mContext.unregisterReceiver(this);
 			// TODO Auto-generated method stub
 			gridImageAdapter.notifyDataSetChanged();
 		}
@@ -93,6 +95,7 @@ public class AlbumActivity extends Activity {
 		public void onClick(View v) {
 			if (Bimp.tempSelectBitmap.size() > 0) {
 				intent.putExtra("position", "1");
+				intent.putExtra("activity", activity);
 				intent.setClass(AlbumActivity.this, GalleryActivity.class);
 				startActivity(intent);
 			}
@@ -105,14 +108,14 @@ public class AlbumActivity extends Activity {
 		public void onClick(View v) {
 			overridePendingTransition(R.anim.activity_translate_in,
 					R.anim.activity_translate_out);
-			String activity = intent.getStringExtra("activity");
-			if(activity.equals("publishGoodsActivity")){
-				Log.i("chengxingen", "one"+"," + activity);
+
+			if (activity.equals("publishGoodsActivity")) {
+				Log.i("AlbumActivity", "jumpActivity" + "完成" + activity);
 				intent.setClass(mContext, PublishGoodsActivity.class);
-			}else if(activity.equals("donateRequestActivity")){
-				Log.i("chengxingen", "two" + "," + activity);
-				intent.setClass(mContext, DonateRequestActivity.class); 
-//			intent.setClass(mContext, PublishGoodsActivity.class);
+			} else if (activity.equals("donateRequestActivity")) {
+				Log.i("AlbumActivity", "jumpActivity" + "完成" + activity);
+				intent.setClass(mContext, DonateRequestActivity.class);
+				// intent.setClass(mContext, PublishGoodsActivity.class);
 			}
 			startActivity(intent);
 			finish();
@@ -120,9 +123,10 @@ public class AlbumActivity extends Activity {
 
 	}
 
-	// 返回按钮监听
+	// 返回按钮监听(进入相册)
 	private class BackListener implements OnClickListener {
 		public void onClick(View v) {
+			intent.putExtra("activity", activity);
 			intent.setClass(AlbumActivity.this, ImageFile.class);
 			startActivity(intent);
 		}
@@ -131,16 +135,25 @@ public class AlbumActivity extends Activity {
 	// 取消按钮的监听
 	private class CancelListener implements OnClickListener {
 		public void onClick(View v) {
-			Bimp.tempSelectBitmap.clear();
-			String activity = intent.getStringExtra("activity");
-			if(activity.equals("publishGoodsActivity")){
-				Log.i("chengxingen", "one"+"," + activity);
+			//Bimp.tempSelectBitmap.clear();
+			if (activity.equals("publishGoodsActivity")) {
+				Log.i("AlbumActivity", "jumpActivity" + "完成" + activity);
 				intent.setClass(mContext, PublishGoodsActivity.class);
-			}else if(activity.equals("donateRequestActivity")){
-				Log.i("chengxingen", "two" + "," + activity);
-				intent.setClass(mContext, DonateRequestActivity.class); 
-//			intent.setClass(mContext, PublishGoodsActivity.class);
+			} else if (activity.equals("donateRequestActivity")) {
+				Log.i("AlbumActivity", "jumpActivity" + "完成" + activity);
+				intent.setClass(mContext, DonateRequestActivity.class);
+				// intent.setClass(mContext, PublishGoodsActivity.class);
 			}
+//			//Bimp.tempSelectBitmap.clear();
+//			String activity = intent.getStringExtra("activity");
+//			if(activity.equals("publishGoodsActivity")){
+//				Log.i("chengxingen", "one"+"," + activity);
+//				intent.setClass(mContext, PublishGoodsActivity.class);
+//			}else if(activity.equals("donateRequestActivity")){
+//				Log.i("chengxingen", "two" + "," + activity);
+//				intent.setClass(mContext, DonateRequestActivity.class); 
+////			intent.setClass(mContext, PublishGoodsActivity.class);
+//			}
 //			intent.setClass(mContext, PublishGoodsActivity.class);
 			startActivity(intent);
 		}
@@ -249,6 +262,7 @@ public class AlbumActivity extends Activity {
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			intent.putExtra("activity", activity);
 			intent.setClass(AlbumActivity.this, ImageFile.class);
 			startActivity(intent);
 		}

@@ -17,6 +17,7 @@
             android:src="@drawable/left_arrow_white" />
 
         <TextView
+            android:id="@+id/tv_new_title"
             style="@style/FrameTitleRedText"
             android:text="新建地址" />
     </FrameLayout>

@@ -18,5 +18,5 @@
         android:textSize="@dimen/font_big"
         android:textColor="@color/dimgrey"
         android:layout_centerInParent="true"
-        android:text="还没有收藏商品哦"/>
+        android:text="还没有卖出商品哦"/>
 </RelativeLayout>

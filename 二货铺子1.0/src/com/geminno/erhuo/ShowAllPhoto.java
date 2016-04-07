@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -49,6 +50,7 @@ public class ShowAllPhoto extends Activity {
 	private TextView headTitle;
 	private Intent intent;
 	private Context mContext;
+	private String activity;
 	public static ArrayList<ImageItem> dataList = new ArrayList<ImageItem>();
 
 	@Override
@@ -66,6 +68,7 @@ public class ShowAllPhoto extends Activity {
 		headTitle = (TextView) findViewById(Res
 				.getWidgetID("showallphoto_headtitle"));
 		this.intent = getIntent();
+		activity = intent.getStringExtra("activity");
 		String folderName = intent.getStringExtra("folderName");
 		if (folderName.length() > 8) {
 			folderName = folderName.substring(0, 9) + "...";
@@ -99,7 +102,7 @@ public class ShowAllPhoto extends Activity {
 
 	}
 
-	private class BackListener implements OnClickListener {// 返回按钮监听
+	private class BackListener implements OnClickListener {// 返回按钮监听//返回相册
 		Intent intent;
 
 		public BackListener(Intent intent) {
@@ -107,6 +110,7 @@ public class ShowAllPhoto extends Activity {
 		}
 
 		public void onClick(View v) {
+			intent.putExtra("activity", activity);
 			intent.setClass(ShowAllPhoto.this, ImageFile.class);
 			startActivity(intent);
 		}
@@ -116,9 +120,16 @@ public class ShowAllPhoto extends Activity {
 	private class CancelListener implements OnClickListener {// 取消按钮的监听
 		public void onClick(View v) {
 			// 清空选择的图片
-			Bimp.tempSelectBitmap.clear();
+			//Bimp.tempSelectBitmap.clear();
+			if(activity.equals("publishGoodsActivity")){
+				Log.i("chengxingen", "one"+"," + activity);
+				intent.setClass(mContext, PublishGoodsActivity.class);
+			}else if(activity.equals("donateRequestActivity")){
+				Log.i("chengxingen", "two" + "," + activity);
+				intent.setClass(mContext, DonateRequestActivity.class); 	
+			}
 //			intent.setClass(mContext, PublishGoodsActivity.class);
-			intent.setClass(mContext, ImageFile.class);
+//			intent.setClass(mContext, ImageFile.class);
 			startActivity(intent);
 		}
 	}
@@ -182,7 +193,13 @@ public class ShowAllPhoto extends Activity {
 				// PublicWay.photoService.onActivityResult(0, -2,
 				// intent);
 				// }
-				intent.setClass(mContext, PublishGoodsActivity.class);
+				if(activity.equals("publishGoodsActivity")){
+					Log.i("chengxingen", "one"+"," + activity);
+					intent.setClass(mContext, PublishGoodsActivity.class);
+				}else if(activity.equals("donateRequestActivity")){
+					Log.i("chengxingen", "two" + "," + activity);
+					intent.setClass(mContext, DonateRequestActivity.class); 	
+				}
 				startActivity(intent);
 				// Intent intent = new Intent();
 				// Bundle bundle = new Bundle();

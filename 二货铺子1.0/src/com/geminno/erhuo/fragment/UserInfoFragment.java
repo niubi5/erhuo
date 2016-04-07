@@ -68,6 +68,7 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		linearyoufei.setOnClickListener(this);
 		address.setOnClickListener(this);
 		linearfenxiang.setOnClickListener(this);
+		loginState.setOnClickListener(this);
 
 		btnSelling.setOnClickListener(this);
 		btnSold.setOnClickListener(this);
@@ -99,15 +100,15 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		initData();
 		users = MyApplication.getCurrentUser();
 		if (users != null && users.getName() != null) {
+			
 			loginState.setText(users.getName());
 			// 设置头像
 			Log.i("cheshi", "users.getphoto值:"+users.getPhoto());
 			if (users.getPhoto() != null &&!users.getPhoto().equals("")) {
+				Log.i("cheshi", "我的users.getphoto值:"+users.getPhoto());
 				com.nostra13.universalimageloader.core.ImageLoader
 						.getInstance().displayImage(users.getPhoto(), ivHead);
-			} else {
-				ivHead.setImageResource(R.drawable.header_default);
-			}
+			} 
 		}
 	}
 
@@ -131,13 +132,16 @@ public class UserInfoFragment extends BaseFragment implements OnClickListener {
 		case R.id.share_container:
 			showShare();
 			break;
+		case R.id.userinfo_login_state:
 		case R.id.userinfo_iv_header:
 			Log.i("onClick", "userinfo_btn_herder");
 			// Users users=MyApplication.getCurrentUser();
 			if (users != null && !users.equals("null")) {
+				Log.i("cheshi", "用户对象1"+users);
 				startActivity(new Intent(getActivity(),
 						EditUserInfoActivity.class));
 			} else {
+				Log.i("cheshi", "用户对象2"+users);
 				startActivity(new Intent(getActivity(), LoginActivity.class));
 			}
 

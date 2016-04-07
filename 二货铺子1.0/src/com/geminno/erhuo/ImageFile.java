@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -29,6 +30,8 @@ public class ImageFile extends Activity {
 	private FolderAdapter folderAdapter;
 	private Button bt_cancel;
 	private Context mContext;
+	private String activity;
+	private Intent intent;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,6 +39,8 @@ public class ImageFile extends Activity {
 		setContentView(Res.getLayoutID("plugin_camera_image_file"));
 		PublicWay.activityList.add(this);
 		mContext = this;
+		intent = getIntent();
+		activity = intent.getStringExtra("activity");
 		bt_cancel = (Button) findViewById(Res.getWidgetID("cancel"));
 		bt_cancel.setOnClickListener(new CancelListener());
 		GridView gridView = (GridView) findViewById(Res
@@ -43,18 +48,26 @@ public class ImageFile extends Activity {
 		TextView textView = (TextView) findViewById(Res
 				.getWidgetID("headerTitle"));
 		textView.setText(Res.getString("photo"));
-		folderAdapter = new FolderAdapter(this);
+		folderAdapter = new FolderAdapter(this,activity);
 		gridView.setAdapter(folderAdapter);
 	}
 
 	private class CancelListener implements OnClickListener {// 取消按钮的监听
 		public void onClick(View v) {
 			// 清空选择的图片
-			Bimp.tempSelectBitmap.clear();
+			//Bimp.tempSelectBitmap.clear();
 			Intent intent = new Intent();
-			intent.setClass(mContext, PublishGoodsActivity.class);
-////			intent.setClass(mContext, AlbumActivity.class);
-//			ImageFile.this.finish();
+			if(activity.equals("publishGoodsActivity")){
+				Log.i("chengxingen", "one"+"," + activity);
+				intent.setClass(mContext, PublishGoodsActivity.class);
+			}else if(activity.equals("donateRequestActivity")){
+				Log.i("chengxingen", "two" + "," + activity);
+				intent.setClass(mContext, DonateRequestActivity.class); 	
+			}
+			/**@heikki 16.08
+			 * */
+//			intent.setClass(mContext, AlbumActivity.class);
+			ImageFile.this.finish();
 			startActivity(intent);
 		}
 	}
@@ -62,7 +75,13 @@ public class ImageFile extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Intent intent = new Intent();
-			intent.setClass(mContext, PublishGoodsActivity.class);
+			if(activity.equals("publishGoodsActivity")){
+				Log.i("chengxingen", "one"+"," + activity);
+				intent.setClass(mContext, PublishGoodsActivity.class);
+			}else if(activity.equals("donateRequestActivity")){
+				Log.i("chengxingen", "two" + "," + activity);
+				intent.setClass(mContext, DonateRequestActivity.class); 	
+			}
 //			intent.setClass(mContext, AlbumActivity.class);
 ////			ImageFile.this.finish();
 			startActivity(intent);

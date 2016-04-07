@@ -18,7 +18,7 @@
        		android:layout_height="wrap_content" 
        		android:text="@string/photo"
        		android:layout_centerInParent="true"
-       		android:textSize="20sp"		
+       		android:textSize="@dimen/font_big"		
 			android:textColor="#ffffff"
             />
         
@@ -32,7 +32,7 @@
             android:id="@+id/cancel"
             android:text="@string/camera_cancel"
             android:layout_alignParentRight="true"
-            android:textSize="14sp"
+            android:textSize="@dimen/font_middle"
             android:textColor="#fff"
             />
     </RelativeLayout>

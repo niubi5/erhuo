@@ -176,7 +176,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 			word = keyword.getText().toString();
 			Log.i("cheshi", "获得word值：" + word);
 			if (word.length() != 0) {
-				linsearch.setVisibility(linsearch.INVISIBLE);
+				linsearch.setVisibility(linsearch.GONE);
 				initData();
 				initView();
 			} else {
