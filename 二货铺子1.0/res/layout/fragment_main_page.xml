@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/main_bgcolor"
+    android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
     <FrameLayout
@@ -24,23 +24,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
+        <FrameLayout
+            android:id="@+id/relink_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible" >
+
+            <ImageView
+                android:id="@+id/net_relink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:visibility="invisible" />
+            
+            <Button
+                android:id="@+id/click_to_relink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:background="@color/main_bgcolor"
+                android:drawableTop="@drawable/fail_noresult"
+                android:text="加载失败 点击重试" />
+            
+        </FrameLayout>
+
         <com.geminno.erhuo.view.RefreshListView
             android:id="@+id/refreshListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
         </com.geminno.erhuo.view.RefreshListView>
-        
-        <View style="@style/ShadowTitle"/>
-        
-        <ImageView 
+
+        <View style="@style/ShadowTitle" />
+
+        <ImageView
             android:id="@+id/to_up"
             android:layout_width="38dp"
             android:layout_height="38dp"
-            android:src="@drawable/up_icon"
+            android:layout_gravity="bottom|right"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
-            android:layout_gravity="bottom|right"/>
-        
+            android:src="@drawable/up_icon" />
     </FrameLayout>
 
 </LinearLayout>
