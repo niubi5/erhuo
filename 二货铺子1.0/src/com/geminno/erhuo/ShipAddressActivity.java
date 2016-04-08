@@ -168,6 +168,7 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 					intent.putExtra("name", addOnclick.getName());
 					intent.putExtra("phone", addOnclick.getPhone());
 					intent.putExtra("id", addOnclick.getId());
+					Log.i("cheshi", "当前地址id:"+addOnclick.getId());
 					intent.putExtra("Address", addOnclick.getAddress());
 					
 					Log.i("cheshi", "取出id:"+listgetid);

@@ -47,7 +47,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 	private String receiptdiqu;
 	private String receiptdizhi;
 	private Boolean flg = true;
-	private String id=null;
+	private int id= 0;
 	private String url;
 	private String dizhi;;
     //private Button butshiyong;//使用按钮
@@ -80,7 +80,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 		String name=intent.getStringExtra("name");
 		String phone=intent.getStringExtra("phone");
 		dizhi = intent.getStringExtra("Address");
-		id = intent.getStringExtra("id");
+		id = intent.getIntExtra("id",0);
 		Log.i("cheshi", "传来的值"+name+phone+dizhi+id);
 		if (name!=null && !name.equals("null")&& phone!=null&&  !phone.equals("null") && dizhi!=null&&!dizhi.equals("null")) {
 			flg=false;
@@ -150,8 +150,8 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				Address ads=new Address();
     				ads.setUserId(users.getId());
     				Log.i("cheshi", "传来id:"+id);
-    				if(id != null && !"null".equals(id)){
-    					ads.setId(Integer.parseInt(id));    					
+    				if(id != 0){
+    					ads.setId(id);    					
     				}
     				ads.setName(receiptName);
     				ads.setPhone(receiptPhone);
@@ -169,6 +169,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
     				RequestParams params=new RequestParams();
     				params.addBodyParameter("address",adds);
     				String headUrl = Url.getUrlHead();
+    				Log.i("NewAddressActivity", adds);
     				if (flg) {
     					url = headUrl + "/SaveAddressServlet";
 //        				 url="http://10.201.1.16:8080/secondHandShop/SaveAddressServlet";
@@ -190,6 +191,7 @@ public class NewAddressActivity extends Activity implements OnClickListener{
 						public void onSuccess(ResponseInfo<String> arg0) {
 							// TODO Auto-generated method stub
 							String result=arg0.result;
+							Log.i("NewAddressActivity", result);
 							if (result != null && !result.equals("null")) {
 								Toast.makeText(NewAddressActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
 								Intent intent=new Intent(NewAddressActivity.this,ShipAddressActivity.class);

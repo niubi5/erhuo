@@ -221,7 +221,7 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		String url = Url.getUrlHead() + "/GetDonatorServlet";
 		// 发送请求
 		HttpUtils http = new HttpUtils();
-
+		http.configCurrentHttpCacheExpiry(0);
 		http.send(HttpRequest.HttpMethod.GET, url, params,
 				new RequestCallBack<String>() {
 
