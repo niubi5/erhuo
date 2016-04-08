@@ -118,12 +118,6 @@ public class DonateFragment extends BaseFragment {
 	@SuppressLint("SimpleDateFormat")
 	@Override
 	protected void initData() {
-		// 开启线程初始化数据
-//		new Thread() {
-//
-//			@Override
-//			public void run() {
-		
 		/**
 		 * 发送请求，查询要显示在捐赠列表页面上的信息
 		 */
@@ -146,7 +140,6 @@ public class DonateFragment extends BaseFragment {
 					@Override
 					public void onSuccess(ResponseInfo<String> arg0) {
 						String result = arg0.result;
-						//Log.i("DonateFragmentResult", "result:s"+result);
 						Gson gson = new GsonBuilder()
 								.enableComplexMapKeySerialization()
 								.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -181,7 +174,6 @@ public class DonateFragment extends BaseFragment {
 								for (Map.Entry<Donation, Users> du : dus) {
 									// 将要显示的数据封装到Donation对象
 									donation = new Donation();
-
 									for (int z = 0; z < singleUrls.size(); z++) {
 										Log.i("donation",
 												donation + singleUrls.get(z));
@@ -192,24 +184,27 @@ public class DonateFragment extends BaseFragment {
 									user = du.getValue();
 									donation.setUserName(user.getName());
 									donation.setHeadImage(user.getPhoto());
-									Log.i("DonateFragmentResult", "donatePhoto:"+donation.getPhone());
-									
+									Log.i("DonateFragmentResult",
+											"donatePhoto:"
+													+ donation.getPhone());
+
 									if (singleUrls != null
 											&& singleUrls.size() != 0) {
 										// 取第一张图片显示在首页
 										donation.setImageUrl(singleUrls.get(0));
 									}
 									donation.setAddressImage(R.drawable.icon_city);
-//									if(user.getPhoto() != null && !"".equals(user.getPhoto())){
-//										donation.setHeadImage(user.getPhoto());
-//									}
+									// if(user.getPhoto() != null &&
+									// !"".equals(user.getPhoto())){
+									// donation.setHeadImage(user.getPhoto());
+									// }
 									// 将查询到Donatoin与将其对应的url存入到donationUrls
 									Map<Donation, List<String>> m = new HashMap<Donation, List<String>>();
 									m.put(donation, singleUrls);
 									donationUrls.add(m);
 
 									// 获得donationId对应names
-//									getName(donation.getId());
+									// getName(donation.getId());
 									mDatas.add(donation);
 								}
 							}
@@ -224,10 +219,15 @@ public class DonateFragment extends BaseFragment {
 								public void convert(
 										DonationViewHolder viewHolder,
 										Donation item) {
-									if(item.getHeadImage() != null && !"".equals(item.getHeadImage())){
-										viewHolder.setHeadImageRes(R.id.iv_head, item.getHeadImage());
-									}else{
-									viewHolder.setImageResource(R.id.iv_head,R.drawable.header_default);
+									if (item.getHeadImage() != null
+											&& !"".equals(item.getHeadImage())) {
+										viewHolder.setHeadImageRes(
+												R.id.iv_head,
+												item.getHeadImage());
+									} else {
+										viewHolder.setImageResource(
+												R.id.iv_head,
+												R.drawable.header_default);
 									}
 									viewHolder.setText(
 											R.id.tv_donation_user_name,
@@ -284,7 +284,7 @@ public class DonateFragment extends BaseFragment {
 
 			@Override
 			public void onClick(View v) {
-				setPosition(0);
+				mListView.smoothScrollToPosition(0);
 			}
 		});
 	}
@@ -296,7 +296,6 @@ public class DonateFragment extends BaseFragment {
 	protected void initView() {
 		mListView = (RefreshListView) view.findViewById(R.id.lv_donations);
 		// initData();
-
 		mListView.setOnRefreshCallBack(new OnRefreshCallBack() {
 
 			// 下拉刷新
@@ -346,6 +345,9 @@ public class DonateFragment extends BaseFragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// 得到每条记录的Donation及其对应的urls
+				if (id == -1) {
+					return;
+				}
 				Donation singleDonation = null;
 				ArrayList<String> ls = null;
 				if (position >= 1) {
@@ -359,14 +361,15 @@ public class DonateFragment extends BaseFragment {
 						ls = (ArrayList<String>) ds.getValue();
 					}
 				}
-//				int helpId = 0;
-//				ArrayList<String> names = null;
-//				Map<Integer, List<String>> il = donatorsName.get(position - 1);
-//				Set<Map.Entry<Integer, List<String>>> s = il.entrySet();
-//				for (Map.Entry<Integer, List<String>> ils : s) {
-//					helpId = ils.getKey();
-//					names = (ArrayList<String>) ils.getValue();
-//				}
+				// int helpId = 0;
+				// ArrayList<String> names = null;
+				// Map<Integer, List<String>> il = donatorsName.get(position -
+				// 1);
+				// Set<Map.Entry<Integer, List<String>>> s = il.entrySet();
+				// for (Map.Entry<Integer, List<String>> ils : s) {
+				// helpId = ils.getKey();
+				// names = (ArrayList<String>) ils.getValue();
+				// }
 
 				// 给详情页传值
 				Bundle bundle = new Bundle();
@@ -375,8 +378,8 @@ public class DonateFragment extends BaseFragment {
 				for (int i = 0; i < ls.size(); i++) {
 					Log.i("singleImage", ls.get(i));
 				}
-//				bundle.putInt("helpId", helpId);
-//				bundle.putStringArrayList("names", names);
+				// bundle.putInt("helpId", helpId);
+				// bundle.putStringArrayList("names", names);
 
 				Intent intent = new Intent(getActivity(),
 						DonationDetailActivity.class);
@@ -391,10 +394,10 @@ public class DonateFragment extends BaseFragment {
 
 	// 加载
 	public void addData() {
-
 		HttpUtils http = new HttpUtils();
-//		String url = "http://10.201.1.20:8080/secondHandShop/ListHelpsServlet";
-        // 设置不缓存
+		// String url =
+		// "http://10.201.1.20:8080/secondHandShop/ListHelpsServlet";
+		// 设置不缓存
 		// String url =
 		// "http://10.201.1.20:8080/secondHandShop/ListHelpsServlet";
 		String url = Url.getUrlHead() + "/ListHelpsServlet";
@@ -404,7 +407,6 @@ public class DonateFragment extends BaseFragment {
 		RequestParams params = new RequestParams();
 		params.addQueryStringParameter("curPage", curPage + "");
 		params.addQueryStringParameter("pageSize", pageSize + "");
-
 		http.send(HttpRequest.HttpMethod.GET, url, params,
 				new RequestCallBack<String>() {
 
@@ -458,8 +460,8 @@ public class DonateFragment extends BaseFragment {
 									donationUrls.add(m);
 
 									// 获得donationId对应names
-//									getName(donation.getId());
-//									mDatas.add(donation);
+									// getName(donation.getId());
+									// mDatas.add(donation);
 									count++;
 								}
 
@@ -486,56 +488,57 @@ public class DonateFragment extends BaseFragment {
 							}
 							// 加入新取到的数据
 							listAll.addAll(newDonation);
+							if (commonAdapter == null) {
+								commonAdapter = new CommonAdapter<Donation>(
+										getContext(), mDatas,
+										R.layout.doantion_list) {
 
-						}
-
-						if (commonAdapter == null) {
-							commonAdapter = new CommonAdapter<Donation>(
-									getContext(), mDatas,
-									R.layout.doantion_list) {
-
-								@Override
-								public void convert(
-										DonationViewHolder viewHolder,
-										Donation item) {
-									if(item.getHeadImage() != null){
-										viewHolder.setImageRes(R.id.iv_head,
-												item.getHeadImage());
-									}else{
-										viewHolder.setImageResource(R.id.iv_head, R.drawable.header_default);
+									@Override
+									public void convert(
+											DonationViewHolder viewHolder,
+											Donation item) {
+										if (item.getHeadImage() != null) {
+											viewHolder.setImageRes(
+													R.id.iv_head,
+													item.getHeadImage());
+										} else {
+											viewHolder.setImageResource(
+													R.id.iv_head,
+													R.drawable.header_default);
+										}
+										viewHolder.setText(
+												R.id.tv_donation_user_name,
+												item.getUserName());
+										viewHolder.setText(
+												R.id.tv_donation_time,
+												item.getPubTime());
+										// --------------------
+										// viewHolder.setImageBitmap(R.id.iv_poverty_image,
+										// item.getImageUrl());
+										viewHolder.setImageRes(
+												R.id.iv_poverty_image,
+												item.getImageUrl());
+										viewHolder.setText(R.id.tv_detail,
+												item.getDetail());
+										viewHolder.setImageResource(
+												R.id.iv_donation_address,
+												item.getAddressImage());
+										viewHolder.setText(
+												R.id.tv_donatoin_addresss,
+												item.getAddress());
 									}
-									viewHolder.setText(
-											R.id.tv_donation_user_name,
-											item.getUserName());
-									viewHolder.setText(R.id.tv_donation_time,
-											item.getPubTime());
-									// --------------------
-									// viewHolder.setImageBitmap(R.id.iv_poverty_image,
-									// item.getImageUrl());
-									viewHolder.setImageRes(
-											R.id.iv_poverty_image,
-											item.getImageUrl());
-									viewHolder.setText(R.id.tv_detail,
-											item.getDetail());
-									viewHolder.setImageResource(
-											R.id.iv_donation_address,
-											item.getAddressImage());
-									viewHolder.setText(
-											R.id.tv_donatoin_addresss,
-											item.getAddress());
-								}
-							};
-							mListView.setAdapter(commonAdapter);
-						} else {
-							commonAdapter.notifyDataSetChanged();
+								};
+								mListView.setAdapter(commonAdapter);
+							} else {
+								commonAdapter.notifyDataSetChanged();
+							}
 						}
-
 					}
 
-			@Override
-			public void onFailure(HttpException arg0, String arg1) {
-				
-			}
+					@Override
+					public void onFailure(HttpException arg0, String arg1) {
+
+					}
 				});
 
 	}
