@@ -1,6 +1,7 @@
 package com.geminno.erhuo;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -42,6 +43,8 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 	private List<Address> listad;	
 	public static Activity shipAddressActivity;
 	private String jumpActivity = null;
+	private List<Address> addresseslist=new ArrayList<Address>();
+	private Address addOnclick;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,9 +104,19 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView, ViewGroup parent) {
 			// TODO Auto-generated method stub
 			// 解析布局文件
+			if (addresseslist.isEmpty()) {
+				addresseslist.add(listad.get(position));
+			}else {
+				for(Address  adds:addresseslist){
+					if (adds.getId()!=listad.get(position).getId()) {
+						addresseslist.add(listad.get(position));
+					}
+				}
+			}
+			
 			ViewHolder viewHolder = new ViewHolder();
 			if (convertView == null) {
 				convertView = LayoutInflater.from(context)
@@ -126,16 +139,18 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 			listgetaddress = listad.get(position).getAddress().toString();
 			viewHolder.shipName.setText(listgetname);
 			viewHolder.shipPhone.setText(listgetphone);
+			addOnclick = addresseslist.get(position);
 			viewHolder.shipbianji.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					Intent intent=new Intent(ShipAddressActivity.this,NewAddressActivity.class);
-					intent.putExtra("name", listgetname);
-					intent.putExtra("phone", listgetphone);
-					intent.putExtra("id", addressid);
-					intent.putExtra("Address", listgetaddress);
+					intent.putExtra("name", addOnclick.getName());
+					intent.putExtra("phone", addOnclick.getPhone());
+					intent.putExtra("id", addOnclick.getId());
+					intent.putExtra("Address", addOnclick.getAddress());
+					
 					Log.i("cheshi", "取出id:"+listgetid);
 					startActivity(intent);
 					
@@ -151,7 +166,7 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 					RequestParams params=new RequestParams();
 				    String headUrl = Url.getUrlHead();
 				    String url = headUrl + "/DeleteAddressServlet";
-					params.addQueryStringParameter("addressid",addressid);
+					params.addQueryStringParameter("addressid", addOnclick.getId()+"");
 					httpUtils.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
 						@Override

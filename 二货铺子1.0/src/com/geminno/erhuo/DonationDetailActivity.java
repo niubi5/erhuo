@@ -1,8 +1,21 @@
 package com.geminno.erhuo;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.geminno.erhuo.entity.Donation;
+import com.geminno.erhuo.utils.Url;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
@@ -18,6 +31,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 /**
  * 捐赠详细信息页面
@@ -46,9 +60,11 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 	private int mImageThumbSize;
 	private int mImageThumbSpacing;
 
+	// 用来存放所有的求助及其对应的捐赠者的名字
+	List<Map<Integer, List<String>>> donatorsName = new ArrayList<Map<Integer, List<String>>>();
 	Donation donation;
 	ArrayList<String> urls;
-	ArrayList<String> names;
+    ArrayList<String> singleNames ;
 	StringBuffer sb;
 
 	@Override
@@ -57,6 +73,8 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_donation_detail);
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
+		singleNames = new ArrayList<>();
+		sb = new StringBuffer();
 		initData();
 		initView();
 		mImageThumbSize = getResources().getDimensionPixelSize(
@@ -94,9 +112,10 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		back.setOnClickListener(this);
 		mPhotoWall = (GridView) findViewById(R.id.gv_photos);
 		userHead = (ImageView) findViewById(R.id.iv_detail_head);
-		if(donation.getHeadImage() !=null){
-			ImageLoader.getInstance().displayImage(donation.getHeadImage(), userHead);
-		}else{
+		if (donation.getHeadImage() != null) {
+			ImageLoader.getInstance().displayImage(donation.getHeadImage(),
+					userHead);
+		} else {
 			userHead.setImageResource(R.drawable.header_default);
 		}
 
@@ -121,9 +140,10 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		phone.setText(donation.getPhone());
 
 		donatorNames = (TextView) findViewById(R.id.tv_detail_donatorNames);
-		if (!sb.equals("") && sb != null && sb.length() != 0) {
-			donatorNames.setText(sb + "已捐赠过");
-		}else{
+		
+		if ( !sb.equals("")) {
+			donatorNames.setText(sb.toString() + "已捐赠过");
+		} else {
 			donatorNames.setText("目前还没有人捐赠过，您可以率先捐赠哦");
 		}
 		donate = (Button) findViewById(R.id.btn_donation_report);
@@ -137,16 +157,16 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		Bundle bundle = intent.getBundleExtra("Record");
 
 		donation = (Donation) bundle.getSerializable("SingleDonation");
-		Log.i("SingleDonation", donation.toString() + donation.getAddress());
-		urls = bundle.getStringArrayList("urls");
-		Log.i("SingleImageUrls", urls.toString());
-		names = bundle.getStringArrayList("names");
-		sb = new StringBuffer();
-		for (int i = 0; i < names.size(); i++) {
-			sb.append(names.get(i) + ((i == (names.size() - 1)) ? "" : ","));
-		}
+		// 传递helpId
+		getName(donation.getId());
 
-		// donation = (Donation) intent.getSerializableExtra("donation");
+		urls = bundle.getStringArrayList("urls");
+	
+		for (int i = 0; i < singleNames.size(); i++) {
+			sb.append(singleNames.get(i)
+					+ ((i == (singleNames.size() - 1)) ? "" : ","));	
+			Log.i("singleNames", singleNames.get(i));
+		}		
 	}
 
 	@Override
@@ -157,15 +177,18 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 			break;
 		// 捐赠按钮
 		case R.id.btn_donation_report:
-			if(MyApplication.getCurrentUser() != null){
+			if (MyApplication.getCurrentUser() != null) {
 				Intent intent = new Intent(this, DonateActivity.class);
 				intent.putExtra("donationId", donation.getId());
-				intent.putExtra("userId", MyApplication.getCurrentUser().getId()+"");
+				intent.putExtra("userId", MyApplication.getCurrentUser()
+						.getId() + "");
 				startActivity(intent);
-			}else{
-				Toast.makeText(DonationDetailActivity.this, "请先登录!", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(DonationDetailActivity.this, "请先登录!",
+						Toast.LENGTH_SHORT).show();
 			}
 			break;
+		// 举报按钮
 		case R.id.iv_to_report:
 			Intent intent1 = new Intent(this, ReportDonationActivity.class);
 			intent1.putExtra("donationId", donation.getId());
@@ -177,14 +200,58 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 	}
 
 	/**
-	 * 获得联系人的电话号码
+	 * 获得对每一个求助发出捐赠的用户名的集合
 	 * 
 	 * @param helpId
-	 * @return
 	 */
-	public String getPhone(int helpId) {
+	public void getName(final int helpId) {
+        final ArrayList<String> singleNames = new ArrayList<String>();
+     // 设置请求参数
+		RequestParams params = new RequestParams();
+		params.addQueryStringParameter("helpId", String.valueOf(helpId));
+		String url = Url.getUrlHead() + "/GetDonatorServlet";
+		// 发送请求
+		HttpUtils http = new HttpUtils();
 
-		return null;
+		http.send(HttpRequest.HttpMethod.GET, url, params,
+				new RequestCallBack<String>() {
+
+					@Override
+					public void onFailure(HttpException arg0,
+							String arg1) {
+						Log.i("helpRequest", "请求失败");
+
+					}
+
+					@Override
+					public void onSuccess(ResponseInfo<String> arg0) {
+						Log.i("helpRequest", "请求成功");
+						String result = arg0.result;
+						Gson gson = new GsonBuilder()
+								.enableComplexMapKeySerialization()
+								.setDateFormat("yyyy-MM-dd HH:mm:ss")
+								.create();
+						Type type = new TypeToken<ArrayList<String>>() {
+						}.getType();
+						ArrayList<String> names = gson.fromJson(result,
+								type);
+						for (int i = 0; i < names.size(); i++) {
+							Log.i("donators", names.get(i));
+						}
+						getName(names);
+
+					}
+
+				});
+
+	}
+	
+	public void getName(ArrayList<String> mNames){
+		
+		for(int i = 0; i < mNames.size(); i++){
+			singleNames.add(mNames.get(i));
+		}
+
 	}
 
 }
