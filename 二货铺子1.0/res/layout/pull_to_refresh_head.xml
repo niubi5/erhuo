@@ -10,18 +10,13 @@
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:clickable="false"
-        android:focusable="false"
-        android:longClickable="false" >
+        android:layout_weight="1" >
 
         <ImageView
             android:id="@+id/iv_refresher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:clickable="false"
-            android:focusable="false"
             android:src="@drawable/arrow" />
 
         <ProgressBar
@@ -30,8 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:clickable="false"
-            android:focusable="false"
             android:visibility="invisible" />
     </FrameLayout>
 
@@ -40,9 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
-        android:clickable="false"
-        android:focusable="false"
-        android:longClickable="false"
         android:orientation="vertical" >
 
         <TextView
@@ -51,8 +41,6 @@
             android:layout_height="0dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:clickable="false"
-            android:focusable="false"
             android:text="下拉刷新" />
     </LinearLayout>
 
