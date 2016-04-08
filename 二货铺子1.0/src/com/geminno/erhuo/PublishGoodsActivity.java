@@ -523,7 +523,7 @@ public class PublishGoodsActivity extends Activity implements OnClickListener {
 			finish();
 			break;
 		case R.id.rl_publish_goods:
-			showToast(PublishGoodsActivity.this, "scrollView1", 1);
+			//showToast(PublishGoodsActivity.this, "scrollView1", 1);
 			 InputMethodManager imm = (InputMethodManager)  
 	         getSystemService(Context.INPUT_METHOD_SERVICE);  
 	         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);

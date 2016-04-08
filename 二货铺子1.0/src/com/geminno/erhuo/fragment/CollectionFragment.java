@@ -61,7 +61,9 @@ import com.lidroid.xutils.http.client.HttpRequest;
 		View view = inflater.inflate(R.layout.fragment_collec, null);
 		tvNoCollec = (TextView) view.findViewById(R.id.tv_no_collc);
 		listColGoodsId = MyApplication.getCollection();
-		Collections.reverse(listColGoodsId);
+		if(listColGoodsId != null && !listColGoodsId.isEmpty()){
+			Collections.reverse(listColGoodsId);
+		}
 		return view;
 	}
 
