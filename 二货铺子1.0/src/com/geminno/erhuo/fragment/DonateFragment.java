@@ -359,6 +359,9 @@ public class DonateFragment extends BaseFragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// 得到每条记录的Donation及其对应的urls
+				if(id == -1){
+					return;
+				}
 				Donation singleDonation = null;
 				ArrayList<String> ls = null;
 				if (position >= 1) {
