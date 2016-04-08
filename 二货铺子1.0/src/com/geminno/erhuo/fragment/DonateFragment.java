@@ -209,7 +209,7 @@ public class DonateFragment extends BaseFragment {
 									donationUrls.add(m);
 
 									// 获得donationId对应names
-									getName(donation.getId());
+//									getName(donation.getId());
 									mDatas.add(donation);
 								}
 							}
@@ -359,14 +359,14 @@ public class DonateFragment extends BaseFragment {
 						ls = (ArrayList<String>) ds.getValue();
 					}
 				}
-				int helpId = 0;
-				ArrayList<String> names = null;
-				Map<Integer, List<String>> il = donatorsName.get(position - 1);
-				Set<Map.Entry<Integer, List<String>>> s = il.entrySet();
-				for (Map.Entry<Integer, List<String>> ils : s) {
-					helpId = ils.getKey();
-					names = (ArrayList<String>) ils.getValue();
-				}
+//				int helpId = 0;
+//				ArrayList<String> names = null;
+//				Map<Integer, List<String>> il = donatorsName.get(position - 1);
+//				Set<Map.Entry<Integer, List<String>>> s = il.entrySet();
+//				for (Map.Entry<Integer, List<String>> ils : s) {
+//					helpId = ils.getKey();
+//					names = (ArrayList<String>) ils.getValue();
+//				}
 
 				// 给详情页传值
 				Bundle bundle = new Bundle();
@@ -375,8 +375,8 @@ public class DonateFragment extends BaseFragment {
 				for (int i = 0; i < ls.size(); i++) {
 					Log.i("singleImage", ls.get(i));
 				}
-				bundle.putInt("helpId", helpId);
-				bundle.putStringArrayList("names", names);
+//				bundle.putInt("helpId", helpId);
+//				bundle.putStringArrayList("names", names);
 
 				Intent intent = new Intent(getActivity(),
 						DonationDetailActivity.class);
@@ -458,8 +458,8 @@ public class DonateFragment extends BaseFragment {
 									donationUrls.add(m);
 
 									// 获得donationId对应names
-									getName(donation.getId());
-									mDatas.add(donation);
+//									getName(donation.getId());
+//									mDatas.add(donation);
 									count++;
 								}
 
@@ -534,7 +534,6 @@ public class DonateFragment extends BaseFragment {
 
 			@Override
 			public void onFailure(HttpException arg0, String arg1) {
-				// TODO Auto-generated method stub
 				
 			}
 				});
@@ -552,51 +551,6 @@ public class DonateFragment extends BaseFragment {
 		} else {
 			mListView.setSelection(position);
 		}
-	}
-
-	/**
-	 * 获得对每一个求助发出捐赠的用户名的集合
-	 * 
-	 * @param helpId
-	 */
-	public void getName(final int helpId) {
-		// 设置请求参数
-		RequestParams params = new RequestParams();
-		params.addBodyParameter("helpId", String.valueOf(helpId));
-		
-		// String url =
-		// "http://10.201.1.20:8080/secondHandShop/GetDonatorServlet";
-		String url = Url.getUrlHead() + "/GetDonatorServlet";
-		// 发送请求
-		HttpUtils http = new HttpUtils();
-		http.send(HttpRequest.HttpMethod.POST, url, params,
-				new RequestCallBack<String>() {
-
-					@Override
-					public void onFailure(HttpException arg0, String arg1) {
-						Log.i("requestName", "请求失败");
-
-					}
-
-					@SuppressLint("UseSparseArrays") @Override
-					public void onSuccess(ResponseInfo<String> arg0) {
-						Log.i("requestName", "请求成功");
-						String result = arg0.result;
-						Gson gson = new GsonBuilder()
-								.enableComplexMapKeySerialization()
-								.setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-						Type type = new TypeToken<List<String>>() {
-						}.getType();
-						List<String> names = gson.fromJson(result, type);
-						for(int i = 0;i < names.size();i++){
-							Log.i("donators", names.get(i) + ",");
-						}
-						Map<Integer, List<String>> is = new HashMap<Integer, List<String>>();
-						is.put(helpId, names);
-						donatorsName.add(is);
-					}
-
-				});
 	}
 
 	// /**
