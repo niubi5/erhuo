@@ -4,7 +4,6 @@
     android:layout_height="50dp"
     android:background="@color/main_bgcolor"
     android:baselineAligned="false"
-    android:clickable="false"
     android:gravity="center_horizontal"
     android:orientation="horizontal" >
 
@@ -44,15 +43,5 @@
             android:layout_weight="1"
             android:text="下拉刷新" />
     </LinearLayout>
-
-    <!--
- 	<com.geminno.erhuo.shimmer.ShimmerTextView
- 	    android:id="@+id/shimmer_tv"
- 	    android:text="Loading..."
- 	    android:layout_width="wrap_content"
- 	    android:layout_height="wrap_content"
- 	    android:textColor="#444"
- 	    android:textSize="50sp" />
-    -->
 
 </LinearLayout>
