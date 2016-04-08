@@ -435,65 +435,14 @@ public class DonateFragment extends BaseFragment {
 						Log.i("gson", gson.toString());
 						Type type = new TypeToken<List<Map<Map<Donation, Users>, List<String>>>>() {
 						}.getType();
-//<<<<<<< HEAD
-//=======
-//						// 获取的新数据
-//						List<Map<Map<Donation, Users>, List<String>>> newDonation = gson
-//								.fromJson(result, type);
-//						listAll.addAll(newDonation);
-//
-//						for (int i = 0; i < newDonation.size(); i++) {
-//							map = newDonation.get(i);
-//
-//							Set<Map.Entry<Map<Donation, Users>, List<String>>> entry = map
-//									.entrySet();
-//							for (Map.Entry<Map<Donation, Users>, List<String>> en : entry) {
-//								Map<Donation, Users> donationUser = en.getKey();
-//								List<String> singleUrls = en.getValue();
-//								// for(int i = 0 ; i < urls.size();i++){
-//								// Log.i("imageUrl", urls.get(i));
-//								// }
-//
-//								Set<Map.Entry<Donation, Users>> dus = donationUser
-//										.entrySet();
-//								for (Map.Entry<Donation, Users> du : dus) {
-//									donation = new Donation();
-//									user = new Users();
-//									donation = du.getKey();
-//									user = du.getValue();
-//									// 将取到的数据封装到Donation对象
-//									donation.setUserName(user.getName());
-//									donation.setHeadImage(user.getPhoto());
-//									if (singleUrls != null
-//											&& singleUrls.size() != 0) {
-//										donation.setImageUrl(singleUrls.get(0));
-//									}
-//									donation.setAddressImage(R.drawable.icon_city);
-//
-//									// 将查询到Donatoin与将其对应的url存入到donationUrls
-//									Map<Donation, List<String>> m = new HashMap<Donation, List<String>>();
-//									m.put(donation, singleUrls);
-//									donationUrls.add(m);
-//
-//									// 获得donationId对应names
-////									getName(donation.getId());
-////									mDatas.add(donation);
-//									count++;
-//								}
-//
-//							}
-//						}
-//>>>>>>> branch 'master' of https://github.com/niubi5/erhuo.git
+						// 获取的新数据
+						final List<Map<Map<Donation, Users>, List<String>>> newDonation = gson
+								.fromJson(result, type);
 						// 判断preHelps是否为空，如果不为空，移除记录
 						if (!preDatas.isEmpty()) {
 							listAll.remove(preDatas);
 							preDatas.clear();
 						}
-						// 获取的新数据
-						final List<Map<Map<Donation, Users>, List<String>>> newDonation = gson
-								.fromJson(result, type);
-//						listAll.addAll(newDonation);
-						
 						// 判断是否加载到了数据
 						if (newDonation == null || newDonation.isEmpty()) {
 							// 页数不变，之前++过
@@ -506,7 +455,7 @@ public class DonateFragment extends BaseFragment {
 									&& newDonation.size() < pageSize) {
 //								preDatas.addAll(mDatas);
 								preHelps.addAll(newDonation);
-								curPage--;
+//								curPage--;
 							}
 							// 加入新取到的数据
 							listAll.addAll(newDonation);

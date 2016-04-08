@@ -217,6 +217,9 @@ public class GoodsDetialActivity extends Activity implements UserInfoProvider,
 			@Override
 			public void onClick(View v) {
 				collection = MyApplication.getCollection();
+				if(collection == null){
+					collection = new ArrayList<Integer>();
+				}
 				if (collection.contains(goodsId)) {
 					collectGoods(goods, v, false);// 调用取消收藏商品方法
 				} else {
