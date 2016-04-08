@@ -89,7 +89,7 @@ public class DonateFragment extends BaseFragment {
 	// 每页显示的记录
 	private int pageSize = 5;
 	// 图片的url
-	private List<String> urls;
+	private List<String> urls = new ArrayList<String>();
 
 	// 记录上一次不满的记录
 	private List<Map<Map<Donation, Users>, List<String>>> preHelps = new ArrayList<Map<Map<Donation, Users>, List<String>>>();
@@ -169,7 +169,8 @@ public class DonateFragment extends BaseFragment {
 								Map<Donation, Users> donationUser = en.getKey();
 								// 一条记录的urls
 								List<String> singleUrls = en.getValue();
-
+//								urls.clear();
+//								urls = singleUrls;
 								for (int j = 0; j < singleUrls.size(); j++) {
 									Log.i("imageUrls",
 											String.valueOf(singleUrls.size()));
@@ -197,7 +198,8 @@ public class DonateFragment extends BaseFragment {
 									if (singleUrls != null
 											&& singleUrls.size() != 0) {
 										// 取第一张图片显示在首页
-										donation.setImageUrl(singleUrls.get(0));
+//										donation.setImageUrl(singleUrls.get(0));
+										donation.setImageUrl(singleUrls);
 									}
 									donation.setAddressImage(R.drawable.icon_city);
 //									if(user.getPhoto() != null && !"".equals(user.getPhoto())){
@@ -234,9 +236,20 @@ public class DonateFragment extends BaseFragment {
 											item.getUserName());
 									viewHolder.setText(R.id.tv_donation_time,
 											item.getPubTime());
-									viewHolder.setImageBitmap(
-											R.id.iv_poverty_image,
-											item.getImageUrl());
+									if(item.getImageUrl().size() >= 2){
+										viewHolder.setImageBitmap(
+												R.id.iv_poverty_image,
+												item.getImageUrl().get(0));
+										viewHolder.setImageBitmap(
+												R.id.iv_poverty_image2,
+												item.getImageUrl().get(1));
+									}else{
+										viewHolder.setImageBitmap(
+												R.id.iv_poverty_image,
+												item.getImageUrl().get(0));
+										viewHolder.setViewVisibility(R.id.iv_poverty_image2, 0);
+									}
+									
 									viewHolder.setText(R.id.tv_detail,
 											item.getDetail());
 									viewHolder.setImageResource(
@@ -419,58 +432,16 @@ public class DonateFragment extends BaseFragment {
 						Log.i("gson", gson.toString());
 						Type type = new TypeToken<List<Map<Map<Donation, Users>, List<String>>>>() {
 						}.getType();
-						// 获取的新数据
-						List<Map<Map<Donation, Users>, List<String>>> newDonation = gson
-								.fromJson(result, type);
-						listAll.addAll(newDonation);
-
-						for (int i = 0; i < newDonation.size(); i++) {
-							map = newDonation.get(i);
-
-							Set<Map.Entry<Map<Donation, Users>, List<String>>> entry = map
-									.entrySet();
-							for (Map.Entry<Map<Donation, Users>, List<String>> en : entry) {
-								Map<Donation, Users> donationUser = en.getKey();
-								List<String> singleUrls = en.getValue();
-								// for(int i = 0 ; i < urls.size();i++){
-								// Log.i("imageUrl", urls.get(i));
-								// }
-
-								Set<Map.Entry<Donation, Users>> dus = donationUser
-										.entrySet();
-								for (Map.Entry<Donation, Users> du : dus) {
-									donation = new Donation();
-									user = new Users();
-									donation = du.getKey();
-									user = du.getValue();
-									// 将取到的数据封装到Donation对象
-									donation.setUserName(user.getName());
-									donation.setHeadImage(user.getPhoto());
-									if (singleUrls != null
-											&& singleUrls.size() != 0) {
-										donation.setImageUrl(singleUrls.get(0));
-									}
-									donation.setAddressImage(R.drawable.icon_city);
-
-									// 将查询到Donatoin与将其对应的url存入到donationUrls
-									Map<Donation, List<String>> m = new HashMap<Donation, List<String>>();
-									m.put(donation, singleUrls);
-									donationUrls.add(m);
-
-									// 获得donationId对应names
-									getName(donation.getId());
-									mDatas.add(donation);
-									count++;
-								}
-
-							}
-						}
 						// 判断preHelps是否为空，如果不为空，移除记录
 						if (!preDatas.isEmpty()) {
 							listAll.remove(preDatas);
 							preDatas.clear();
 						}
-
+						// 获取的新数据
+						final List<Map<Map<Donation, Users>, List<String>>> newDonation = gson
+								.fromJson(result, type);
+//						listAll.addAll(newDonation);
+						
 						// 判断是否加载到了数据
 						if (newDonation == null || newDonation.isEmpty()) {
 							// 页数不变，之前++过
@@ -481,54 +452,183 @@ public class DonateFragment extends BaseFragment {
 							// 如果有数据但没有加满，页数仍然不变
 							if (newDonation != null
 									&& newDonation.size() < pageSize) {
-								preDatas.addAll(mDatas);
+//								preDatas.addAll(mDatas);
+								preHelps.addAll(newDonation);
 								curPage--;
 							}
 							// 加入新取到的数据
 							listAll.addAll(newDonation);
+							
+							for (int i = 0; i < newDonation.size(); i++) {
+								map = newDonation.get(i);
 
-						}
+								Set<Map.Entry<Map<Donation, Users>, List<String>>> entry = map
+										.entrySet();
+								for (Map.Entry<Map<Donation, Users>, List<String>> en : entry) {
+									Map<Donation, Users> donationUser = en.getKey();
+									List<String> singleUrls = en.getValue();
+									// for(int i = 0 ; i < urls.size();i++){
+									// Log.i("imageUrl", urls.get(i));
+									// }
 
-						if (commonAdapter == null) {
-							commonAdapter = new CommonAdapter<Donation>(
-									getContext(), mDatas,
-									R.layout.doantion_list) {
+									Set<Map.Entry<Donation, Users>> dus = donationUser
+											.entrySet();
+									for (Map.Entry<Donation, Users> du : dus) {
+										donation = new Donation();
+										user = new Users();
+										donation = du.getKey();
+										user = du.getValue();
+										// 将取到的数据封装到Donation对象
+										donation.setUserName(user.getName());
+										donation.setHeadImage(user.getPhoto());
+										if (singleUrls != null
+												&& singleUrls.size() != 0) {
+											donation.setImageUrl(singleUrls);
+										}
+										donation.setAddressImage(R.drawable.icon_city);
 
-								@Override
-								public void convert(
-										DonationViewHolder viewHolder,
-										Donation item) {
-									if(item.getHeadImage() != null){
-										viewHolder.setImageRes(R.id.iv_head,
-												item.getHeadImage());
-									}else{
-										viewHolder.setImageResource(R.id.iv_head, R.drawable.header_default);
+										// 将查询到Donatoin与将其对应的url存入到donationUrls
+										Map<Donation, List<String>> m = new HashMap<Donation, List<String>>();
+										m.put(donation, singleUrls);
+										donationUrls.add(m);
+
+										// 获得donationId对应names
+										getName(donation.getId());
+										mDatas.add(donation);
+										count++;
 									}
-									viewHolder.setText(
-											R.id.tv_donation_user_name,
-											item.getUserName());
-									viewHolder.setText(R.id.tv_donation_time,
-											item.getPubTime());
-									// --------------------
-									// viewHolder.setImageBitmap(R.id.iv_poverty_image,
-									// item.getImageUrl());
-									viewHolder.setImageRes(
-											R.id.iv_poverty_image,
-											item.getImageUrl());
-									viewHolder.setText(R.id.tv_detail,
-											item.getDetail());
-									viewHolder.setImageResource(
-											R.id.iv_donation_address,
-											item.getAddressImage());
-									viewHolder.setText(
-											R.id.tv_donatoin_addresss,
-											item.getAddress());
+
 								}
-							};
-							mListView.setAdapter(commonAdapter);
-						} else {
-							commonAdapter.notifyDataSetChanged();
+							}
+							
+							if (commonAdapter == null) {
+								commonAdapter = new CommonAdapter<Donation>(
+										getContext(), mDatas,
+										R.layout.doantion_list) {
+
+									@Override
+									public void convert(
+											DonationViewHolder viewHolder,
+											Donation item) {
+										
+										if(item.getHeadImage() != null){
+											viewHolder.setImageRes(R.id.iv_head,
+													item.getHeadImage());
+										}else{
+											viewHolder.setImageResource(R.id.iv_head, R.drawable.header_default);
+										}
+										viewHolder.setText(
+												R.id.tv_donation_user_name,
+												item.getUserName());
+										viewHolder.setText(R.id.tv_donation_time,
+												item.getPubTime());
+										// --------------------
+										// viewHolder.setImageBitmap(R.id.iv_poverty_image,
+										// item.getImageUrl());
+										viewHolder.setImageRes(
+												R.id.iv_poverty_image,
+												item.getImageUrl().get(0));
+										viewHolder.setText(R.id.tv_detail,
+												item.getDetail());
+										viewHolder.setImageResource(
+												R.id.iv_donation_address,
+												item.getAddressImage());
+										viewHolder.setText(
+												R.id.tv_donatoin_addresss,
+												item.getAddress());
+									}
+								};
+								mListView.setAdapter(commonAdapter);
+							} else {
+								commonAdapter.notifyDataSetChanged();
+							}
 						}
+						
+//						for (int i = 0; i < newDonation.size(); i++) {
+//							map = newDonation.get(i);
+//
+//							Set<Map.Entry<Map<Donation, Users>, List<String>>> entry = map
+//									.entrySet();
+//							for (Map.Entry<Map<Donation, Users>, List<String>> en : entry) {
+//								Map<Donation, Users> donationUser = en.getKey();
+//								List<String> singleUrls = en.getValue();
+//								// for(int i = 0 ; i < urls.size();i++){
+//								// Log.i("imageUrl", urls.get(i));
+//								// }
+//
+//								Set<Map.Entry<Donation, Users>> dus = donationUser
+//										.entrySet();
+//								for (Map.Entry<Donation, Users> du : dus) {
+//									donation = new Donation();
+//									user = new Users();
+//									donation = du.getKey();
+//									user = du.getValue();
+//									// 将取到的数据封装到Donation对象
+//									donation.setUserName(user.getName());
+//									donation.setHeadImage(user.getPhoto());
+//									if (singleUrls != null
+//											&& singleUrls.size() != 0) {
+//										donation.setImageUrl(singleUrls);
+//									}
+//									donation.setAddressImage(R.drawable.icon_city);
+//
+//									// 将查询到Donatoin与将其对应的url存入到donationUrls
+//									Map<Donation, List<String>> m = new HashMap<Donation, List<String>>();
+//									m.put(donation, singleUrls);
+//									donationUrls.add(m);
+//
+//									// 获得donationId对应names
+//									getName(donation.getId());
+//									mDatas.add(donation);
+//									count++;
+//								}
+//
+//							}
+//						}
+					
+
+						
+
+//						if (commonAdapter == null) {
+//							commonAdapter = new CommonAdapter<Donation>(
+//									getContext(), mDatas,
+//									R.layout.doantion_list) {
+//
+//								@Override
+//								public void convert(
+//										DonationViewHolder viewHolder,
+//										Donation item) {
+//									if(item.getHeadImage() != null){
+//										viewHolder.setImageRes(R.id.iv_head,
+//												item.getHeadImage());
+//									}else{
+//										viewHolder.setImageResource(R.id.iv_head, R.drawable.header_default);
+//									}
+//									viewHolder.setText(
+//											R.id.tv_donation_user_name,
+//											item.getUserName());
+//									viewHolder.setText(R.id.tv_donation_time,
+//											item.getPubTime());
+//									// --------------------
+//									// viewHolder.setImageBitmap(R.id.iv_poverty_image,
+//									// item.getImageUrl());
+//									viewHolder.setImageRes(
+//											R.id.iv_poverty_image,
+//											item.getImageUrl().get(0));
+//									viewHolder.setText(R.id.tv_detail,
+//											item.getDetail());
+//									viewHolder.setImageResource(
+//											R.id.iv_donation_address,
+//											item.getAddressImage());
+//									viewHolder.setText(
+//											R.id.tv_donatoin_addresss,
+//											item.getAddress());
+//								}
+//							};
+//							mListView.setAdapter(commonAdapter);
+//						} else {
+//							commonAdapter.notifyDataSetChanged();
+//						}
 
 					}
 

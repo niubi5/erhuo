@@ -50,6 +50,7 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 	ArrayList<String> urls;
 	ArrayList<String> names;
 	StringBuffer sb;
+	private int helpId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +136,11 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 	public void initData() {
 		Intent intent = getIntent();
 		Bundle bundle = intent.getBundleExtra("Record");
-
+		helpId = bundle.getInt("helpId", 0);
+		
+		Toast.makeText(this, helpId+"", 1).show();
+		
+		
 		donation = (Donation) bundle.getSerializable("SingleDonation");
 		Log.i("SingleDonation", donation.toString() + donation.getAddress());
 		urls = bundle.getStringArrayList("urls");
