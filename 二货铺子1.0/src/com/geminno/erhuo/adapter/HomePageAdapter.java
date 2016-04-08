@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -515,10 +514,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 						});
 				// ------------ 修改为商品ID了
 				viewHolder.userFavorite.setTag(Integer.valueOf(goods.getId()));
-				// ------------
-				for (Integer i : collection) {
-					Log.i("erhuo", "收藏集合里面的:" + i);
-				}
 				if (collection.contains(goods.getId())) {
 					// 如果用户收藏的集合中有 或是点过赞的集合中有，则设为收藏状态
 					viewHolder.userFavorite.setSelected(true);
@@ -533,11 +528,9 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 								// 如果在集合里面，说明点过，再次点击则取消收藏，并从集合移除
 								// if (!collection.isEmpty()) {
 								if (collection.contains(v.getTag())) {
-									Log.i("erhuo", "移除收藏");
 									collectGoods(goods, v, false);// 调用移除商品方法
 								} else {
 									// 否则设为选中状态，并加入集合
-									Log.i("erhuo", "加入收藏");
 									collectGoods(goods, v, true);
 								}
 								// }
@@ -800,6 +793,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		// 商品点击事件
+		if(id == -1){
+			// 说明点击的是HeadView或footView
+			return;
+		}
 		if (!userGoodsUrls.isEmpty()) {
 			Intent intent = new Intent(context, GoodsDetialActivity.class);
 			Bundle bundle = new Bundle();
@@ -811,6 +808,10 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 			} else {
 				i = position - 2;
 			}
+//			Map<Map<Goods, Users>, List<String>> map = (Map<Map<Goods, Users>, List<String>>) parent.getAdapter().getItem(i);
+//			if(map == null || map.isEmpty()){
+//				return;
+//			}
 			Goods goods = null;
 			for (int j = i * 3; j < i * 3 + 3; j++) {
 				if (first) {
@@ -850,7 +851,6 @@ public class HomePageAdapter extends BaseAdapter implements OnClickListener,
 	private void collectGoods(Goods goods, View v, boolean isFavorite) {
 		// 当前用户登录过则发请求，否则弹框提示
 		if (currentUser != null && goods != null) {
-			Log.i("erhuo", "当前用户：" + currentUser.getName());
 			HttpUtils http = new HttpUtils();
 			RequestParams params = new RequestParams();
 			String urlHead = Url.getUrlHead();

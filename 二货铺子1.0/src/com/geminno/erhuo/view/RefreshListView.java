@@ -104,6 +104,8 @@ public class RefreshListView extends ListView implements OnScrollListener {
 		footHeight = footView.getMeasuredHeight();
 		// 隐藏底部
 		footView.setPadding(0, -footHeight, 0, 0);
+		footView.setFocusable(false);
+		footView.setClickable(false);
 	}
 
 	// 初始化动画
