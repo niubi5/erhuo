@@ -176,6 +176,9 @@ public class RemarkAdapter extends BaseAdapter implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view,
 			final int position, long id) {
 		// 当前用户未登录 则弹窗提示
+		if(id == -1){
+			return;
+		}
 		if (currentUser == null) {
 			Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
 		} else {

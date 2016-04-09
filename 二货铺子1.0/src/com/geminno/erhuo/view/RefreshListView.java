@@ -4,6 +4,7 @@ import com.geminno.erhuo.R;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,6 +44,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	private RotateAnimation downAnimation;
 	private int firstVisibleItem;// 第一条可见的位置
 	private boolean loading = false;// 正在加载
+	private boolean isFirst = true;
 
 	public RefreshListView(Context context) {
 		super(context);
@@ -134,6 +136,10 @@ public class RefreshListView extends ListView implements OnScrollListener {
 				return false;
 			}
 			moveY = ev.getY();
+			if(isFirst ){
+				startY = moveY;
+				isFirst = false;
+			}
 			// 如果第一条可见并且是向下拉
 			if (firstVisibleItem == 0 && (moveY > startY)) {
 				int paddingHeight = (int) (-headHeight + (moveY - startY));
@@ -161,8 +167,6 @@ public class RefreshListView extends ListView implements OnScrollListener {
 				if (refreshCallBack != null) {
 					refreshCallBack.onPull();
 				}
-				// }
-
 			}
 			break;
 		case MotionEvent.ACTION_UP:

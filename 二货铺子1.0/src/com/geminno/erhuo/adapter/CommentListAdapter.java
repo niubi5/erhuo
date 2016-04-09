@@ -253,6 +253,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view,
 			final int position, long id) {
+		if(id == -1){
+			return;
+		}
 		switch (action) {
 		case JUMP:
 			if (!userGoodsUrls.isEmpty()) {
