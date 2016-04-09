@@ -152,6 +152,8 @@ public class OrderDetialActivity extends Activity {
 							Gson gson = new Gson();
 							order = gson.fromJson(arg0.result, Orders.class);
 							//
+							Log.i("logisDetial", order.getLogisticsCom()
+									+ "+" + order.getLogisticsNum());
 							if (order.getLogisticsCom() != null
 									&& order.getLogisticsNum() != null) {
 								Log.i("logisDetial", order.getLogisticsCom()
@@ -275,9 +277,16 @@ public class OrderDetialActivity extends Activity {
 										for (Map.Entry<String, String> e : keySet) {
 											Log.i("LogisAdapter", e.getKey()+":"+e.getValue());
 											if ("remark".equals(e.getKey())) {
+												if("无".equals(e.getValue())){
+													
 												holder.setText(
 														R.id.tv_logis_detail,
-														e.getValue());
+														"无物流信息");
+												}else{
+													holder.setText(
+															R.id.tv_logis_detail,
+															e.getValue());
+												}
 												
 											} else if ("datetime".equals(e
 													.getKey())) {

@@ -193,7 +193,7 @@
                     android:background="@null"
                     android:textSize="@dimen/font_middlesmall"
                     android:hint="收货人电话"
-                    />
+                    android:inputType="number"/>
                 </LinearLayout>
                 
 

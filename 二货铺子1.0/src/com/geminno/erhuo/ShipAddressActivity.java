@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.geminno.erhuo.adapter.HomePageAdapter.ViewHolderType;
 import com.geminno.erhuo.entity.Address;
+import com.geminno.erhuo.entity.Goods;
 import com.geminno.erhuo.entity.Users;
 import com.geminno.erhuo.utils.Url;
 import com.google.gson.Gson;
@@ -110,12 +111,29 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 			if (addresseslist.isEmpty()) {
 				addresseslist.add(listad.get(position));
 			}else {
-				for(Address  adds:addresseslist){
-					if (adds.getId()!=listad.get(position).getId()) {
-						addresseslist.add(listad.get(position));
+//				for(Address  adds:addresseslist){
+//					if (adds.getId()!=listad.get(position).getId()) {
+//						addresseslist.add(listad.get(position));
+//					}
+//				}
+//				for(int i = 0 ; i<addresseslist.size();i++){
+//					if(addresseslist.get(i).getId() != listad.get(i).getId()){
+//						addresseslist.add(listad.get(position));
+//					}
+//				}
+				
+				boolean isExist = false;
+				for (Address adds:addresseslist) {
+					if (adds.getId() == listad.get(position).getId()) {
+						isExist = true;
 					}
 				}
+				if (!isExist) {
+					addresseslist.add(listad.get(position));
+				}
+				
 			}
+			Log.i("ShipAddressActivity", addresseslist.size()+"");
 			
 			ViewHolder viewHolder = new ViewHolder();
 			if (convertView == null) {
@@ -139,16 +157,18 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 			listgetaddress = listad.get(position).getAddress().toString();
 			viewHolder.shipName.setText(listgetname);
 			viewHolder.shipPhone.setText(listgetphone);
-			addOnclick = addresseslist.get(position);
 			viewHolder.shipbianji.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
+					Log.i("ShipAddressActivity", addresseslist.size()+"");
+					addOnclick = addresseslist.get(position);
 					// TODO Auto-generated method stub
 					Intent intent=new Intent(ShipAddressActivity.this,NewAddressActivity.class);
 					intent.putExtra("name", addOnclick.getName());
 					intent.putExtra("phone", addOnclick.getPhone());
 					intent.putExtra("id", addOnclick.getId());
+					Log.i("cheshi", "当前地址id:"+addOnclick.getId());
 					intent.putExtra("Address", addOnclick.getAddress());
 					
 					Log.i("cheshi", "取出id:"+listgetid);
@@ -161,6 +181,7 @@ public class ShipAddressActivity extends Activity implements OnClickListener {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
+					addOnclick = addresseslist.get(position);
 					HttpUtils httpUtils=new HttpUtils();
 					httpUtils.configCurrentHttpCacheExpiry(0);
 					RequestParams params=new RequestParams();

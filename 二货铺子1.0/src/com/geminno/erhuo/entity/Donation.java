@@ -1,6 +1,7 @@
 package com.geminno.erhuo.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -22,7 +23,7 @@ public class Donation implements Serializable{
 	private String headImageUrl;
 	private String userName;
 	private int addressImage;
-	private String imageUrl;
+	private List<String> imageUrl;
 	private String phone;
 	
 	public String getPhone() {
@@ -31,10 +32,10 @@ public class Donation implements Serializable{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getImageUrl() {
+	public List<String> getImageUrl() {
 		return imageUrl;
 	}
-	public void setImageUrl(String imageUrl) {
+	public void setImageUrl(List<String> imageUrl) {
 		this.imageUrl = imageUrl;
 	}
 	public int getAddressImage() {

@@ -42,7 +42,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
 	private Handler handler;
 	private List<Integer> listColGoodsId = new ArrayList<Integer>();
 	private int curPage = 1; // 页数
-	private int pageSize = 2;// 一次加载几条
+	private int pageSize = 3;// 一次加载几条
 	private List<Map<Map<Goods, Users>, List<String>>> listAll = new ArrayList<Map<Map<Goods, Users>, List<String>>>();
 	private List<Map<Map<Goods, Users>, List<String>>> preGoods = new ArrayList<Map<Map<Goods, Users>, List<String>>>();// 记录上一次不满的记录集合
 	private HomePageAdapter adapter;
@@ -61,7 +61,9 @@ import com.lidroid.xutils.http.client.HttpRequest;
 		View view = inflater.inflate(R.layout.fragment_collec, null);
 		tvNoCollec = (TextView) view.findViewById(R.id.tv_no_collc);
 		listColGoodsId = MyApplication.getCollection();
-		Collections.reverse(listColGoodsId);
+		if(listColGoodsId != null && !listColGoodsId.isEmpty()){
+			Collections.reverse(listColGoodsId);
+		}
 		return view;
 	}
 

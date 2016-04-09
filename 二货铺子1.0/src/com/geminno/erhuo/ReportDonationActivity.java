@@ -40,7 +40,7 @@ public class ReportDonationActivity extends Activity implements OnClickListener 
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_report_donation);
-
+		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		initView();
 	}
 

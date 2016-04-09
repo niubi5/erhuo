@@ -70,7 +70,7 @@ public class DonationFragment extends BaseFragment implements OnClickListener {
 	private List<Map<Helps, List<String>>> preListHelpPhoto = new ArrayList<Map<Helps, List<String>>>();
 
 	private int curPage = 1; // 页数
-	private int pageSize = 2;// 一次加载几条
+	private int pageSize = 3;// 一次加载几条
 	private Users curUser;
 	private String headUrl;
 	private boolean isDonate = true;

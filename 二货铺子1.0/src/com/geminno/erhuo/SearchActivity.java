@@ -38,6 +38,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SearchActivity extends Activity implements OnClickListener {
@@ -54,8 +55,8 @@ public class SearchActivity extends Activity implements OnClickListener {
 	private Context context;
 	private String result = null;
 	private String word;
-	private LinearLayout linsearch;
 	private ImageView delete;
+	private TextView tvNoSearch;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +66,8 @@ public class SearchActivity extends Activity implements OnClickListener {
 		// 调用setColor()方法,实现沉浸式状态栏
 		MainActivity.setColor(this, getResources().getColor(R.color.main_red));
 		keyword = (EditText) findViewById(R.id.search_et_input);
-		linsearch = (LinearLayout) findViewById(R.id.lin_search);
 		delete = (ImageView) findViewById(R.id.search_iv_delete);
+		tvNoSearch = (TextView) findViewById(R.id.tv_no_search);
 		refreshListView = (RefreshListView) findViewById(R.id.refres_list_search);
 		findViewById(R.id.tv_search).setOnClickListener(this);
 		findViewById(R.id.ib_sousuo).setOnClickListener(this);
@@ -176,7 +177,6 @@ public class SearchActivity extends Activity implements OnClickListener {
 			word = keyword.getText().toString();
 			Log.i("cheshi", "获得word值：" + word);
 			if (word.length() != 0) {
-				linsearch.setVisibility(linsearch.GONE);
 				initData();
 				initView();
 			} else {
@@ -212,6 +212,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 						Log.i("cheshi", "initData返回值：" + result);
 						if (result != null && !result.equals("null") && !"[]".equals(result)) {
 							Log.i("searchResult", "searchResult:"+result);
+							tvNoSearch.setVisibility(View.INVISIBLE);
 							Gson gson = new GsonBuilder()
 									.enableComplexMapKeySerialization()
 									.setDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -232,7 +233,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 							Toast.makeText(context, "您查找的商品不存在！",
 									Toast.LENGTH_SHORT).show();
 //							linsearch.findViewById(id)
-							linsearch.setVisibility(View.VISIBLE);
+							tvNoSearch.setVisibility(View.VISIBLE);
 						}
 
 					}

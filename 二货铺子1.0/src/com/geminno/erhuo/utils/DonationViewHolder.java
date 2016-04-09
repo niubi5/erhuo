@@ -178,6 +178,22 @@ public class DonationViewHolder {
     	return this;
     }
     
+    /**设置图片的显示隐藏
+     * @param viewId
+     * @param visibility
+     * 
+     * */
+    public void setViewVisibility(int viewId,int visibility){
+    	View view = getView(viewId);
+    	if(visibility < 0){
+    		view.setVisibility(View.GONE);
+    	}else if(visibility == 0){
+    		view.setVisibility(View.INVISIBLE);
+    	}else{
+    		view.setVisibility(View.VISIBLE);
+    	}
+    }
+    
     /**
      * 获取positon
      * @return

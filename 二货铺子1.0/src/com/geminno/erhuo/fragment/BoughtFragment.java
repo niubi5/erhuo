@@ -56,7 +56,7 @@ public class BoughtFragment extends BaseFragment {
 	private MyAdapter<Map<Goods, List<String>>> adapter;
 	private Handler handler;
 	private int curPage = 1; // 页数
-	private int pageSize = 2;// 一次加载几条
+	private int pageSize = 3;// 一次加载几条
 	private Users curUser;
 	private TextView tvNoBought;
 
@@ -155,6 +155,7 @@ public class BoughtFragment extends BaseFragment {
 											}
 										}
 									}
+									holder.setVisibility(R.id.iv_bought, 0);
 									holder.setImageUrl(R.id.rciv_bought,
 											urls.get(0));
 									holder.setText(R.id.tv_bought_name,
@@ -363,6 +364,7 @@ public class BoughtFragment extends BaseFragment {
 					@Override
 					public void run() {
 						curPage = 1;
+						listBought.clear();
 						initData();
 						rlvBought.completeRefresh();
 					}
@@ -447,6 +449,7 @@ public class BoughtFragment extends BaseFragment {
 											urls = e.getValue();
 										}
 										Log.i("BoughtFragment", urls.get(0));
+										holder.setVisibility(R.id.iv_bought, 0);
 										holder.setImageUrl(R.id.rciv_bought,
 												urls.get(0));
 										holder.setText(R.id.tv_bought_name,

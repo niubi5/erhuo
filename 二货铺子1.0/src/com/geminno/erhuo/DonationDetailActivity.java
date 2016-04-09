@@ -19,6 +19,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,6 +67,8 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 	ArrayList<String> urls;
     ArrayList<String> singleNames ;
 	StringBuffer sb;
+	private int helpId;
+	private static Toast mToast = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,7 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 		sb = new StringBuffer();
 		initData();
 		initView();
+		
 		mImageThumbSize = getResources().getDimensionPixelSize(
 				R.dimen.image_thumbnail_size);
 		mImageThumbSpacing = getResources().getDimensionPixelSize(
@@ -141,11 +145,11 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 
 		donatorNames = (TextView) findViewById(R.id.tv_detail_donatorNames);
 		
-		if ( !sb.equals("")) {
-			donatorNames.setText(sb.toString() + "已捐赠过");
-		} else {
-			donatorNames.setText("目前还没有人捐赠过，您可以率先捐赠哦");
-		}
+//		if ( !sb.equals("")) {
+//			donatorNames.setText(sb.toString() + "已捐赠过");
+//		} else {
+//			donatorNames.setText("目前还没有人捐赠过，您可以率先捐赠哦");
+//		}
 		donate = (Button) findViewById(R.id.btn_donation_report);
 		donate.setOnClickListener(this);
 		toReport = (ImageView) findViewById(R.id.iv_to_report);
@@ -155,18 +159,22 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 	public void initData() {
 		Intent intent = getIntent();
 		Bundle bundle = intent.getBundleExtra("Record");
-
+		//helpId = bundle.getInt("helpId", 0);
+		
+		
+		
 		donation = (Donation) bundle.getSerializable("SingleDonation");
+		//Toast.makeText(this, donation.getId()+"", 1).show();
 		// 传递helpId
 		getName(donation.getId());
 
 		urls = bundle.getStringArrayList("urls");
 	
-		for (int i = 0; i < singleNames.size(); i++) {
-			sb.append(singleNames.get(i)
-					+ ((i == (singleNames.size() - 1)) ? "" : ","));	
-			Log.i("singleNames", singleNames.get(i));
-		}		
+//		for (int i = 0; i < singleNames.size(); i++) {
+//			sb.append(singleNames.get(i)
+//					+ ((i == (singleNames.size() - 1)) ? "" : ","));	
+//			Log.i("singleNames", singleNames.get(i));
+//		}		
 	}
 
 	@Override
@@ -184,8 +192,9 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 						.getId() + "");
 				startActivity(intent);
 			} else {
-				Toast.makeText(DonationDetailActivity.this, "请先登录!",
-						Toast.LENGTH_SHORT).show();
+//				Toast.makeText(DonationDetailActivity.this, "请先登录!",
+//						Toast.LENGTH_SHORT).show();
+				showToast(DonationDetailActivity.this, "请先登录!", Toast.LENGTH_SHORT);
 			}
 			break;
 		// 举报按钮
@@ -205,14 +214,14 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 	 * @param helpId
 	 */
 	public void getName(final int helpId) {
-        final ArrayList<String> singleNames = new ArrayList<String>();
+       // final ArrayList<String> singleNames = new ArrayList<String>();
      // 设置请求参数
 		RequestParams params = new RequestParams();
 		params.addQueryStringParameter("helpId", String.valueOf(helpId));
 		String url = Url.getUrlHead() + "/GetDonatorServlet";
 		// 发送请求
 		HttpUtils http = new HttpUtils();
-
+		http.configCurrentHttpCacheExpiry(0);
 		http.send(HttpRequest.HttpMethod.GET, url, params,
 				new RequestCallBack<String>() {
 
@@ -238,7 +247,17 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 						for (int i = 0; i < names.size(); i++) {
 							Log.i("donators", names.get(i));
 						}
-						getName(names);
+						singleNames = getName(names);
+						for (int i = 0; i < singleNames.size(); i++) {
+							sb.append(singleNames.get(i)
+									+ ((i == (singleNames.size() - 1)) ? "" : ","));	
+							Log.i("singleNames", singleNames.get(i));
+						}
+						if ( !sb.equals("")) {
+							donatorNames.setText(sb.toString() + "已捐赠过");
+						} else {
+							donatorNames.setText("目前还没有人捐赠过，您可以率先捐赠哦");
+						}
 
 					}
 
@@ -246,12 +265,23 @@ public class DonationDetailActivity extends Activity implements OnClickListener 
 
 	}
 	
-	public void getName(ArrayList<String> mNames){
+	public ArrayList<String> getName(ArrayList<String> mNames){
 		
 		for(int i = 0; i < mNames.size(); i++){
 			singleNames.add(mNames.get(i));
 		}
-
+		return singleNames;
 	}
+	
+	 public static void showToast(Context context, String text, int duration) {  
+	        if (mToast == null) {  
+	            mToast = Toast.makeText(context, text, duration);  
+	        } else {  
+	            mToast.setText(text);  
+	            mToast.setDuration(duration);  
+	        }  
+	  
+	        mToast.show();  
+	    }
 
 }

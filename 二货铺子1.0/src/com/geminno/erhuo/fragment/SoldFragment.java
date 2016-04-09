@@ -158,6 +158,7 @@ public class SoldFragment extends BaseFragment {
 										}
 									}
 									//Log.i("SoldFragment", urls.get(0));
+									holder.setVisibility(R.id.iv_sold, 0);
 									holder.setImageUrl(R.id.rciv_sold,
 											urls.get(0));
 									holder.setText(R.id.tv_sold_name,
@@ -369,6 +370,7 @@ public class SoldFragment extends BaseFragment {
 					@Override
 					public void run() {
 						curPage = 1;
+						listSold.clear();
 						initData();
 						rlvSold.completeRefresh();
 					}
@@ -476,6 +478,7 @@ public class SoldFragment extends BaseFragment {
 											}
 										}
 										Log.i("SoldFragment", urls.get(0));
+										holder.setVisibility(R.id.iv_sold, 0);
 										holder.setImageUrl(R.id.rciv_sold,
 												urls.get(0));
 										holder.setText(R.id.tv_sold_name,
