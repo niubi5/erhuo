@@ -183,6 +183,9 @@ public class RefreshListView extends ListView implements OnScrollListener {
 					refreshCallBack.onRefresh();
 					return true;
 				}
+				// 如果是正在刷新，不做处理
+			} else if (headState == ISREFRESHING){
+				return true;
 			}
 			break;
 		default:
